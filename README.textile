@@ -20,22 +20,24 @@ h3. API-key and secret
 
 Request your api-key and secret at http://www.tokbox.com/opentok/tools/js/apikey. You can use the staging environment for testing. The gem uses this staging environment by default.
 
-h3. Usage
+h3. Create a session
 
 With the following code, you can generate a valid @session_id@.
 <pre>
-    @api_key = 0            # should be a number
-    @api_secret = ''        # should be a string
-    @location = 'localhost' # give Opentok a hint on where you are running your application
+@api_key = 0                # should be a number
+@api_secret = ''            # should be a string
+@location = 'localhost'     # give Opentok a hint on where you are running your application
+
+@opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
     
-    @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
-    
-    @session_id @opentok.create_session(@host)
+@session_id @opentok.create_session(@host)
 </pre>
+
+h3. Create tokens
 
 With the generated session_id, you can start generation tokens for each user.
 <pre>
-    @opentok.generate_token :session_id => "#{@session_id}"
+@opentok.generate_token :session_id => "#{@session_id}"
 </pre>
 
 Typically you would create one @session_id@ and store it (in e.g. a setting) and share that @session_id@ between all users.
