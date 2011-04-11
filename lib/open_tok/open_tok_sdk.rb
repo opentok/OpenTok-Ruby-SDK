@@ -1,6 +1,3 @@
-#!/usr/local/bin/ruby -w
-
-
 =begin
  OpenTok Ruby Library
  http://www.tokbox.com/
@@ -34,12 +31,11 @@ class Hash
 end
 
 module OpenTok
-
   class SessionPropertyConstants
     ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled"; #Boolean
-	MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams"; #Integer
-	MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType"; #Integer
-	MULTIPLEXER_SWITCHTIMEOUT = "multiplexer.switchTimeout"; #Integer
+	  MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams"; #Integer
+	  MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType"; #Integer
+	  MULTIPLEXER_SWITCHTIMEOUT = "multiplexer.switchTimeout"; #Integer
   end
 
   class RoleConstants
@@ -126,13 +122,11 @@ module OpenTok
     end
 
     protected
-
     def sign_string(data, secret)
       OpenSSL::HMAC.hexdigest(DIGEST, secret, data)
     end
 
     def do_request(api_url, params, token=nil)
-
       url = URI.parse(@api_url + api_url)
       if not params.empty?
         req = Net::HTTP::Post.new(url.path)

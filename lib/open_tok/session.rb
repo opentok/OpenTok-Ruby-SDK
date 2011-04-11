@@ -1,4 +1,3 @@
-
 =begin
  OpenTok Ruby Library v0.90.0
  http://www.tokbox.com/
@@ -9,9 +8,7 @@
 =end
 
 module OpenTok
-
   class Session
-
     attr_reader :sessionId
 
     def initialize(sessionId)
@@ -21,8 +18,6 @@ module OpenTok
     def to_s
       sessionId
     end
-
   end
-
 end
 

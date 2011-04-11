@@ -1,6 +1,3 @@
-# $:.unshift(File.dirname(__FILE__)) unless
-# $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
-
 =begin
  OpenTok Ruby Library
  http://www.tokbox.com/
@@ -28,7 +25,6 @@ module OpenTok
     #API_URL = "https://api.opentok.com/hl";
   end
 
-  require 'opentok/Exceptions'
-  require 'opentok/OpenTokSDK'
-
+  require 'open_tok/exceptions'
+  require 'open_tok/open_tok_sdk'
 end
