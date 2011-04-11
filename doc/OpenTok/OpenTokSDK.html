@@ -272,7 +272,13 @@ of the api (staging or production)
 					
 					<p>
 Generates a new <a href="Session.html">OpenTok::Session</a> and set
-it&#8217;s session_id.
+it&#8217;s session_id, situating it in TokBox&#8217;s global network near
+the IP of the specified @location@.
+</p>
+<p>
+See <a
+href="http://www.tokbox.com/opentok/tools/documentation/overview/session_creation.html">www.tokbox.com/opentok/tools/documentation/overview/session_creation.html</a>
+for more information
 </p>
 					
 
@@ -280,15 +286,15 @@ it&#8217;s session_id.
 					<div class="method-source-code"
 						id="create-session-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/open_tok/open_tok_sdk.rb, line 90</span>
-90:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_session</span>(<span class="ruby-identifier">location</span>=<span class="ruby-value str">''</span>, <span class="ruby-identifier">opts</span>={})
-91:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">merge!</span>({<span class="ruby-value">:partner_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@partner_id</span>, <span class="ruby-value">:location=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">location</span>})
-92:       <span class="ruby-identifier">doc</span> = <span class="ruby-identifier">do_request</span>(<span class="ruby-value str">&quot;/session/create&quot;</span>, <span class="ruby-identifier">opts</span>)
-93:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">doc</span>.<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'Errors'</span>).<span class="ruby-identifier">empty?</span>
-94:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">OpenTokException</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">doc</span>.<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'Errors'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'error'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">children</span>.<span class="ruby-identifier">to_s</span>
-95:       <span class="ruby-keyword kw">end</span>
-96:       <span class="ruby-constant">OpenTok</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">doc</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'Session'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'session_id'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">children</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_s</span>)
-97:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/open_tok/open_tok_sdk.rb, line 99</span>
+ 99:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create_session</span>(<span class="ruby-identifier">location</span>=<span class="ruby-value str">''</span>, <span class="ruby-identifier">opts</span>={})
+100:       <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">merge!</span>({<span class="ruby-value">:partner_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@partner_id</span>, <span class="ruby-value">:location=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">location</span>})
+101:       <span class="ruby-identifier">doc</span> = <span class="ruby-identifier">do_request</span>(<span class="ruby-value str">&quot;/session/create&quot;</span>, <span class="ruby-identifier">opts</span>)
+102:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">doc</span>.<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'Errors'</span>).<span class="ruby-identifier">empty?</span>
+103:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">OpenTokException</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">doc</span>.<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'Errors'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'error'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">children</span>.<span class="ruby-identifier">to_s</span>
+104:       <span class="ruby-keyword kw">end</span>
+105:       <span class="ruby-constant">OpenTok</span><span class="ruby-operator">::</span><span class="ruby-constant">Session</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">doc</span>.<span class="ruby-identifier">root</span>.<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'Session'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">get_elements</span>(<span class="ruby-value str">'session_id'</span>)[<span class="ruby-value">0</span>].<span class="ruby-identifier">children</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">to_s</span>)
+106:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -312,43 +318,72 @@ it&#8217;s session_id.
 
 				<div class="method-description">
 					
-					
+					<p>
+Generate token for the given session_id. The options you can provide are;
+</p>
+<ul>
+<li><p>
+<tt>:session_id</tt> (required) generate a token for the provided session
+</p>
+</li>
+<li><p>
+<tt>:create_time</tt> 
+</p>
+</li>
+<li><p>
+<tt>:expire_time</tt> (optional) The time when the token will expire,
+defined as an integer value for a Unix timestamp (in seconds). If you do
+not specify this value, tokens expire in 24 hours after being created.
+</p>
+</li>
+<li><p>
+<tt>:role</tt> (optional) Added in <a href="../OpenTok.html">OpenTok</a>
+v0.91.5. This defines the role the user will have. There are three roles:
+subscriber, publisher, and moderator.
+</p>
+</li>
+</ul>
+<p>
+See <a
+href="http://www.tokbox.com/opentok/tools/documentation/overview/token_creation.html">www.tokbox.com/opentok/tools/documentation/overview/token_creation.html</a>
+for more information on all options.
+</p>
 					
 
 					
 					<div class="method-source-code"
 						id="generate-token-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/open_tok/open_tok_sdk.rb, line 59</span>
-59:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">generate_token</span>(<span class="ruby-identifier">opts</span> = {})
-60:       {<span class="ruby-value">:session_id=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword kw">nil</span>, <span class="ruby-value">:create_time=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword kw">nil</span>, <span class="ruby-value">:expire_time=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword kw">nil</span>, <span class="ruby-value">:role=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword kw">nil</span>}.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">opts</span>)
-61: 
-62:       <span class="ruby-identifier">create_time</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:create_time</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>  <span class="ruby-operator">:</span>  <span class="ruby-identifier">opts</span>[<span class="ruby-value">:create_time</span>]
-63:       <span class="ruby-identifier">session_id</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:session_id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-value str">''</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:session_id</span>]
-64:       <span class="ruby-identifier">role</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:role</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">RoleConstants</span><span class="ruby-operator">::</span><span class="ruby-constant">PUBLISHER</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:role</span>]
-65: 
-66:       <span class="ruby-identifier">data_params</span> = {
-67:         <span class="ruby-value">:role</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">role</span>,
-68:         <span class="ruby-value">:session_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">session_id</span>,
-69:         <span class="ruby-value">:create_time</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">create_time</span>.<span class="ruby-identifier">to_i</span>,
-70:         <span class="ruby-value">:nonce</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rand</span>
-71:       }
+    <span class="ruby-comment cmt"># File lib/open_tok/open_tok_sdk.rb, line 66</span>
+66:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">generate_token</span>(<span class="ruby-identifier">opts</span> = {})
+67:       {<span class="ruby-value">:session_id=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword kw">nil</span>, <span class="ruby-value">:create_time=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword kw">nil</span>, <span class="ruby-value">:expire_time=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword kw">nil</span>, <span class="ruby-value">:role=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword kw">nil</span>}.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">opts</span>)
+68: 
+69:       <span class="ruby-identifier">create_time</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:create_time</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>  <span class="ruby-operator">:</span>  <span class="ruby-identifier">opts</span>[<span class="ruby-value">:create_time</span>]
+70:       <span class="ruby-identifier">session_id</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:session_id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-value str">''</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:session_id</span>]
+71:       <span class="ruby-identifier">role</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:role</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">RoleConstants</span><span class="ruby-operator">::</span><span class="ruby-constant">PUBLISHER</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:role</span>]
 72: 
-73:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:expire_time</span>].<span class="ruby-identifier">nil?</span>
-74:         <span class="ruby-identifier">data_params</span>[<span class="ruby-value">:expire_time</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:expire_time</span>].<span class="ruby-identifier">to_i</span>
-75:       <span class="ruby-keyword kw">end</span>
-76: 
-77:       <span class="ruby-identifier">data_string</span> = <span class="ruby-identifier">data_params</span>.<span class="ruby-identifier">urlencode</span>
-78: 
-79:       <span class="ruby-identifier">sig</span> = <span class="ruby-identifier">sign_string</span>(<span class="ruby-identifier">data_string</span>, <span class="ruby-ivar">@partner_secret</span>)
-80:       <span class="ruby-identifier">meta_string</span> = {
-81:         <span class="ruby-value">:partner_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@partner_id</span>,
-82:         <span class="ruby-value">:sdk_version</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">@@SDK_VERSION</span>,
-83:         <span class="ruby-value">:sig</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sig</span>
-84:       }.<span class="ruby-identifier">urlencode</span>
+73:       <span class="ruby-identifier">data_params</span> = {
+74:         <span class="ruby-value">:role</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">role</span>,
+75:         <span class="ruby-value">:session_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">session_id</span>,
+76:         <span class="ruby-value">:create_time</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">create_time</span>.<span class="ruby-identifier">to_i</span>,
+77:         <span class="ruby-value">:nonce</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rand</span>
+78:       }
+79: 
+80:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:expire_time</span>].<span class="ruby-identifier">nil?</span>
+81:         <span class="ruby-identifier">data_params</span>[<span class="ruby-value">:expire_time</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:expire_time</span>].<span class="ruby-identifier">to_i</span>
+82:       <span class="ruby-keyword kw">end</span>
+83: 
+84:       <span class="ruby-identifier">data_string</span> = <span class="ruby-identifier">data_params</span>.<span class="ruby-identifier">urlencode</span>
 85: 
-86:       <span class="ruby-identifier">@@TOKEN_SENTINEL</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-identifier">meta_string</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;:&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">data_string</span>).<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;\n&quot;</span>,<span class="ruby-value str">&quot;&quot;</span>)
-87:     <span class="ruby-keyword kw">end</span></pre>
+86:       <span class="ruby-identifier">sig</span> = <span class="ruby-identifier">sign_string</span>(<span class="ruby-identifier">data_string</span>, <span class="ruby-ivar">@partner_secret</span>)
+87:       <span class="ruby-identifier">meta_string</span> = {
+88:         <span class="ruby-value">:partner_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@partner_id</span>,
+89:         <span class="ruby-value">:sdk_version</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">@@SDK_VERSION</span>,
+90:         <span class="ruby-value">:sig</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sig</span>
+91:       }.<span class="ruby-identifier">urlencode</span>
+92: 
+93:       <span class="ruby-identifier">@@TOKEN_SENTINEL</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">encode64</span>(<span class="ruby-identifier">meta_string</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot;:&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">data_string</span>).<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;\n&quot;</span>,<span class="ruby-value str">&quot;&quot;</span>)
+94:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -385,39 +420,39 @@ it&#8217;s session_id.
 					<div class="method-source-code"
 						id="do-request-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/open_tok/open_tok_sdk.rb, line 104</span>
-104:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_request</span>(<span class="ruby-identifier">api_url</span>, <span class="ruby-identifier">params</span>, <span class="ruby-identifier">token</span>=<span class="ruby-keyword kw">nil</span>)
-105:       <span class="ruby-identifier">url</span> = <span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@api_url</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">api_url</span>)
-106:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">empty?</span>
-107:         <span class="ruby-identifier">req</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span><span class="ruby-operator">::</span><span class="ruby-constant">Post</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">url</span>.<span class="ruby-identifier">path</span>)
-108:         <span class="ruby-identifier">req</span>.<span class="ruby-identifier">set_form_data</span>(<span class="ruby-identifier">params</span>)
-109:       <span class="ruby-keyword kw">else</span>
-110:         <span class="ruby-identifier">req</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span><span class="ruby-operator">::</span><span class="ruby-constant">Get</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">url</span>.<span class="ruby-identifier">path</span>)
-111:       <span class="ruby-keyword kw">end</span>
-112: 
-113:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">token</span>.<span class="ruby-identifier">nil?</span>
-114:         <span class="ruby-identifier">req</span>.<span class="ruby-identifier">add_field</span> <span class="ruby-value str">'X-TB-TOKEN-AUTH'</span>, <span class="ruby-identifier">token</span>
-115:       <span class="ruby-keyword kw">else</span>
-116:         <span class="ruby-identifier">req</span>.<span class="ruby-identifier">add_field</span> <span class="ruby-value str">'X-TB-PARTNER-AUTH'</span>, <span class="ruby-node">&quot;#{@partner_id}:#{@partner_secret}&quot;</span>
-117:       <span class="ruby-keyword kw">end</span>
-118:       <span class="ruby-identifier">http</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">url</span>.<span class="ruby-identifier">host</span>, <span class="ruby-identifier">url</span>.<span class="ruby-identifier">port</span>)
-119:       <span class="ruby-identifier">http</span>.<span class="ruby-identifier">use_ssl</span> = <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@api_url</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-value str">&quot;https&quot;</span>)
-120:       <span class="ruby-identifier">res</span> = <span class="ruby-identifier">http</span>.<span class="ruby-identifier">start</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">http</span><span class="ruby-operator">|</span> <span class="ruby-identifier">http</span>.<span class="ruby-identifier">request</span>(<span class="ruby-identifier">req</span>)}
-121:       <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">res</span>
-122:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTPSuccess</span>, <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTPRedirection</span>
-123:         <span class="ruby-comment cmt"># OK</span>
-124:         <span class="ruby-identifier">doc</span> = <span class="ruby-constant">REXML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">res</span>.<span class="ruby-identifier">read_body</span>)
-125:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">doc</span>
-126:       <span class="ruby-keyword kw">else</span>
-127:         <span class="ruby-identifier">res</span>.<span class="ruby-identifier">error!</span>
-128:       <span class="ruby-keyword kw">end</span>
-129:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTPExceptions</span>
-130:       <span class="ruby-identifier">raise</span>
-131:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">OpenTokException</span>.<span class="ruby-identifier">new</span> <span class="ruby-value str">'Unable to create fufill request: '</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">$!</span>
-132:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">NoMethodError</span>
-133:       <span class="ruby-identifier">raise</span>
-134:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">OpenTokException</span>.<span class="ruby-identifier">new</span> <span class="ruby-value str">'Unable to create a fufill request at this time: '</span> <span class="ruby-operator">+</span> <span class="ruby-node">$1</span>
-135:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/open_tok/open_tok_sdk.rb, line 113</span>
+113:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">do_request</span>(<span class="ruby-identifier">api_url</span>, <span class="ruby-identifier">params</span>, <span class="ruby-identifier">token</span>=<span class="ruby-keyword kw">nil</span>)
+114:       <span class="ruby-identifier">url</span> = <span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@api_url</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">api_url</span>)
+115:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">empty?</span>
+116:         <span class="ruby-identifier">req</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span><span class="ruby-operator">::</span><span class="ruby-constant">Post</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">url</span>.<span class="ruby-identifier">path</span>)
+117:         <span class="ruby-identifier">req</span>.<span class="ruby-identifier">set_form_data</span>(<span class="ruby-identifier">params</span>)
+118:       <span class="ruby-keyword kw">else</span>
+119:         <span class="ruby-identifier">req</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span><span class="ruby-operator">::</span><span class="ruby-constant">Get</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">url</span>.<span class="ruby-identifier">path</span>)
+120:       <span class="ruby-keyword kw">end</span>
+121: 
+122:       <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">token</span>.<span class="ruby-identifier">nil?</span>
+123:         <span class="ruby-identifier">req</span>.<span class="ruby-identifier">add_field</span> <span class="ruby-value str">'X-TB-TOKEN-AUTH'</span>, <span class="ruby-identifier">token</span>
+124:       <span class="ruby-keyword kw">else</span>
+125:         <span class="ruby-identifier">req</span>.<span class="ruby-identifier">add_field</span> <span class="ruby-value str">'X-TB-PARTNER-AUTH'</span>, <span class="ruby-node">&quot;#{@partner_id}:#{@partner_secret}&quot;</span>
+126:       <span class="ruby-keyword kw">end</span>
+127:       <span class="ruby-identifier">http</span> = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTP</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">url</span>.<span class="ruby-identifier">host</span>, <span class="ruby-identifier">url</span>.<span class="ruby-identifier">port</span>)
+128:       <span class="ruby-identifier">http</span>.<span class="ruby-identifier">use_ssl</span> = <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@api_url</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-value str">&quot;https&quot;</span>)
+129:       <span class="ruby-identifier">res</span> = <span class="ruby-identifier">http</span>.<span class="ruby-identifier">start</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">http</span><span class="ruby-operator">|</span> <span class="ruby-identifier">http</span>.<span class="ruby-identifier">request</span>(<span class="ruby-identifier">req</span>)}
+130:       <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">res</span>
+131:       <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTPSuccess</span>, <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTPRedirection</span>
+132:         <span class="ruby-comment cmt"># OK</span>
+133:         <span class="ruby-identifier">doc</span> = <span class="ruby-constant">REXML</span><span class="ruby-operator">::</span><span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">res</span>.<span class="ruby-identifier">read_body</span>)
+134:         <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">doc</span>
+135:       <span class="ruby-keyword kw">else</span>
+136:         <span class="ruby-identifier">res</span>.<span class="ruby-identifier">error!</span>
+137:       <span class="ruby-keyword kw">end</span>
+138:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">HTTPExceptions</span>
+139:       <span class="ruby-identifier">raise</span>
+140:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">OpenTokException</span>.<span class="ruby-identifier">new</span> <span class="ruby-value str">'Unable to create fufill request: '</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">$!</span>
+141:     <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">NoMethodError</span>
+142:       <span class="ruby-identifier">raise</span>
+143:       <span class="ruby-identifier">raise</span> <span class="ruby-constant">OpenTokException</span>.<span class="ruby-identifier">new</span> <span class="ruby-value str">'Unable to create a fufill request at this time: '</span> <span class="ruby-operator">+</span> <span class="ruby-node">$1</span>
+144:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -448,10 +483,10 @@ it&#8217;s session_id.
 					<div class="method-source-code"
 						id="sign-string-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/open_tok/open_tok_sdk.rb, line 100</span>
-100:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sign_string</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">secret</span>)
-101:       <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">HMAC</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-constant">DIGEST</span>, <span class="ruby-identifier">secret</span>, <span class="ruby-identifier">data</span>)
-102:     <span class="ruby-keyword kw">end</span></pre>
+     <span class="ruby-comment cmt"># File lib/open_tok/open_tok_sdk.rb, line 109</span>
+109:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">sign_string</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">secret</span>)
+110:       <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">HMAC</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-constant">DIGEST</span>, <span class="ruby-identifier">secret</span>, <span class="ruby-identifier">data</span>)
+111:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

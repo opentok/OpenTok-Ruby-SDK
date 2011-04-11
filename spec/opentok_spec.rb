@@ -20,30 +20,45 @@ describe OpenTok do
     @opentok.api_url.should eq @api_staging_url
   end
   
-  it "should be possible to generate a valid API token with a valid key and secret" do
-    opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
-    session = opentok.create_session @host
-    
-    session.to_s.should match(/[0-9a-f]{40}/)
-  end
-  
-  it "should raise an exception with an invalid key and secret" do
-    opentok = OpenTok::OpenTokSDK.new 0, ''
-    
-    expect{
+  describe "Session creation" do
+    it "should be possible to generate a valid API token with a valid key and secret" do
+      opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
       session = opentok.create_session @host
-    }.to raise_error OpenTok::OpenTokException
-  end
+    
+      session.to_s.should match(/\A[0-9a-f]{40}\Z/)
+    end
   
-  it "should be possible to set the api url as an option" do
-    opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_production_url
+    it "should raise an exception with an invalid key and secret" do
+      opentok = OpenTok::OpenTokSDK.new 0, ''
     
-    opentok.api_url.should_not eq @api_staging_url
-    opentok.api_url.should eq @api_production_url
+      expect{
+        session = opentok.create_session @host
+      }.to raise_error OpenTok::OpenTokException
+    end
+  
+    it "should be possible to set the api url as an option" do
+      opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_production_url
     
-    opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_staging_url
+      opentok.api_url.should_not eq @api_staging_url
+      opentok.api_url.should eq @api_production_url
     
-    opentok.api_url.should_not eq @api_production_url
-    opentok.api_url.should eq @api_staging_url
+      opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_staging_url
+    
+      opentok.api_url.should_not eq @api_production_url
+      opentok.api_url.should eq @api_staging_url
+    end
+  end
+
+  describe "Token creation" do
+    before :all do
+      @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
+      @valid_session = @opentok.create_session(@host).to_s
+    end
+    
+    it "should be possible to create a token" do
+      token = @opentok.generate_token :session_id => @valid_session.to_s
+      
+      token.should match(/\A[0-9A-z=]+\Z/)
+    end
   end
 end
