@@ -15,21 +15,6 @@ require 'rexml/document'
 
 DIGEST  = OpenSSL::Digest::Digest.new('sha1')
 
-class Hash
-  def urlencode
-    to_a.map do |name_value|
-      if name_value[1].is_a? Array
-        name_value[0] = CGI.escape name_value[0].to_s
-        name_value[1].map { |e| CGI.escape e.to_s }
-        name_value[1] = name_value[1].join "&" + name_value[0] + "="
-        name_value.join '='
-      else
-        name_value.map { |e| CGI.escape e.to_s }.join '='
-      end
-    end.join '&'
-  end
-end
-
 module OpenTok
   class SessionPropertyConstants
     ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled"; #Boolean
@@ -76,10 +61,17 @@ module OpenTok
 
     # @@API_URL = API_URL
 
-    def initialize(partner_id, partner_secret)
-      @api_url = API_URL
+    def initialize(partner_id, partner_secret, options = nil)
       @partner_id = partner_id
       @partner_secret = partner_secret.strip
+      
+      if options.is_a?(::Hash)
+        @api_url = options[:api_url] || API_URL
+      end
+      
+      unless @api_url
+        @api_url = API_URL
+      end
     end
 
     def generate_token(opts = {})

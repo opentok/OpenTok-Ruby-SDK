@@ -34,4 +34,16 @@ describe OpenTok do
       session = opentok.create_session @host
     }.to raise_error OpenTok::OpenTokException
   end
+  
+  it "should be possible to set the api url as an option" do
+    opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_production_url
+    
+    opentok.api_url.should_not eq @api_staging_url
+    opentok.api_url.should eq @api_production_url
+    
+    opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_staging_url
+    
+    opentok.api_url.should_not eq @api_production_url
+    opentok.api_url.should eq @api_staging_url
+  end
 end
