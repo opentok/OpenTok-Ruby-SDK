@@ -10,8 +10,6 @@ describe OpenTok do
     @host = 'localhost'
     
     @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
-    # o.api_url = 'https://staging.opentok.com/hl'
-    # print o.create_session '127.0.0.1'
   end
   
   it "should be possible to valid a OpenTokSDK object with a valid key and secret" do
