@@ -5,7 +5,7 @@ describe OpenTok do
   before :all do
     @api_key = 0
     @api_secret = ''
-    @api_staging_url = 'https://staging.opentok.com/hl'
+    @api_staging_url = 'https://staging.tokbox.com/hl'
     @api_production_url = 'https://api.opentok.com/hl'
     
     @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
@@ -18,7 +18,7 @@ describe OpenTok do
   end
   
   it "a new OpenTokSDK object should point to the staging environment by default" do
-    @opentok.api_url.should be @api_staging_url
+    @opentok.api_url.should eq @api_staging_url
   end
   
   it "should be possible to generate a valid API token with a valid key and secret" do

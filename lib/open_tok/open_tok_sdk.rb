@@ -70,7 +70,7 @@ module OpenTok
   end
 
   class OpenTokSDK
-    attr_writer :api_url
+    attr_accessor :api_url
     @@TOKEN_SENTINEL = "T1=="
     @@SDK_VERSION = "tbruby-%s" % [ VERSION ]
 
