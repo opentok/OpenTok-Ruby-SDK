@@ -16,6 +16,7 @@ require 'rexml/document'
 DIGEST  = OpenSSL::Digest::Digest.new('sha1')
 
 module OpenTok
+
   class SessionPropertyConstants
     ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled"; #Boolean
 	  MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams"; #Integer
@@ -29,21 +30,9 @@ module OpenTok
     MODERATOR = "moderator"   #Can do the above along with  forceDisconnect and forceUnpublish
   end
 
-  class Net::HTTP
-    alias_method :old_initialize, :initialize
-    def initialize(*args)
-      old_initialize(*args)
-      @ssl_context = OpenSSL::SSL::SSLContext.new
-      @ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    end
-  end
-
-  def self.included(base)
-    # Initialize module.
-  end
-
   class OpenTokSDK
     attr_accessor :api_url
+    
     @@TOKEN_SENTINEL = "T1=="
     @@SDK_VERSION = "tbruby-%s" % [ VERSION ]
 
