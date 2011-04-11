@@ -23,4 +23,5 @@ module OpenTok
   require 'monkey_patches'
   require 'open_tok/exceptions'
   require 'open_tok/open_tok_sdk'
+  require 'open_tok/session'
 end

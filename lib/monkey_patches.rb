@@ -8,6 +8,8 @@
 =end
 
 class Hash
+
+  # Adding a urlencode method to the hash class for easy querstring generation
   def urlencode
     to_a.map do |name_value|
       if name_value[1].is_a? Array

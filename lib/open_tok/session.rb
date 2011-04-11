@@ -8,15 +8,17 @@
 =end
 
 module OpenTok
+  
+  # The session object that contains the session_id
   class Session
-    attr_reader :sessionId
+    attr_reader :session_id
 
-    def initialize(sessionId)
-      @sessionId     = sessionId
+    def initialize(session_id)
+      @session_id     = session_id
     end
 
     def to_s
-      sessionId
+      session_id
     end
   end
 end
