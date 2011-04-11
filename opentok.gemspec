@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["karmenblake@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{OpenTok gem}
-  s.description = %q{OpenTok gem}
+  s.description = %q{OpenTok is a free set of APIs from TokBox that enables websites to weave live group video communication into their online experience. With OpenTok you have the freedom and flexibility to create the most engaging web experience for your users. OpenTok is currently available as a JavaScript and ActionScript 3.0 library. This gem allows you to connect to the API from within Ruby (and Rails)}
 
   s.rubyforge_project = "opentok"
 
