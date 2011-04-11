@@ -42,25 +42,18 @@ module OpenTok
     # Initialize module.
   end
 
-  class OpenTokSession
-    attr_accessor :session_id
-
-    def initialize(session_id)
-      @session_id     = session_id
-    end
-
-    def to_s
-      session_id
-    end
-  end
-
   class OpenTokSDK
     attr_accessor :api_url
     @@TOKEN_SENTINEL = "T1=="
     @@SDK_VERSION = "tbruby-%s" % [ VERSION ]
 
-    # @@API_URL = API_URL
-
+    # Create a new OpenTokSDK object.
+    #
+    # The first two attributes are required; +parnter_id+ and +partner_secret+ are the api-key and secret
+    # that are provided to you.
+    # 
+    # You can also pass in optional options;
+    # * +:api_url+ sets the location of the api (staging or production)
     def initialize(partner_id, partner_secret, options = nil)
       @partner_id = partner_id
       @partner_secret = partner_secret.strip
@@ -104,13 +97,14 @@ module OpenTok
       @@TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string).gsub("\n","")
     end
 
+    # Generates a new OpenTok::Session and set it's session_id.
     def create_session(location='', opts={})
       opts.merge!({:partner_id => @partner_id, :location=>location})
       doc = do_request("/session/create", opts)
       if not doc.get_elements('Errors').empty?
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
-      OpenTokSession.new(doc.root.get_elements('Session')[0].get_elements('session_id')[0].children[0].to_s)
+      OpenTok::Session.new(doc.root.get_elements('Session')[0].get_elements('session_id')[0].children[0].to_s)
     end
 
     protected
