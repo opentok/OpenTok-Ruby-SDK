@@ -3,8 +3,8 @@ require 'spec_helper'
 describe OpenTok do
   
   before :all do
-    @api_key = 394281
-    @api_secret = '7b0e251d22a71fc773d35e5f78cbcf77241751aa'
+    @api_key = 459782
+    @api_secret = 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b'
     @api_staging_url = 'https://staging.tokbox.com/hl'
     @api_production_url = 'https://api.opentok.com/hl'
     @host = 'localhost'
@@ -57,6 +57,9 @@ describe OpenTok do
     
     it "should be possible to create a token" do
       token = @opentok.generate_token :session_id => @valid_session.to_s
+      
+      p token
+      p token.size
       
       token.should match(/\A[0-9A-z=]+\Z/)
     end

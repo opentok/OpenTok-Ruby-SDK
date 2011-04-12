@@ -35,7 +35,7 @@ With the following code, you can generate a valid @session_id@.
 
 h3. Create tokens
 
-With the generated session_id, you can start generation tokens for each user.
+With the generated session_id, you can start generating tokens for each user.
 <pre>
 @opentok.generate_token :session_id => "#{@session_id}"
 </pre>
