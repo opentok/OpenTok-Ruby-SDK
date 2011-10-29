@@ -30,7 +30,7 @@ With the following code, you can generate a valid @session_id@.
 
 @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
     
-@session_id @opentok.create_session(@host)
+@session_id = @opentok.create_session(@host)
 </pre>
 
 h3. Create tokens
