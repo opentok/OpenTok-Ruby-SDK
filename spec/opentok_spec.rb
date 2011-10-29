@@ -25,7 +25,7 @@ describe OpenTok do
       opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
       session = opentok.create_session @host
     
-      session.to_s.should match(/\A[0-9a-f]{40}\Z/)
+      session.to_s.should match(/\A[0-9A-z_-]{80}\Z/)
     end
   
     it "should raise an exception with an invalid key and secret" do
