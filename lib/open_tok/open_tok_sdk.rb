@@ -19,9 +19,10 @@ module OpenTok
 
   class SessionPropertyConstants
     ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled"; #Boolean
-	  MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams"; #Integer
-	  MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType"; #Integer
-	  MULTIPLEXER_SWITCHTIMEOUT = "multiplexer.switchTimeout"; #Integer
+    MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams"; #Integer
+    MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType"; #Integer
+    MULTIPLEXER_SWITCHTIMEOUT = "multiplexer.switchTimeout"; #Integer
+    P2P_PREFERENCE = "p2p.preference"; #String
   end
 
   class RoleConstants
