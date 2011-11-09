@@ -1,5 +1,13 @@
 = Change Log
 
+== Version 0.0.4
+
+* Thanks to Ruslan Doroshenko (https://github.com/rdoroshenko) for adding the P2P constant to the SDK.
+
+== Version 0.0.3
+
+* minor fixes to the documentation
+
 == Version 0.0.2
 
 * Code cleanup
