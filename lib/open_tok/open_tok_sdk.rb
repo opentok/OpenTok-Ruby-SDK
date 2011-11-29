@@ -33,7 +33,7 @@ module OpenTok
 
   class OpenTokSDK
     attr_accessor :api_url
-    
+
     @@TOKEN_SENTINEL = "T1=="
     @@SDK_VERSION = "tbruby-%s" % [ VERSION ]
 
@@ -47,11 +47,11 @@ module OpenTok
     def initialize(partner_id, partner_secret, options = nil)
       @partner_id = partner_id
       @partner_secret = partner_secret.strip
-      
+
       if options.is_a?(::Hash)
         @api_url = options[:api_url] || API_URL
       end
-      
+
       unless @api_url
         @api_url = API_URL
       end
@@ -62,10 +62,11 @@ module OpenTok
     # * +:create_time+ 
     # * +:expire_time+ (optional) The time when the token will expire, defined as an integer value for a Unix timestamp (in seconds). If you do not specify this value, tokens expire in 24 hours after being created.
     # * +:role+ (optional) Added in OpenTok v0.91.5. This defines the role the user will have. There are three roles: subscriber, publisher, and moderator.
+    # * +:connection_data+ (optional) Added in OpenTok v0.91.20. A string containing metadata describing the connection.
     #
     # See http://www.tokbox.com/opentok/tools/documentation/overview/token_creation.html for more information on all options.
     def generate_token(opts = {})
-      {:session_id=>nil, :create_time=>nil, :expire_time=>nil, :role=>nil}.merge!(opts)
+      {:session_id=>nil, :create_time=>nil, :expire_time=>nil, :role=>nil, :connection_data=>nil}.merge!(opts)
 
       create_time = opts[:create_time].nil? ? Time.now  :  opts[:create_time]
       session_id = opts[:session_id].nil? ? '' : opts[:session_id]
@@ -80,6 +81,11 @@ module OpenTok
 
       if not opts[:expire_time].nil?
         data_params[:expire_time] = opts[:expire_time].to_i
+      end
+
+      if not opts[:connection_data].nil?
+        raise OpenTokException.new 'Connection data must be less than 1000 characters' if opts[:connection_data].length > 1000
+        data_params[:connection_data] = opts[:connection_data]
       end
 
       data_string = data_params.urlencode
