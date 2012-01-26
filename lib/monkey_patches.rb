@@ -2,7 +2,7 @@
  OpenTok Ruby Library
  http://www.tokbox.com/
 
- Copyright 2010, TokBox, Inc.
+ Copyright 2010 - 2011, TokBox, Inc.
 
  Last modified: 2011-02-17
 =end
