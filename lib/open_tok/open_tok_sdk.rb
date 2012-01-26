@@ -17,25 +17,36 @@ DIGEST  = OpenSSL::Digest::Digest.new('sha1')
 
 module OpenTok
 
+  # SessionPropertyConstants
+  #
+  # * +ECHOSUPPRESSION_ENABLED+ boolean
+  # * +MULTIPLEXER_NUMOUTPUTSTREAMS+ integer
+  # * +MULTIPLEXER_SWITCHTYPE+ integer
+  # * +MULTIPLEXER_SWITCHTIMEOUT+ integer
+  # * +P2P_PREFERENCE+ string
   class SessionPropertyConstants
-    ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled"; #Boolean
-    MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams"; #Integer
-    MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType"; #Integer
-    MULTIPLEXER_SWITCHTIMEOUT = "multiplexer.switchTimeout"; #Integer
-    P2P_PREFERENCE = "p2p.preference"; #String
+    ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled" #Boolean
+    MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams" #Integer
+    MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType" #Integer
+    MULTIPLEXER_SWITCHTIMEOUT = "multiplexer.switchTimeout" #Integer
+    P2P_PREFERENCE = "p2p.preference" #String
   end
 
+  # RoleConstants
+  #
+  # * +SUBSCRIBER+ Can only subscribe
+  # * +PUBLISHER+ Can publish, subscribe, and signal
+  # * +MODERATOR+ Can do the above along with forceDisconnect and forceUnpublish
   class RoleConstants
     SUBSCRIBER = "subscriber" #Can only subscribe
-    PUBLISHER = "publisher"   #Can publish, subscribe, and signal
-    MODERATOR = "moderator"   #Can do the above along with  forceDisconnect and forceUnpublish
+    PUBLISHER = "publisher" #Can publish, subscribe, and signal
+    MODERATOR = "moderator" #Can do the above along with  forceDisconnect and forceUnpublish
   end
 
   class OpenTokSDK
     attr_accessor :api_url
 
     @@TOKEN_SENTINEL = "T1=="
-    @@SDK_VERSION = "tbruby-%s" % [ VERSION ]
 
     # Create a new OpenTokSDK object.
     #
@@ -66,11 +77,15 @@ module OpenTok
     #
     # See http://www.tokbox.com/opentok/tools/documentation/overview/token_creation.html for more information on all options.
     def generate_token(opts = {})
-      {:session_id=>nil, :create_time=>nil, :expire_time=>nil, :role=>nil, :connection_data=>nil}.merge!(opts)
+      { :session_id => nil, :create_time => nil, :expire_time => nil, :role => nil, :connection_data => nil }.merge!(opts)
 
-      create_time = opts[:create_time].nil? ? Time.now  :  opts[:create_time]
+      create_time = opts[:create_time].nil? ? Time.now : opts[:create_time]
       session_id = opts[:session_id].nil? ? '' : opts[:session_id]
       role = opts[:role].nil? ? RoleConstants::PUBLISHER : opts[:role]
+
+      if role != RoleConstants::SUBSCRIBER && role != RoleConstants::PUBLISHER && role != RoleConstants::MODERATOR
+        raise OpenTokException.new "'#{role}' is not a recognized role"
+      end
 
       data_params = {
         :role => role,
@@ -80,6 +95,9 @@ module OpenTok
       }
 
       if not opts[:expire_time].nil?
+        raise OpenTokException.new 'Expire time must be a number' if not opts[:expire_time].is_a?(Numeric)
+        raise OpenTokException.new 'Expire time must be in the future' if opts[:expire_time] < Time.now.to_i
+        raise OpenTokException.new 'Expire time must be in the next 7 days' if opts[:expire_time] > (Time.now.to_i + 604800)
         data_params[:expire_time] = opts[:expire_time].to_i
       end
 
@@ -93,11 +111,10 @@ module OpenTok
       sig = sign_string(data_string, @partner_secret)
       meta_string = {
         :partner_id => @partner_id,
-        :sdk_version => @@SDK_VERSION,
         :sig => sig
       }.urlencode
 
-      @@TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string).gsub("\n","")
+      @@TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string).gsub("\n", '')
     end
 
     # Generates a new OpenTok::Session and set it's session_id, situating it in TokBox's global network near the IP of the specified @location@.
@@ -110,6 +127,16 @@ module OpenTok
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
       OpenTok::Session.new(doc.root.get_elements('Session')[0].get_elements('session_id')[0].children[0].to_s)
+    end
+
+    # This method takes two parameters. The first parameter is the +archive_id+ of the archive that contains the video (a String). The second parameter is the +token+ (a String)
+    # The method returns an +OpenTok::Archive+ object. The resources property of this object is an array of OpenTok::ArchiveVideoResource objects. Each OpenTok::ArchiveVideoResource object represents a video in the archive.
+    def get_archive_manifest(archive_id, token)
+      doc = do_request("/archive/getmanifest/#{archive_id}", {}, token)
+      if not doc.get_elements('Errors').empty?
+        raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
+      end
+      OpenTok::Archive.parse_manifest(doc.get_elements('manifest')[0])
     end
 
     protected
