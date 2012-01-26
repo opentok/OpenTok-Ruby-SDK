@@ -21,7 +21,10 @@ module OpenTok
   API_URL = "https://staging.tokbox.com/hl"
   
   require 'monkey_patches'
-  require 'open_tok/exceptions'
+  require 'open_tok/exception'
   require 'open_tok/open_tok_sdk'
   require 'open_tok/session'
+  require 'open_tok/archive'
+  require 'open_tok/archive_video_resource'
+  require 'open_tok/archive_timeline_event'
 end

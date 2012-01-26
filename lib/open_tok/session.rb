@@ -3,8 +3,6 @@
  http://www.tokbox.com/
 
  Copyright 2010, TokBox, Inc.
-
- Date: November 05 14:50:00 2010
 =end
 
 module OpenTok
@@ -22,4 +20,3 @@ module OpenTok
     end
   end
 end
-
