@@ -2,7 +2,7 @@
  OpenTok Ruby Library v0.90.0
  http://www.tokbox.com/
 
- Copyright 2010, TokBox, Inc.
+ Copyright 2010 - 2011, TokBox, Inc.
 =end
 
 module OpenTok
