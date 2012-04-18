@@ -148,6 +148,7 @@ module OpenTok
       url = URI.parse(@api_url + api_url)
       if not params.empty?
         req = Net::HTTP::Post.new(url.path)
+        req.content_type = 'application/x-www-form-urlencoded'
         req.set_form_data(params)
       else
         req = Net::HTTP::Get.new(url.path)
