@@ -122,6 +122,9 @@ module OpenTok
     # See http://www.tokbox.com/opentok/tools/documentation/overview/session_creation.html for more information
     def create_session(location='', opts={})
       opts.merge!({:partner_id => @partner_id, :location=>location})
+      if location!=''
+        @api_url = location
+      end
       doc = do_request("/session/create", opts)
       if not doc.get_elements('Errors').empty?
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
