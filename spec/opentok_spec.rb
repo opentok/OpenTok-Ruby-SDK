@@ -3,7 +3,7 @@ require 'spec_helper'
 describe OpenTok do
   
   before :all do
-    @api_key = 459782
+    @api_key = '459782'
     @api_secret = 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b'
     @api_staging_url = 'https://staging.tokbox.com/hl'
     @api_production_url = 'https://api.opentok.com/hl'
@@ -59,6 +59,22 @@ describe OpenTok do
       token = @opentok.generate_token :session_id => @valid_session.to_s
       
       token.should match(/\A[0-9A-z=]+\Z/)
+    end
+
+    it "should be able to set parameters in token" do
+      token = @opentok.generate_token :session_id => @valid_session.to_s, :role=> OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
+
+      str = token[4..token.length]
+      decoded = Base64.decode64(str)
+
+      decoded.should match(/publisher.*username.*Bob.*level.*4/)
+    end
+  end
+
+  describe "Archive Download" do
+    before :all do
+      @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
+      @valid_session = @opentok.create_session(@host).to_s
     end
   end
 end
