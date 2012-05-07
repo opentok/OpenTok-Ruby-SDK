@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+class TestOpentokSDK < OpenTok::OpenTokSDK
+  def do_request(api_url, params, token=nil)
+    super
+  end
+end
+
 describe OpenTok do
   
   before :all do
@@ -11,23 +17,65 @@ describe OpenTok do
     
     @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
   end
-  
-  it "should be possible to valid a OpenTokSDK object with a valid key and secret" do
-    @opentok.should be_instance_of OpenTok::OpenTokSDK
-  end
-  
-  it "a new OpenTokSDK object should point to the staging environment by default" do
-    @opentok.api_url.should eq @api_staging_url
-  end
-  
-  describe "Session creation" do
-    it "should be possible to generate a valid API token with a valid key and secret" do
-      opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
-      session = opentok.create_session @host
+
+  describe "Staging Environment" do
+    before :all do
+      @api_key = '14971292'
+      @api_secret = '***REMOVED***'
+      @opentok = TestOpentokSDK.new @api_key, @api_secret
+      @opts = {:partner_id => @api_key, :location=>@host}
+    end
+
+    it "should be possible to valid a OpenTokSDK object with a valid key and secret" do
+      @opentok.should be_instance_of TestOpentokSDK
+    end
     
+    it "a new OpenTokSDK object should point to the staging environment by default" do
+      @opentok.api_url.should eq @api_staging_url
+    end
+
+    it "should generate a valid session" do
+      session = @opentok.create_session @host
       session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
     end
+
+    it "do_request should respond with valid p2p" do
+      @opts.merge!({'p2p.preference' => 'enabled'})
+      doc = @opentok.do_request("/session/create", @opts)
+      doc.root.get_elements('Session')[0].get_elements('properties')[0].get_elements('p2p')[0].get_elements('preference')[0].children[0].to_s.should =='enabled'
+    end
+  end
+
+  describe "Production Environment" do
+    before :all do
+      @api_key = '11421872'
+      @api_secret = '***REMOVED***'
+      @opentok = TestOpentokSDK.new @api_key, @api_secret, {:api_url=>@api_production_url}
+      @opts = {:partner_id => @api_key, :location=>@host}
+    end
+
+    it "should be possible to valid a OpenTokSDK object with a valid key and secret" do
+      @opentok.should be_instance_of TestOpentokSDK
+    end
+    
+    it "a new OpenTokSDK object should point to the staging environment by default" do
+      @opentok.api_url.should eq @api_production_url
+    end
+
+    it "should generate a valid session" do
+      session = @opentok.create_session @host
+      session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
+    end
+
+    it "do_request should respond with valid p2p" do
+      @opts.merge!({'p2p.preference' => 'enabled'})
+      doc = @opentok.do_request("/session/create", @opts)
+      doc.root.get_elements('Session')[0].get_elements('properties')[0].get_elements('p2p')[0].get_elements('preference')[0].children[0].to_s.should =='enabled'
+    end
+  end
   
+  
+  describe "Session creation" do
     it "should raise an exception with an invalid key and secret" do
       opentok = OpenTok::OpenTokSDK.new 0, ''
     
