@@ -76,7 +76,7 @@ To Download archived video, you must have an Archive ID which you get from the j
 2. Create an archive: `archive = session.createArchive(...);`  
 3. When archive is successfully created `archiveCreatedHandler` would be triggered. An Archive object containing `archiveId` property is passed into your function. Save this in your database, this archiveId is what you use to reference the archive for playbacks and download videos  
 4. After your archive has been created, you can start recording videos into it by calling `session.startRecording(archive)`  
-> Optionally, you can also use the standalone archiving, which means that each archive would have only 1 video
+ Optionally, you can also use the standalone archiving, which means that each archive would have only 1 video: <http://www.tokbox.com/opentok/api/tools/js/documentation/api/RecorderManager.html>
 
 ### Get Archive Manifest
 With your **moderator token** and OpentokSDK Object, you can generate OpenTokArchive Object, which contains information for all videos in the Archive  
@@ -109,5 +109,5 @@ videoId = otVideoResource.getId()
 
 Example:
 <pre>
-url1 = otArchive.downloadArchiveURL(vid1)
+url = otArchive.downloadArchiveURL(video_id)
 </pre>
