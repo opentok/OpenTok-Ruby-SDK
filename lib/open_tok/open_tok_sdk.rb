@@ -143,7 +143,7 @@ module OpenTok
       if not doc.get_elements('Errors').empty?
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
-      OpenTok::Archive.parse_manifest(doc.get_elements('manifest')[0])
+      OpenTok::Archive.parse_manifest(doc.get_elements('manifest')[0], @api_url, token)
     end
 
     protected

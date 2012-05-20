@@ -16,6 +16,10 @@ module OpenTok
       @length = length
     end
 
+    def getId
+      return @id
+    end
+
     def self.parseXML(video_resource_item)
       OpenTok::ArchiveVideoResource.new(video_resource_item.attributes['id'], video_resource_item.attributes['length'])
     end
