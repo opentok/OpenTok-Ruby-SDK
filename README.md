@@ -71,7 +71,7 @@ token = @opentok.generate_token :session_id => session, :role => OpenTok::RoleCo
 ### Downloading Archive Videos
 To Download archived video, you must have an Archive ID which you get from the javascript library
 
-#### Quick Overview of the javascript library: 
+#### Quick Overview of the javascript library: <http://www.tokbox.com/opentok/api/tools/js/documentation/api/Session.html#createArchive>
 1. Create an event listener on `archiveCreated` event: `session.addEventListener('archiveCreated', archiveCreatedHandler);`  
 2. Create an archive: `archive = session.createArchive(...);`  
 3. When archive is successfully created `archiveCreatedHandler` would be triggered. An Archive object containing `archiveId` property is passed into your function. Save this in your database, this archiveId is what you use to reference the archive for playbacks and download videos  
