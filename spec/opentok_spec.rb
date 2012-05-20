@@ -72,6 +72,30 @@ describe OpenTok do
       doc = @opentok.do_request("/session/create", @opts)
       doc.root.get_elements('Session')[0].get_elements('properties')[0].get_elements('p2p')[0].get_elements('preference')[0].children[0].to_s.should =='enabled'
     end
+
+    describe "Archiving downloads" do
+      before :all do
+        @session = '1_MX4xNDk3MTI5Mn5-MjAxMi0wNS0yMCAwMTowMzozMS41MDEzMDArMDA6MDB-MC40NjI0MjI4MjU1MDF-'
+        @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, {:api_url=>@api_production_url}
+        @token = @opentok.generate_token({:session_id => @session, :role=>OpenTok::RoleConstants::MODERATOR})
+        @archiveId = '5f74aee5-ab3f-421b-b124-ed2a698ee939'
+      end
+
+      it "should have archive resources" do
+        otArchive = @opentok.get_archive_manifest(@archiveId, @token)
+        otArchiveResource = otArchive.resources[0]
+        vid = otArchiveResource.getId()
+        vid.should match(/[0-9A-z=]+/)
+      end
+
+      it "should return download url" do
+        otArchive = @opentok.get_archive_manifest(@archiveId, @token)
+        otArchiveResource = otArchive.resources[0]
+        vid = otArchiveResource.getId()
+        url = otArchive.downloadArchiveURL(vid)
+        url.start_with?('http').should eq true
+      end
+    end
   end
   
   

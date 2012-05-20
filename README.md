@@ -58,7 +58,7 @@ session_id = @opentok.create_session( @location, session_properties )
 ### Generating Token
 With the generated session_id, you can start generating tokens for each user.
 `generate_token` takes in hash with 1-4 properties:
-> session_id (string) - required  
+> session_id (string) - REQUIRED  
 > role (string) - OPTIONAL. subscriber, publisher, or moderator  
 > expire_time (int) - OPTIONAL. Time when token will expire in unix timestamp  
 > connection_data (string) - OPTIONAL. Metadata to store data (names, user id, etc)
@@ -69,17 +69,45 @@ token = @opentok.generate_token :session_id => session, :role => OpenTok::RoleCo
 </pre>
 
 ### Downloading Archive Videos
-To Download archives, first you must first create a token that has a **moderator** role
+To Download archived video, you must have an Archive ID which you get from the javascript library
+
+#### Quick Overview of the javascript library: 
+1. Create an event listener on `archiveCreated` event: `session.addEventListener('archiveCreated', archiveCreatedHandler);`  
+2. Create an archive: `archive = session.createArchive(...);`  
+3. When archive is successfully created `archiveCreatedHandler` would be triggered. An Archive object containing `archiveId` property is passed into your function. Save this in your database, this archiveId is what you use to reference the archive for playbacks and download videos  
+4. After your archive has been created, you can start recording videos into it by calling `session.startRecording(archive)`  
+> Optionally, you can also use the standalone archiving, which means that each archive would have only 1 video
 
 ### Get Archive Manifest
+With your **moderator token** and OpentokSDK Object, you can generate OpenTokArchive Object, which contains information for all videos in the Archive  
 `get_archive_manifest()` takes in 2 parameters: **archiveId** and **moderator token**  
-> **returns** an `OpenTokArchive`. The *resources* property of this object is array of `OpenTokArchiveVideoResource`, and each `OpenTokArchiveVideoResource` object represents a video in the archive.
+> archive_id (string) - REQUIRED. 
+> **returns** an `OpenTokArchive` object. The *resources* property of this object is array of `OpenTokArchiveVideoResource` objects, and each `OpenTokArchiveVideoResource` object represents a video in the archive.
+
+Example:(Make sure you have the OpentokSDK Object)
+<pre>
+@token = 'moderator_token'
+@archiveId = '5f74aee5-ab3f-421b-b124-ed2a698ee939' #Obtained from Javascript Library
+otArchive = @opentok.get_archive_manifest(@archiveId, @token)
+</pre>
 
 ### Get video ID
-With your `OpenTokArchive` object, call `getId()`
+`OpenTokArchive.resources` is an array of `OpenTokArchiveVideoResource` objects. OpenTokArchiveVideoResource has `getId()` method that returns the videoId
 `getId()` will return the video ID (a String)
 
-### Get Download Url
-`downloadArchiveURL` takes 1 parameters: `video ID` and returns download URL for the video 
- 
+Example:
+<pre>
+otArchive = @opentok.get_archive_manifest(@archiveId, @token)
+otVideoResource = otArchive.resources[0]
+videoId = otVideoResource.getId()
+</pre>
 
+### Get Download Url
+`OpenTokArchive` has `downloadArchiveURL` that will return an url string for downloading the video in the archive.
+> video_id (string) - REQUIRED  
+> returns url string
+
+Example:
+<pre>
+url1 = otArchive.downloadArchiveURL(vid1)
+</pre>
