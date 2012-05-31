@@ -95,6 +95,14 @@ describe OpenTok do
         url = otArchive.downloadArchiveURL(vid)
         url.start_with?('http').should eq true
       end
+
+      it "should return file url" do
+        otArchive = @opentok.get_archive_manifest(@archiveId, @token)
+        otArchiveResource = otArchive.resources[0]
+        vid = otArchiveResource.getId()
+        url = otArchive.downloadArchiveURL(vid, @token)
+        url.start_with?('http').should eq true
+      end
     end
   end
   

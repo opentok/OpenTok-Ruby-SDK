@@ -103,11 +103,12 @@ videoId = otVideoResource.getId()
 </pre>
 
 ### Get Download Url
-`OpenTokArchive` has `downloadArchiveURL` that will return an url string for downloading the video in the archive.
+`OpenTokArchive` has `downloadArchiveURL` that will return an url string for downloading the video in the archive. You must call this function every time you want the file, because this url expires after 24 hours
 > video_id (string) - REQUIRED  
+> token (string) - REQUIRED  
 > returns url string
 
 Example:
 <pre>
-url = otArchive.downloadArchiveURL(video_id)
+url = otArchive.downloadArchiveURL(video_id, token)
 </pre>

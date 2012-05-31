@@ -18,11 +18,11 @@ module OpenTok
       @token = token
     end
 
-    def do_request(api_url)
+    def do_request(api_url, token)
       url = URI.parse(api_url)
       req = Net::HTTP::Get.new(url.path)
 
-      req.add_field 'X-TB-TOKEN-AUTH', @token
+      req.add_field 'X-TB-TOKEN-AUTH', token
 
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true if @apiUrl.start_with?("https")
@@ -49,9 +49,12 @@ module OpenTok
       doc
     end
 
-    def downloadArchiveURL(video_id)
-      doc = do_request "#{@apiUrl}/archive/url/#{@archive_id}/#{video_id}" 
-      return doc
+    def downloadArchiveURL(video_id, token="")
+      if token==""
+        return "#{@apiUrl}/archive/url/#{@archive_id}/#{video_id}" 
+      else
+        return do_request "#{@apiUrl}/archive/url/#{@archive_id}/#{video_id}", token
+      end
     end
 
     def self.parse_manifest(manifest, apiUrl, token)
