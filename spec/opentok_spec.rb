@@ -157,11 +157,11 @@ describe OpenTok do
       @valid_session = @opentok.create_session(@host).to_s
     end
 
-    it "If token does not have moderator role, raise error" do
-      token = @opentok.generate_token(:session_id=>@valid_session)
-      expect{
-        @opentok.get_archive_manifest("", token)
-      }.to raise_error OpenTok::OpenTokException
-    end
+#    it "If token does not have moderator role, raise error" do
+#      token = @opentok.generate_token(:session_id=>@valid_session)
+#      expect{
+#        @opentok.get_archive_manifest("", token)
+#      }.to raise_error OpenTok::OpenTokException
+#    end
   end
 end
