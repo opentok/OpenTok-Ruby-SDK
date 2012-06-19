@@ -17,8 +17,8 @@ module OpenTok
 
   Net::HTTP.version_1_2 # to make sure version 1.2 is used
 
-  VERSION = "tbrb-v0.91.2011-02-17"
-  API_URL = "https://staging.tokbox.com/hl"
+  VERSION = "tbrb-v0.91.2012-06-19"
+  API_URL = "https://api.opentok.com"
   
   require 'monkey_patches'
   require 'open_tok/exception'

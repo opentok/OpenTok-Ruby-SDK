@@ -1,5 +1,9 @@
 = Change Log
 
+== Version 0.0.8
+
+* Removed references to the staging environment as it no longer exists
+
 == Version 0.0.5
 
 * Added connection_data to generate token method (thanks to https://github.com/jonmumm)
