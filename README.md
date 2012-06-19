@@ -17,7 +17,7 @@ To install as a regular gem just type `gem install opentok`
 
 ### API-key and secret
 
-Request your api-key and secret at <http://www.tokbox.com/opentok/tools/js/apikey>. You can use the staging environment for testing. The gem uses this staging environment by default.
+Request your api-key and secret at <http://www.tokbox.com/opentok/tools/js/apikey>.
 
 ### OpenTokSDK
 
@@ -25,16 +25,11 @@ In order to use any of the server side functions, you must first create an `Open
 You must pass in your *Key* and *Secret*. If your app is in production, you must also pass in a hash containing `api_url`  
 For more information about production apps, check out <http://www.tokbox.com/opentok/api/tools/js/launch>
 
-Example: ( Staging )
+Example:
 <pre>
 @api_key = ''                # should be a string
 @api_secret = ''            # should be a string
 @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
-</pre>
-
-Example: ( Production )
-<pre>
-@opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => 'https://api.opentok.com/hl'
 </pre>
 
 ### Creating Sessions
