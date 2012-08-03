@@ -27,14 +27,14 @@ For more information about production apps, check out <http://www.tokbox.com/ope
 
 Example: ( Staging )
 <pre>
-@api_key = ''                # should be a string
-@api_secret = ''            # should be a string
-@opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
+API_KEY = ''                # should be a string
+API_SECRET = ''            # should be a string
+OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET
 </pre>
 
 Example: ( Production )
 <pre>
-@opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => 'https://api.opentok.com/hl'
+OTSDK = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => 'https://api.opentok.com/hl'
 </pre>
 
 ### Creating Sessions
@@ -46,13 +46,13 @@ Use your `OpenTokSDK` object to create `session_id`
 Example: P2P disabled by default
 <pre>
 @location = 'localhost'
-session_id = @opentok.create_session(@location)
+session_id = OTSDK.create_session(@location)
 </pre>
 
 Example: P2P enabled
 <pre>
 session_properties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}    # or disabled
-session_id = @opentok.create_session( @location, session_properties )
+session_id = OTSDK.create_session( @location, session_properties )
 </pre>
 
 ### Generating Token
@@ -65,7 +65,7 @@ With the generated session_id, you can start generating tokens for each user.
 
 Example:
 <pre>
-token = @opentok.generate_token :session_id => session, :role => OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
+token = OTSDK.generate_token :session_id => session, :role => OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
 </pre>
 
 ### Downloading Archive Videos
@@ -88,7 +88,7 @@ Example:(Make sure you have the OpentokSDK Object)
 <pre>
 @token = 'moderator_token'
 @archiveId = '5f74aee5-ab3f-421b-b124-ed2a698ee939' #Obtained from Javascript Library
-otArchive = @opentok.get_archive_manifest(@archiveId, @token)
+otArchive = OTSDK.get_archive_manifest(@archiveId, @token)
 </pre>
 
 ### Get video ID
@@ -97,7 +97,7 @@ otArchive = @opentok.get_archive_manifest(@archiveId, @token)
 
 Example:
 <pre>
-otArchive = @opentok.get_archive_manifest(@archiveId, @token)
+otArchive = OTSDK.get_archive_manifest(@archiveId, @token)
 otVideoResource = otArchive.resources[0]
 videoId = otVideoResource.getId()
 </pre>
