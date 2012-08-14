@@ -6,6 +6,69 @@ class TestOpentokSDK < OpenTok::OpenTokSDK
   end
 end
 
+describe "Functionality Test" do
+  before :all do
+    @api_key = '459782'
+    @api_secret = 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b'
+    @host = '127.0.0.1'
+    @api_staging_url = 'https://staging.tokbox.com/hl'
+    @api_production_url = 'https://api.opentok.com/hl'
+  end
+
+  describe "test Initializers" do
+    it "should set staging URL with no options" do
+      @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
+      @opentok.api_url.should eq @api_staging_url
+    end
+    it "should be possible to set the api url as an option" do
+      opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_production_url
+      opentok.api_url.should eq @api_production_url
+      opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_staging_url
+      opentok.api_url.should eq @api_staging_url
+    end
+    it "should set staging URL with option false" do
+      @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, false
+      @opentok.api_url.should eq @api_staging_url
+    end
+    it "should set production URL with option true" do
+      @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, true
+      @opentok.api_url.should eq @api_production_url
+    end
+  end
+
+  describe "Generate Sessions" do
+    before :all do
+      @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
+    end
+
+    it "should generate valid session" do
+      session = @opentok.create_session @host
+      session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
+    end
+    it "should generate valid session camelCase" do
+      session = @opentok.createSession @host
+      session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
+    end
+  end
+
+  describe "Generate Tokens" do
+    before :all do
+      @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
+      @session = @opentok.createSession @host
+    end
+
+    it "should generate valid token" do
+      @token = @opentok.generate_token({:session_id => @session, :role=>OpenTok::RoleConstants::MODERATOR})
+      @token.should match(/(T1==)+[0-9A-z_]+/)
+    end
+    it "should generate valid token camelCase" do
+      @token = @opentok.generateToken({:session_id => @session, :role=>OpenTok::RoleConstants::MODERATOR})
+      @token.should match(/(T1==)+[0-9A-z_]+/)
+    end
+  end
+
+end
+
 describe OpenTok do
   
   before :all do
@@ -16,34 +79,6 @@ describe OpenTok do
     @host = 'localhost'
     
     @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret
-  end
-
-  describe "Staging Environment" do
-    before :all do
-      @api_key = '14971292'
-      @api_secret = 'ecbe2b25afec7887bd72fe4763b87add8ce02658'
-      @opentok = TestOpentokSDK.new @api_key, @api_secret
-      @opts = {:partner_id => @api_key, :location=>@host}
-    end
-
-    it "should be possible to valid a OpenTokSDK object with a valid key and secret" do
-      @opentok.should be_instance_of TestOpentokSDK
-    end
-    
-    it "a new OpenTokSDK object should point to the staging environment by default" do
-      @opentok.api_url.should eq @api_staging_url
-    end
-
-    it "should generate a valid session" do
-      session = @opentok.create_session @host
-      session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
-    end
-
-    it "do_request should respond with valid p2p" do
-      @opts.merge!({'p2p.preference' => 'enabled'})
-      doc = @opentok.do_request("/session/create", @opts)
-      doc.root.get_elements('Session')[0].get_elements('properties')[0].get_elements('p2p')[0].get_elements('preference')[0].children[0].to_s.should =='enabled'
-    end
   end
 
   describe "Production Environment" do
@@ -62,27 +97,16 @@ describe OpenTok do
       @opentok.api_url.should eq @api_production_url
     end
 
-    it "should generate a valid session" do
-      session = @opentok.create_session @host
-      session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
-    end
-
-    it "do_request should respond with valid p2p" do
-      @opts.merge!({'p2p.preference' => 'enabled'})
-      doc = @opentok.do_request("/session/create", @opts)
-      doc.root.get_elements('Session')[0].get_elements('properties')[0].get_elements('p2p')[0].get_elements('preference')[0].children[0].to_s.should =='enabled'
-    end
-
     describe "Archiving downloads" do
       before :all do
         @session = '1_MX4xNDk3MTI5Mn5-MjAxMi0wNS0yMCAwMTowMzozMS41MDEzMDArMDA6MDB-MC40NjI0MjI4MjU1MDF-'
         @opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, {:api_url=>@api_production_url}
-        @token = @opentok.generate_token({:session_id => @session, :role=>OpenTok::RoleConstants::MODERATOR})
+        @token = @opentok.generateToken({:session_id => @session, :role=>OpenTok::RoleConstants::MODERATOR})
         @archiveId = '5f74aee5-ab3f-421b-b124-ed2a698ee939'
       end
 
       it "should have archive resources" do
-        otArchive = @opentok.get_archive_manifest(@archiveId, @token)
+        otArchive = @opentok.getArchiveManifest(@archiveId, @token)
         otArchiveResource = otArchive.resources[0]
         vid = otArchiveResource.getId()
         vid.should match(/[0-9A-z=]+/)
@@ -116,17 +140,6 @@ describe OpenTok do
       }.to raise_error OpenTok::OpenTokException
     end
   
-    it "should be possible to set the api url as an option" do
-      opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_production_url
-    
-      opentok.api_url.should_not eq @api_staging_url
-      opentok.api_url.should eq @api_production_url
-    
-      opentok = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => @api_staging_url
-    
-      opentok.api_url.should_not eq @api_production_url
-      opentok.api_url.should eq @api_staging_url
-    end
   end
 
   describe "Token creation" do

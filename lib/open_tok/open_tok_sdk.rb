@@ -60,7 +60,11 @@ module OpenTok
       @partner_secret = partner_secret.strip
 
       if options.is_a?(::Hash)
+        # user input hash parameter
         @api_url = options[:api_url] || API_URL
+      else
+        # use input true/false for parameter
+        @api_url = (options ? API_URL_PROD : API_URL)
       end
 
       unless @api_url
@@ -76,6 +80,9 @@ module OpenTok
     # * +:connection_data+ (optional) Added in OpenTok v0.91.20. A string containing metadata describing the connection.
     #
     # See http://www.tokbox.com/opentok/tools/documentation/overview/token_creation.html for more information on all options.
+    def generateToken(opts={})
+      generate_token(opts)
+    end
     def generate_token(opts = {})
       { :session_id => nil, :create_time => nil, :expire_time => nil, :role => nil, :connection_data => nil }.merge!(opts)
 
@@ -120,6 +127,9 @@ module OpenTok
     # Generates a new OpenTok::Session and set it's session_id, situating it in TokBox's global network near the IP of the specified @location@.
     #
     # See http://www.tokbox.com/opentok/tools/documentation/overview/session_creation.html for more information
+    def createSession(location='', opts={})
+      create_session(location, opts)
+    end
     def create_session(location='', opts={})
       opts.merge!({:partner_id => @partner_id, :location=>location})
       doc = do_request("/session/create", opts)
@@ -131,6 +141,9 @@ module OpenTok
 
     # This method takes two parameters. The first parameter is the +archive_id+ of the archive that contains the video (a String). The second parameter is the +token+ (a String)
     # The method returns an +OpenTok::Archive+ object. The resources property of this object is an array of OpenTok::ArchiveVideoResource objects. Each OpenTok::ArchiveVideoResource object represents a video in the archive.
+    def getArchiveManifest(archive_id, token)
+      get_archive_manifest(archive_id, token)
+    end
     def get_archive_manifest(archive_id, token)
       # TODO: verify that token is MODERATOR token, Staging and production
 

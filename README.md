@@ -1,8 +1,7 @@
 # Opentok
 
-OpenTok is a free set of APIs from TokBox that enables websites to weave live group video communication into their online experience. With OpenTok you have the freedom and flexibility to create the most engaging web experience for your users. OpenTok is currently available as a JavaScript and ActionScript 3.0 library. Check out <http://www.tokbox.com/> and <http://www.tokbox.com/opentok/tools/js/gettingstarted> for more information.
-
-This is the official Opentok rubygem.
+OpenTok is an API from TokBox that enables websites to weave live group video communication into their online experience. Check out <http://www.tokbox.com/> for more information.  
+This is the official OpenTok Ruby Server SDK for generating Sessions, Tokens, and retriving Archives. Please visit our [getting started page](http://www.tokbox.com/opentok/tools/js/gettingstarted) if you are unfamiliar with these concepts.  
 
 ## Installation
 
@@ -13,59 +12,58 @@ gem 'opentok'
 
 To install as a regular gem just type `gem install opentok`
 
-## How to use
+# Requirements
 
-### API-key and secret
+You need an api-key and secret. Request them at <http://www.tokbox.com/opentok/tools/js/apikey>.  
 
-Request your api-key and secret at <http://www.tokbox.com/opentok/tools/js/apikey>. You can use the staging environment for testing. The gem uses this staging environment by default.
-
-### OpenTokSDK
+# OpenTokSDK
 
 In order to use any of the server side functions, you must first create an `OpenTokSDK` object with your developer credentials.  
-You must pass in your *Key* and *Secret*. If your app is in production, you must also pass in a hash containing `api_url`  
+
+`OpenTokSDK` takes 2-3 parameters:
+> key (string) - Given to you when you register  
+> secret (string) - Given to you when you register  
+> Production (Boolean) - OPTIONAL. Puts your app in staging or production environment. Default value is `false`  
 For more information about production apps, check out <http://www.tokbox.com/opentok/api/tools/js/launch>
 
-Example: ( Staging )
+
 <pre>
+# Creating an OpenTok Object in Staging Environment
 API_KEY = ''                # should be a string
 API_SECRET = ''            # should be a string
 OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET
+
+# Creating an OpenTok Object in Production Environment
+OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET, true
 </pre>
 
-Example: ( Production )
-<pre>
-OTSDK = OpenTok::OpenTokSDK.new @api_key, @api_secret, :api_url => 'https://api.opentok.com/hl'
-</pre>
 
-### Creating Sessions
+# Creating Sessions
 Use your `OpenTokSDK` object to create `session_id`  
-`create_session` takes 1-2 parameters:
+`createSession` takes 1-2 parameters:
 > location (string) -  give Opentok a hint on where you are running your application  
-> properties (object) - OPTIONAL. Set peer to peer as `enabled` or `disabled`
+> properties (object) - OPTIONAL. Set peer to peer as `enabled` or `disabled`. Disabled by default
 
-Example: P2P disabled by default
 <pre>
-@location = 'localhost'
-session_id = OTSDK.create_session(@location)
+# Creating Session object, passing request IP address to determine closest production server
+session_id = OTSDK.createSession( request.ip )
+
+# Creating Session object with p2p enabled
+sessionProperties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}    # or disabled
+sessionId = OTSDK.createSession( @location, sessionProperties )
 </pre>
 
-Example: P2P enabled
-<pre>
-session_properties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}    # or disabled
-session_id = OTSDK.create_session( @location, session_properties )
-</pre>
-
-### Generating Token
-With the generated session_id, you can start generating tokens for each user.
+# Generating Token
+With the generated sessionId, you can start generating tokens for each user.
 `generate_token` takes in hash with 1-4 properties:
 > session_id (string) - REQUIRED  
 > role (string) - OPTIONAL. subscriber, publisher, or moderator  
 > expire_time (int) - OPTIONAL. Time when token will expire in unix timestamp  
 > connection_data (string) - OPTIONAL. Metadata to store data (names, user id, etc)
 
-Example:
 <pre>
-token = OTSDK.generate_token :session_id => session, :role => OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
+# Generating a token
+token = OTSDK.generateToken :session_id => session, :role => OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
 </pre>
 
 ### Downloading Archive Videos
