@@ -52,7 +52,7 @@ module OpenTok
     #
     # The first two attributes are required; +parnter_id+ and +partner_secret+ are the api-key and secret
     # that are provided to you.
-    # 
+    #
     # You can also pass in optional options;
     # * +:api_url+ sets the location of the api (staging or production)
     def initialize(partner_id, partner_secret, options = nil)
@@ -74,7 +74,7 @@ module OpenTok
 
     # Generate token for the given session_id. The options you can provide are;
     # * +:session_id+ (required) generate a token for the provided session
-    # * +:create_time+ 
+    # * +:create_time+
     # * +:expire_time+ (optional) The time when the token will expire, defined as an integer value for a Unix timestamp (in seconds). If you do not specify this value, tokens expire in 24 hours after being created.
     # * +:role+ (optional) Added in OpenTok v0.91.5. This defines the role the user will have. There are three roles: subscriber, publisher, and moderator.
     # * +:connection_data+ (optional) Added in OpenTok v0.91.20. A string containing metadata describing the connection.
@@ -110,13 +110,10 @@ module OpenTok
         data_params[:connection_data] = opts[:connection_data]
       end
 
-      data_string = data_params.urlencode
+      data_string = OpenTok::Utils.urlencode_hash(data_params)
 
       sig = sign_string(data_string, @partner_secret)
-      meta_string = {
-        :partner_id => @partner_id,
-        :sig => sig
-      }.urlencode
+      meta_string = OpenTok::Utils.urlencode_hash(:partner_id => @partner_id, :sig => sig)
 
       @@TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string).gsub("\n", '')
     end

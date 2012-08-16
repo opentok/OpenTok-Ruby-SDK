@@ -20,9 +20,10 @@ module OpenTok
   VERSION = "tbrb-v0.91.2011-02-17"
   API_URL = "https://staging.tokbox.com/hl"
   API_URL_PROD = 'https://api.opentok.com/hl'
-  
+
   require 'monkey_patches'
   require 'open_tok/exception'
+  require 'open_tok/utils'
   require 'open_tok/open_tok_sdk'
   require 'open_tok/session'
   require 'open_tok/archive'
