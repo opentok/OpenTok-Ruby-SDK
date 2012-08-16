@@ -6,11 +6,8 @@
 
 =end
 
-require 'cgi'
 require 'openssl'
 require 'base64'
-require 'uri'
-require 'net/https'
 require 'rexml/document'
 
 DIGEST  = OpenSSL::Digest::Digest.new('sha1')

@@ -1,3 +1,5 @@
+require 'cgi'
+
 module OpenTok
   module Utils
     # would recommend using `addressable` gem instead
