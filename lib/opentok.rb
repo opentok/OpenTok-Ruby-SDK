@@ -9,12 +9,6 @@
 
 module OpenTok
   require 'rubygems'
-  require 'net/http'
-  require 'uri'
-  require 'digest/md5'
-  require 'cgi'
-  #require 'pp' # just for debugging purposes
-
 
   VERSION = "tbrb-v0.91.2011-02-17"
   API_URL = "https://staging.tokbox.com/hl"
