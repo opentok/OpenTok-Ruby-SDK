@@ -33,6 +33,8 @@ describe "Functionality Test" do
   end
 
   describe "Generate Sessions" do
+    use_vcr_cassette "generate_sessions"
+
     let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
 
     it "should generate valid session" do
@@ -47,6 +49,7 @@ describe "Functionality Test" do
   end
 
   describe "Generate Tokens" do
+    use_vcr_cassette "generate_tokens"
 
     let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
     let(:session) { opentok.createSession host }
@@ -90,6 +93,7 @@ describe OpenTok do
     end
 
     describe "Archiving downloads" do
+      use_vcr_cassette "archiving_downloads"
 
       let(:session) { '1_MX4xNDk3MTI5Mn5-MjAxMi0wNS0yMCAwMTowMzozMS41MDEzMDArMDA6MDB-MC40NjI0MjI4MjU1MDF-' }
       let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>api_production_url} }
@@ -123,6 +127,8 @@ describe OpenTok do
 
 
   describe "Session creation" do
+    use_vcr_cassette "session_creation"
+
     it "should raise an exception with an invalid key and secret" do
       opentok = OpenTok::OpenTokSDK.new 0, ''
 
@@ -134,6 +140,7 @@ describe OpenTok do
   end
 
   describe "Token creation" do
+    use_vcr_cassette "token_creation"
 
     let(:valid_session) { opentok.create_session(host).to_s }
 
@@ -154,6 +161,7 @@ describe OpenTok do
   end
 
   describe "Archive Download" do
+    use_vcr_cassette "archive_download"
 
     let(:valid_session) { opentok.create_session(host).to_s }
 
