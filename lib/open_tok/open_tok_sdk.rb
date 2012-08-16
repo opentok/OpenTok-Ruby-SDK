@@ -80,9 +80,6 @@ module OpenTok
     # * +:connection_data+ (optional) Added in OpenTok v0.91.20. A string containing metadata describing the connection.
     #
     # See http://www.tokbox.com/opentok/tools/documentation/overview/token_creation.html for more information on all options.
-    def generateToken(opts={})
-      generate_token(opts)
-    end
     def generate_token(opts = {})
       { :session_id => nil, :create_time => nil, :expire_time => nil, :role => nil, :connection_data => nil }.merge!(opts)
 
@@ -123,13 +120,11 @@ module OpenTok
 
       @@TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string).gsub("\n", '')
     end
+    alias_method :generateToken, :generate_token
 
     # Generates a new OpenTok::Session and set it's session_id, situating it in TokBox's global network near the IP of the specified @location@.
     #
     # See http://www.tokbox.com/opentok/tools/documentation/overview/session_creation.html for more information
-    def createSession(location='', opts={})
-      create_session(location, opts)
-    end
     def create_session(location='', opts={})
       opts.merge!({:partner_id => @partner_id, :location=>location})
       doc = do_request("/session/create", opts)
@@ -138,12 +133,10 @@ module OpenTok
       end
       OpenTok::Session.new(doc.root.get_elements('Session')[0].get_elements('session_id')[0].children[0].to_s)
     end
+    alias_method :createSession, :create_session
 
     # This method takes two parameters. The first parameter is the +archive_id+ of the archive that contains the video (a String). The second parameter is the +token+ (a String)
     # The method returns an +OpenTok::Archive+ object. The resources property of this object is an array of OpenTok::ArchiveVideoResource objects. Each OpenTok::ArchiveVideoResource object represents a video in the archive.
-    def getArchiveManifest(archive_id, token)
-      get_archive_manifest(archive_id, token)
-    end
     def get_archive_manifest(archive_id, token)
       # TODO: verify that token is MODERATOR token, Staging and production
 
@@ -153,6 +146,7 @@ module OpenTok
       end
       OpenTok::Archive.parse_manifest(doc.get_elements('manifest')[0], @api_url, token)
     end
+    alias_method :getArchiveManifest, :get_archive_manifest
 
     protected
     def sign_string(data, secret)
