@@ -175,7 +175,7 @@ module OpenTok
       end
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true if @api_url.start_with?("https")
-      res = http.start {|http| http.request(req)}
+      res = http.start {|h| h.request(req) }
       case res
       when Net::HTTPSuccess, Net::HTTPRedirection
         # OK
