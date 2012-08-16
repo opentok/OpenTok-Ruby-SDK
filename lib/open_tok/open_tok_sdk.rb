@@ -24,7 +24,7 @@ module OpenTok
   # * +MULTIPLEXER_SWITCHTYPE+ integer
   # * +MULTIPLEXER_SWITCHTIMEOUT+ integer
   # * +P2P_PREFERENCE+ string
-  class SessionPropertyConstants
+  module SessionPropertyConstants
     ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled" #Boolean
     MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams" #Integer
     MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType" #Integer
@@ -37,7 +37,7 @@ module OpenTok
   # * +SUBSCRIBER+ Can only subscribe
   # * +PUBLISHER+ Can publish, subscribe, and signal
   # * +MODERATOR+ Can do the above along with forceDisconnect and forceUnpublish
-  class RoleConstants
+  module RoleConstants
     SUBSCRIBER = "subscriber" #Can only subscribe
     PUBLISHER = "publisher" #Can publish, subscribe, and signal
     MODERATOR = "moderator" #Can do the above along with  forceDisconnect and forceUnpublish
