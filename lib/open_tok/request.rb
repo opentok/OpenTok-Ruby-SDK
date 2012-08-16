@@ -32,6 +32,7 @@ module OpenTok
 
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = @api_host.start_with?("https")
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
       res = http.start {|h| h.request(req) }
 
