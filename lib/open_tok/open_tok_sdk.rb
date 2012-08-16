@@ -150,36 +150,10 @@ module OpenTok
       OpenSSL::HMAC.hexdigest(DIGEST, secret, data)
     end
 
-    def do_request(api_url, params, token=nil)
-      url = URI.parse(@api_url + api_url)
-      if not params.empty?
-        req = Net::HTTP::Post.new(url.path)
-        req.set_form_data(params)
-      else
-        req = Net::HTTP::Get.new(url.path)
-      end
-
-      if not token.nil?
-        req.add_field 'X-TB-TOKEN-AUTH', token
-      else
-        req.add_field 'X-TB-PARTNER-AUTH', "#{@partner_id}:#{@partner_secret}"
-      end
-      http = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = true if @api_url.start_with?("https")
-      res = http.start {|h| h.request(req) }
-      case res
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        # OK
-        doc = REXML::Document.new(res.read_body)
-        return doc
-      else
-        res.error!
-      end
-    rescue Net::HTTPExceptions => e
-      raise OpenTokException.new "Unable to create fufill request: #{e}"
-    rescue NoMethodError => e
-      raise OpenTokException.new "Unable to create a fufill request at this time: #{e}"
+    def do_request(path, params, token=nil)
+      request = OpenTok::Request.new(@api_url, token, @partner_id, @partner_secret)
+      body = request.fetch(path, params)
+      REXML::Document.new(body)
     end
   end
 end
-
