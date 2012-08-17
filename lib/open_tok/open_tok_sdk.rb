@@ -6,11 +6,8 @@
 
 =end
 
-require 'cgi'
 require 'openssl'
 require 'base64'
-require 'uri'
-require 'net/https'
 require 'rexml/document'
 
 DIGEST  = OpenSSL::Digest::Digest.new('sha1')
@@ -24,7 +21,7 @@ module OpenTok
   # * +MULTIPLEXER_SWITCHTYPE+ integer
   # * +MULTIPLEXER_SWITCHTIMEOUT+ integer
   # * +P2P_PREFERENCE+ string
-  class SessionPropertyConstants
+  module SessionPropertyConstants
     ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled" #Boolean
     MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams" #Integer
     MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType" #Integer
@@ -37,7 +34,7 @@ module OpenTok
   # * +SUBSCRIBER+ Can only subscribe
   # * +PUBLISHER+ Can publish, subscribe, and signal
   # * +MODERATOR+ Can do the above along with forceDisconnect and forceUnpublish
-  class RoleConstants
+  module RoleConstants
     SUBSCRIBER = "subscriber" #Can only subscribe
     PUBLISHER = "publisher" #Can publish, subscribe, and signal
     MODERATOR = "moderator" #Can do the above along with  forceDisconnect and forceUnpublish
@@ -52,7 +49,7 @@ module OpenTok
     #
     # The first two attributes are required; +parnter_id+ and +partner_secret+ are the api-key and secret
     # that are provided to you.
-    # 
+    #
     # You can also pass in optional options;
     # * +:api_url+ sets the location of the api (staging or production)
     def initialize(partner_id, partner_secret, options = nil)
@@ -74,15 +71,12 @@ module OpenTok
 
     # Generate token for the given session_id. The options you can provide are;
     # * +:session_id+ (required) generate a token for the provided session
-    # * +:create_time+ 
+    # * +:create_time+
     # * +:expire_time+ (optional) The time when the token will expire, defined as an integer value for a Unix timestamp (in seconds). If you do not specify this value, tokens expire in 24 hours after being created.
     # * +:role+ (optional) Added in OpenTok v0.91.5. This defines the role the user will have. There are three roles: subscriber, publisher, and moderator.
     # * +:connection_data+ (optional) Added in OpenTok v0.91.20. A string containing metadata describing the connection.
     #
     # See http://www.tokbox.com/opentok/tools/documentation/overview/token_creation.html for more information on all options.
-    def generateToken(opts={})
-      generate_token(opts)
-    end
     def generate_token(opts = {})
       { :session_id => nil, :create_time => nil, :expire_time => nil, :role => nil, :connection_data => nil }.merge!(opts)
 
@@ -113,23 +107,18 @@ module OpenTok
         data_params[:connection_data] = opts[:connection_data]
       end
 
-      data_string = data_params.urlencode
+      data_string = OpenTok::Utils.urlencode_hash(data_params)
 
       sig = sign_string(data_string, @partner_secret)
-      meta_string = {
-        :partner_id => @partner_id,
-        :sig => sig
-      }.urlencode
+      meta_string = OpenTok::Utils.urlencode_hash(:partner_id => @partner_id, :sig => sig)
 
       @@TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string).gsub("\n", '')
     end
+    alias_method :generateToken, :generate_token
 
     # Generates a new OpenTok::Session and set it's session_id, situating it in TokBox's global network near the IP of the specified @location@.
     #
     # See http://www.tokbox.com/opentok/tools/documentation/overview/session_creation.html for more information
-    def createSession(location='', opts={})
-      create_session(location, opts)
-    end
     def create_session(location='', opts={})
       opts.merge!({:partner_id => @partner_id, :location=>location})
       doc = do_request("/session/create", opts)
@@ -138,12 +127,10 @@ module OpenTok
       end
       OpenTok::Session.new(doc.root.get_elements('Session')[0].get_elements('session_id')[0].children[0].to_s)
     end
+    alias_method :createSession, :create_session
 
     # This method takes two parameters. The first parameter is the +archive_id+ of the archive that contains the video (a String). The second parameter is the +token+ (a String)
     # The method returns an +OpenTok::Archive+ object. The resources property of this object is an array of OpenTok::ArchiveVideoResource objects. Each OpenTok::ArchiveVideoResource object represents a video in the archive.
-    def getArchiveManifest(archive_id, token)
-      get_archive_manifest(archive_id, token)
-    end
     def get_archive_manifest(archive_id, token)
       # TODO: verify that token is MODERATOR token, Staging and production
 
@@ -153,42 +140,17 @@ module OpenTok
       end
       OpenTok::Archive.parse_manifest(doc.get_elements('manifest')[0], @api_url, token)
     end
+    alias_method :getArchiveManifest, :get_archive_manifest
 
     protected
     def sign_string(data, secret)
       OpenSSL::HMAC.hexdigest(DIGEST, secret, data)
     end
 
-    def do_request(api_url, params, token=nil)
-      url = URI.parse(@api_url + api_url)
-      if not params.empty?
-        req = Net::HTTP::Post.new(url.path)
-        req.set_form_data(params)
-      else
-        req = Net::HTTP::Get.new(url.path)
-      end
-
-      if not token.nil?
-        req.add_field 'X-TB-TOKEN-AUTH', token
-      else
-        req.add_field 'X-TB-PARTNER-AUTH', "#{@partner_id}:#{@partner_secret}"
-      end
-      http = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = true if @api_url.start_with?("https")
-      res = http.start {|h| h.request(req) }
-      case res
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        # OK
-        doc = REXML::Document.new(res.read_body)
-        return doc
-      else
-        res.error!
-      end
-    rescue Net::HTTPExceptions => e
-      raise OpenTokException.new "Unable to create fufill request: #{e}"
-    rescue NoMethodError => e
-      raise OpenTokException.new "Unable to create a fufill request at this time: #{e}"
+    def do_request(path, params, token=nil)
+      request = OpenTok::Request.new(@api_url, token, @partner_id, @partner_secret)
+      body = request.fetch(path, params)
+      REXML::Document.new(body)
     end
   end
 end
-
