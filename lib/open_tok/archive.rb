@@ -22,21 +22,15 @@ module OpenTok
       OpenTok::Request.new(@api_url, token).fetch(path)
     end
 
-    def download_archive_url(video_id)
-      doc = do_request "/archive/url/#{@archive_id}/#{video_id}"
-      if not doc.get_elements('Errors').empty?
-        raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
-      end
-      doc
-    end
-
-    def downloadArchiveURL(video_id, token="")
+    def download_archive_url(video_id, token="")
       if token==""
+        # this token check supports previous implementation of download_archive_url
         return "#{@api_url}/archive/url/#{@archive_id}/#{video_id}"
       else
         return do_request "/archive/url/#{@archive_id}/#{video_id}", token
       end
     end
+    alias_method :downloadArchiveURL, :download_archive_url
 
     def self.parse_manifest(manifest, apiUrl, token)
       archive_id = manifest.attributes['archiveid']

@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Opentok::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Stijn Mathysen", "Karmen Blake", "Song Zheng"]
-  s.email       = ["stijn@skylight.be", "karmenblake@gmail.com", "Song Zheng"]
+  s.email       = ["stijn@skylight.be", "karmenblake@gmail.com", "song@tokbox.com"]
   s.homepage    = "https://github.com/opentok/Opentok-Ruby-SDK"
   s.summary     = %q{OpenTok gem}
   s.description = %q{OpenTok is an API from TokBox that enables websites to weave live group video communication into their online experience. With OpenTok you have the freedom and flexibility to create the most engaging web experience for your users. OpenTok is currently available as a JavaScript and ActionScript 3.0 library. This gem allows you to connect to the API from within Ruby (and Rails)}
