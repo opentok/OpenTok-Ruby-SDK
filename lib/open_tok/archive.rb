@@ -9,40 +9,21 @@ module OpenTok
   class Archive
     attr_accessor :archive_id, :archive_title, :resources, :timeline
 
-    def initialize(archive_id, archive_title, resources, timeline, apiUrl, token)
+    def initialize(archive_id, archive_title, resources, timeline, api_url, token)
       @archive_id = archive_id
       @archive_title = archive_title
       @resources = resources
       @timeline = timeline
-      @apiUrl = apiUrl
+      @api_url = api_url
       @token = token
     end
 
-    def do_request(api_url, token)
-      url = URI.parse(api_url)
-      req = Net::HTTP::Get.new(url.path)
-
-      req.add_field 'X-TB-TOKEN-AUTH', token
-
-      http = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = true if @apiUrl.start_with?("https")
-      res = http.start {|http| http.request(req)}
-      case res
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        return res.read_body
-      else
-        res.error!
-      end
-    rescue Net::HTTPExceptions
-      raise
-      raise OpenTokException.new 'Unable to create fufill request: ' + $!
-    rescue NoMethodError
-      raise
-      raise OpenTokException.new 'Unable to create a fufill request at this time: ' + $1
+    def do_request(path, token)
+      OpenTok::Request.new(@api_url, token).fetch(path)
     end
 
     def download_archive_url(video_id)
-      doc = do_request "#{@apiUrl}/archive/url/#{@archive_id}/#{video_id}" 
+      doc = do_request "/archive/url/#{@archive_id}/#{video_id}"
       if not doc.get_elements('Errors').empty?
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
@@ -51,9 +32,9 @@ module OpenTok
 
     def downloadArchiveURL(video_id, token="")
       if token==""
-        return "#{@apiUrl}/archive/url/#{@archive_id}/#{video_id}" 
+        return "#{@api_url}/archive/url/#{@archive_id}/#{video_id}"
       else
-        return do_request "#{@apiUrl}/archive/url/#{@archive_id}/#{video_id}", token
+        return do_request "/archive/url/#{@archive_id}/#{video_id}", token
       end
     end
 
