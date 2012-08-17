@@ -175,7 +175,7 @@ module OpenTok
       end
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true if @api_url.start_with?("https")
-      res = http.start {|http| http.request(req)}
+      res = http.start {|h| h.request(req) }
       case res
       when Net::HTTPSuccess, Net::HTTPRedirection
         # OK
@@ -184,12 +184,10 @@ module OpenTok
       else
         res.error!
       end
-    rescue Net::HTTPExceptions
-      raise
-      raise OpenTokException.new 'Unable to create fufill request: ' + $!
-    rescue NoMethodError
-      raise
-      raise OpenTokException.new 'Unable to create a fufill request at this time: ' + $1
+    rescue Net::HTTPExceptions => e
+      raise OpenTokException.new "Unable to create fufill request: #{e}"
+    rescue NoMethodError => e
+      raise OpenTokException.new "Unable to create a fufill request at this time: #{e}"
     end
   end
 end
