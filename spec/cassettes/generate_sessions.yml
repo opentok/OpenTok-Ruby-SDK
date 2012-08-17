@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://staging.tokbox.com/hl/session/create
+    body:
+      encoding: US-ASCII
+      string: partner_id=459782&location=127.0.0.1
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Tb-Partner-Auth:
+      - 459782:b44c3baa32b6476d9d88e8194d0eb1c6b777f76b
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 16 Aug 2012 16:49:56 GMT
+      Content-Type:
+      - text/xml
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - ! '*'
+      X-Tb-Host:
+      - stage301-sat.tokbox.com
+      Content-Length:
+      - '282'
+    body:
+      encoding: US-ASCII
+      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><sessions><Session><session_id>2_MX40NTk3ODJ-MTI3LjAuMC4xflRodSBBdWcgMTYgMDk6NDk6NTYgUERUIDIwMTJ-MC41MDk2NDYyfg</session_id><partner_id>459782</partner_id><create_dt>Thu
+        Aug 16 09:49:56 PDT 2012</create_dt></Session></sessions>
+    http_version: 
+  recorded_at: Thu, 16 Aug 2012 16:49:56 GMT
+recorded_with: VCR 2.2.4
