@@ -73,7 +73,7 @@ OpenTok SDK allows you to stich up to 4 videos together in an archive.
 Use your `OpenTokSDK` object to call stitchArchive  
 stitchArchive takes in 1 parameter and returns a hash object with code, message, and location if stitch is successful.  
 > archive_id (string) - REQUIRED  
-> returns:
+> returns:  
   {:code=>201, :message=>"Successfully Created", :location=>response["location"]}  
   {:code=>202, :message=>"Processing"}  
   {:code=>403, :message=>"Invalid Credentials"}  
