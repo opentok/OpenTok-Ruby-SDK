@@ -68,7 +68,7 @@ token = OTSDK.generateToken :session_id => session, :role => OpenTok::RoleConsta
 # Downloading Archive Videos
 To Download archived video, you must have an Archive ID which you get from the javascript library. If you are unfamiliar with archiving concepts, please visit our [archiving tutorial](http://www.tokbox.com/opentok/api/documentation/gettingstartedarchiving)  
 
-### Stitching Archives
+# Stitching Archives
 OpenTok SDK allows you to stich up to 4 videos together in an archive.  
 Use your `OpenTokSDK` object to call stitchArchive  
 stitchArchive takes in 1 parameter and returns a hash object with code, message, and location if stitch is successful.  
@@ -88,7 +88,7 @@ if result[:code] == 201
 end
 </pre>
 
-### Get Archive Manifest
+# Get Archive Manifest
 With your **moderator token** and OpentokSDK Object, you can generate OpenTokArchive Object, which contains information for all videos in the Archive  
 `get_archive_manifest()` takes in 2 parameters: **archiveId** and **moderator token**  
 > archive_id (string) - REQUIRED. 
@@ -101,7 +101,7 @@ Example:(Make sure you have the OpentokSDK Object)
 otArchive = OTSDK.get_archive_manifest(@archiveId, @token)
 </pre>
 
-### Get video ID
+# Get video ID
 `OpenTokArchive.resources` is an array of `OpenTokArchiveVideoResource` objects. OpenTokArchiveVideoResource has `getId()` method that returns the videoId
 `getId()` will return the video ID (a String)
 
@@ -112,7 +112,7 @@ otVideoResource = otArchive.resources[0]
 videoId = otVideoResource.getId()
 </pre>
 
-### Get Download Url
+# Get Download Url
 `OpenTokArchive` has `downloadArchiveURL` that will return an url string for downloading the video in the archive. You must call this function every time you want the file, because this url expires after 24 hours
 > video_id (string) - REQUIRED  
 > token (string) - REQUIRED  
