@@ -19,7 +19,6 @@ You need an api-key and secret. Request them at <http://www.tokbox.com/opentok/t
 # OpenTokSDK
 
 In order to use any of the server side functions, you must first create an `OpenTokSDK` object with your developer credentials.  
-
 `OpenTokSDK` takes 2-3 parameters:
 > key (string) - Given to you when you register  
 > secret (string) - Given to you when you register  
@@ -66,26 +65,28 @@ With the generated sessionId, you can start generating tokens for each user.
 token = OTSDK.generateToken :session_id => session, :role => OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
 </pre>
 
-### Downloading Archive Videos
-To Download archived video, you must have an Archive ID which you get from the javascript library
-
-#### Quick Overview of the javascript library: <http://www.tokbox.com/opentok/api/tools/js/documentation/api/Session.html#createArchive>
-1. Create an event listener on `archiveCreated` event: `session.addEventListener('archiveCreated', archiveCreatedHandler);`  
-2. Create an archive: `archive = session.createArchive(...);`  
-3. When archive is successfully created `archiveCreatedHandler` would be triggered. An Archive object containing `archiveId` property is passed into your function. Save this in your database, this archiveId is what you use to reference the archive for playbacks and download videos  
-4. After your archive has been created, you can start recording videos into it by calling `session.startRecording(archive)`  
- Optionally, you can also use the standalone archiving, which means that each archive would have only 1 video: <http://www.tokbox.com/opentok/api/tools/js/documentation/api/RecorderManager.html>
+# Downloading Archive Videos
+To Download archived video, you must have an Archive ID which you get from the javascript library. If you are unfamiliar with archiving concepts, please visit our [archiving tutorial](http://www.tokbox.com/opentok/api/documentation/gettingstartedarchiving)  
 
 ### Stitching Archives
-OpenTok SDK allows you to stich up to 4 videos together in an archive. Calling the stitchArchive function will return an object containing mp4 file of all the streams combined.  
-`result = OTSDK.stitchArchive archive_id`
+OpenTok SDK allows you to stich up to 4 videos together in an archive.  
+Use your `OpenTokSDK` object to call stitchArchive  
+stitchArchive takes in 1 parameter and returns a hash object with code, message, and location if stitch is successful.  
 > archive_id (string) - REQUIRED  
-Return:
-  {:code=>201, :message=>"Successfully Created", :location=>response["location"]}
-  {:code=>202, :message=>"Processing"}
-  {:code=>403, :message=>"Invalid Credentials"}
-  {:code=>404, :message=>"Archive Does Not Exist"}
-  {:code=>500, :message=>"Server Error"}
+> returns:
+  {:code=>201, :message=>"Successfully Created", :location=>response["location"]}  
+  {:code=>202, :message=>"Processing"}  
+  {:code=>403, :message=>"Invalid Credentials"}  
+  {:code=>404, :message=>"Archive Does Not Exist"}  
+  {:code=>500, :message=>"Server Error"}  
+
+Example:  
+<pre>
+result = OTSDK.stitchArchive archive_id
+if result[:code] == 201
+  return result[:location]
+end
+</pre>
 
 ### Get Archive Manifest
 With your **moderator token** and OpentokSDK Object, you can generate OpenTokArchive Object, which contains information for all videos in the Archive  
