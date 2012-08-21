@@ -172,4 +172,24 @@ describe OpenTok do
 #      }.to raise_error OpenTok::OpenTokException
 #    end
   end
+
+  describe "stitch api" do
+    use_vcr_cassette "archive_stitch"
+    it "should return stich url" do
+      OTKey = ENV['TB_KEY'] # Enter you OpenTok Key Here
+      OTSecret = ENV['TB_SECRET'] # Enter your OpenTok Secret Here
+      OTSDK = OpenTok::OpenTokSDK.new OTKey, OTSecret, true
+      a = OTSDK.stitchArchive("9cf9b35d-3c2f-432c-96b9-dbdf848ecf33")
+      p "=============="
+      p "=============="
+      p "=============="
+      p a[:code]
+      p a[:location]
+      p "=============="
+      p "=============="
+      p "=============="
+      p "=============="
+      a[:code].should == 201
+    end
+  end
 end

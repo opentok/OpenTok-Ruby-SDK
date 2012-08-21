@@ -14,7 +14,7 @@ module OpenTok
       @partner_secret = partner_secret
     end
 
-    def fetch(path, params={})
+    def sendRequest(path, params)
       url = URI.parse(@api_host + path)
 
       if params.empty?
@@ -35,6 +35,11 @@ module OpenTok
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
       res = http.start {|h| h.request(req) }
+      return res
+    end
+
+    def fetch(path, params={})
+      res = sendRequest(path, params)
 
       case res
       when Net::HTTPSuccess, Net::HTTPRedirection
