@@ -142,6 +142,26 @@ module OpenTok
     end
     alias_method :getArchiveManifest, :get_archive_manifest
 
+    def stitchArchive(aid)
+      stitchURL = "/archive/#{aid}/stitch"
+      request = OpenTok::Request.new(@api_url, nil, @partner_id, @partner_secret)
+      response = request.sendRequest(stitchURL, {test:'none'})
+      case response.code
+      when '201'
+        return {:code=>201, :message=>"Successfully Created", :location=>response["location"]}
+      when '202'
+        return {:code=>202, :message=>"Processing"}
+      when '403'
+        return {:code=>403, :message=>"Invalid Credentials"}
+      when '404'
+        return {:code=>404, :message=>"Archive Does Not Exist"}
+      else
+        return {:code=>500, :message=>"Server Error"}
+      end
+      return {}
+    end
+    alias_method :stitch, :get_archive_manifest
+
     protected
     def sign_string(data, secret)
       OpenSSL::HMAC.hexdigest(DIGEST, secret, data)

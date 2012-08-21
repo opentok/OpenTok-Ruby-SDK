@@ -76,6 +76,17 @@ To Download archived video, you must have an Archive ID which you get from the j
 4. After your archive has been created, you can start recording videos into it by calling `session.startRecording(archive)`  
  Optionally, you can also use the standalone archiving, which means that each archive would have only 1 video: <http://www.tokbox.com/opentok/api/tools/js/documentation/api/RecorderManager.html>
 
+### Stitching Archives
+OpenTok SDK allows you to stich up to 4 videos together in an archive. Calling the stitchArchive function will return an object containing mp4 file of all the streams combined.  
+`result = OTSDK.stitchArchive archive_id`
+> archive_id (string) - REQUIRED  
+Return:
+  {:code=>201, :message=>"Successfully Created", :location=>response["location"]}
+  {:code=>202, :message=>"Processing"}
+  {:code=>403, :message=>"Invalid Credentials"}
+  {:code=>404, :message=>"Archive Does Not Exist"}
+  {:code=>500, :message=>"Server Error"}
+
 ### Get Archive Manifest
 With your **moderator token** and OpentokSDK Object, you can generate OpenTokArchive Object, which contains information for all videos in the Archive  
 `get_archive_manifest()` takes in 2 parameters: **archiveId** and **moderator token**  
