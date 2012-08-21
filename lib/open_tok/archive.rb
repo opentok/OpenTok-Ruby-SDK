@@ -27,7 +27,11 @@ module OpenTok
         # this token check supports previous implementation of download_archive_url
         return "#{@api_url}/archive/url/#{@archive_id}/#{video_id}"
       else
-        return do_request "/archive/url/#{@archive_id}/#{video_id}", token
+        doc = do_request "/archive/url/#{@archive_id}/#{video_id}", token
+        if not doc.get_elements('Errors').empty?
+          raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
+        end
+        return doc
       end
     end
     alias_method :downloadArchiveURL, :download_archive_url
