@@ -12,7 +12,7 @@ gem 'opentok'
 
 To install as a regular gem just type `gem install opentok`
 
-# Requirements
+## Requirements
 
 You need an api-key and secret. Request them at <http://www.tokbox.com/opentok/tools/js/apikey>.  
 
@@ -73,7 +73,7 @@ OpenTok SDK allows you to stich up to 4 videos together in an archive.
 Use your `OpenTokSDK` object to call stitchArchive  
 stitchArchive takes in 1 parameter and returns a hash object with code, message, and location if stitch is successful.  
 > archive_id (string) - REQUIRED  
-> returns:  
+> **returns**:  
   {:code=>201, :message=>"Successfully Created", :location=>response["location"]}  
   {:code=>202, :message=>"Processing"}  
   {:code=>403, :message=>"Invalid Credentials"}  
@@ -90,24 +90,26 @@ end
 
 # Get Archive Manifest
 With your **moderator token** and OpentokSDK Object, you can generate OpenTokArchive Object, which contains information for all videos in the Archive  
-`get_archive_manifest()` takes in 2 parameters: **archiveId** and **moderator token**  
+`getArchiveManifest()` takes in 2 parameters: **archiveId** and **moderator token**  
 > archive_id (string) - REQUIRED. 
-> **returns** an `OpenTokArchive` object. The *resources* property of this object is array of `OpenTokArchiveVideoResource` objects, and each `OpenTokArchiveVideoResource` object represents a video in the archive.
+> token (string) - REQUIRED. 
+> **returns** an `OpenTokArchive` object.  
+  The *resources* property of this object is array of `OpenTokArchiveVideoResource` objects, and each `OpenTokArchiveVideoResource` object represents a video in the archive.
 
 Example:(Make sure you have the OpentokSDK Object)
 <pre>
-@token = 'moderator_token'
+@token = '...'  # token generated with corresponding session
 @archiveId = '5f74aee5-ab3f-421b-b124-ed2a698ee939' #Obtained from Javascript Library
-otArchive = OTSDK.get_archive_manifest(@archiveId, @token)
+otArchive = OTSDK.getArchiveManifest(@archiveId, @token)
 </pre>
 
 # Get video ID
-`OpenTokArchive.resources` is an array of `OpenTokArchiveVideoResource` objects. OpenTokArchiveVideoResource has `getId()` method that returns the videoId
+`OpenTokArchive.resources` is an array of `OpenTokArchiveVideoResource` objects. OpenTokArchiveVideoResource has `getId()` method that returns the video_id  
 `getId()` will return the video ID (a String)
 
 Example:
 <pre>
-otArchive = OTSDK.get_archive_manifest(@archiveId, @token)
+otArchive = OTSDK.getArchiveManifest(@archiveId, @token)
 otVideoResource = otArchive.resources[0]
 videoId = otVideoResource.getId()
 </pre>
