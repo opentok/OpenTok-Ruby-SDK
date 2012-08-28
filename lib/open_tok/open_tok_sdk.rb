@@ -49,24 +49,10 @@ module OpenTok
     #
     # The first two attributes are required; +parnter_id+ and +partner_secret+ are the api-key and secret
     # that are provided to you.
-    #
-    # You can also pass in optional options;
-    # * +:api_url+ sets the location of the api (staging or production)
-    def initialize(partner_id, partner_secret, options = nil)
+    def initialize(partner_id, partner_secret)
       @partner_id = partner_id
       @partner_secret = partner_secret.strip
-
-      if options.is_a?(::Hash)
-        # user input hash parameter
-        @api_url = options[:api_url] || API_URL
-      else
-        # use input true/false for parameter
-        @api_url = (options ? API_URL_PROD : API_URL)
-      end
-
-      unless @api_url
-        @api_url = API_URL
-      end
+      @api_url = API_URL
     end
 
     # Generate token for the given session_id. The options you can provide are;
@@ -98,7 +84,7 @@ module OpenTok
       if not opts[:expire_time].nil?
         raise OpenTokException.new 'Expire time must be a number' if not opts[:expire_time].is_a?(Numeric)
         raise OpenTokException.new 'Expire time must be in the future' if opts[:expire_time] < Time.now.to_i
-        raise OpenTokException.new 'Expire time must be in the next 7 days' if opts[:expire_time] > (Time.now.to_i + 604800)
+        raise OpenTokException.new 'Expire time must be in the next 30 days' if opts[:expire_time] > (Time.now.to_i + 2592000)
         data_params[:expire_time] = opts[:expire_time].to_i
       end
 

@@ -1,3 +1,3 @@
 module Opentok
-  VERSION = "0.0.73"
+  VERSION = "0.0.8"
 end
