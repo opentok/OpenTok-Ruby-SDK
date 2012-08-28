@@ -2,17 +2,16 @@
  OpenTok Ruby Library
  http://www.tokbox.com/
 
- Copyright 2010 - 2011, TokBox, Inc.
+ Copyright 2010 - 2012, TokBox, Inc.
 
- Last modified: 2011-02-17
+ Last modified: 2012-08-28
 =end
 
 module OpenTok
   require 'rubygems'
 
-  VERSION = "tbrb-v0.91.2011-02-17"
-  API_URL = "https://staging.tokbox.com/hl"
-  API_URL_PROD = 'https://api.opentok.com/hl'
+  VERSION = "tbrb-v0.91.2012-08-28"
+  API_URL = "https://api.opentok.com"
 
   require 'open_tok/exception'
   require 'open_tok/utils'

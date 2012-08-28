@@ -14,7 +14,7 @@ To install as a regular gem just type `gem install opentok`
 
 ## Requirements
 
-You need an api-key and secret. Request them at <http://www.tokbox.com/opentok/tools/js/apikey>.  
+You need an api-key and secret. Request them at <http://www.tokbox.com/opentok/tools/js/apikey>.
 
 # OpenTokSDK
 
@@ -25,15 +25,11 @@ In order to use any of the server side functions, you must first create an `Open
 > Production (Boolean) - OPTIONAL. Puts your app in staging or production environment. Default value is `false`  
 For more information about production apps, check out <http://www.tokbox.com/opentok/api/tools/js/launch>
 
-
 <pre>
-# Creating an OpenTok Object in Staging Environment
+# Creating an OpenTok Object
 API_KEY = ''                # should be a string
 API_SECRET = ''            # should be a string
 OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET
-
-# Creating an OpenTok Object in Production Environment
-OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET, true
 </pre>
 
 
