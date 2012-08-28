@@ -5,30 +5,18 @@ describe "Functionality Test" do
   let(:api_key) { '459782' }
   let(:api_secret) { '***REMOVED***' }
   let(:host) { '127.0.0.1' }
-  let(:api_staging_url) { 'https://staging.tokbox.com/hl' }
-  let(:api_production_url) { 'https://api.opentok.com/hl' }
+  let(:api_url) { 'https://api.opentok.com' }
+  let(:api_test_url) { 'https://api.example.com' }
 
   describe "test Initializers" do
-    it "should set staging URL with no options" do
+    it "should set api URL with no options" do
       opentok = OpenTok::OpenTokSDK.new api_key, api_secret
-      opentok.api_url.should eq api_staging_url
+      opentok.api_url.should eq api_url
     end
 
     it "should be possible to set the api url as an option" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, :api_url => api_production_url
-      opentok.api_url.should eq api_production_url
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, :api_url => api_staging_url
-      opentok.api_url.should eq api_staging_url
-    end
-
-    it "should set staging URL with option false" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, false
-      opentok.api_url.should eq api_staging_url
-    end
-
-    it "should set production URL with option true" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, true
-      opentok.api_url.should eq api_production_url
+      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, :api_url => api_test_url
+      opentok.api_url.should eq api_test_url
     end
   end
 
@@ -71,8 +59,7 @@ describe OpenTok do
 
   let(:api_key) { '459782' }
   let(:api_secret) { '***REMOVED***' }
-  let(:api_staging_url) { 'https://staging.tokbox.com/hl' }
-  let(:api_production_url) { 'https://api.opentok.com/hl' }
+  let(:api_url) { 'https://api.opentok.com/hl' }
   let(:host) { 'localhost' }
 
   let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
@@ -88,15 +75,15 @@ describe OpenTok do
       opentok.should be_instance_of OpenTok::OpenTokSDK
     end
 
-    it "a new OpenTokSDK object should point to the staging environment by default" do
-      opentok.api_url.should eq api_production_url
+    it "a new OpenTokSDK object should point to the production environment by default" do
+      opentok.api_url.should eq api_url
     end
 
     describe "Archiving downloads" do
       use_vcr_cassette "archiving_downloads"
 
       let(:session) { '1_MX4xNDk3MTI5Mn5-MjAxMi0wNS0yMCAwMTowMzozMS41MDEzMDArMDA6MDB-MC40NjI0MjI4MjU1MDF-' }
-      let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>api_production_url} }
+      let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
       let(:token) { opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR}) }
       let(:archiveId) { '5f74aee5-ab3f-421b-b124-ed2a698ee939' }
 

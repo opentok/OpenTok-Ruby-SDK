@@ -118,7 +118,7 @@ module OpenTok
     # This method takes two parameters. The first parameter is the +archive_id+ of the archive that contains the video (a String). The second parameter is the +token+ (a String)
     # The method returns an +OpenTok::Archive+ object. The resources property of this object is an array of OpenTok::ArchiveVideoResource objects. Each OpenTok::ArchiveVideoResource object represents a video in the archive.
     def get_archive_manifest(archive_id, token)
-      # TODO: verify that token is MODERATOR token, Staging and production
+      # TODO: verify that token is MODERATOR token
 
       doc = do_request("/archive/getmanifest/#{archive_id}", {}, token)
       if not doc.get_elements('Errors').empty?
