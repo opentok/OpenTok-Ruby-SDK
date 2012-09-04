@@ -107,7 +107,7 @@ module OpenTok
     # See http://www.tokbox.com/opentok/tools/documentation/overview/session_creation.html for more information
     def create_session(location='', opts={})
       opts.merge!({:partner_id => @partner_id, :location=>location})
-      doc = do_request("/session/create", opts)
+      doc = do_request("/hl/session/create", opts)
       if not doc.get_elements('Errors').empty?
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
@@ -120,7 +120,7 @@ module OpenTok
     def get_archive_manifest(archive_id, token)
       # TODO: verify that token is MODERATOR token
 
-      doc = do_request("/archive/getmanifest/#{archive_id}", {}, token)
+      doc = do_request("/hl/archive/getmanifest/#{archive_id}", {}, token)
       if not doc.get_elements('Errors').empty?
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
