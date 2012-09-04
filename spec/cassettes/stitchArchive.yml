@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.opentok.com/hl/archive/9cf9b35d-3c2f-432c-96b9-dbdf848ecf33/stitch
+    uri: https://api.opentok.com/hl/archive/200567af-0726-4e93-883b-fe0426d6310a/stitch
     body:
       encoding: US-ASCII
-      string: ""
+      string: test=none
     headers:
       Accept:
       - ! '*/*'
@@ -18,27 +18,25 @@ http_interactions:
   response:
     status:
       code: 201
-      message: OK
+      message: Created
     headers:
       Server:
       - nginx
       Date:
-      - Thu, 16 Aug 2012 16:51:48 GMT
+      - Tue, 04 Sep 2012 23:27:14 GMT
       Content-Type:
-      - text/xml
+      - text/plain
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - ! '*'
-      X-Tb-Host:
-      - stage301-sat.tokbox.com
-      Content-Length:
-      - '268'
       Location:
-      - 'https://tokbox.com.amazonaws.blablabla.com?KEY=4ag4aga'
+      - https://tokbox.com.production.s3.amazonaws.com/459782%2F200567af-0726-4e93-883b-fe0426d6310a%2Fstitch.mp4?Expires=1346887634&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=6%2BihfyAJiQGjmf%2FHV1BGCe14rr8%3D
+      X-Tb-Host:
+      - oms407-oak.tokbox.com
+      Content-Length:
+      - '0'
     body:
       encoding: US-ASCII
-      string: ""
+      string: ''
     http_version: 
-  recorded_at: Thu, 16 Aug 2012 16:51:48 GMT
+  recorded_at: Tue, 04 Sep 2012 23:27:26 GMT
 recorded_with: VCR 2.2.4

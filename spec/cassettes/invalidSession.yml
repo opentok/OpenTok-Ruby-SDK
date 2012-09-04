@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://staging.tokbox.com/hl/session/create
+    uri: https://api.opentok.com/session/create
     body:
       encoding: US-ASCII
       string: partner_id=0&location=localhost
@@ -17,22 +17,25 @@ http_interactions:
       - ! '0:'
   response:
     status:
-      code: 403
-      message: Forbidden
+      code: 200
+      message: OK
     headers:
       Server:
       - nginx
       Date:
-      - Thu, 16 Aug 2012 16:51:18 GMT
+      - Tue, 04 Sep 2012 23:27:12 GMT
       Content-Type:
-      - text/plain; charset=iso-8859-1
+      - text/plain; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
-      Content-Length:
-      - '0'
     body:
       encoding: US-ASCII
-      string: ''
+      string: ! '<Errors><error code="403"><notAuthorized message="The API secret
+        did not match, Invalid credentials passed"/></error></Errors>
+
+'
     http_version: 
-  recorded_at: Thu, 16 Aug 2012 16:51:18 GMT
+  recorded_at: Tue, 04 Sep 2012 23:27:24 GMT
 recorded_with: VCR 2.2.4

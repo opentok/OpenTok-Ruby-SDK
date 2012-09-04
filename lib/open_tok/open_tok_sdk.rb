@@ -49,7 +49,7 @@ module OpenTok
     #
     # The first two attributes are required; +parnter_id+ and +partner_secret+ are the api-key and secret
     # that are provided to you.
-    def initialize(partner_id, partner_secret)
+    def initialize(partner_id, partner_secret, backSupport="")
       @partner_id = partner_id
       @partner_secret = partner_secret.strip
       @api_url = API_URL
@@ -129,7 +129,7 @@ module OpenTok
     alias_method :getArchiveManifest, :get_archive_manifest
 
     def stitchArchive(aid)
-      stitchURL = "/archive/#{aid}/stitch"
+      stitchURL = "/hl/archive/#{aid}/stitch"
       request = OpenTok::Request.new(@api_url, nil, @partner_id, @partner_secret)
       response = request.sendRequest(stitchURL, {test:'none'})
       case response.code
@@ -146,7 +146,7 @@ module OpenTok
       end
       return {}
     end
-    alias_method :stitch, :get_archive_manifest
+    alias_method :stitch, :stitchArchive
 
     protected
     def sign_string(data, secret)
