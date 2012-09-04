@@ -1,27 +1,33 @@
 require 'spec_helper'
 
-describe "Functionality Test" do
+describe OpenTok do
 
   let(:api_key) { '459782' }
   let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
-  let(:host) { '127.0.0.1' }
   let(:api_url) { 'https://api.opentok.com' }
-  let(:api_test_url) { 'https://api.example.com' }
+  let(:host) { 'localhost' }
+
+  let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
 
   describe "test Initializers" do
+    it "should be backwards compatible if user set api URL with no effect" do
+      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>"bla bla"}
+      opentok.api_url.should eq api_url
+    end
+
     it "should set api URL with no options" do
       opentok = OpenTok::OpenTokSDK.new api_key, api_secret
       opentok.api_url.should eq api_url
     end
 
-    it "should be possible to set the api url as an option" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, :api_url => api_test_url
-      opentok.api_url.should eq api_test_url
+    it "should be OpenTok SDK Object" do
+      opentok = OpenTok::OpenTokSDK.new api_key, api_secret
+      opentok.should be_instance_of OpenTok::OpenTokSDK
     end
   end
 
   describe "Generate Sessions" do
-    use_vcr_cassette "generate_sessions"
+    use_vcr_cassette "session"
 
     let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
 
@@ -34,149 +40,87 @@ describe "Functionality Test" do
       session = opentok.createSession host
       session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
     end
+
+    it "should generate valid p2p session" do
+      # Creating Session object with p2p enabled
+      sessionProperties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}    # or disabled
+      session = opentok.createSession( @location, sessionProperties )
+      session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
+    end
+  end
+
+  describe "invalid Sessions" do
+    use_vcr_cassette "invalidSession"
+    it "should raise an exception with an invalid key and secret" do
+      invalidOT = OpenTok::OpenTokSDK.new 0, ''
+
+      expect{
+        session = invalidOT.create_session host
+      }.to raise_error OpenTok::OpenTokException
+    end
   end
 
   describe "Generate Tokens" do
-    use_vcr_cassette "generate_tokens"
-
     let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
     let(:session) { opentok.createSession host }
-
     it "should generate valid token" do
       token = opentok.generate_token({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
       token.should match(/(T1==)+[0-9A-z_]+/)
     end
-
     it "should generate valid token camelCase" do
       token = opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
       token.should match(/(T1==)+[0-9A-z_]+/)
     end
-  end
-
-end
-
-describe OpenTok do
-
-  let(:api_key) { '459782' }
-  let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
-  let(:api_url) { 'https://api.opentok.com/hl' }
-  let(:host) { 'localhost' }
-
-  let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
-
-  describe "Production Environment" do
-
-    let(:api_key) { '11421872' }
-    let(:api_secret) { '296cebc2fc4104cd348016667ffa2a3909ec636f' }
-    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>api_production_url} }
-    let(:opts) { {:partner_id => api_key, :location=>host} }
-
-    it "should be possible to valid a OpenTokSDK object with a valid key and secret" do
-      opentok.should be_instance_of OpenTok::OpenTokSDK
-    end
-
-    it "a new OpenTokSDK object should point to the production environment by default" do
-      opentok.api_url.should eq api_url
-    end
-
-    describe "Archiving downloads" do
-      use_vcr_cassette "archiving_downloads"
-
-      let(:session) { '1_MX4xNDk3MTI5Mn5-MjAxMi0wNS0yMCAwMTowMzozMS41MDEzMDArMDA6MDB-MC40NjI0MjI4MjU1MDF-' }
-      let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
-      let(:token) { opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR}) }
-      let(:archiveId) { '5f74aee5-ab3f-421b-b124-ed2a698ee939' }
-
-      it "should have archive resources" do
-        otArchive = opentok.getArchiveManifest(archiveId, token)
-        otArchiveResource = otArchive.resources[0]
-        vid = otArchiveResource.getId()
-        vid.should match(/[0-9A-z=]+/)
-      end
-
-      it "should return download url" do
-        otArchive = opentok.get_archive_manifest(archiveId, token)
-        otArchiveResource = otArchive.resources[0]
-        vid = otArchiveResource.getId()
-        url = otArchive.downloadArchiveURL(vid, token)
-        url.start_with?('http').should eq true
-      end
-
-      it "should return file url" do
-        otArchive = opentok.get_archive_manifest(archiveId, token)
-        otArchiveResource = otArchive.resources[0]
-        vid = otArchiveResource.getId()
-        url = otArchive.downloadArchiveURL(vid, token)
-        url.start_with?('http').should eq true
-      end
-    end
-  end
-
-
-  describe "Session creation" do
-    use_vcr_cassette "session_creation"
-
-    it "should raise an exception with an invalid key and secret" do
-      opentok = OpenTok::OpenTokSDK.new 0, ''
-
-      expect{
-        session = opentok.create_session host
-      }.to raise_error OpenTok::OpenTokException
-    end
-
-  end
-
-  describe "Token creation" do
-    use_vcr_cassette "token_creation"
-
-    let(:valid_session) { opentok.create_session(host).to_s }
-
-    it "should be possible to create a token" do
-      token = opentok.generate_token :session_id => valid_session
-
-      token.should match(/\A[0-9A-z=]+\Z/)
-    end
-
     it "should be able to set parameters in token" do
-      token = opentok.generate_token :session_id => valid_session, :role=> OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
-
+      token = opentok.generate_token :session_id => session, :role=> OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
       str = token[4..token.length]
       decoded = Base64.decode64(str)
-
       decoded.should match(/publisher.*username.*Bob.*level.*4/)
     end
   end
 
-  describe "Archive Download" do
-    use_vcr_cassette "archive_download"
 
-    let(:valid_session) { opentok.create_session(host).to_s }
+  describe "Archiving downloads" do
+    use_vcr_cassette "archives"
+    let(:api_key) { '459782' }
+    let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
+    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>""} }
+    let(:opts) { {:partner_id => api_key, :location=>host} }
 
-#    it "If token does not have moderator role, raise error" do
-#      token = opentok.generate_token(:session_id=>valid_session)
-#      expect{
-#        opentok.get_archive_manifest("", token)
-#      }.to raise_error OpenTok::OpenTokException
-#    end
+    let(:session) { '1_MX40NTk3ODJ-MTI3LjAuMC4xflR1ZSBTZXAgMDQgMTQ6NTM6MDIgUERUIDIwMTJ-MC41MjExODEzfg' }
+    let(:token) { opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR}) }
+    let(:archiveId) { "200567af-0726-4e93-883b-fe0426d6310a" }
+
+    it "should have archive resources" do
+      otArchive = opentok.getArchiveManifest(archiveId, token)
+      otArchiveResource = otArchive.resources[0]
+      vid = otArchiveResource.getId()
+      vid.should match(/[0-9A-z=]+/)
+    end
+
+    it "should return download url" do
+      otArchive = opentok.get_archive_manifest(archiveId, token)
+      otArchiveResource = otArchive.resources[0]
+      vid = otArchiveResource.getId()
+      url = otArchive.downloadArchiveURL(vid, token)
+      url.start_with?('http').should eq true
+    end
   end
 
   describe "stitch api" do
-    use_vcr_cassette "archive_stitch"
+    use_vcr_cassette "stitchArchive"
+    let(:api_key) { '459782' }
+    let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
+    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>""} }
+    let(:session) { '1_MX40NTk3ODJ-MTI3LjAuMC4xflR1ZSBTZXAgMDQgMTQ6NTM6MDIgUERUIDIwMTJ-MC41MjExODEzfg' }
+    let(:token) { opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR}) }
+    let(:archiveId) { "200567af-0726-4e93-883b-fe0426d6310a" }
+
     it "should return stich url" do
-      OTKey = ENV['TB_KEY'] # Enter you OpenTok Key Here
-      OTSecret = ENV['TB_SECRET'] # Enter your OpenTok Secret Here
-      OTSDK = OpenTok::OpenTokSDK.new OTKey, OTSecret, true
-      a = OTSDK.stitchArchive("9cf9b35d-3c2f-432c-96b9-dbdf848ecf33")
-      p "=============="
-      p "=============="
-      p "=============="
-      p a[:code]
-      p a[:location]
-      p "=============="
-      p "=============="
-      p "=============="
-      p "=============="
+      a = opentok.stitchArchive( archiveId )
       a[:code].should == 201
+      a[:location].start_with?('http').should eq true
     end
   end
+
 end
