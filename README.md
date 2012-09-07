@@ -62,6 +62,21 @@ token = OTSDK.generateToken :session_id => session, :role => OpenTok::RoleConsta
 # Downloading Archive Videos
 To Download archived video, you must have an Archive ID which you get from the javascript library. If you are unfamiliar with archiving concepts, please visit our [archiving tutorial](http://www.tokbox.com/opentok/api/documentation/gettingstartedarchiving)  
 
+# Delete Archives
+OpenTok SDK has a function `deleteArchive` that lets you delete videos in a recorded archive. 
+Use your `OpenTokSDK` object to call `deleteArchive`
+`deleteArchive` takes in 2 parameters and returns a true or false boolean representing the success of the delete request
+> archive_id (string) - REQUIRED
+> token (string) - Required. This token MUST have a moderator role, and it should be generated with the same session_id used to create the archive  
+> **returns**  
+  true: Success, the archive is deleted  
+  false: Archive does not exist (perhaps it was already deleted or never created), invalid token (perhaps it does not have the moderator role or it's generated with the wrong session_id)
+
+Example:
+<pre>
+status = OTSDK.deleteArchive( archive_id, token )
+</pre>
+
 # Stitching Archives
 OpenTok SDK allows you to stich up to 4 videos together in an archive.  
 Use your `OpenTokSDK` object to call stitchArchive  
@@ -118,3 +133,4 @@ Example:
 <pre>
 url = otArchive.downloadArchiveURL(video_id, token)
 </pre>
+
