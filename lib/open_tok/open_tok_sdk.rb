@@ -128,6 +128,20 @@ module OpenTok
     end
     alias_method :getArchiveManifest, :get_archive_manifest
 
+    def delete_archive( aid, token )
+      deleteURL = "/hl/archive/delete/#{aid}"
+      doc = do_request( deleteURL, {test:'none'}, token )
+      errors = doc.get_elements('Errors')
+      if doc.get_elements('Errors').empty?
+        #error = errors[0].get_elements('error')[0]
+        #errorCode = attributes['code']
+        return true
+      else
+        return false
+      end
+    end
+    alias_method :deleteArchive, :delete_archive
+
     def stitchArchive(aid)
       stitchURL = "/hl/archive/#{aid}/stitch"
       request = OpenTok::Request.new(@api_url, nil, @partner_id, @partner_secret)

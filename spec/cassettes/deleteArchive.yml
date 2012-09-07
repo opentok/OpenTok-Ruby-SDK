@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/hl/archive/delete/200567af-0726-4e93-883b-fe0426d6310a
+    body:
+      encoding: US-ASCII
+      string: test=none
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Tb-Token-Auth:
+      - T1==cGFydG5lcl9pZD00NTk3ODImc2lnPTEyMTU4N2FiMGU3YmQzZTVmNjVjOGQxNjQ1NGQ4Y2UxM2RjZTI5YzI6cm9sZT1wdWJsaXNoZXImc2Vzc2lvbl9pZD0xX01YNDBOVGszT0RKLU1USTNMakF1TUM0eGZsUjFaU0JUWlhBZ01EUWdNVFE2TlRNNk1ESWdVRVJVSURJd01USi1NQzQxTWpFeE9ERXpmZyZjcmVhdGVfdGltZT0xMzQ3MDU0OTc3Jm5vbmNlPTAuNTAzNjU0NzIyODY0NzU1Mg==
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 07 Sep 2012 21:56:12 GMT
+      Content-Type:
+      - text/xml; charset=utf-8
+      Connection:
+      - keep-alive
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '124'
+    body:
+      encoding: US-ASCII
+      string: ! '<Errors><error code="404"><itemNotFound message="Archive 200567af-0726-4e93-883b-fe0426d6310a
+        not found"/></error></Errors>
+
+'
+    http_version: 
+  recorded_at: Fri, 07 Sep 2012 21:56:17 GMT
+recorded_with: VCR 2.2.4
