@@ -59,14 +59,14 @@ With the generated sessionId, you can start generating tokens for each user.
 token = OTSDK.generateToken :session_id => session, :role => OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
 </pre>
 
-# Downloading Archive Videos
-To Download archived video, you must have an Archive ID which you get from the javascript library. If you are unfamiliar with archiving concepts, please visit our [archiving tutorial](http://www.tokbox.com/opentok/api/documentation/gettingstartedarchiving)  
+# Manipulating Archive Videos
+To Download or delete archived video, you must have an Archive ID which you get from the javascript library. If you are unfamiliar with archiving concepts, please visit our [archiving tutorial](http://www.tokbox.com/opentok/api/documentation/gettingstartedarchiving)  
 
 # Delete Archives
 OpenTok SDK has a function `deleteArchive` that lets you delete videos in a recorded archive. 
 Use your `OpenTokSDK` object to call `deleteArchive`
 `deleteArchive` takes in 2 parameters and returns a true or false boolean representing the success of the delete request
-> archive_id (string) - REQUIRED
+> archive_id (string) - REQUIRED  
 > token (string) - Required. This token MUST have a moderator role, and it should be generated with the same session_id used to create the archive  
 > **returns**  
   true: Success, the archive is deleted  
@@ -74,7 +74,7 @@ Use your `OpenTokSDK` object to call `deleteArchive`
 
 Example:
 <pre>
-status = OTSDK.deleteArchive( archive_id, token )
+successful = OTSDK.deleteArchive( archive_id, token )
 </pre>
 
 # Stitching Archives
