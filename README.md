@@ -138,7 +138,8 @@ url = otArchive.downloadArchiveURL(video_id, token)
 
 # Contributing
 To contribute, simple fork this repository and send a pull request when you are done.  
+Before you send pull requests, make sure all test cases are passing.  
 
 To install necessary gems, type `bundle install` in the root directory.  
-Before you send pull requests, make sure all test cases are passing.  
-To run test cases, type 'rspec spec/' in the root directory.   
+
+To run test cases, type `rspec spec/` in the root directory.   
