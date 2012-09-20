@@ -51,7 +51,7 @@ module OpenTok
     # that are provided to you.
     def initialize(partner_id, partner_secret, backSupport="")
       @partner_id = partner_id
-      @partner_secret = partner_secret.strip
+      @partner_secret = partner_secret
       @api_url = API_URL
     end
 
