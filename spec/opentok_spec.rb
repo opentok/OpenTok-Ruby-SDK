@@ -27,7 +27,7 @@ describe OpenTok do
   end
 
   describe "Generate Sessions" do
-    #use_vcr_cassette "session"
+    use_vcr_cassette "session"
 
     let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
 
@@ -50,7 +50,7 @@ describe OpenTok do
   end
 
   describe "invalid Sessions" do
-    #use_vcr_cassette "invalidSession"
+    use_vcr_cassette "invalidSession"
     it "should raise an exception with an invalid key and secret" do
       invalidOT = OpenTok::OpenTokSDK.new 0, ''
 
@@ -81,7 +81,7 @@ describe OpenTok do
 
 
   describe "Archiving downloads" do
-    #use_vcr_cassette "archives"
+    use_vcr_cassette "archives"
     let(:api_key) { '459782' }
     let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
     let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>""} }
