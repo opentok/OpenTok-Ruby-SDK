@@ -28,9 +28,6 @@ module OpenTok
         return "#{@api_url}/archive/url/#{@archive_id}/#{video_id}"
       else
         doc = do_request "/archive/url/#{@archive_id}/#{video_id}", token
-        if doc.split("http").length < 2
-          raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
-        end
         return doc
       end
     end
