@@ -131,7 +131,6 @@ module OpenTok
     def delete_archive( aid, token )
       deleteURL = "/hl/archive/delete/#{aid}"
       doc = do_request( deleteURL, {:test => 'none'}, token )
-      p doc, deleteURL, token
       errors = doc.get_elements('Errors')
       if doc.get_elements('Errors').empty?
         #error = errors[0].get_elements('error')[0]
