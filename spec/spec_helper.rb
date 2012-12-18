@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../lib/opentok.rb'
+require 'opentok'
 
 require 'vcr'
 require 'webmock'
