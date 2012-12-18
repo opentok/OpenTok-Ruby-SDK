@@ -24,18 +24,13 @@ module OpenTok
         req.set_form_data(params)
       end
 
-      if @token
-        req.add_field 'X-TB-TOKEN-AUTH', @token
-      elsif @partner_id && @partner_secret
-        req.add_field 'X-TB-PARTNER-AUTH', "#{@partner_id}:#{@partner_secret}"
-      end
+      req = set_headers(req)
 
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = @api_host.start_with?("https")
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http.verify_mode = OpenSSL::SSL::VERIFY_PEER | OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT
 
-      res = http.start {|h| h.request(req) }
-      return res
+      http.start {|h| h.request(req) }
     end
 
     def fetch(path, params={})
@@ -52,6 +47,17 @@ module OpenTok
       raise OpenTokException.new "Unable to create fufill request: #{e}"
     rescue NoMethodError => e
       raise OpenTokException.new "Unable to create a fufill request at this time: #{e}"
+    end
+
+    private
+
+    def set_headers(req)
+      if @token
+        req.add_field 'X-TB-TOKEN-AUTH', @token
+      elsif @partner_id && @partner_secret
+        req.add_field 'X-TB-PARTNER-AUTH', "#{@partner_id}:#{@partner_secret}"
+      end
+      req
     end
   end
 end

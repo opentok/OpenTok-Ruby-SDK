@@ -7,18 +7,13 @@
  Last modified: 2012-08-28
 =end
 
+require 'rubygems'
+
 module OpenTok
-  require 'rubygems'
 
   VERSION = "tbrb-v0.91.2012-08-28"
-  API_URL = "https://api.opentok.com"
+  API_URL = "https://api.opentok.com/hl"
 
-  require 'open_tok/exception'
-  require 'open_tok/utils'
-  require 'open_tok/request'
-  require 'open_tok/open_tok_sdk'
-  require 'open_tok/session'
-  require 'open_tok/archive'
-  require 'open_tok/archive_video_resource'
-  require 'open_tok/archive_timeline_event'
+  autoload :OpenTokSDK, 'open_tok/open_tok_sdk'
+
 end
