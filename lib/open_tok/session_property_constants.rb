@@ -1,17 +1,30 @@
 
 module OpenTok
 
-  # * +ECHOSUPPRESSION_ENABLED+ boolean
-  # * +MULTIPLEXER_NUMOUTPUTSTREAMS+ integer
-  # * +MULTIPLEXER_SWITCHTYPE+ integer
-  # * +MULTIPLEXER_SWITCHTIMEOUT+ integer
-  # * +P2P_PREFERENCE+ string
+  ##
+  # Preferences that could be defined while creating a session
   module SessionPropertyConstants
-    ECHOSUPPRESSION_ENABLED = "echoSuppression.enabled" #Boolean
-    MULTIPLEXER_NUMOUTPUTSTREAMS = "multiplexer.numOutputStreams" #Integer
-    MULTIPLEXER_SWITCHTYPE = "multiplexer.switchType" #Integer
-    MULTIPLEXER_SWITCHTIMEOUT = "multiplexer.switchTimeout" #Integer
-    P2P_PREFERENCE = "p2p.preference" #String
+
+    # @deprecated (feature deleted in OpenTok v0.91.48)
+    # @param [Boolean]
+    ECHOSUPPRESSION_ENABLED = 'echoSuppression.enabled'
+
+    # @deprecated (feature deleted in OpenTok v0.91.48)
+    # @param [Integer]
+    MULTIPLEXER_NUMOUTPUTSTREAMS = 'multiplexer.numOutputStreams'
+
+    # @deprecated (feature deleted in OpenTok v0.91.48)
+    # @param [Integer]
+    MULTIPLEXER_SWITCHTYPE = 'multiplexer.switchType'
+
+    # @deprecated (feature deleted in OpenTok v0.91.48)
+    # @param [Integer]
+    MULTIPLEXER_SWITCHTIMEOUT = 'multiplexer.switchTimeout'
+
+    # Whether the session's streams will be transmitted directly between peers
+    # @param [disabled, enabled]
+    P2P_PREFERENCE = 'p2p.preference'
+
   end
 
 end
