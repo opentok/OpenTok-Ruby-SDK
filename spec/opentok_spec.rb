@@ -4,7 +4,7 @@ describe OpenTok do
 
   let(:api_key) { '459782' }
   let(:api_secret) { '***REMOVED***' }
-  let(:api_url) { 'https://api.opentok.com' }
+  let(:api_url) { 'https://api.opentok.com/hl' }
   let(:host) { 'localhost' }
 
   let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
