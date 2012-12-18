@@ -7,6 +7,7 @@
 
 module OpenTok
 
+  ##
   # The session object that contains the session_id
   class Session
     attr_reader :session_id
@@ -18,7 +19,7 @@ module OpenTok
     end
 
     def to_s
-      session_id
+      @session_id
     end
   end
 end

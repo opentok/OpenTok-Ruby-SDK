@@ -12,17 +12,17 @@ require 'rexml/document'
 
 require 'open_tok/utils'
 require 'open_tok/request'
-require 'open_tok/session'
 require 'open_tok/archive'
 require 'open_tok/archive_video_resource'
 require 'open_tok/archive_timeline_event'
 
 
-DIGEST  = OpenSSL::Digest::Digest.new('sha1')
+DIGEST  = OpenSSL::Digest::Digest.new 'sha1'
 
 module OpenTok
 
   autoload :OpenTokException, 'open_tok/exception'
+  autoload :Session, 'open_tok/session'
   autoload :SessionPropertyConstants, 'open_tok/session_property_constants'
   autoload :RoleConstants, 'open_tok/role_constants'
 
@@ -33,35 +33,33 @@ module OpenTok
     @@TOKEN_SENTINEL = "T1=="
 
     ##
-    # Create a new OpenTokSDK object.
+    # Create a new OpenTok REST API client
     #
-    # The first two attributes are required; +parnter_id+ and +partner_secret+ are the api-key and secret
-    # that are provided to you.
-    def initialize(partner_id, partner_secret, back_support='', api_url=OpenTok::API_URL)
+    # @param [String] API Key, developer identifier
+    # @param [String] API Secret, developer identifier
+    # @param [String] back_support @deprecated
+    # @param [String] OpenTok endpoint, production by default
+    def initialize(partner_id, partner_secret, back_support = '', api_url = OpenTok::API_URL)
       @partner_id = partner_id
       @partner_secret = partner_secret
       @api_url = api_url
     end
 
-    # Generate token for the given session_id.
-    # The options you can provide are:
-    # * +:session_id+ (required) generate a token for the provided session
-    # * +:create_time+
-    # * +:expire_time+ (optional) The time when the token will expire, defined as an integer value for a Unix timestamp (in seconds). If you do not specify this value, tokens expire in 24 hours after being created.
-    # * +:role+ (optional) Added in OpenTok v0.91.5. This defines the role the user will have. There are three roles: subscriber, publisher, and moderator.
-    # * +:connection_data+ (optional) Added in OpenTok v0.91.20. A string containing metadata describing the connection.
-    #
+    ##
+    # Generate token for the given session_id
+    # @param [Hash] opts the options to create a token with.
+    # @option opts [String] :session_id (mandatory) generate a token for the provided session
+    # @option opts [String] :create_time (optional)
+    # @option opts [String] :expire_time (optional) The time when the token will expire, defined as an integer value for a Unix timestamp (in seconds). If you do not specify this value, tokens expire in 24 hours after being created.
+    # @option opts [String] :role (optional) Added in OpenTok v0.91.5. This defines the role the user will have. There are three roles: subscriber, publisher, and moderator.
+    # @option opts [String] :connection_data (optional) Added in OpenTok v0.91.20. A string containing metadata describing the connection.
     # See http://www.tokbox.com/opentok/tools/documentation/overview/token_creation.html for more information on all options.
     def generate_token(opts = {})
-      { :session_id => nil, :create_time => nil, :expire_time => nil, :role => nil, :connection_data => nil }.merge!(opts)
+      create_time = opts.fetch(:create_time, Time.now)
+      session_id = opts.fetch(:session_id, '')
+      role = opts.fetch(:role, RoleConstants::PUBLISHER)
 
-      create_time = opts[:create_time].nil? ? Time.now : opts[:create_time]
-      session_id = opts[:session_id].nil? ? '' : opts[:session_id]
-      role = opts[:role].nil? ? RoleConstants::PUBLISHER : opts[:role]
-
-      if role != RoleConstants::SUBSCRIBER && role != RoleConstants::PUBLISHER && role != RoleConstants::MODERATOR
-        raise OpenTokException.new "'#{role}' is not a recognized role"
-      end
+      RoleConstants.is_valid?(role) or raise OpenTokException.new "'#{role}' is not a recognized role"
 
       data_params = {
         :role => role,
@@ -70,15 +68,15 @@ module OpenTok
         :nonce => rand
       }
 
-      if not opts[:expire_time].nil?
-        raise OpenTokException.new 'Expire time must be a number' if not opts[:expire_time].is_a?(Numeric)
-        raise OpenTokException.new 'Expire time must be in the future' if opts[:expire_time] < Time.now.to_i
-        raise OpenTokException.new 'Expire time must be in the next 30 days' if opts[:expire_time] > (Time.now.to_i + 2592000)
+      unless opts[:expire_time].nil?
+        opts[:expire_time].is_a?(Numeric) or raise OpenTokException.new 'Expire time must be a number'
+        opts[:expire_time] < Time.now.to_i and raise OpenTokException.new 'Expire time must be in the future'
+        opts[:expire_time] > (Time.now.to_i + 2592000) and raise OpenTokException.new 'Expire time must be in the next 30 days'
         data_params[:expire_time] = opts[:expire_time].to_i
       end
 
-      if not opts[:connection_data].nil?
-        raise OpenTokException.new 'Connection data must be less than 1000 characters' if opts[:connection_data].length > 1000
+      unless opts[:connection_data].nil?
+        opts[:connection_data].length > 1000 and raise OpenTokException.new 'Connection data must be less than 1000 characters'
         data_params[:connection_data] = opts[:connection_data]
       end
 
@@ -107,7 +105,7 @@ module OpenTok
       unless doc.get_elements('Errors').empty?
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
-      OpenTok::Session.new doc.root.get_elements('Session')[0].get_elements('session_id')[0].children[0].to_s
+      Session.new doc.root.get_elements('Session')[0].get_elements('session_id')[0].children[0].to_s
     end
 
     alias_method :createSession, :create_session

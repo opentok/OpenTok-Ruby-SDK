@@ -117,14 +117,12 @@ describe OpenTok do
     use_vcr_cassette "stitchArchive"
     let(:api_key) { '459782' }
     let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
-    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>""} }
-    let(:session) { '1_MX40NTk3ODJ-MTI3LjAuMC4xflR1ZSBTZXAgMDQgMTQ6NTM6MDIgUERUIDIwMTJ-MC41MjExODEzfg' }
-    let(:token) { opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR}) }
+    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
     let(:archiveId) { "200567af-0726-4e93-883b-fe0426d6310a" }
 
     it "should return stich url" do
       a = opentok.stitchArchive( archiveId )
-      a[:code].should == 201
+      a[:code].should eq 201
       a[:location].start_with?('http').should eq true
     end
   end
