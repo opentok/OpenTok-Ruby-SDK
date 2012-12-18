@@ -7,7 +7,7 @@ describe OpenTok do
   let(:api_url) { 'https://api.opentok.com/hl' }
   let(:host) { 'localhost' }
 
-  let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
+  subject { OpenTok::OpenTokSDK.new api_key, api_secret }
 
   describe "test Initializers" do
     it "should be backwards compatible if user set api URL with no effect" do
@@ -15,15 +15,11 @@ describe OpenTok do
       opentok.api_url.should eq api_url
     end
 
-    it "should set api URL with no options" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret
-      opentok.api_url.should eq api_url
+    it "should be OpenTok SDK Object" do
+      subject.should be_instance_of OpenTok::OpenTokSDK
     end
 
-    it "should be OpenTok SDK Object" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret
-      opentok.should be_instance_of OpenTok::OpenTokSDK
-    end
+    its(:api_url) { should == api_url }
   end
 
   describe "Generate Sessions" do
@@ -33,11 +29,6 @@ describe OpenTok do
 
     it "should generate valid session" do
       session = opentok.create_session host
-      session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
-    end
-
-    it "should generate valid session camelCase" do
-      session = opentok.createSession host
       session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
     end
 
@@ -61,18 +52,18 @@ describe OpenTok do
   end
 
   describe "Generate Tokens" do
-    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
-    let(:session) { opentok.createSession host }
+    let(:session) { subject.createSession host }
+
     it "should generate valid token" do
-      token = opentok.generate_token({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
+      token = subject.generate_token({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
       token.should match(/(T1==)+[0-9A-z_]+/)
     end
     it "should generate valid token camelCase" do
-      token = opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
+      token = subject.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
       token.should match(/(T1==)+[0-9A-z_]+/)
     end
     it "should be able to set parameters in token" do
-      token = opentok.generate_token :session_id => session, :role=> OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
+      token = subject.generate_token :session_id => session, :role=> OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
       str = token[4..token.length]
       decoded = Base64.decode64(str)
       decoded.should match(/publisher.*username.*Bob.*level.*4/)
