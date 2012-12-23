@@ -4,26 +4,22 @@ describe OpenTok do
 
   let(:api_key) { '459782' }
   let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
-  let(:api_url) { 'https://api.opentok.com' }
+  let(:api_url) { 'https://api.opentok.com/hl' }
   let(:host) { 'localhost' }
 
-  let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
+  subject { OpenTok::OpenTokSDK.new api_key, api_secret }
 
   describe "test Initializers" do
     it "should be backwards compatible if user set api URL with no effect" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>"bla bla"}
-      opentok.api_url.should eq api_url
-    end
-
-    it "should set api URL with no options" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret
+      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url => "bla bla"}
       opentok.api_url.should eq api_url
     end
 
     it "should be OpenTok SDK Object" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret
-      opentok.should be_instance_of OpenTok::OpenTokSDK
+      subject.should be_instance_of OpenTok::OpenTokSDK
     end
+
+    its(:api_url) { should == api_url }
   end
 
   describe "Generate Sessions" do
@@ -33,11 +29,6 @@ describe OpenTok do
 
     it "should generate valid session" do
       session = opentok.create_session host
-      session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
-    end
-
-    it "should generate valid session camelCase" do
-      session = opentok.createSession host
       session.to_s.should match(/\A[0-9A-z_-]{40,}\Z/)
     end
 
@@ -61,21 +52,22 @@ describe OpenTok do
   end
 
   describe "Generate Tokens" do
-    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
-    let(:session) { opentok.createSession host }
+    let(:session) { subject.createSession host }
+
     it "should generate valid token" do
-      token = opentok.generate_token({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
+      token = subject.generate_token({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
       token.should match(/(T1==)+[0-9A-z_]+/)
     end
     it "should generate valid token camelCase" do
-      token = opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
+      token = subject.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
       token.should match(/(T1==)+[0-9A-z_]+/)
     end
     it "should be able to set parameters in token" do
-      token = opentok.generate_token :session_id => session, :role=> OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
+      token = subject.generate_token :session_id => session, :role=> OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
       str = token[4..token.length]
       decoded = Base64.decode64(str)
-      decoded.should match(/publisher.*username.*Bob.*level.*4/)
+      decoded.should match(/.*username%3DBob.*/)
+      decoded.should match(/.*level%3D4.*/)
     end
   end
 
@@ -111,14 +103,15 @@ describe OpenTok do
     use_vcr_cassette "deleteArchive"
     let(:api_key) { '459782' }
     let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
-    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>""} }
+    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url => ""} }
     let(:session) { '1_MX40NTk3ODJ-MTI3LjAuMC4xflR1ZSBTZXAgMDQgMTQ6NTM6MDIgUERUIDIwMTJ-MC41MjExODEzfg' }
     let(:token) { opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::PUBLISHER}) }
     let(:archiveId) { "200567af-0726-4e93-883b-fe0426d6310a" }
 
-    it "should return false on wrong moderator" do
-      a = opentok.deleteArchive( archiveId, token )
-      a.should eq false
+    it "should raise an Exception on item not found" do
+      expect{
+        opentok.deleteArchive archiveId, token
+      }.to raise_error OpenTok::OpenTokException
     end
   end
 
@@ -126,15 +119,13 @@ describe OpenTok do
     use_vcr_cassette "stitchArchive"
     let(:api_key) { '459782' }
     let(:api_secret) { 'b44c3baa32b6476d9d88e8194d0eb1c6b777f76b' }
-    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>""} }
-    let(:session) { '1_MX40NTk3ODJ-MTI3LjAuMC4xflR1ZSBTZXAgMDQgMTQ6NTM6MDIgUERUIDIwMTJ-MC41MjExODEzfg' }
-    let(:token) { opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR}) }
+    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
     let(:archiveId) { "200567af-0726-4e93-883b-fe0426d6310a" }
 
-    it "should return stich url" do
-      a = opentok.stitchArchive( archiveId )
-      a[:code].should == 201
-      a[:location].start_with?('http').should eq true
+    it "should return stitch url" do
+      a = opentok.stitchArchive archiveId
+      a[:code].should eq 201
+      a[:location].start_with?('http').should be_true
     end
   end
 
