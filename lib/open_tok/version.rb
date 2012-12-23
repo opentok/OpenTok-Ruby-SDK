@@ -1,4 +1,4 @@
-module Opentok
+module OpenTok
 
   VERSION = '0.0.92'
 

@@ -10,27 +10,24 @@ require 'openssl'
 require 'base64'
 require 'rexml/document'
 
-require 'open_tok/utils'
-require 'open_tok/request'
-require 'open_tok/archive'
-require 'open_tok/archive_video_resource'
-require 'open_tok/archive_timeline_event'
-
-
 DIGEST  = OpenSSL::Digest::Digest.new 'sha1'
 
 module OpenTok
 
-  autoload :OpenTokException, 'open_tok/exception'
-  autoload :Session, 'open_tok/session'
+  autoload :Archive                 , 'open_tok/archive'
+  autoload :ArchiveVideoResource    , 'open_tok/archive_video_resource'
+  autoload :ArchiveTimelineEvent    , 'open_tok/archive_timeline_event'
+  autoload :OpenTokException        , 'open_tok/exception'
+  autoload :Request                 , 'open_tok/request'
+  autoload :RoleConstants           , 'open_tok/role_constants'
+  autoload :Session                 , 'open_tok/session'
   autoload :SessionPropertyConstants, 'open_tok/session_property_constants'
-  autoload :RoleConstants, 'open_tok/role_constants'
-
+  autoload :Utils                   , 'open_tok/utils'
 
   class OpenTokSDK
     attr_reader :api_url
 
-    @@TOKEN_SENTINEL = "T1=="
+    TOKEN_SENTINEL = "T1=="
 
     ##
     # Create a new OpenTok REST API client
@@ -47,6 +44,7 @@ module OpenTok
 
     ##
     # Generate token for the given session_id
+    #
     # @param [Hash] opts the options to create a token with.
     # @option opts [String] :session_id (mandatory) generate a token for the provided session
     # @option opts [String] :create_time (optional)
@@ -63,7 +61,7 @@ module OpenTok
 
       data_params = {
         :role => role,
-        :session_id => session_id,
+        :session_id => session_id.is_a?(Session) ? session_id.session_id : session_id,
         :create_time => create_time.to_i,
         :nonce => rand
       }
@@ -80,12 +78,12 @@ module OpenTok
         data_params[:connection_data] = opts[:connection_data]
       end
 
-      data_string = OpenTok::Utils.urlencode_hash(data_params)
+      data_string = Utils.urlencode_hash(data_params)
 
-      sig = sign_string(data_string, @partner_secret)
-      meta_string = OpenTok::Utils.urlencode_hash(:partner_id => @partner_id, :sig => sig)
+      sig = sign_string data_string, @partner_secret
+      meta_string = Utils.urlencode_hash(:partner_id => @partner_id, :sig => sig)
 
-      @@TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string).gsub("\n", '')
+      TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string).gsub("\n", '')
     end
 
     alias_method :generateToken, :generate_token
@@ -110,37 +108,41 @@ module OpenTok
 
     alias_method :createSession, :create_session
 
-    # This method takes two parameters. The first parameter is the +archive_id+ of the archive that contains the video (a String). The second parameter is the +token+ (a String)
-    # The method returns an +OpenTok::Archive+ object. The resources property of this object is an array of OpenTok::ArchiveVideoResource objects. Each OpenTok::ArchiveVideoResource object represents a video in the archive.
+    ##
+    # Download an OpenTok archive manifest.
+    # The archive manifest contains video IDs for each recorded stream in the archive.
+    #
+    # @param [String] archive identifier
+    # @param [String] token
+    #
+    # @return [OpenTok::Archive]
     def get_archive_manifest(archive_id, token)
       # TODO: verify that token is MODERATOR token
-
-      doc = do_request("/archive/getmanifest/#{archive_id}", {}, token)
-      if not doc.get_elements('Errors').empty?
+      doc = do_request "/archive/getmanifest/#{archive_id}", {}, token
+      if doc.get_elements('Errors').empty?
+        Archive.parse_manifest doc.get_elements('manifest')[0], @api_url, token
+      else
         raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
-      OpenTok::Archive.parse_manifest(doc.get_elements('manifest')[0], @api_url, token)
     end
+
     alias_method :getArchiveManifest, :get_archive_manifest
 
-    def delete_archive(aid, token)
-      deleteURL = "/archive/delete/#{aid}"
-      doc = do_request( deleteURL, {:test => 'none'}, token )
+    def delete_archive(archive_id, token)
+      doc = do_request "/archive/delete/#{archive_id}", {:test => 'none'}, token
       errors = doc.get_elements('Errors')
       if doc.get_elements('Errors').empty?
-        #error = errors[0].get_elements('error')[0]
-        #errorCode = attributes['code']
-        return true
+        true
       else
-        return false
+        raise OpenTokException.from_error doc
       end
     end
+
     alias_method :deleteArchive, :delete_archive
 
-    def stitchArchive(aid)
-      stitchURL = "/archive/#{aid}/stitch"
-      request = OpenTok::Request.new(@api_url, nil, @partner_id, @partner_secret)
-      response = request.sendRequest(stitchURL, {:test => 'none'})
+    def stitchArchive(archive_id)
+      request = Request.new(@api_url, nil, @partner_id, @partner_secret)
+      response = request.sendRequest("/archive/#{archive_id}/stitch", {:test => 'none'})
       case response.code
       when '201'
         return {:code=>201, :message=>"Successfully Created", :location=>response["location"]}
@@ -153,8 +155,8 @@ module OpenTok
       else
         return {:code=>500, :message=>"Server Error"}
       end
-      return {}
     end
+
     alias_method :stitch, :stitchArchive
 
     protected
@@ -164,9 +166,9 @@ module OpenTok
     end
 
     def do_request(path, params, token=nil)
-      request = OpenTok::Request.new(@api_url, token, @partner_id, @partner_secret)
-      body = request.fetch(path, params)
-      REXML::Document.new(body)
+      request = Request.new @api_url, token, @partner_id, @partner_secret
+      body = request.fetch path, params
+      REXML::Document.new body
     end
   end
 end

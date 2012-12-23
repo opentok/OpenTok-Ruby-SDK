@@ -11,7 +11,7 @@ describe OpenTok do
 
   describe "test Initializers" do
     it "should be backwards compatible if user set api URL with no effect" do
-      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>"bla bla"}
+      opentok = OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url => "bla bla"}
       opentok.api_url.should eq api_url
     end
 
@@ -66,7 +66,8 @@ describe OpenTok do
       token = subject.generate_token :session_id => session, :role=> OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
       str = token[4..token.length]
       decoded = Base64.decode64(str)
-      decoded.should match(/publisher.*username.*Bob.*level.*4/)
+      decoded.should match(/.*username%3DBob.*/)
+      decoded.should match(/.*level%3D4.*/)
     end
   end
 
@@ -102,14 +103,15 @@ describe OpenTok do
     use_vcr_cassette "deleteArchive"
     let(:api_key) { '459782' }
     let(:api_secret) { '***REMOVED***' }
-    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url=>""} }
+    let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret, {:api_url => ""} }
     let(:session) { '1_MX40NTk3ODJ-MTI3LjAuMC4xflR1ZSBTZXAgMDQgMTQ6NTM6MDIgUERUIDIwMTJ-MC41MjExODEzfg' }
     let(:token) { opentok.generateToken({:session_id => session, :role=>OpenTok::RoleConstants::PUBLISHER}) }
     let(:archiveId) { "200567af-0726-4e93-883b-fe0426d6310a" }
 
-    it "should return false on wrong moderator" do
-      a = opentok.deleteArchive( archiveId, token )
-      a.should eq false
+    it "should raise an Exception on item not found" do
+      expect{
+        opentok.deleteArchive archiveId, token
+      }.to raise_error OpenTok::OpenTokException
     end
   end
 
@@ -120,10 +122,10 @@ describe OpenTok do
     let(:opentok) { OpenTok::OpenTokSDK.new api_key, api_secret }
     let(:archiveId) { "200567af-0726-4e93-883b-fe0426d6310a" }
 
-    it "should return stich url" do
-      a = opentok.stitchArchive( archiveId )
+    it "should return stitch url" do
+      a = opentok.stitchArchive archiveId
       a[:code].should eq 201
-      a[:location].start_with?('http').should eq true
+      a[:location].start_with?('http').should be_true
     end
   end
 
