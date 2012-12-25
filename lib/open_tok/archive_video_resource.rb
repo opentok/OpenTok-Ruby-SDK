@@ -21,8 +21,8 @@ module OpenTok
     end
 
     def self.parseXML(video_resource_item)
-      OpenTok::ArchiveVideoResource.new(video_resource_item.attributes['id'], video_resource_item.attributes['length'])
+      ArchiveVideoResource.new video_resource_item.attributes['id'], video_resource_item.attributes['length']
     end
   end
-  
+
 end

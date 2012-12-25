@@ -8,7 +8,7 @@
 module OpenTok
   class ArchiveTimelineEvent
     attr_accessor :event_type, :resource_id, :offset
-    
+
     def initialize(event_type, resource_id, offset)
       @event_type = event_type
       @resource_id = resource_id
@@ -16,7 +16,7 @@ module OpenTok
     end
 
     def self.parseXML(timeline_item)
-      OpenTok::ArchiveTimelineEvent.new(timeline_item.attributes['type'], timeline_item.attributes['id'], timeline_item.attributes['offset'])
+      OpenTok::ArchiveTimelineEvent.new timeline_item.attributes['type'], timeline_item.attributes['id'], timeline_item.attributes['offset']
     end
-  end  
+  end
 end
