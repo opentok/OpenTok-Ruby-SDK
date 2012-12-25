@@ -1,3 +1,5 @@
-module Opentok
-  VERSION = "0.0.92"
+module OpenTok
+
+  VERSION = '0.0.92'
+
 end

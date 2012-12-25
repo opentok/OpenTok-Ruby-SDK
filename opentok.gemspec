@@ -4,7 +4,7 @@ require "open_tok/version"
 
 Gem::Specification.new do |s|
   s.name        = "opentok"
-  s.version     = Opentok::VERSION
+  s.version     = OpenTok::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Stijn Mathysen", "Karmen Blake", "Song Zheng"]
   s.email       = ["stijn@skylight.be", "karmenblake@gmail.com", "song@tokbox.com"]
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_dependency "addressable"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
   s.add_development_dependency "webmock"
