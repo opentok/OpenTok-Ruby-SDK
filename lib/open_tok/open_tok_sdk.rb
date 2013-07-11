@@ -55,6 +55,9 @@ module OpenTok
     def generate_token(opts = {})
       create_time = opts.fetch(:create_time, Time.now)
       session_id = opts.fetch(:session_id, '')
+      if !session_id || session_id.to_s.length < 5
+        raise "Please pass in a valid session id"
+      end
       role = opts.fetch(:role, RoleConstants::PUBLISHER)
 
       RoleConstants.is_valid?(role) or raise OpenTokException.new "'#{role}' is not a recognized role"

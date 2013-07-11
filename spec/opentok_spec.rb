@@ -4,7 +4,7 @@ describe OpenTok do
 
   let(:api_key) { '459782' }
   let(:api_secret) { '***REMOVED***' }
-  let(:api_url) { 'https://api.opentok.com/hl' }
+  let(:api_url) { 'http://api.opentok.com/hl' }
   let(:host) { 'localhost' }
 
   subject { OpenTok::OpenTokSDK.new api_key, api_secret }
@@ -54,6 +54,9 @@ describe OpenTok do
   describe "Generate Tokens" do
     let(:session) { subject.createSession host }
 
+    it "should raise error" do
+      expect { subject.generateToken({:role=>OpenTok::RoleConstants::MODERATOR}) }.to raise_error
+    end
     it "should generate valid token" do
       token = subject.generate_token({:session_id => session, :role=>OpenTok::RoleConstants::MODERATOR})
       token.should match(/(T1==)+[0-9A-z_]+/)
