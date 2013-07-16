@@ -14,12 +14,12 @@ To install as a regular gem just type `gem install opentok`
 
 ## Requirements
 
-You need an api-key and secret. Request them at <http://www.tokbox.com/opentok/tools/js/apikey>.
+You need an api-key and secret. Sign up at <http://www.tokbox.com/opentok/tools/js/apikey>.
 
 # OpenTokSDK
 
 In order to use any of the server side functions, you must first create an `OpenTokSDK` object with your developer credentials.  
-`OpenTokSDK` takes 2-3 parameters:
+`OpenTokSDK` takes 2 parameters:
 > key (string) - Given to you when you register  
 > secret (string) - Given to you when you register  
 
@@ -31,22 +31,25 @@ OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET
 </pre>
 
 
-# Creating Sessions
+## Creating Sessions
 Use your `OpenTokSDK` object to create `session_id`  
 `createSession` takes 1-2 parameters:
-> location (string) -  give Opentok a hint on where you are running your application  
-> properties (object) - OPTIONAL. Set peer to peer as `enabled` or `disabled`. Disabled by default
+> location (string) -  OPTIONAL. a location so OpenTok can stream through the closest server  
+> properties (object) - OPTIONAL. Set peer to peer as `enabled` or `disabled`. Disabled by default  
 
 <pre>
+# creating a simple session: closest streaming server will be automatically determined when user connects to session
+sessionId = OTSDK.createSession().to_s
+
 # Creating Session object, passing request IP address to determine closest production server
-session_id = OTSDK.createSession( request.ip )
+sessionId = OTSDK.createSession( request.remote_ip ).to_s
 
 # Creating Session object with p2p enabled
 sessionProperties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}    # or disabled
-sessionId = OTSDK.createSession( @location, sessionProperties )
+sessionId = OTSDK.createSession( @location, sessionProperties ).to_s
 </pre>
 
-# Generating Token
+## Generating Tokens
 With the generated sessionId, you can start generating tokens for each user.
 `generate_token` takes in hash with 1-4 properties:
 > session_id (string) - REQUIRED  
@@ -59,10 +62,14 @@ With the generated sessionId, you can start generating tokens for each user.
 token = OTSDK.generateToken :session_id => session, :role => OpenTok::RoleConstants::PUBLISHER, :connection_data => "username=Bob,level=4"
 </pre>
 
-# Manipulating Archive Videos
+Possible Errors:
+> "Null or empty session ID are not valid"  
+> "An invalid session ID was passed"
+
+## Manipulating Archive Videos
 To Download or delete archived video, you must have an Archive ID which you get from the javascript library. If you are unfamiliar with archiving concepts, please visit our [archiving tutorial](http://www.tokbox.com/opentok/api/documentation/gettingstartedarchiving)  
 
-# Delete Archives
+## Delete Archives
 OpenTok SDK has a function `deleteArchive` that lets you delete videos in a recorded archive. 
 Use your `OpenTokSDK` object to call `deleteArchive`
 `deleteArchive` takes in 2 parameters and returns a true or false boolean representing the success of the delete request
