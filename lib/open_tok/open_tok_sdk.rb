@@ -54,7 +54,7 @@ module OpenTok
     # See http://www.tokbox.com/opentok/tools/documentation/overview/token_creation.html for more information on all options.
     def generate_token(opts = {})
       create_time = opts.fetch(:create_time, Time.now)
-      session_id = opts.fetch(:session_id, '')
+      session_id = opts.fetch(:session_id, '').to_s
 
       # check validity of session_id
       if !session_id || session_id.to_s.length == ""
