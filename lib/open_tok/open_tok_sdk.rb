@@ -55,9 +55,30 @@ module OpenTok
     def generate_token(opts = {})
       create_time = opts.fetch(:create_time, Time.now)
       session_id = opts.fetch(:session_id, '')
-      if !session_id || session_id.to_s.length < 5
-        raise "Please pass in a valid session id"
+
+      # check validity of session_id
+      if !session_id || session_id.to_s.length == ""
+        raise "Null or empty session ID are not valid"
       end
+
+      begin
+        subSessionId = session_id[2..session_id.length]
+        subSessionId.sub!("-","+").sub!("_","/")
+        decodedSessionId = Base64.decode64(subSessionId).split("~")
+        (0..4).each do |n|
+          if decodedSessionId and decodedSessionId.length > 1
+            break
+          end
+          subSessionId = subSessionId+"="
+        end
+        unless decodedSessionId[1] == @partner_id
+          raise "An invalid session ID was passed"
+        end
+      rescue Exception => e
+        raise "An invalid session ID was passed"
+      end
+
+
       role = opts.fetch(:role, RoleConstants::PUBLISHER)
 
       RoleConstants.is_valid?(role) or raise OpenTokException.new "'#{role}' is not a recognized role"
