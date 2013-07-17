@@ -150,3 +150,11 @@ Before you send pull requests, make sure all test cases are passing.
 To install necessary gems, type `bundle install` in the root directory.  
 
 To run test cases, type `rspec spec/` in the root directory.   
+
+-----
+
+### Fun Fact:
+
+To upload opentok gem, first update `opentok.gemspec` specs  
+Build gem: `gem build opentok.gemspec`  
+Push gem: `gem push opentok-*.gem`    
