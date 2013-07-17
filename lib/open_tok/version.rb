@@ -1,5 +1,5 @@
 module OpenTok
 
-  VERSION = '0.0.92'
+  VERSION = '0.1.0'
 
 end
