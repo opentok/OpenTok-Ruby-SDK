@@ -58,7 +58,7 @@ module OpenTok
 
       # check validity of session_id
       if !session_id || session_id.to_s.length == ""
-        raise "Null or empty session ID are not valid"
+        raise "Null or empty session ID is not valid"
       end
 
       begin
