@@ -37,7 +37,7 @@ module OpenTok
     # @param [String] back_support @deprecated
     # @param [String] OpenTok endpoint, production by default
     def initialize(partner_id, partner_secret, back_support = '', api_url = OpenTok::API_URL)
-      @partner_id = partner_id
+      @partner_id = partner_id.to_s()
       @partner_secret = partner_secret
       @api_url = api_url
     end
