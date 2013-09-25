@@ -63,7 +63,7 @@ module OpenTok
 
       begin
         subSessionId = session_id[2..session_id.length]
-        subSessionId.sub!("-","+").sub!("_","/")
+        subSessionId = subSessionId.sub("-","+").sub("_","/")
         decodedSessionId = Base64.decode64(subSessionId).split("~")
         (0..4).each do |n|
           if decodedSessionId and decodedSessionId.length > 1
