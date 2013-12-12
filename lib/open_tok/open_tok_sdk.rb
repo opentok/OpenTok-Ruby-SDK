@@ -14,9 +14,6 @@ DIGEST  = OpenSSL::Digest::Digest.new 'sha1'
 
 module OpenTok
 
-  autoload :Archive                 , 'open_tok/archive'
-  autoload :ArchiveVideoResource    , 'open_tok/archive_video_resource'
-  autoload :ArchiveTimelineEvent    , 'open_tok/archive_timeline_event'
   autoload :OpenTokException        , 'open_tok/exception'
   autoload :Request                 , 'open_tok/request'
   autoload :RoleConstants           , 'open_tok/role_constants'
@@ -131,57 +128,6 @@ module OpenTok
     end
 
     alias_method :createSession, :create_session
-
-    ##
-    # Download an OpenTok archive manifest.
-    # The archive manifest contains video IDs for each recorded stream in the archive.
-    #
-    # @param [String] archive identifier
-    # @param [String] token
-    #
-    # @return [OpenTok::Archive]
-    def get_archive_manifest(archive_id, token)
-      # TODO: verify that token is MODERATOR token
-      doc = do_request "/archive/getmanifest/#{archive_id}", {}, token
-      if doc.get_elements('Errors').empty?
-        Archive.parse_manifest doc.get_elements('manifest')[0], @api_url, token
-      else
-        raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
-      end
-    end
-
-    alias_method :getArchiveManifest, :get_archive_manifest
-
-    def delete_archive(archive_id, token)
-      doc = do_request "/archive/delete/#{archive_id}", {:test => 'none'}, token
-      errors = doc.get_elements('Errors')
-      if doc.get_elements('Errors').empty?
-        true
-      else
-        raise OpenTokException.from_error doc
-      end
-    end
-
-    alias_method :deleteArchive, :delete_archive
-
-    def stitchArchive(archive_id)
-      request = Request.new(@api_url, nil, @partner_id, @partner_secret)
-      response = request.sendRequest("/archive/#{archive_id}/stitch", {:test => 'none'})
-      case response.code
-      when '201'
-        return {:code=>201, :message=>"Successfully Created", :location=>response["location"]}
-      when '202'
-        return {:code=>202, :message=>"Processing"}
-      when '403'
-        return {:code=>403, :message=>"Invalid Credentials"}
-      when '404'
-        return {:code=>404, :message=>"Archive Does Not Exist"}
-      else
-        return {:code=>500, :message=>"Server Error"}
-      end
-    end
-
-    alias_method :stitch, :stitchArchive
 
     protected
 
