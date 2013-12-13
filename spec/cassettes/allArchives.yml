@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.opentok.com/v2/partner/459782/archive?offset=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      X-Tb-Partner-Auth:
+      - 459782:***REMOVED***
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 13 Dec 2013 06:23:24 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "count" : 1,
+          "items" : [ {
+            "createdAt" : 1386913509000,
+            "duration" : 27,
+            "id" : "0f7fc60a-5882-4ebf-b87b-6d749b45de50",
+            "name" : "bdb60a69-3ed9-4690-b8bf-383eb6bf9271",
+            "partnerId" : 459782,
+            "reason" : "",
+            "sessionId" : "1_MX40NTk3ODJ-flRodSBEZWMgMTIgMjA6NTA6MTQgUFNUIDIwMTN-MC43OTYwMDQ5NX4",
+            "size" : 4714712,
+            "status" : "available",
+            "url" : "http://file.mp4"
+          } ]
+        }
+    http_version: 
+  recorded_at: Fri, 13 Dec 2013 06:23:24 GMT
+recorded_with: VCR 2.8.0

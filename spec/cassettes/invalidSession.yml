@@ -8,13 +8,13 @@ http_interactions:
       string: partner_id=0&location=localhost
     headers:
       Accept:
-      - ! '*/*'
+      - '*/*'
       User-Agent:
       - Ruby
       Content-Type:
       - application/x-www-form-urlencoded
       X-Tb-Partner-Auth:
-      - ! '0:'
+      - '0:'
   response:
     status:
       code: 200
@@ -32,10 +32,82 @@ http_interactions:
       - keep-alive
     body:
       encoding: US-ASCII
-      string: ! '<Errors><error code="403"><notAuthorized message="The API secret
-        did not match, Invalid credentials passed"/></error></Errors>
-
-'
+      string: |
+        <Errors><error code="403"><notAuthorized message="The API secret did not match, Invalid credentials passed"/></error></Errors>
     http_version: 
   recorded_at: Tue, 04 Sep 2012 23:27:24 GMT
-recorded_with: VCR 2.2.4
+- request:
+    method: post
+    uri: http://api.opentok.com/hl/session/create
+    body:
+      encoding: US-ASCII
+      string: location=localhost
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Tb-Partner-Auth:
+      - '0:'
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 13 Dec 2013 01:00:21 GMT
+      Content-Type:
+      - text/plain; charset=iso-8859-1
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 13 Dec 2013 01:00:22 GMT
+- request:
+    method: post
+    uri: http://api.opentok.com/session/create
+    body:
+      encoding: US-ASCII
+      string: location=localhost
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Tb-Partner-Auth:
+      - '0:'
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 13 Dec 2013 02:10:31 GMT
+      Content-Type:
+      - text/plain; charset=iso-8859-1
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 13 Dec 2013 02:10:31 GMT
+recorded_with: VCR 2.8.0

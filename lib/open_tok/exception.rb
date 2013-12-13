@@ -11,9 +11,12 @@ module OpenTok
   # The exception that gets thrown when an invalid api-key and/or secret is given.
   class OpenTokException < RuntimeError
 
+    attr_reader :code
+
     def initialize(code, message)
       @code = code
       @mesasge = message
+      super message
     end
 
     class << self
@@ -40,8 +43,45 @@ module OpenTok
       def http_code
         '000'
       end
+
     end
 
+  end
+
+  class OpenTokSessionNotFoundError < OpenTokException
+    def initialize
+      super 404, "Session not found"
+    end
+  end
+
+  class OpenTokAuthenticationError < OpenTokException
+    def initialize
+      super 403, "Invalid Partner ID or Secret"
+    end
+  end
+
+  class OpenTokConflictError < OpenTokException
+    def initialize(message)
+      super 409, message
+    end
+  end
+
+  class OpenTokUnexpectedError < OpenTokException
+    def initialize(code, message)
+      super code, message || "Unexpected error"
+    end
+  end
+
+  class OpenTokArchiveNotFoundError < OpenTokException
+    def initialize
+      super 404, "Archive not found"
+    end
+  end
+
+  class OpenTokNotArchivingError < OpenTokException
+    def initialize
+      super 409, "Archive is not currently recording"
+    end
   end
 
   class OpenTokNotFound < OpenTokException

@@ -8,7 +8,7 @@ http_interactions:
       string: partner_id=459782&location=localhost
     headers:
       Accept:
-      - ! '*/*'
+      - '*/*'
       User-Agent:
       - Ruby
       Content-Type:
@@ -33,14 +33,104 @@ http_interactions:
       Cache-Control:
       - no-cache
       Access-Control-Allow-Origin:
-      - ! '*'
+      - '*'
       Content-Length:
       - '294'
     body:
       encoding: US-ASCII
-      string: ! "<Sessions>\n  <Session>\n    <session_id>2_MX40NTk3ODJ-fjIwMTItMDktMDQgMjM6Mjc6MTIuNzY3ODY5KzAwOjAwfjAuNTQzNTEwNTE4NjQxfg</session_id>\n
-        \   <partner_id>459782</partner_id>\n    <create_dt>2012-09-04 23:27:12.767869+00:00</create_dt>\n
-        \   <session_status></session_status>\n    </Session>\n</Sessions>\n"
+      string: |
+        <Sessions>
+          <Session>
+            <session_id>2_MX40NTk3ODJ-fjIwMTItMDktMDQgMjM6Mjc6MTIuNzY3ODY5KzAwOjAwfjAuNTQzNTEwNTE4NjQxfg</session_id>
+            <partner_id>459782</partner_id>
+            <create_dt>2012-09-04 23:27:12.767869+00:00</create_dt>
+            <session_status></session_status>
+            </Session>
+        </Sessions>
     http_version: 
   recorded_at: Tue, 04 Sep 2012 23:27:24 GMT
-recorded_with: VCR 2.2.4
+- request:
+    method: post
+    uri: http://api.opentok.com/hl/session/create
+    body:
+      encoding: US-ASCII
+      string: location=localhost
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Tb-Partner-Auth:
+      - 459782:***REMOVED***
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 13 Dec 2013 01:00:21 GMT
+      Content-Type:
+      - text/xml
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - '*'
+      X-Tb-Host:
+      - mantis402-oak.tokbox.com
+      Content-Length:
+      - '268'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><sessions><Session><session_id>1_MX40NTk3ODJ-flRodSBEZWMgMTIgMTc6MDA6MjEgUFNUIDIwMTN-MC4yODk1NDZ-</session_id><partner_id>459782</partner_id><create_dt>Thu
+        Dec 12 17:00:21 PST 2013</create_dt></Session></sessions>
+    http_version: 
+  recorded_at: Fri, 13 Dec 2013 01:00:21 GMT
+- request:
+    method: post
+    uri: http://api.opentok.com/session/create
+    body:
+      encoding: US-ASCII
+      string: location=localhost
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Tb-Partner-Auth:
+      - 459782:***REMOVED***
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 13 Dec 2013 02:10:30 GMT
+      Content-Type:
+      - text/xml
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - '*'
+      X-Tb-Host:
+      - fms404-oak.tokbox.com
+      Content-Length:
+      - '270'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><sessions><Session><session_id>2_MX40NTk3ODJ-flRodSBEZWMgMTIgMTg6MTA6MzAgUFNUIDIwMTN-MC44MzcyOTY2fg</session_id><partner_id>459782</partner_id><create_dt>Thu
+        Dec 12 18:10:30 PST 2013</create_dt></Session></sessions>
+    http_version: 
+  recorded_at: Fri, 13 Dec 2013 02:10:30 GMT
+recorded_with: VCR 2.8.0

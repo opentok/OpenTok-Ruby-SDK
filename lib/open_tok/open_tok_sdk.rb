@@ -14,8 +14,12 @@ DIGEST  = OpenSSL::Digest::Digest.new 'sha1'
 
 module OpenTok
 
+  autoload :Archives                , 'open_tok/archives'
+  autoload :ArchiveList             , 'open_tok/archive_list'
+  autoload :Archive                 , 'open_tok/archive'
   autoload :OpenTokException        , 'open_tok/exception'
   autoload :Request                 , 'open_tok/request'
+  autoload :RestRequest             , 'open_tok/rest_request'
   autoload :RoleConstants           , 'open_tok/role_constants'
   autoload :Session                 , 'open_tok/session'
   autoload :SessionPropertyConstants, 'open_tok/session_property_constants'
@@ -128,6 +132,10 @@ module OpenTok
     end
 
     alias_method :createSession, :create_session
+
+    def archives
+      @archives ||= Archives.new @partner_id, @partner_secret, @api_url
+    end
 
     protected
 

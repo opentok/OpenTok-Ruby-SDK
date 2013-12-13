@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://api.opentok.com/v2/partner/459782/archive
+    body:
+      encoding: UTF-8
+      string: '{"action":"start","sessionId":"1_MX40NTk3ODJ-flRodSBEZWMgMTIgMjA6NTA6MTQgUFNUIDIwMTN-MC43OTYwMDQ5NX4","name":null}'
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      X-Tb-Partner-Auth:
+      - 459782:***REMOVED***
+      Content-Length:
+      - '114'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 13 Dec 2013 04:52:08 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{ "message" : "responseString" }'
+    http_version: 
+  recorded_at: Fri, 13 Dec 2013 04:52:09 GMT
+recorded_with: VCR 2.8.0
