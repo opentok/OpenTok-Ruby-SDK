@@ -12,8 +12,8 @@ server) to create OpenTok sessions.
     API_SECRET = ''            # should be a string
     OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET
 
-create_session() method
------------------------
+Creating sessions
+-----------------
 The `create_session()` method of the OpenTokSDK object to create a new OpenTok
 session and obtain a session ID.
 
@@ -73,8 +73,8 @@ You can also create a session using the <a href="http://www.tokbox.com/opentok/a
 REST API</a> or the <a href="https://dashboard.tokbox.com/projects">OpenTok dashboard</a>.
 
 
-generate_token() method
------------------------
+Generating tokens
+-----------------
 
 In order to authenticate a user connecting to a OpenTok
 session, a user must pass an authentication token along with the API key.
@@ -120,3 +120,8 @@ a connection metadata string:
 
 For testing, you can also use the <a href="https://dashboard.tokbox.com/projects">OpenTok dashboard</a>
 page to generate test tokens.
+
+Working with OpenTok 2.0 archives
+---------------------------------
+
+See the main README.md file.
