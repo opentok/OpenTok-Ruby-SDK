@@ -18,7 +18,7 @@ http_interactions:
       Content-Length:
       - '114'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
   response:
     status:
       code: 500
