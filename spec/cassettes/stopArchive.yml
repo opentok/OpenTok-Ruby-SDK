@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.opentok.com/v2/partner/459782/archive/cdd27670-f33a-40e8-b11d-388f58b525b1
+    uri: https://api.opentok.com/v2/partner/459782/archive/cdd27670-f33a-40e8-b11d-388f58b525b1
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       X-Tb-Partner-Auth:
       - 459782:***REMOVED***
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
   response:
     status:
       code: 200
@@ -49,10 +49,10 @@ http_interactions:
   recorded_at: Fri, 13 Dec 2013 06:39:56 GMT
 - request:
     method: post
-    uri: http://api.opentok.com/v2/partner/459782/archive/cdd27670-f33a-40e8-b11d-388f58b525b1
+    uri: https://api.opentok.com/v2/partner/459782/archive/cdd27670-f33a-40e8-b11d-388f58b525b1/stop
     body:
       encoding: UTF-8
-      string: '{"action":"stop"}'
+      string: '{}'
     headers:
       Accept:
       - '*/*; q=0.5, application/xml'
@@ -65,7 +65,7 @@ http_interactions:
       Content-Length:
       - '17'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
   response:
     status:
       code: 200

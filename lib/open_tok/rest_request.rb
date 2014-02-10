@@ -1,5 +1,6 @@
 require 'json'
 require 'rest_client'
+require 'open_tok/version'
 
 module OpenTok
   class RestRequest
@@ -11,11 +12,12 @@ module OpenTok
       @server = api_url
       @partner = partner_id
       @secret = partner_secret
+      @user_agent = "OpenTok-Ruby-SDK/" + OpenTok::VERSION
     end
 
     def get(url)
       full_url = "#{@server}/v2/partner/#{@partner}#{url}"
-      opts = { 'X-TB-PARTNER-AUTH' => "#{@partner}:#{@secret}" }
+      opts = { user_agent: @user_agent, 'X-TB-PARTNER-AUTH' => "#{@partner}:#{@secret}" }
       RestClient.get(full_url, opts) { |response, request, result, &block|
         if response.length > 2
           yield JSON.parse(response), response.code
@@ -27,7 +29,7 @@ module OpenTok
 
     def put(url, body)
       full_url = "#{@server}/v2/partner/#{@partner}#{url}"
-      opts = {  content_type: :json,  'X-TB-PARTNER-AUTH' => "#{@partner}:#{@secret}" }
+      opts = {  user_agent: @user_agent, content_type: :json,  'X-TB-PARTNER-AUTH' => "#{@partner}:#{@secret}" }
       RestClient.put(full_url, body.to_json, opts) { |response, request, result, &block|
         if response.length > 2
           yield JSON.parse(response), response.code
@@ -39,7 +41,7 @@ module OpenTok
 
     def post(url, body)
       full_url = "#{@server}/v2/partner/#{@partner}#{url}"
-      opts = {  content_type: "application/json",  'X-TB-PARTNER-AUTH' => "#{@partner}:#{@secret}" }
+      opts = {  user_agent: @user_agent, content_type: "application/json",  'X-TB-PARTNER-AUTH' => "#{@partner}:#{@secret}" }
       RestClient.post(full_url, body.to_json, opts) { |response, request, result, &block|
         if response.length > 2
           yield JSON.parse(response), response.code
@@ -51,7 +53,7 @@ module OpenTok
 
     def delete(url)
       full_url = "#{@server}/v2/partner/#{@partner}#{url}"
-      opts = { 'X-TB-PARTNER-AUTH' => "#{@partner}:#{@secret}" }
+      opts = { user_agent: @user_agent, 'X-TB-PARTNER-AUTH' => "#{@partner}:#{@secret}" }
       RestClient.delete(full_url, opts) { |response, request, result, &block|
         if response.length > 2
           yield JSON.parse(response), response.code

@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - '*/*'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
       Content-Type:
       - application/x-www-form-urlencoded
       X-Tb-Partner-Auth:
@@ -51,7 +51,7 @@ http_interactions:
   recorded_at: Tue, 04 Sep 2012 23:27:24 GMT
 - request:
     method: post
-    uri: http://api.opentok.com/hl/session/create
+    uri: https://api.opentok.com/hl/session/create
     body:
       encoding: US-ASCII
       string: location=localhost
@@ -61,7 +61,7 @@ http_interactions:
       Accept:
       - '*/*'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
       Content-Type:
       - application/x-www-form-urlencoded
       X-Tb-Partner-Auth:
@@ -93,7 +93,7 @@ http_interactions:
   recorded_at: Fri, 13 Dec 2013 01:00:21 GMT
 - request:
     method: post
-    uri: http://api.opentok.com/session/create
+    uri: https://api.opentok.com/session/create
     body:
       encoding: US-ASCII
       string: location=localhost
@@ -103,7 +103,7 @@ http_interactions:
       Accept:
       - '*/*'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
       Content-Type:
       - application/x-www-form-urlencoded
       X-Tb-Partner-Auth:

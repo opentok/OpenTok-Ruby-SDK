@@ -11,7 +11,7 @@ require 'rubygems'
 
 module OpenTok
 
-  API_URL = 'http://api.opentok.com'
+  API_URL = 'https://api.opentok.com'
 
   autoload :OpenTokSDK, 'open_tok/open_tok_sdk'
 

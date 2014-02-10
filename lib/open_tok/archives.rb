@@ -18,7 +18,7 @@ module OpenTok
         options[:name] or options['name']
       end
 
-      request.post("/archive", :action => :start, :sessionId => session_id, :name => name) do |response, code|
+      request.post("/archive", :sessionId => session_id, :name => name) do |response, code|
         if code < 300
           Archive.new self, response
         elsif code == 400
@@ -86,7 +86,7 @@ module OpenTok
     end
 
     def stop_by_id(archive_id)
-      request.post("/archive/#{archive_id}", :action => :stop) do |response, code|
+      request.post("/archive/#{archive_id}/stop", {}) do |response, code|
         if code < 300
           Archive.new self, response
 

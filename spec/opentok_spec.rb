@@ -4,7 +4,7 @@ describe OpenTok do
 
   let(:api_key) { '459782' }
   let(:api_secret) { '***REMOVED***' }
-  let(:api_url) { 'http://api.opentok.com' }
+  let(:api_url) { 'https://api.opentok.com' }
   let(:host) { 'localhost' }
 
   subject { OpenTok::OpenTokSDK.new api_key, api_secret }
@@ -45,13 +45,17 @@ describe OpenTok do
     it "should raise an exception with an invalid key and secret" do
       invalidOT = OpenTok::OpenTokSDK.new 0, ''
 
-      expect{
+      expect {
         session = invalidOT.create_session host
-      }.to raise_error OpenTok::OpenTokException
+      }.to raise_error { |error|
+        error.should be_a OpenTok::OpenTokException
+        error.message.should eq "[<notAuthorized message='The API secret did not match, Invalid credentials passed'/>]"
+      }
     end
   end
 
   describe "Generate Tokens" do
+    use_vcr_cassette "tokens"
     let(:session) { subject.createSession host }
 
     it "should raise error" do

@@ -126,7 +126,7 @@ module OpenTok
       doc = do_request '/session/create', opts
 
       unless doc.get_elements('Errors').empty?
-        raise OpenTokException.new doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
+        raise OpenTokException.new nil, doc.get_elements('Errors')[0].get_elements('error')[0].children.to_s
       end
       Session.new doc.root.get_elements('Session')[0].get_elements('session_id')[0].children[0].to_s
     end

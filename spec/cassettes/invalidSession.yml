@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - '*/*'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
       Content-Type:
       - application/x-www-form-urlencoded
       X-Tb-Partner-Auth:
@@ -48,7 +48,7 @@ http_interactions:
       Accept:
       - '*/*'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
       Content-Type:
       - application/x-www-form-urlencoded
       X-Tb-Partner-Auth:
@@ -85,7 +85,7 @@ http_interactions:
       Accept:
       - '*/*'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
       Content-Type:
       - application/x-www-form-urlencoded
       X-Tb-Partner-Auth:

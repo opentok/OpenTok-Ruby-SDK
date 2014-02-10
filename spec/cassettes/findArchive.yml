@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.opentok.com/v2/partner/459782/archive/0f7fc60a-5882-4ebf-b87b-6d749b45de50
+    uri: https://api.opentok.com/v2/partner/459782/archive/0f7fc60a-5882-4ebf-b87b-6d749b45de50
     body:
       encoding: US-ASCII
       string: ''
@@ -14,7 +14,7 @@ http_interactions:
       X-Tb-Partner-Auth:
       - 459782:***REMOVED***
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
   response:
     status:
       code: 200

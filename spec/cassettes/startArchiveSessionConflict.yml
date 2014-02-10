@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: http://api.opentok.com/v2/partner/459782/archive
+    uri: https://api.opentok.com/v2/partner/459782/archive
     body:
       encoding: UTF-8
-      string: '{"action":"start","sessionId":"1_MX40NTk3ODJ-flRodSBEZWMgMTIgMjA6NTA6MTQgUFNUIDIwMTN-MC43OTYwMDQ5NX4","name":null}'
+      string: '{"sessionId":"1_MX40NTk3ODJ-flRodSBEZWMgMTIgMjA6NTA6MTQgUFNUIDIwMTN-MC43OTYwMDQ5NX4","name":null}'
     headers:
       Accept:
       - '*/*; q=0.5, application/xml'
@@ -18,7 +18,7 @@ http_interactions:
       Content-Length:
       - '114'
       User-Agent:
-      - Ruby
+      - OpenTok-Ruby-SDK/1.0.0-rc.1
   response:
     status:
       code: 409
