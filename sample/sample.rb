@@ -1,7 +1,7 @@
 require 'opentok'
 
-API_KEY = '472032'    # See https://dashboard.tokbox.com/
-API_SECRET = '034de16b3e6a241bfbcaec45c0d1e79be19ad919' # See https://dashboard.tokbox.com/
+API_KEY = ''    # See https://dashboard.tokbox.com/
+API_SECRET = '' # See https://dashboard.tokbox.com/
 
 OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET
 

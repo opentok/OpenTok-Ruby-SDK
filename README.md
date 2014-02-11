@@ -82,7 +82,7 @@ session_id = session_id # Replace with an OpenTok session ID.
 name = "archive-" + Time.new.inspect
 
 begin
-  archive = OTSDK.archives.create(session_id, name)
+  archive = OTSDK.archives.create session_id, :name => name
 rescue Exception => msg
   print msg, "\n"
 end
