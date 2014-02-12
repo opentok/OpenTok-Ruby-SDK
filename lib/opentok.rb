@@ -14,5 +14,7 @@ module OpenTok
   API_URL = 'http://api.opentok.com/hl'
 
   autoload :OpenTokSDK, 'open_tok/open_tok_sdk'
+  autoload :RoleConstants, 'open_tok/role_constants'
+  autoload :SessionPropertyConstants, 'open_tok/session_property_constants'
 
 end
