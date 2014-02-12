@@ -10,7 +10,7 @@ require 'openssl'
 require 'base64'
 require 'rexml/document'
 
-DIGEST  = OpenSSL::Digest::Digest.new 'sha1'
+DIGEST  = OpenSSL::Digest.new 'sha1'
 
 module OpenTok
 
