@@ -6,7 +6,7 @@ The OpenTok server SDK for Ruby lets you generate [sessions](http://tokbox.com/o
 
 ## Installation
 
-To install using bundler, add Opentok to your `gemfile` and run `bundle install`:
+To install using bundler, add Opentok to your `Gemfile` and run `bundle install`:
 <pre>
 gem 'opentok'
 </pre>
@@ -36,15 +36,15 @@ OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET
 </pre>
 
 ## Creating Sessions
-Call the `createSession()` method of the `OpenTokSDK` object to create a session. The method returns a Session object.
-The `sessionId` property of the Session object is the OpenTok session ID:
+Call the `create_session()` method of the `OpenTokSDK` object to create a session. The method returns a Session object.
+The `session_id` property of the Session object is the OpenTok session ID:
 <pre>
 # creating an OpenTok server-enabled session
-sessionId = OTSDK.createSession().to_s
+session_id = OTSDK.create_session().to_s
 
 # Creating peer-to-peer session
-sessionProperties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}
-sessionId = OTSDK.createSession( nil, sessionProperties ).to_s
+session_properties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}
+session_id = OTSDK.create_session( nil, session_properties ).to_s
 </pre>
 
 ## Generating Tokens
@@ -52,12 +52,12 @@ With the generated session ID, you can generate tokens for each user:
 
 <pre>
 # Generating a publisher token
-token = OTSDK.generateToken :session_id => sessionId
+token = OTSDK.generate_token :session_id => session_id
  
 # Generating a token with moderator role and connection data
 role = OpenTok::RoleConstants::MODERATOR
 connection_data = "username=Bob,level=4"
-token = OTSDK.generateToken :session_id => sessionId, :role => role, :connection_data => connection_data
+token = OTSDK.generate_token :session_id => session_id, :role => role, :connection_data => connection_data
 </pre>
 
 Possible Errors:
