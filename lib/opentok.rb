@@ -1,18 +1,6 @@
-=begin
- OpenTok Ruby Library
- http://www.tokbox.com/
-
- Copyright 2010 - 2013, TokBox, Inc.
-
- Last modified: 2013-12-13
-=end
-
-require 'rubygems'
+require "opentok/version"
+require "opentok/opentok"
 
 module OpenTok
-
-  API_URL = 'https://api.opentok.com'
-
-  autoload :OpenTokSDK, 'open_tok/open_tok_sdk'
 
 end
