@@ -1,25 +1,29 @@
-=begin
- OpenTok Ruby Library v0.90.0
- http://www.tokbox.com/
-
- Copyright 2010 - 2011, TokBox, Inc.
-=end
+require "base64"
 
 module OpenTok
 
-  ##
-  # The session object that contains the session_id
   class Session
-    attr_reader :session_id
-    attr_reader :created_at
 
-    def initialize(session_id, create_dt=nil)
-      @session_id = session_id
-      @created_at = create_dt
+    # this implementation doesn't completely understand the format of a Session ID
+    # that is intentional, that is too much responsibility.
+    def self.belongs_to_api_key?(session_id, api_key)
+      encoded = session_id[2..session_id.length]
+                          .gsub('-', '+')
+                          .gsub('_', '/')
+      decoded = Base64.decode64(encoded)
+      decoded.include? api_key
     end
 
-    def to_s
-      @session_id
-    end
+    # attr_reader :session_id
+    # attr_reader :created_at
+
+    # def initialize(session_id, create_dt=nil)
+    #   @session_id = session_id
+    #   @created_at = create_dt
+    # end
+
+    # def to_s
+    #   @session_id
+    # end
   end
 end
