@@ -10,7 +10,10 @@ require "active_support/time"
 
 module OpenTok
   class OpenTok
-    # attr_reader :api_url
+
+    # don't want these to be mutable, may cause bugs related to inconsistency since these values are
+    # cached in objects that this can create
+    attr_reader :api_key, :api_url
 
     ##
     # Create a new OpenTok REST API client
@@ -74,7 +77,7 @@ module OpenTok
         :sig => sign_string(data_string, @api_secret)
       })
 
-      TOKEN_SENTINEL + Base64.encode64(meta_string + ":" + data_string)
+      TOKEN_SENTINEL + Base64.strict_encode64(meta_string + ":" + data_string)
     end
 
     # alias_method :generateToken, :generate_token

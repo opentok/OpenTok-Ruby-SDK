@@ -1,4 +1,5 @@
 require "opentok/constants"
+require "matchers/token"
 
 shared_examples "generates tokens" do
   describe "#generate_token" do
@@ -8,11 +9,16 @@ shared_examples "generates tokens" do
     let(:api_key) { "123456" }
     let(:api_secret) { "1234567890abcdef1234567890abcdef1234567890" }
     let(:session_id) { "1_MX4xMjM0NTZ-flNhdCBNYXIgMTUgMTQ6NDI6MjMgUERUIDIwMTR-MC40OTAxMzAyNX4" }
+    let(:default_role) { :publisher }
 
     it "generates plain tokens" do
       plain_token = opentok.generate_token session_id
       expect(plain_token).to be_an_instance_of String
-      # TODO maybe some more expectation matchers about what a token can be described as
+      expect(plain_token).to carry_token_data :session_id => session_id
+      expect(plain_token).to carry_token_data :api_key => api_key
+      expect(plain_token).to carry_token_data :role => default_role
+      expect(plain_token).to carry_token_data [:nonce, :create_time]
+      expect(plain_token).to carry_valid_token_signature api_secret
     end
 
     it "generates tokens with an expire time" do
@@ -29,6 +35,7 @@ shared_examples "generates tokens" do
       expiring_token = opentok.generate_token session_id, :data => "name=Johnny"
       expect(expiring_token).to be_an_instance_of String
     end
+
 
     # TODO a context about using a bad session_id
   end
