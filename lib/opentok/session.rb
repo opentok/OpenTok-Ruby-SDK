@@ -5,13 +5,14 @@ module OpenTok
 
   class Session
 
-    # include TokenGenerator
-    # generates_tokens :session_id => ->(instance) {
-    #   instance.session_id
-    # }
+    include TokenGenerator
+    generates_tokens({
+      :api_key => ->(instance) { instance.api_key },
+      :api_secret => ->(instance) { instance.api_secret },
+      :session_id => ->(instance) { instance.session_id }
+    })
 
-
-    attr_reader :session_id, :p2p, :location
+    attr_reader :session_id, :p2p, :location, :api_key, :api_secret
 
     # this implementation doesn't completely understand the format of a Session ID
     # that is intentional, that is too much responsibility.
@@ -23,9 +24,7 @@ module OpenTok
       decoded.include? api_key
     end
 
-    attr_reader :session_id
-
-    def initialize(api_key, api_secret, session_id, opts)
+    def initialize(api_key, api_secret, session_id, opts={})
       @api_key, @api_secret, @session_id = api_key, api_secret, session_id
       @p2p, @location = opts[:p2p], opts[:location]
     end

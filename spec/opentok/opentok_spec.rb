@@ -19,7 +19,7 @@ describe OpenTok::OpenTok do
 
     let(:default_api_url) { "https://api.opentok.com" }
 
-    it { should be_an_instance_of(OpenTok::OpenTok) }
+    it { should be_an_instance_of OpenTok::OpenTok  }
 
     it "should have an api_key property" do
       expect(opentok.api_key).to eq api_key
