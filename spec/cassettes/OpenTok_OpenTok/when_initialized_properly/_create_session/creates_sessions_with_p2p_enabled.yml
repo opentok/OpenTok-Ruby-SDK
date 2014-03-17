@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/session/create
+    body:
+      encoding: UTF-8
+      string: p2p.preference=enabled
+    headers:
+      X-Tb-Partner-Auth:
+      - 123456:1234567890abcdef1234567890abcdef1234567890
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 17 Mar 2014 08:48:55 GMT
+      Content-Type:
+      - text/xml
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - '*'
+      X-Tb-Host:
+      - oms504-nyc.tokbox.com
+      Content-Length:
+      - '282'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><sessions><Session><session_id>1_MX4xMjM0NTZ-fk1vbiBNYXIgMTcgMDA6NDE6MzEgUERUIDIwMTR-MC42ODM3ODk1MzQ0OTQyODA4fg</session_id><partner_id>123456</partner_id><create_dt>Mon
+        Mar 17 01:48:55 PDT 2014</create_dt></Session></sessions>
+    http_version: 
+  recorded_at: Mon, 17 Mar 2014 08:48:54 GMT
+recorded_with: VCR 2.8.0

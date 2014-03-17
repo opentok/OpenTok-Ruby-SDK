@@ -1,4 +1,6 @@
+require "spec_helper"
 require "opentok/opentok"
+require "opentok/version"
 require "shared/generates_tokens"
 
 describe OpenTok::OpenTok do
@@ -10,6 +12,10 @@ describe OpenTok::OpenTok do
 
     let(:api_key) { "123456" }
     let(:api_secret) { "1234567890abcdef1234567890abcdef1234567890" }
+
+    # let(:api_key) { "854511" }
+    # let(:api_secret) { "93936990b97ffede04378028766bdc1755562cce" }
+
     let(:default_api_url) { "https://api.opentok.com" }
 
     it { should be_an_instance_of(OpenTok::OpenTok) }
@@ -23,6 +29,40 @@ describe OpenTok::OpenTok do
     end
 
     include_examples "generates tokens"
+
+    describe "#create_session" do
+
+      it "creates default sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session
+        expect(session).to be_an_instance_of OpenTok::Session
+      end
+
+      it "creates sessions with p2p enabled", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session :p2p => true
+        expect(session).to be_an_instance_of OpenTok::Session
+      end
+
+      it "creates sessions with p2p disabled", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session :p2p => false
+        expect(session).to be_an_instance_of OpenTok::Session
+      end
+
+      it "creates sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
+        session = opentok.create_session :location => '12.34.56.78'
+        expect(session).to be_an_instance_of OpenTok::Session
+      end
+
+      it "creates sessions with p2p enabled and a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
+        session = opentok.create_session :p2p => true, :location => '12.34.56.78'
+        expect(session).to be_an_instance_of OpenTok::Session
+      end
+
+      it "creates sessions with p2p disabled and a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
+        session = opentok.create_session :p2p => false, :location => '12.34.56.78'
+        expect(session).to be_an_instance_of OpenTok::Session
+      end
+
+    end
 
     context "with an api_key that's a number" do
       let(:api_key) { 123456 }

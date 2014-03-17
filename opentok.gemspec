@@ -26,7 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "vcr", "~> 2.8.0"
 
   spec.add_dependency "addressable", "~> 2.3.5"
-  spec.add_dependency "json", "~> 1.8.1"
-  spec.add_dependency "rest-client", "~> 1.6.7"
+  spec.add_dependency "httparty", "0.13.0"
   spec.add_dependency "activesupport", "~> 4.0.4"
 end

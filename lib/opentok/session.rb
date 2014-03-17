@@ -14,16 +14,14 @@ module OpenTok
       decoded.include? api_key
     end
 
-    # attr_reader :session_id
-    # attr_reader :created_at
+    attr_reader :session_id
 
-    # def initialize(session_id, create_dt=nil)
-    #   @session_id = session_id
-    #   @created_at = create_dt
-    # end
+    def initialize(api_key, api_secret, session_id)
+      @api_key, @api_secret, @session_id = api_key, api_secret, session_id
+    end
 
-    # def to_s
-    #   @session_id
-    # end
+    def to_s
+      @session_id
+    end
   end
 end
