@@ -1,5 +1,8 @@
 # OpenTok Server SDK for Ruby
 
+TODO: got to change this to opentok fork instead of aoberoi
+[![Build Status](https://travis-ci.org/aoberoi/Opentok-Ruby-SDK.png?branch=modernization)](https://travis-ci.org/aoberoi/Opentok-Ruby-SDK)
+
 The OpenTok server SDK for Ruby lets you generate [sessions](http://tokbox.com/opentok/tutorials/create-session/) and
 [tokens](http://tokbox.com/opentok/tutorials/create-token/) for [OpenTok](http://www.tokbox.com/) applications.
 This version of the SDK also includes support for working with OpenTok 2.0 archives.
