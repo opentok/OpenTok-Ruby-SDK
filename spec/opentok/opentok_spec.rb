@@ -2,7 +2,7 @@ require "opentok/opentok"
 require "opentok/version"
 
 require "spec_helper"
-require "shared/generates_tokens"
+require "shared/opentok_generates_tokens"
 
 describe OpenTok::OpenTok do
 
@@ -29,7 +29,7 @@ describe OpenTok::OpenTok do
       expect(opentok.api_url).to eq default_api_url
     end
 
-    include_examples "generates tokens"
+    include_examples "opentok generates tokens"
 
     describe "#create_session" do
 
@@ -100,7 +100,7 @@ describe OpenTok::OpenTok do
       end
 
       # TODO: maybe i don't need to run all the tests
-      include_examples "generates tokens"
+      include_examples "opentok generates tokens"
     end
 
     context "with an additional api_url" do

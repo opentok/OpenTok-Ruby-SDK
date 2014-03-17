@@ -1,7 +1,7 @@
 require "opentok/constants"
 require "matchers/token"
 
-shared_examples "generates tokens" do
+shared_examples "session generates tokens" do
   describe "#generate_token" do
     # these must be known quantities because generate_token will have to verify that the session_id
     # belongs to the api_key, it doesn't have the luxury of getting that type of failure in an error
@@ -12,7 +12,7 @@ shared_examples "generates tokens" do
     let(:default_role) { :publisher }
 
     it "generates plain tokens" do
-      plain_token = opentok.generate_token session_id
+      plain_token = session.generate_token
       expect(plain_token).to be_an_instance_of String
       expect(plain_token).to carry_token_data :session_id => session_id
       expect(plain_token).to carry_token_data :api_key => api_key
@@ -23,7 +23,7 @@ shared_examples "generates tokens" do
 
     it "generates tokens with an expire time" do
       expire_time = Time.now + (60*60*24)
-      expiring_token = opentok.generate_token session_id, :expire_time => expire_time
+      expiring_token = session.generate_token :expire_time => expire_time
       expect(expiring_token).to be_an_instance_of String
       expect(expiring_token).to carry_token_data :session_id => session_id
       expect(expiring_token).to carry_token_data :api_key => api_key
@@ -35,7 +35,7 @@ shared_examples "generates tokens" do
 
     it "generates tokens with a role" do
       role = :moderator
-      role_token = opentok.generate_token session_id, :role => role
+      role_token = session.generate_token :role => role
       expect(role_token).to be_an_instance_of String
       expect(role_token).to carry_token_data :session_id => session_id
       expect(role_token).to carry_token_data :api_key => api_key
@@ -46,7 +46,7 @@ shared_examples "generates tokens" do
 
     it "generates tokens with data" do
       data = "name=Johnny"
-      data_bearing_token = opentok.generate_token session_id, :data => data
+      data_bearing_token = session.generate_token :data => data
       expect(data_bearing_token).to be_an_instance_of String
       expect(data_bearing_token).to carry_token_data :session_id => session_id
       expect(data_bearing_token).to carry_token_data :api_key => api_key
