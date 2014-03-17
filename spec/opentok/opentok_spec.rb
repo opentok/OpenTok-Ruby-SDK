@@ -1,7 +1,9 @@
-require "spec_helper"
 require "opentok/opentok"
 require "opentok/version"
+
+require "spec_helper"
 require "shared/generates_tokens"
+require "matchers/session"
 
 describe OpenTok::OpenTok do
 
@@ -32,34 +34,55 @@ describe OpenTok::OpenTok do
 
     describe "#create_session" do
 
+      let(:location) { '12.34.56.78' }
+
       it "creates default sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
         session = opentok.create_session
         expect(session).to be_an_instance_of OpenTok::Session
+        # TODO: do we need to be any more specific about what a valid session_id looks like?
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.p2p).to eq false
+        expect(session.location).to eq nil
       end
 
       it "creates sessions with p2p enabled", :vcr => { :erb => { :version => OpenTok::VERSION } } do
         session = opentok.create_session :p2p => true
         expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.p2p).to eq true
+        expect(session.location).to eq nil
       end
 
       it "creates sessions with p2p disabled", :vcr => { :erb => { :version => OpenTok::VERSION } } do
         session = opentok.create_session :p2p => false
         expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.p2p).to eq false
+        expect(session.location).to eq nil
       end
 
       it "creates sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
-        session = opentok.create_session :location => '12.34.56.78'
+        session = opentok.create_session :location => location
         expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.p2p).to eq false
+        expect(session.location).to eq location
       end
 
       it "creates sessions with p2p enabled and a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
-        session = opentok.create_session :p2p => true, :location => '12.34.56.78'
+        session = opentok.create_session :p2p => true, :location => location
         expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.p2p).to eq true
+        expect(session.location).to eq location
       end
 
       it "creates sessions with p2p disabled and a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
-        session = opentok.create_session :p2p => false, :location => '12.34.56.78'
+        session = opentok.create_session :p2p => false, :location => location
         expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.p2p).to eq false
+        expect(session.location).to eq location
       end
 
     end
@@ -91,7 +114,7 @@ describe OpenTok::OpenTok do
         expect(opentok.api_url).to eq api_url
       end
 
-      # TODO: i don't need to run all the tests, but a set that checks for the URL's effect
+      # TODO: i don't need to run all the tests, just a set that checks for the URL's effect
       # include_examples "generates tokens"
     end
 

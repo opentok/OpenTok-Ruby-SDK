@@ -99,9 +99,9 @@ module OpenTok
         params[:location] = opts[:location]
       end
 
-      response = client.create_session(params)
+      response = client.create_session(params.clone)
 
-      Session.new @api_key, @api_secret, response['sessions']['Session']['session_id']
+      Session.new @api_key, @api_secret, response['sessions']['Session']['session_id'], params
 
       # doc = do_request '/session/create', opts
 

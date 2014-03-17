@@ -4,6 +4,8 @@ module OpenTok
 
   class Session
 
+    attr_reader :session_id, :p2p, :location
+
     # this implementation doesn't completely understand the format of a Session ID
     # that is intentional, that is too much responsibility.
     def self.belongs_to_api_key?(session_id, api_key)
@@ -16,8 +18,9 @@ module OpenTok
 
     attr_reader :session_id
 
-    def initialize(api_key, api_secret, session_id)
+    def initialize(api_key, api_secret, session_id, opts)
       @api_key, @api_secret, @session_id = api_key, api_secret, session_id
+      @p2p, @location = opts[:p2p], opts[:location]
     end
 
     def to_s
