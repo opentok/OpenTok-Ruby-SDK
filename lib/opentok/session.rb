@@ -1,8 +1,15 @@
 require "base64"
+require "opentok/token_generator"
 
 module OpenTok
 
   class Session
+
+    # include TokenGenerator
+    # generates_tokens :session_id => ->(instance) {
+    #   instance.session_id
+    # }
+
 
     attr_reader :session_id, :p2p, :location
 

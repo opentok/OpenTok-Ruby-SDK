@@ -59,4 +59,5 @@ shared_examples "generates tokens" do
 
     # TODO a context about using a bad session_id
   end
+
 end

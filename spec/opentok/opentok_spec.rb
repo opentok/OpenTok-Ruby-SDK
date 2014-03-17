@@ -3,7 +3,6 @@ require "opentok/version"
 
 require "spec_helper"
 require "shared/generates_tokens"
-require "matchers/session"
 
 describe OpenTok::OpenTok do
 
