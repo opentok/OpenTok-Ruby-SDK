@@ -52,7 +52,7 @@ module OpenTok
       unless ROLES.has_key? role
         raise "'#{role}' is not a recognized role"
       end
-      unless Session.belongs_to_api_key? session_id, api_key
+      unless Session.belongs_to_api_key? session_id.to_s, api_key
         raise "Cannot generate token for a session_id that doesn't belong to api_key: #{api_key}"
       end
 
