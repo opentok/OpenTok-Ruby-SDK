@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "webmock", "~> 1.17.4"
   spec.add_development_dependency "vcr", "~> 2.8.0"
   # TODO: exclude this for compatibility with rbx
-  spec.add_development_dependency "debugger", "~> 1.6.6"
+  # spec.add_development_dependency "debugger", "~> 1.6.6"
 
   spec.add_dependency "addressable", "~> 2.3.5"
   spec.add_dependency "httparty", "0.13.0"
