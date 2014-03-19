@@ -2,18 +2,18 @@
 
 **TODO**: got to change this to opentok fork instead of aoberoi
 
-[![Build Status](https:#travis-ci.org/aoberoi/Opentok-Ruby-SDK.png?branch=modernization)](https:#travis-ci.org/aoberoi/Opentok-Ruby-SDK)
+[![Build Status](https://travis-ci.org/aoberoi/Opentok-Ruby-SDK.png?branch=modernization)](https://travis-ci.org/aoberoi/Opentok-Ruby-SDK)
 
 The OpenTok Ruby SDK lets you generate
-[sessions](http:#tokbox.com/opentok/tutorials/create-session/) and
-[tokens](http:#tokbox.com/opentok/tutorials/create-token/) for [OpenTok](http:#www.tokbox.com/)
+[sessions](http://tokbox.com/opentok/tutorials/create-session/) and
+[tokens](http://tokbox.com/opentok/tutorials/create-token/) for [OpenTok](http://www.tokbox.com/)
 applications. This version of the SDK also includes support for working with OpenTok 2.0 archives.
 
 # Installation
 
 ## Bundler (recommended):
 
-Bundler helps manage dependencies for Ruby projects. Find more info here: <http:#bundler.io>
+Bundler helps manage dependencies for Ruby projects. Find more info here: <http://bundler.io>
 
 Add this gem to your `Gemfile`:
 
@@ -152,13 +152,13 @@ $total = archive_list.total
 
 # Requirements
 
-You need an OpenTok API key and API secret, which you can obtain at <https:#dashboard.tokbox.com>.
+You need an OpenTok API key and API secret, which you can obtain at <https://dashboard.tokbox.com>.
 
 The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
 # Release Notes
 
-**TODO**: See the [Releases](https:#github.com/opentok/opentok-php-sdk/releases) page for details 
+**TODO**: See the [Releases](https://github.com/opentok/opentok-php-sdk/releases) page for details 
 about each release.
 
 ## Important changes in v2.0
@@ -169,13 +169,13 @@ work with OpenTok 1.0 archives.)
 # Development and Contributing
 
 Interested in contributing? We <3 pull requests! File a new
-[Issue](https:#github.com/opentok/opentok-ruby-sdk/issues) or take a look at the existing ones. If
+[Issue](https://github.com/opentok/opentok-ruby-sdk/issues) or take a look at the existing ones. If
 you are going to send us a pull request, please try to run the test suite first and also include
 tests for your changes.
 
 # Support
 
-See <http:#tokbox.com/opentok/support/> for all our support options.
+See <http://tokbox.com/opentok/support/> for all our support options.
 
-Find a bug? File it on the [Issues](https:#github.com/opentok/opentok-ruby-sdk/issues) page. Hint:
+Find a bug? File it on the [Issues](https://github.com/opentok/opentok-ruby-sdk/issues) page. Hint:
 test cases are really helpful!
