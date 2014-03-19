@@ -14,9 +14,6 @@ describe OpenTok::OpenTok do
     let(:api_key) { "123456" }
     let(:api_secret) { "1234567890abcdef1234567890abcdef1234567890" }
 
-    # let(:api_key) { "854511" }
-    # let(:api_secret) { "93936990b97ffede04378028766bdc1755562cce" }
-
     let(:default_api_url) { "https://api.opentok.com" }
 
     it { should be_an_instance_of OpenTok::OpenTok  }
