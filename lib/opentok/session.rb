@@ -26,7 +26,7 @@ module OpenTok
 
     def initialize(api_key, api_secret, session_id, opts={})
       @api_key, @api_secret, @session_id = api_key, api_secret, session_id
-      @p2p, @location = opts[:p2p], opts[:location]
+      @p2p, @location = opts.fetch(:p2p, false), opts[:location]
     end
 
     def to_s

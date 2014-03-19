@@ -2,6 +2,7 @@ require "opentok/constants"
 require "opentok/session"
 require "opentok/client"
 require "opentok/token_generator"
+require "opentok/archives"
 
 require "resolv"
 
@@ -36,29 +37,29 @@ module OpenTok
     # Creates a new OpenTok::Session and set it's session_id,
     # situating it in TokBox's global network near the IP of the specified @location@.
     #
-    # param: location
-    # param: p2p
-    #
     def create_session(opts={})
 
-      params = { p2p: opts.fetch(:p2p, false) }
-      unless opts[:location].nil?
-        raise "location must be an IPv4 address" unless opts[:location] =~ Resolv::IPv4::Regex
-        params[:location] = opts[:location]
+      valid_opts = [ "p2p", "location" ]
+      opts.keep_if { |k, v| valid_opts.include? k.to_s  }
+
+      params = opts.clone
+      params["p2p.preference"] = params.delete(:p2p) ? "enabled" : "disabled"
+      unless params[:location].nil?
+        raise "location must be an IPv4 address" unless params[:location] =~ Resolv::IPv4::Regex
       end
 
-      response = client.create_session(params.clone)
-      Session.new @api_key, @api_secret, response['sessions']['Session']['session_id'], params
+      response = client.create_session(params)
+      Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts
     end
 
-    # def archives
-    #   @archives ||= Archives.new @partner_id, @partner_secret, @api_url
-    # end
+    def archives
+      @archives ||= Archives.new client
+    end
 
     protected
 
     def client
-      @client ||= Client.new @api_key, @api_secret, @api_url
+      @client ||= Client.new api_key, api_secret, api_url
     end
 
   end

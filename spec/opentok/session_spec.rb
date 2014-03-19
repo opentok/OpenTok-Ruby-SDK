@@ -26,8 +26,8 @@ describe OpenTok::Session do
     it "should be represented by session_id when coerced to a string" do
       expect(session.to_s).to eq session_id
     end
-    it "should not have a p2p value" do
-      expect(session.p2p).to eq nil
+    it "should not have the default p2p value of false" do
+      expect(session.p2p).to eq false
     end
     it "should not have a location value" do
       expect(session.location).to eq nil

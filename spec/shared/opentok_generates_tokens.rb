@@ -56,7 +56,6 @@ shared_examples "opentok generates tokens" do
       expect(data_bearing_token).to carry_valid_token_signature api_secret
     end
 
-
     # TODO a context about using a bad session_id
   end
 

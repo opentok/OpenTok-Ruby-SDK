@@ -1,0 +1,71 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.opentok.com/v2/partner/123456/archive?offset=3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Tb-Partner-Auth:
+      - 123456:1234567890abcdef1234567890abcdef1234567890
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 19 Mar 2014 00:44:22 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "count" : 6,
+          "items" : [ {
+            "createdAt" : 1395183243000,
+            "duration" : 544,
+            "id" : "30b3ebf1-ba36-4f5b-8def-6f70d9986fe9",
+            "name" : "",
+            "partnerId" : 123456,
+            "reason" : "",
+            "sessionId" : "SESSIONID",
+            "size" : 78499758,
+            "status" : "available",
+            "url" : "http://tokbox.com.archive2.s3.amazonaws.com/123456%2F30b3ebf1-ba36-4f5b-8def-6f70d9986fe9%2Farchive.mp4?Expires=1395188695&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }, {
+            "createdAt" : 1394396753000,
+            "duration" : 24,
+            "id" : "b8f64de1-e218-4091-9544-4cbf369fc238",
+            "name" : "showtime again",
+            "partnerId" : 123456,
+            "reason" : "",
+            "sessionId" : "SESSIONID",
+            "size" : 2227849,
+            "status" : "available",
+            "url" : "http://tokbox.com.archive2.s3.amazonaws.com/123456%2Fb8f64de1-e218-4091-9544-4cbf369fc238%2Farchive.mp4?Expires=1395188695&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }, {
+            "createdAt" : 1394321113000,
+            "duration" : 1294,
+            "id" : "832641bf-5dbf-41a1-ad94-fea213e59a92",
+            "name" : "showtime",
+            "partnerId" : 123456,
+            "reason" : "",
+            "sessionId" : "SESSIONID",
+            "size" : 42165242,
+            "status" : "available",
+            "url" : "http://tokbox.com.archive2.s3.amazonaws.com/123456%2F832641bf-5dbf-41a1-ad94-fea213e59a92%2Farchive.mp4?Expires=1395188695&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          } ]
+        }
+    http_version: 
+  recorded_at: Wed, 19 Mar 2014 00:44:22 GMT
+recorded_with: VCR 2.8.0

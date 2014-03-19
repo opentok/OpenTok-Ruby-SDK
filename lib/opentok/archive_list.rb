@@ -1,18 +1,16 @@
+require "opentok/archive"
+
+require "multi_json"
 
 module OpenTok
   class ArchiveList < Array
 
     attr_reader :total
 
-    def initialize(api, response)
-      @total = response['count']
-
-      mapped =  response['items'].map do |item|
-        Archive.new api, item
-      end
-
-      super mapped
+    def initialize(interface, json)
+      @total = json['count']
+      super json['items'].map { |item| Archive.new interface, item }
     end
-    
+
   end
 end
