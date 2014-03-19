@@ -10,12 +10,15 @@ class HelloWorld < Sinatra::Base
   set :session, opentok.create_session
 
   get '/' do
-    session = settings.session
-    opentok = settings.opentok
+
+    api_key = settings.api_key
+    session_id = settings.session.session_id
+    token = settings.opentok.generate_token(session_id)
+
     erb :index, :locals => {
-      :api_key => settings.api_key,
-      :session_id => session,
-      :token => opentok.generate_token(session)
+      :api_key => api_key,
+      :session_id => session_id,
+      :token => token
     }
   end
 
