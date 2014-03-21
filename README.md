@@ -148,7 +148,7 @@ $total = archive_list.total
 
 # Documentation
 
-**TODO**: Reference documentation is available at http:#opentok.github.io/opentok-ruby-sdk/
+**TODO**: Reference documentation is available at <http://opentok.github.io/opentok-ruby-sdk/>
 
 # Requirements
 
