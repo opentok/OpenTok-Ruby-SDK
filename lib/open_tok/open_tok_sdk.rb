@@ -10,8 +10,6 @@ require 'openssl'
 require 'base64'
 require 'rexml/document'
 
-DIGEST  = OpenSSL::Digest.new 'sha1'
-
 module OpenTok
 
   autoload :Archive                 , 'open_tok/archive'
@@ -28,6 +26,8 @@ module OpenTok
     attr_reader :api_url
 
     TOKEN_SENTINEL = "T1=="
+
+    DIGEST  = OpenSSL::Digest.new 'sha1'
 
     ##
     # Create a new OpenTok REST API client
