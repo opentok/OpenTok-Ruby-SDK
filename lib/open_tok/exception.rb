@@ -11,8 +11,7 @@ module OpenTok
   # The exception that gets thrown when an invalid api-key and/or secret is given.
   class OpenTokException < RuntimeError
 
-    def initialize(code, message)
-      @code = code
+    def initialize(message)
       @mesasge = message
     end
 
@@ -29,11 +28,9 @@ module OpenTok
       # Generates the relevant exception instance based on the XML error data received
       def from_error(error)
         child = error.get_elements('Errors')[0].get_elements('error')[0]
-        code = child.attributes['code']
-        exception = exceptions.find{|exc| exc.http_code == code }
         exception ||= self
         message = child.children.empty? ? '' : child.children[0].attributes['message']
-        exception.new code, message
+        exception.new message
       end
 
       # To be overriden by subclasses

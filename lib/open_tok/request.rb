@@ -44,9 +44,9 @@ module OpenTok
       end
 
     rescue Net::HTTPExceptions => e
-      raise OpenTokException.new e.response.code, "Unable to create fufill request: #{e}"
+      raise OpenTokException.new "Unable to create fufill request: #{e}"
     rescue NoMethodError => e
-      raise OpenTokException.new e.response.code, "Unable to create a fufill request at this time: #{e}"
+      raise OpenTokException.new "Unable to create a fufill request at this time: #{e}"
     end
 
     private
