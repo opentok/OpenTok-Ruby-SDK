@@ -158,7 +158,7 @@ The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
 # Release Notes
 
-**TODO**: See the [Releases](https://github.com/opentok/opentok-php-sdk/releases) page for details 
+**TODO**: See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details 
 about each release.
 
 ## Important changes in v2.0
