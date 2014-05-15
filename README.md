@@ -42,7 +42,7 @@ $ gem install opentok -v 2.2.0pre
 ## Initializing
 
 Load the gem at the top of any file where it will be used. Then initialize an `OpenTok::OpenTok`
-object with your own API Key and API Secret.
+object with your OpenTok API key and API secret.
 
 ```ruby
 require "opentok"
@@ -52,7 +52,7 @@ opentok = OpenTok::OpenTok.new api_key, api_secret
 
 ## Creating Sessions
 
-To create an OpenTok Session, use the `opentok.create_session(properties)` method. The 
+To create an OpenTok Session, use the `OpenTok.create_session(properties)` method. The
 `properties` parameter is an optional Hash used to specify whether you are creating a p2p Session
 and specifying a location hint. The `session_id` method of the returned `OpenTok::Session`
 instance is useful to get a sessionId that can be saved to a persistent store (e.g. database).
@@ -80,6 +80,7 @@ the Token.
 ```ruby
 # Generate a Token from just a session_id (fetched from a database)
 token = opentok.generate_token session_id
+
 # Generate a Token by calling the method on the Session (returned from createSession)
 token = session.generate_token
 
@@ -148,7 +149,8 @@ $total = archive_list.total
 
 # Documentation
 
-**TODO**: Reference documentation is available at <http://opentok.github.io/opentok-ruby-sdk/>
+Reference documentation is available at <http://www.tokbox.com//opentok/libraries/server/ruby/reference/index.html> and in the
+doc directory of the SDK.
 
 # Requirements
 
@@ -161,7 +163,7 @@ The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 **TODO**: See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details 
 about each release.
 
-## Important changes in v2.0
+## Important changes in v2.2
 
 This version of the SDK includes support for working with OpenTok 2.0 archives. (This API does not
 work with OpenTok 1.0 archives.)

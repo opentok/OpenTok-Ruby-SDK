@@ -62,10 +62,9 @@ module OpenTok
     # http://www.tokbox.com/opentok/api/#session_id_production) or the OpenTok dashboard
     # (see https://dashboard.tokbox.com/projects).
     #
-    # @param [Hash] options (Optional) This hash defines options for the session. It includes
-    #   the following keys (each of which is optional):
+    # @param [Hash] opts (Optional) This hash defines options for the session.
     #
-    #   * :p2p (Boolean) -- The session's streams will be transmitted directly between
+    # @option opts [Boolean] :p2p The session's streams will be transmitted directly between
     #     peers (true) or using the OpenTok Media Router (false). By default, sessions use
     #     the OpenTok Media Router.
     #     
@@ -84,7 +83,7 @@ module OpenTok
     #     peer-to-peer session uses the OpenTok TURN server to relay streams. For information on
     #     pricing, see the OpenTok pricing page (http://www.tokbox.com/pricing).
     #
-    #   * :location (String) -- An IP address that the OpenTok servers will use to
+    # @option opts [String] :location  An IP address that the OpenTok servers will use to
     #     situate the session in its global network. If you do not set a location hint,
     #     the OpenTok servers will be based on the first client connecting to the session.
     #
