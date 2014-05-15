@@ -7,6 +7,7 @@ require "digest/hmac"
 require "active_support/time"
 
 module OpenTok
+  # @private
   module TokenGenerator
     # this works when using include TokenGenerator
     def self.included(base)
@@ -14,7 +15,7 @@ module OpenTok
     end
     module ClassMethods
 
-      # arguments the method we should generate will need (in order):
+      # @private arguments the method we should generate will need (in order):
       # *  api_key (required - if no lambda assigned, part of method sig)
       # *  api_secret (required - if no lambda assigned, part of method sig)
       # *  session_id (required - if no lambda assigned, part of method sig)
@@ -35,17 +36,19 @@ module OpenTok
         end
       end
 
+      # @private For internal use by the SDK.
       def arg_lambdas
         @arg_lambdas
       end
 
+      # Generates a token
       def generate_token
         TokenGenerator::GENERATE_TOKEN_LAMBDA
       end
 
     end
 
-    # TODO: this probably doesn't need to be a constant anyone can read
+    # @private TODO: this probably doesn't need to be a constant anyone can read
     GENERATE_TOKEN_LAMBDA = ->(api_key, api_secret, session_id, opts = {}) do
       # normalize required data params
       role = opts.fetch(:role, :publisher)

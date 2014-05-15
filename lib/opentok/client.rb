@@ -3,6 +3,7 @@ require "opentok/exceptions"
 require "httparty"
 
 module OpenTok
+  # @private For internal use by the SDK.
   class Client
     include HTTParty
     # TODO: expose a setting for http debugging for developers
