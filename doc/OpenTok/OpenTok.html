@@ -187,6 +187,30 @@ identifies the session.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#generate_token-instance_method" title="#generate_token (instance method)">- (String) <strong>generate_token</strong>(options) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generates a token for a given session.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#initialize-instance_method" title="#initialize (instance method)">- (OpenTok) <strong>initialize</strong>(api_key, api_secret, api_url = ::OpenTok::API_URL) </a>
     
 
@@ -303,16 +327,16 @@ href="https://dashboard.tokbox.com">dashboard.tokbox.com</a>).</p>
       <pre class="lines">
 
 
-39
-40
-41
-42
-43
-44
-45</pre>
+67
+68
+69
+70
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span> <span class='comma'>,</span> <span class='id identifier rubyid_api_url'>api_url</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>OpenTok</span><span class='op'>::</span><span class='const'>API_URL</span><span class='rparen'>)</span>
   <span class='ivar'>@api_key</span> <span class='op'>=</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='rparen'>)</span>
@@ -359,12 +383,12 @@ href="https://dashboard.tokbox.com">dashboard.tokbox.com</a>).</p>
       <pre class="lines">
 
 
-107
-108
-109</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_archives'>archives</span>
   <span class='ivar'>@archives</span> <span class='op'>||=</span> <span class='const'>Archives</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_client'>client</span>
@@ -518,23 +542,23 @@ ID.</p>
       <pre class="lines">
 
 
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104</pre>
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 
@@ -555,12 +579,364 @@ ID.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="generate_token-instance_method">
+  
+    - (<tt>String</tt>) <strong>generate_token</strong>(options) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates a token for a given session.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>sessioin_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The session ID of the session to be accessed by the client using the token.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A hash defining options for the token.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>options</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:role</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The role for the token. Valid values are defined in the Role class:</p>
+<ul><li>
+<p><tt>SUBSCRIBER</tt> -- A subscriber can only subscribe to streams.</p>
+</li><li>
+<p><tt>PUBLISHER</tt> -- A publisher can publish streams, subscribe to
+streams, and signal. (This is the default value if you do not specify a
+role.)</p>
+</li><li>
+<p><tt>MODERATOR</tt> -- In addition to the privileges granted to a publisher,
+in clients using the OpenTok.js 2.2 library, a moderator can call the
+<tt>forceUnpublish()</tt> and <tt>forceDisconnect()</tt> method of the
+Session object.</p>
+</li></ul>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:expire_time</span>
+          <span class="type">(<tt>integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>The expiration time, in seconds since the UNIX epoch. Pass in 0 to use the
+default expiration time of 24 hours after the token creation time. The
+maximum expiration time is 30 days after the creation time.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:data</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>A string containing connection metadata describing the end-user. For
+example, you can pass the user ID, name, or other data describing the
+end-user. The length of the string is limited to 1000 characters. This data
+cannot be updated once it is set.</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The token string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 47</span>
+
+<span class='kw'>class</span> <span class='const'>OpenTok</span>
+
+  <span class='id identifier rubyid_include'>include</span> <span class='const'>TokenGenerator</span>
+  <span class='id identifier rubyid_generates_tokens'>generates_tokens</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+    <span class='symbol'>:api_key</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_instance'>instance</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_api_key'>api_key</span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='symbol'>:api_secret</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_instance'>instance</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_api_secret'>api_secret</span> <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span><span class='rparen'>)</span>
+
+  <span class='comment'># @private
+</span>  <span class='comment'># don't want these to be mutable, may cause bugs related to inconsistency since these values are
+</span>  <span class='comment'># cached in objects that this can create
+</span>  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span><span class='comma'>,</span> <span class='symbol'>:api_url</span>
+
+  <span class='comment'>##
+</span>  <span class='comment'># Create a new OpenTok object.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [String] api_key Your OpenTok API key. See the OpenTok dashboard
+</span>  <span class='comment'>#   (https://dashboard.tokbox.com).
+</span>  <span class='comment'># @param [String] api_secret Your OpenTok API key.
+</span>  <span class='comment'># @param [String] api_url Do not set this parameter. It is for internal use by TokBox.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span> <span class='comma'>,</span> <span class='id identifier rubyid_api_url'>api_url</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>OpenTok</span><span class='op'>::</span><span class='const'>API_URL</span><span class='rparen'>)</span>
+    <span class='ivar'>@api_key</span> <span class='op'>=</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='rparen'>)</span>
+    <span class='ivar'>@api_secret</span> <span class='op'>=</span> <span class='id identifier rubyid_api_secret'>api_secret</span>
+    <span class='comment'># TODO: do we really need a copy of this in the instance or should we overwrite the module
+</span>    <span class='comment'># constant so that other objects can access the same copy?
+</span>    <span class='ivar'>@api_url</span> <span class='op'>=</span> <span class='id identifier rubyid_api_url'>api_url</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Creates a new OpenTok session and returns the session ID, which uniquely identifies
+</span>  <span class='comment'># the session.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># For example, when using the OpenTok JavaScript library, use the session ID when calling the
+</span>  <span class='comment'># OT.initSession()&lt;/a&gt; method (to initialize an OpenTok session).
+</span>  <span class='comment'>#
+</span>  <span class='comment'># OpenTok sessions do not expire. However, authentication tokens do expire (see the
+</span>  <span class='comment'># generateToken() method). Also note that sessions cannot explicitly be destroyed.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># A session ID string can be up to 255 characters long.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># Calling this method results in an OpenTokException in the event of an error.
+</span>  <span class='comment'># Check the error message for details.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># You can also create a session using the OpenTok REST API (see
+</span>  <span class='comment'># http://www.tokbox.com/opentok/api/#session_id_production) or the OpenTok dashboard
+</span>  <span class='comment'># (see https://dashboard.tokbox.com/projects).
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param [Hash] opts (Optional) This hash defines options for the session.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @option opts [Boolean] :p2p The session's streams will be transmitted directly between
+</span>  <span class='comment'>#     peers (true) or using the OpenTok Media Router (false). By default, sessions use
+</span>  <span class='comment'>#     the OpenTok Media Router.
+</span>  <span class='comment'>#     
+</span>  <span class='comment'>#     The OpenTok Media Router&lt;/a&gt; provides benefits not available in peer-to-peer sessions.
+</span>  <span class='comment'>#     For example, the OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
+</span>  <span class='comment'>#     Also, the OpenTok Media Router can improve the quality of the user experience through
+</span>  <span class='comment'>#     dynamic traffic shaping. For more information, see
+</span>  <span class='comment'>#     http://www.tokbox.com/blog/mantis-next-generation-cloud-technology-for-webrtc and
+</span>  <span class='comment'>#     http://www.tokbox.com/blog/quality-of-experience-and-traffic-shaping-the-next-step-with-mantis.
+</span>  <span class='comment'>#     
+</span>  <span class='comment'>#     For peer-to-peer sessions, the session will attempt to transmit streams directly
+</span>  <span class='comment'>#     between clients. If clients cannot connect due to firewall restrictions, the session uses
+</span>  <span class='comment'>#     the OpenTok TURN server to relay audio-video streams.
+</span>  <span class='comment'>#     
+</span>  <span class='comment'>#     You will be billed for streamed minutes if you use the OpenTok Media Router or if the
+</span>  <span class='comment'>#     peer-to-peer session uses the OpenTok TURN server to relay streams. For information on
+</span>  <span class='comment'>#     pricing, see the OpenTok pricing page (http://www.tokbox.com/pricing).
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @option opts [String] :location  An IP address that the OpenTok servers will use to
+</span>  <span class='comment'>#     situate the session in its global network. If you do not set a location hint,
+</span>  <span class='comment'>#     the OpenTok servers will be based on the first client connecting to the session.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Session] The Session object. The session_id property of the object is the session ID.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>location</span><span class='tstring_end'>&quot;</span></span> <span class='rbracket'>]</span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_keep_if'>keep_if</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_valid_opts'>valid_opts</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>  <span class='rbrace'>}</span>
+
+    <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:p2p</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>disabled</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>location must be an IPv4 address</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>IPv4</span><span class='op'>::</span><span class='const'>Regex</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='const'>Session</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>sessions</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Session</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>session_id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># An Archives object, which lets you work with OpenTok 2.0 archives.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_archives'>archives</span>
+    <span class='ivar'>@archives</span> <span class='op'>||=</span> <span class='const'>Archives</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_client'>client</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_protected'>protected</span>
+
+  <span class='kw'>def</span> <span class='id identifier rubyid_client'>client</span>
+    <span class='ivar'>@client</span> <span class='op'>||=</span> <span class='const'>Client</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_api_url'>api_url</span>
+  <span class='kw'>end</span>
+
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
     <div id="footer">
-  Generated on Wed May 14 21:33:44 2014 by
+  Generated on Thu May 15 17:30:32 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

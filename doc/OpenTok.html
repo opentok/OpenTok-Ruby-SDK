@@ -162,7 +162,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Generates a token.</p>
+<p>Generates a token for a given session.</p>
 </div></span>
   
 </li>
@@ -189,7 +189,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Generates a token.</p>
+<p>Generates a token for a given session.</p>
 
 
   </div>
@@ -200,12 +200,33 @@
   
     <li>
       
+        <span class='name'>sessioin_id</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The session ID of the session to be accessed by the client using the token.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>options</span>
       
       
         <span class='type'>(<tt>Hash</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>A hash defining options for the token.</p>
+</div>
       
     </li>
   
@@ -381,7 +402,7 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Wed May 14 21:33:44 2014 by
+  Generated on Thu May 15 17:30:31 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>
