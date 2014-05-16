@@ -16,6 +16,34 @@ module OpenTok
   #
   # @attr_reader [String] api_secret @private The OpenTok API secret.
   # @attr_reader [String] api_key @private The OpenTok API key.
+  #
+  #
+  # @!method generate_token(options)
+  #   Generates a token for a given session.
+  #
+  #   @param [String] sessioin_id The session ID of the session to be accessed by the client using
+  #     the token.
+  #
+  #   @param [Hash] options A hash defining options for the token.
+  #   @option options [String] :role The role for the token. Valid values are defined in the Role
+  #     class:
+  #     * <code>SUBSCRIBER</code> -- A subscriber can only subscribe to streams.
+  #
+  #     * <code>PUBLISHER</code> -- A publisher can publish streams, subscribe to
+  #       streams, and signal. (This is the default value if you do not specify a role.)
+  #
+  #     * <code>MODERATOR</code> -- In addition to the privileges granted to a
+  #       publisher, in clients using the OpenTok.js 2.2 library, a moderator can call the
+  #       <code>forceUnpublish()</code> and <code>forceDisconnect()</code> method of the
+  #       Session object.
+  #   @option options [integer] :expire_time The expiration time, in seconds since the UNIX epoch.
+  #     Pass in 0 to use the default expiration time of 24 hours after the token creation time.
+  #     The maximum expiration time is 30 days after the creation time.
+  #   @option options [String] :data A string containing connection metadata describing the
+  #     end-user. For example, you can pass the user ID, name, or other data describing the
+  #     end-user. The length of the string is limited to 1000 characters. This data cannot be
+  #     updated once it is set.
+  #   @return [String] The token string.
   class OpenTok
 
     include TokenGenerator
