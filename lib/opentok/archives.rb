@@ -59,8 +59,8 @@ module OpenTok
       Archive.new self, archive_json
     end
 
-    # Returns an ArchiveList. The `items()` method of this object returns a list of
-    # archives that are completed and in-progress, for your API key.
+    # Returns an ArchiveList, which is an array of archives that are completed and in-progress,
+    # for your API key.
     #
     # @param [Hash] options  A hash with keys defining which range of archives to retrieve.
     # @option options [integer] :offset Optional. The index offset of the first archive. 0 is offset
