@@ -26,8 +26,8 @@ describe OpenTok::Session do
     it "should be represented by session_id when coerced to a string" do
       expect(session.to_s).to eq session_id
     end
-    it "should not have the default p2p value of false" do
-      expect(session.p2p).to eq false
+    it "should have the default media mode of routed" do
+      expect(session.media_mode).to eq :routed
     end
     it "should not have a location value" do
       expect(session.location).to eq nil
@@ -52,13 +52,13 @@ describe OpenTok::Session do
     it "should be represented by session_id when coerced to a string" do
       expect(session.to_s).to eq session_id
     end
-    it "should have p2p value when set in options" do
-      opts = { :p2p => true }
+    it "should have media mode when set in options" do
+      opts = { :media_mode => :routed }
       session = OpenTok::Session.new api_key, api_secret, session_id, opts
-      expect(session.p2p).to eq true
-      opts = { :p2p => false }
+      expect(session.media_mode).to eq :routed
+      opts = { :media_mode => :relayed }
       session = OpenTok::Session.new api_key, api_secret, session_id, opts
-      expect(session.p2p).to eq false
+      expect(session.media_mode).to eq :relayed
     end
     it "should have a location value when set in options" do
       opts = { :location => '12.34.56.78' }

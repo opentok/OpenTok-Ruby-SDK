@@ -49,7 +49,7 @@ module OpenTok
       :session_id => ->(instance) { instance.session_id }
     })
 
-    attr_reader :session_id, :p2p, :location, :api_key, :api_secret
+    attr_reader :session_id, :media_mode, :location, :api_key, :api_secret
 
     # @private
     # this implementation doesn't completely understand the format of a Session ID
@@ -65,7 +65,7 @@ module OpenTok
     # @private
     def initialize(api_key, api_secret, session_id, opts={})
       @api_key, @api_secret, @session_id = api_key, api_secret, session_id
-      @p2p, @location = opts.fetch(:p2p, false), opts[:location]
+      @media_mode, @location = opts.fetch(:media_mode, :routed), opts[:location]
     end
 
     # @private

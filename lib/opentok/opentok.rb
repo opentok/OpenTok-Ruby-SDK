@@ -95,18 +95,18 @@ module OpenTok
     # @option opts [Boolean] :p2p The session's streams will be transmitted directly between
     #     peers (true) or using the OpenTok Media Router (false). By default, sessions use
     #     the OpenTok Media Router.
-    #     
+    #
     #     The OpenTok Media Router</a> provides benefits not available in peer-to-peer sessions.
     #     For example, the OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
     #     Also, the OpenTok Media Router can improve the quality of the user experience through
     #     dynamic traffic shaping. For more information, see
     #     http://www.tokbox.com/blog/mantis-next-generation-cloud-technology-for-webrtc and
     #     http://www.tokbox.com/blog/quality-of-experience-and-traffic-shaping-the-next-step-with-mantis.
-    #     
+    #
     #     For peer-to-peer sessions, the session will attempt to transmit streams directly
     #     between clients. If clients cannot connect due to firewall restrictions, the session uses
     #     the OpenTok TURN server to relay audio-video streams.
-    #     
+    #
     #     You will be billed for streamed minutes if you use the OpenTok Media Router or if the
     #     peer-to-peer session uses the OpenTok TURN server to relay streams. For information on
     #     pricing, see the OpenTok pricing page (http://www.tokbox.com/pricing).
@@ -118,11 +118,28 @@ module OpenTok
     # @return [Session] The Session object. The session_id property of the object is the session ID.
     def create_session(opts={})
 
-      valid_opts = [ "p2p", "location" ]
-      opts.keep_if { |k, v| valid_opts.include? k.to_s  }
+      # normalize opts so all keys are symbols and only include valid_opts
+      valid_opts = [ :media_mode, :location ]
+      opts = opts.inject({}) do |m,(k,v)|
+        if valid_opts.include? k.to_sym
+          m[k.to_sym] = v
+        end
+        m
+      end
 
+      # keep opts around for Session constructor, build REST params
       params = opts.clone
-      params["p2p.preference"] = params.delete(:p2p) ? "enabled" : "disabled"
+
+      # anything other than :relayed sets the REST param to "enabled", in which case we force
+      # opts to be :routed. if we were more strict we could raise an error when the value isn't
+      # either :relayed or :routed
+      if params.delete(:media_mode) == :relayed
+        params["p2p.preference"] = "enabled"
+      else
+        params["p2p.preference"] = "disabled"
+        opts[:media_mode] = :routed
+      end
+      # location is optional, but it has to be an IP address if specified at all
       unless params[:location].nil?
         raise "location must be an IPv4 address" unless params[:location] =~ Resolv::IPv4::Regex
       end

@@ -37,48 +37,56 @@ describe OpenTok::OpenTok do
         expect(session).to be_an_instance_of OpenTok::Session
         # TODO: do we need to be any more specific about what a valid session_id looks like?
         expect(session.session_id).to be_an_instance_of String
-        expect(session.p2p).to eq false
+        expect(session.media_mode).to eq :routed
         expect(session.location).to eq nil
       end
 
-      it "creates sessions with p2p enabled", :vcr => { :erb => { :version => OpenTok::VERSION } } do
-        session = opentok.create_session :p2p => true
+      it "creates relayed media sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session :media_mode => :relayed
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
-        expect(session.p2p).to eq true
+        expect(session.media_mode).to eq :relayed
         expect(session.location).to eq nil
       end
 
-      it "creates sessions with p2p disabled", :vcr => { :erb => { :version => OpenTok::VERSION } } do
-        session = opentok.create_session :p2p => false
+      it "creates routed media sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session :media_mode => :routed
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
-        expect(session.p2p).to eq false
+        expect(session.media_mode).to eq :routed
         expect(session.location).to eq nil
       end
 
-      it "creates sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
+      it "creates sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do
         session = opentok.create_session :location => location
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
-        expect(session.p2p).to eq false
+        expect(session.media_mode).to eq :routed
         expect(session.location).to eq location
       end
 
-      it "creates sessions with p2p enabled and a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
-        session = opentok.create_session :p2p => true, :location => location
+      it "creates relayed media sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session :media_mode => :relayed, :location => location
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
-        expect(session.p2p).to eq true
+        expect(session.media_mode).to eq :relayed
         expect(session.location).to eq location
       end
 
-      it "creates sessions with p2p disabled and a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do 
-        session = opentok.create_session :p2p => false, :location => location
+      it "creates routed media sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session :media_mode => :routed, :location => location
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
-        expect(session.p2p).to eq false
+        expect(session.media_mode).to eq :routed
         expect(session.location).to eq location
+      end
+
+      it "creates routed media sessions for invalid media modes", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session :media_mode => :blah
+        expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.media_mode).to eq :routed
+        expect(session.location).to eq nil
       end
 
     end
