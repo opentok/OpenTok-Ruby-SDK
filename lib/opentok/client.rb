@@ -11,7 +11,7 @@ module OpenTok
 
     def initialize(api_key, api_secret, api_url)
       self.class.base_uri api_url
-      self.class.headers({ 
+      self.class.headers({
         "X-TB-PARTNER-AUTH" => "#{api_key}:#{api_secret}",
         "User-Agent" => "OpenTok-Ruby-SDK/#{VERSION}"
       })
@@ -72,7 +72,7 @@ module OpenTok
       query[:offset] = offset unless offset.nil?
       query[:count] = count unless count.nil?
       response = self.class.get("/v2/partner/#{@api_key}/archive", {
-        :query => query
+        :query => query.empty? ? nil : query
       })
       case response.code
       when 200
