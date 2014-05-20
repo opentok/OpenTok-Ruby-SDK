@@ -383,12 +383,12 @@ href="https://dashboard.tokbox.com">dashboard.tokbox.com</a>).</p>
       <pre class="lines">
 
 
-135
-136
-137</pre>
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_archives'>archives</span>
   <span class='ivar'>@archives</span> <span class='op'>||=</span> <span class='const'>Archives</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_client'>client</span>
@@ -465,35 +465,46 @@ href="https://dashboard.tokbox.com/projects">dashboard.tokbox.com/projects</a>).
     <ul class="option">
       
         <li>
-          <span class="name">:p2p</span>
-          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="name">:media_mode</span>
+          <span class="type">(<tt>String</tt>)</span>
           <span class="default">
             
           </span>
           
             &mdash; <div class='inline'>
-<p>The session’s streams will be transmitted directly between peers (true) or
-using the OpenTok Media Router (false). By default, sessions use the
+<p>Determines whether the session will transmit streams the using OpenTok
+Media Router (:routed) or not (:relayed). By default, sessions use the
 OpenTok Media Router.</p>
 
-<p>The OpenTok Media Router&lt;/a&gt; provides benefits not available in
-peer-to-peer sessions. For example, the OpenTok Media Router can decrease
-bandwidth usage in multiparty sessions. Also, the OpenTok Media Router can
-improve the quality of the user experience through dynamic traffic shaping.
-For more information, see <a
-href="http://www.tokbox.com/blog/mantis-next-generation-cloud-technology-for-webrtc">www.tokbox.com/blog/mantis-next-generation-cloud-technology-for-webrtc</a>
-and <a
-href="http://www.tokbox.com/blog/quality-of-experience-and-traffic-shaping-the-next-step-with-mantis">www.tokbox.com/blog/quality-of-experience-and-traffic-shaping-the-next-step-with-mantis</a>.</p>
+<p>With the <tt>mediaMode</tt> property set to <tt>:routed</tt>, the session
+will use the <a href="http://tokbox.com/#multiparty" target="_parent" title="OpenTok Media Router">OpenTok Media Router</a>. The
+OpenTok Media Router provides the following benefits:</p>
+<ul><li>
+<p>The OpenTok Media Router can decrease bandwidth usage in multiparty
+sessions. (When the <tt>mediaMode</tt> property is set to <tt>:routed</tt>,
+each client must send a separate audio-video stream to each client
+subscribing to it.)</p>
+</li><li>
+<p>The OpenTok Media Router can improve the quality of the user experience
+through <a href="http://tokbox.com/#iqc" target="_parent" title="Intellegent Quality Control">Intellegent Quality Control</a>. With
+Intellegent Quality Control, if a client’s connectivity degrades to a
+degree that it does not support video for a stream it’s subscribing to, the
+video is dropped on that client (without affecting other clients), and the
+client receives audio only. If the client’s connectivity improves, the
+video returns.</p>
+</li><li>
+<p>The OpenTok Media Router supports the <a href="http://tokbox.com/#archiving" target="_parent" title="archiving and playback">archiving and playback</a> feature, which lets you record, save, and retrieve
+OpenTok sessions.</p>
+</li></ul>
 
-<p>For peer-to-peer sessions, the session will attempt to transmit streams
-directly between clients. If clients cannot connect due to firewall
-restrictions, the session uses the OpenTok TURN server to relay audio-video
-streams.</p>
+<p>With the <tt>mediaMode</tt> property set to <tt>:relayed</tt>, the session
+will attempt to transmit streams directly between clients. If clients
+cannot connect due to firewall restrictions, the session uses the OpenTok
+TURN server to relay audio-video streams.</p>
 
 <p>You will be billed for streamed minutes if you use the OpenTok Media Router
-or if the peer-to-peer session uses the OpenTok TURN server to relay
-streams. For information on pricing, see the OpenTok pricing page (<a
-href="http://www.tokbox.com/pricing">www.tokbox.com/pricing</a>).</p>
+or if the session uses the OpenTok TURN server to relay streams. For
+information on pricing, see the <a href="http://www.tokbox.com/pricing" target="_parent" title="OpenTok pricing page">OpenTok pricing page</a>.</p>
 </div>
           
         </li>
@@ -542,32 +553,66 @@ ID.</p>
       <pre class="lines">
 
 
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
 130
 131
-132</pre>
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>location</span><span class='tstring_end'>&quot;</span></span> <span class='rbracket'>]</span>
-  <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_keep_if'>keep_if</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_valid_opts'>valid_opts</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>  <span class='rbrace'>}</span>
+  <span class='comment'># normalize opts so all keys are symbols and only include valid_opts
+</span>  <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span> <span class='rbracket'>]</span>
+  <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_valid_opts'>valid_opts</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+      <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_m'>m</span>
+  <span class='kw'>end</span>
 
-  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
-  <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:p2p</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>disabled</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='comment'># keep opts around for Session constructor, build REST params
+</span>  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
+
+  <span class='comment'># anything other than :relayed sets the REST param to &quot;disabled&quot;, in which case we force
+</span>  <span class='comment'># opts to be :routed. if we were more strict we could raise an error when the value isn't
+</span>  <span class='comment'># either :relayed or :routed
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='symbol'>:relayed</span>
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>disabled</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:media_mode</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:routed</span>
+  <span class='kw'>end</span>
+  <span class='comment'># location is optional, but it has to be an IP address if specified at all
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>location must be an IPv4 address</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>IPv4</span><span class='op'>::</span><span class='const'>Regex</span>
   <span class='kw'>end</span>
 
@@ -648,18 +693,18 @@ ID.</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>The role for the token. Valid values are defined in the Role class:</p>
+<p>The role for the token. Set this to one of the following values:</p>
 <ul><li>
-<p><tt>SUBSCRIBER</tt> -- A subscriber can only subscribe to streams.</p>
+<p><tt>:subscriber</tt> -- A subscriber can only subscribe to streams.</p>
 </li><li>
-<p><tt>PUBLISHER</tt> -- A publisher can publish streams, subscribe to
+<p><tt>:publisher</tt> -- A publisher can publish streams, subscribe to
 streams, and signal. (This is the default value if you do not specify a
 role.)</p>
 </li><li>
-<p><tt>MODERATOR</tt> -- In addition to the privileges granted to a publisher,
-in clients using the OpenTok.js 2.2 library, a moderator can call the
-<tt>forceUnpublish()</tt> and <tt>forceDisconnect()</tt> method of the
-Session object.</p>
+<p><tt>:moderator</tt> -- In addition to the privileges granted to a
+publisher, in clients using the OpenTok.js 2.2 library, a moderator can
+call the <tt>forceUnpublish()</tt> and <tt>forceDisconnect()</tt> method of
+the Session object.</p>
 </li></ul>
 </div>
           
@@ -822,7 +867,35 @@ cannot be updated once it is set.</p>
 142
 143
 144
-145</pre>
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 47</span>
@@ -875,24 +948,35 @@ cannot be updated once it is set.</p>
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @param [Hash] opts (Optional) This hash defines options for the session.
 </span>  <span class='comment'>#
-</span>  <span class='comment'># @option opts [Boolean] :p2p The session's streams will be transmitted directly between
-</span>  <span class='comment'>#     peers (true) or using the OpenTok Media Router (false). By default, sessions use
-</span>  <span class='comment'>#     the OpenTok Media Router.
-</span>  <span class='comment'>#     
-</span>  <span class='comment'>#     The OpenTok Media Router&lt;/a&gt; provides benefits not available in peer-to-peer sessions.
-</span>  <span class='comment'>#     For example, the OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
-</span>  <span class='comment'>#     Also, the OpenTok Media Router can improve the quality of the user experience through
-</span>  <span class='comment'>#     dynamic traffic shaping. For more information, see
-</span>  <span class='comment'>#     http://www.tokbox.com/blog/mantis-next-generation-cloud-technology-for-webrtc and
-</span>  <span class='comment'>#     http://www.tokbox.com/blog/quality-of-experience-and-traffic-shaping-the-next-step-with-mantis.
-</span>  <span class='comment'>#     
-</span>  <span class='comment'>#     For peer-to-peer sessions, the session will attempt to transmit streams directly
-</span>  <span class='comment'>#     between clients. If clients cannot connect due to firewall restrictions, the session uses
-</span>  <span class='comment'>#     the OpenTok TURN server to relay audio-video streams.
-</span>  <span class='comment'>#     
-</span>  <span class='comment'>#     You will be billed for streamed minutes if you use the OpenTok Media Router or if the
-</span>  <span class='comment'>#     peer-to-peer session uses the OpenTok TURN server to relay streams. For information on
-</span>  <span class='comment'>#     pricing, see the OpenTok pricing page (http://www.tokbox.com/pricing).
+</span>  <span class='comment'># @option opts [String] :media_mode Determines whether the session will transmit streams the
+</span>  <span class='comment'>#   using OpenTok Media Router (:routed) or not (:relayed). By default, sessions
+</span>  <span class='comment'>#   use the OpenTok Media Router.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   With the &lt;code&gt;mediaMode&lt;/code&gt; property set to &lt;code&gt;:routed&lt;/code&gt;, the session
+</span>  <span class='comment'>#   will use the {http://tokbox.com/#multiparty OpenTok Media Router}.
+</span>  <span class='comment'>#   The OpenTok Media Router provides the following benefits:
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   * The OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
+</span>  <span class='comment'>#     (When the &lt;code&gt;mediaMode&lt;/code&gt; property is set to &lt;code&gt;:routed&lt;/code&gt;,
+</span>  <span class='comment'>#     each client must send a separate audio-video stream to each client subscribing to
+</span>  <span class='comment'>#     it.)
+</span>  <span class='comment'>#   * The OpenTok Media Router can improve the quality of the user experience through
+</span>  <span class='comment'>#     {http://tokbox.com/#iqc Intellegent Quality Control}. With
+</span>  <span class='comment'>#     Intellegent Quality Control, if a client's connectivity degrades to a degree that
+</span>  <span class='comment'>#     it does not support video for a stream it's subscribing to, the video is dropped on
+</span>  <span class='comment'>#     that client (without affecting other clients), and the client receives audio only.
+</span>  <span class='comment'>#     If the client's connectivity improves, the video returns.
+</span>  <span class='comment'>#   * The OpenTok Media Router supports the {http://tokbox.com/#archiving archiving and
+</span>  <span class='comment'>#     playback} feature, which lets you record, save, and retrieve OpenTok sessions.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   With the &lt;code&gt;mediaMode&lt;/code&gt; property set to &lt;code&gt;:relayed&lt;/code&gt;, the session
+</span>  <span class='comment'>#   will attempt to transmit streams directly between clients. If clients cannot connect due to
+</span>  <span class='comment'>#   firewall restrictions, the session uses the OpenTok TURN server to relay audio-video
+</span>  <span class='comment'>#   streams.
+</span>  <span class='comment'>#
+</span>  <span class='comment'>#   You will be billed for streamed minutes if you use the OpenTok Media Router or if the
+</span>  <span class='comment'>#   session uses the OpenTok TURN server to relay streams. For information on pricing, see the
+</span>  <span class='comment'>#   {http://www.tokbox.com/pricing OpenTok pricing page}.
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @option opts [String] :location  An IP address that the OpenTok servers will use to
 </span>  <span class='comment'>#     situate the session in its global network. If you do not set a location hint,
@@ -901,12 +985,29 @@ cannot be updated once it is set.</p>
 </span>  <span class='comment'># @return [Session] The Session object. The session_id property of the object is the session ID.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 
-    <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>location</span><span class='tstring_end'>&quot;</span></span> <span class='rbracket'>]</span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_keep_if'>keep_if</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='id identifier rubyid_valid_opts'>valid_opts</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>  <span class='rbrace'>}</span>
+    <span class='comment'># normalize opts so all keys are symbols and only include valid_opts
+</span>    <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span> <span class='rbracket'>]</span>
+    <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_valid_opts'>valid_opts</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+        <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_m'>m</span>
+    <span class='kw'>end</span>
 
-    <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
-    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:p2p</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>disabled</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='comment'># keep opts around for Session constructor, build REST params
+</span>    <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
+
+    <span class='comment'># anything other than :relayed sets the REST param to &quot;disabled&quot;, in which case we force
+</span>    <span class='comment'># opts to be :routed. if we were more strict we could raise an error when the value isn't
+</span>    <span class='comment'># either :relayed or :routed
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='symbol'>:relayed</span>
+      <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>disabled</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:media_mode</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:routed</span>
+    <span class='kw'>end</span>
+    <span class='comment'># location is optional, but it has to be an IP address if specified at all
+</span>    <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>location must be an IPv4 address</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>IPv4</span><span class='op'>::</span><span class='const'>Regex</span>
     <span class='kw'>end</span>
 
@@ -936,7 +1037,7 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Thu May 15 17:30:32 2014 by
+  Generated on Tue May 20 11:09:05 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

@@ -155,7 +155,7 @@ the session_id property of the Session object to get the session ID.</p>
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#p2p-instance_method" title="#p2p (instance method)">- (Boolean) <strong>p2p</strong> </a>
+      <a href="#media_mode-instance_method" title="#media_mode (instance method)">- (String) <strong>media_mode</strong> </a>
     
 
     
@@ -175,9 +175,8 @@ the session_id property of the Session object to get the session ID.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Set to true if the session's streams will be transmitted directly between
-peers; set to false if the session's streams will be transmitted using the
-OpenTok media server.</p>
+<p>Set to :routed if the session uses the OpenTok Media Router or to :relayed
+if the session attempts to transmit streams directly between clients.</p>
 </div></span>
   
 </li>
@@ -326,9 +325,9 @@ OpenTok media server.</p>
       
       <span id=""></span>
       <div class="method_details ">
-  <h3 class="signature " id="p2p-instance_method">
+  <h3 class="signature " id="media_mode-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>p2p</strong>  <span class="extras">(readonly)</span>
+    - (<tt>String</tt>) <strong>media_mode</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -337,9 +336,8 @@ OpenTok media server.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Set to true if the session's streams will be transmitted directly between
-peers; set to false if the session's streams will be transmitted using the
-OpenTok media server. See the OpenTok.createSession() method.</p>
+<p>Set to :routed if the session uses the OpenTok Media Router or to :relayed
+if the session attempts to transmit streams directly between clients.</p>
 
 
   </div>
@@ -352,13 +350,13 @@ OpenTok media server. See the OpenTok.createSession() method.</p>
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>the current value of p2p</p>
+<p>the current value of media_mode</p>
 </div>
       
     </li>
@@ -378,8 +376,8 @@ OpenTok media server. See the OpenTok.createSession() method.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 43</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_p2p'>p2p</span>
-  <span class='ivar'>@p2p</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_media_mode'>media_mode</span>
+  <span class='ivar'>@media_mode</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -502,18 +500,18 @@ OpenTok media server. See the OpenTok.createSession() method.</p>
           </span>
           
             &mdash; <div class='inline'>
-<p>The role for the token. Valid values are defined in the Role class:</p>
+<p>The role for the token. Set this to one of the following values:</p>
 <ul><li>
-<p><tt>SUBSCRIBER</tt> -- A subscriber can only subscribe to streams.</p>
+<p><tt>:subscriber</tt> -- A subscriber can only subscribe to streams.</p>
 </li><li>
-<p><tt>PUBLISHER</tt> -- A publisher can publish streams, subscribe to
+<p><tt>:publisher</tt> -- A publisher can publish streams, subscribe to
 streams, and signal. (This is the default value if you do not specify a
 role.)</p>
 </li><li>
-<p><tt>MODERATOR</tt> -- In addition to the privileges granted to a publisher,
-in clients using the OpenTok.js 2.2 library, a moderator can call the
-<tt>forceUnpublish()</tt> and <tt>forceDisconnect()</tt> method of the
-Session object.</p>
+<p><tt>:moderator</tt> -- In addition to the privileges granted to a
+publisher, in clients using the OpenTok.js 2.2 library, a moderator can
+call the <tt>forceUnpublish()</tt> and <tt>forceDisconnect()</tt> method of
+the Session object.</p>
 </li></ul>
 </div>
           
@@ -624,7 +622,7 @@ cannot be updated once it is set.</p>
     <span class='symbol'>:session_id</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_instance'>instance</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_session_id'>session_id</span> <span class='rbrace'>}</span>
   <span class='rbrace'>}</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='symbol'>:p2p</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span>
 
   <span class='comment'># @private
 </span>  <span class='comment'># this implementation doesn't completely understand the format of a Session ID
@@ -640,7 +638,7 @@ cannot be updated once it is set.</p>
   <span class='comment'># @private
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
     <span class='ivar'>@api_key</span><span class='comma'>,</span> <span class='ivar'>@api_secret</span><span class='comma'>,</span> <span class='ivar'>@session_id</span> <span class='op'>=</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span>
-    <span class='ivar'>@p2p</span><span class='comma'>,</span> <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:p2p</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
+    <span class='ivar'>@media_mode</span><span class='comma'>,</span> <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:routed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
 
   <span class='comment'># @private
@@ -658,7 +656,7 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Thu May 15 17:30:32 2014 by
+  Generated on Tue May 20 11:09:05 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>

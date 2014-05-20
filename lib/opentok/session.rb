@@ -11,9 +11,9 @@ module OpenTok
   # @attr_reader [String] session_id The session ID.
   # @attr_reader [String] api_secret @private The OpenTok API secret.
   # @attr_reader [String] api_key @private The OpenTok API key.
-  # @attr_reader [Boolean] p2p Set to true if the session's streams will be transmitted directly
-  #   between peers; set to false if the session's streams will be transmitted using the OpenTok
-  #   media server. See the OpenTok.createSession() method.
+  # @attr_reader [String] media_mode Set to :routed if the session uses the OpenTok Media Router
+  #   or to :relayed if the session attempts to transmit streams directly between clients.
+  #
   # @attr_reader [String] location The location hint IP address. See the OpenTok.createSession()
   #   method.
   #
@@ -21,14 +21,14 @@ module OpenTok
   #   Generates a token.
   #
   #   @param [Hash] options
-  #   @option options [String] :role The role for the token. Valid values are defined in the Role
-  #     class:
-  #     * <code>SUBSCRIBER</code> -- A subscriber can only subscribe to streams.
+  #   @option options [String] :role The role for the token. Set this to one of the following
+  #     values:
+  #     * <code>:subscriber</code> -- A subscriber can only subscribe to streams.
   #
-  #     * <code>PUBLISHER</code> -- A publisher can publish streams, subscribe to
+  #     * <code>:publisher</code> -- A publisher can publish streams, subscribe to
   #       streams, and signal. (This is the default value if you do not specify a role.)
   #
-  #     * <code>MODERATOR</code> -- In addition to the privileges granted to a
+  #     * <code>:moderator</code> -- In addition to the privileges granted to a
   #       publisher, in clients using the OpenTok.js 2.2 library, a moderator can call the
   #       <code>forceUnpublish()</code> and <code>forceDisconnect()</code> method of the
   #       Session object.
