@@ -1,6 +1,5 @@
 require "opentok/archive"
 
-require "multi_json"
 
 module OpenTok
   # A class for accessing an array of Archive objects.
