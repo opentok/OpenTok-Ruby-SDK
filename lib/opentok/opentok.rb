@@ -93,20 +93,20 @@ module OpenTok
     # @param [Hash] opts (Optional) This hash defines options for the session.
     #
     # @option opts [String] :media_mode Determines whether the session will transmit streams the
-    #   using OpenTok Media Router (:routed) or not (:relayed). By default, sessions
-    #   use the OpenTok Media Router.
+    #   using OpenTok Media Router (<code>:routed</code>) or not (<code>:relayed</code>).
+    #   By default, sessions use the OpenTok Media Router.
     #
     #   With the <code>mediaMode</code> property set to <code>:routed</code>, the session
     #   will use the {http://tokbox.com/#multiparty OpenTok Media Router}.
     #   The OpenTok Media Router provides the following benefits:
     #
     #   * The OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
-    #     (When the <code>mediaMode</code> property is set to <code>:routed</code>,
+    #     (When the <code>mediaMode</code> property is set to <code>:relayed</code>,
     #     each client must send a separate audio-video stream to each client subscribing to
     #     it.)
     #   * The OpenTok Media Router can improve the quality of the user experience through
-    #     {http://tokbox.com/#iqc Intellegent Quality Control}. With
-    #     Intellegent Quality Control, if a client's connectivity degrades to a degree that
+    #     {http://tokbox.com/#iqc Intelligent Quality Control}. With
+    #     Intelligent Quality Control, if a client's connectivity degrades to a degree that
     #     it does not support video for a stream it's subscribing to, the video is dropped on
     #     that client (without affecting other clients), and the client receives audio only.
     #     If the client's connectivity improves, the video returns.

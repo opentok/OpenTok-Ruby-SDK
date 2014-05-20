@@ -473,21 +473,21 @@ href="https://dashboard.tokbox.com/projects">dashboard.tokbox.com/projects</a>).
           
             &mdash; <div class='inline'>
 <p>Determines whether the session will transmit streams the using OpenTok
-Media Router (:routed) or not (:relayed). By default, sessions use the
-OpenTok Media Router.</p>
+Media Router (<tt>:routed</tt>) or not (<tt>:relayed</tt>). By default,
+sessions use the OpenTok Media Router.</p>
 
 <p>With the <tt>mediaMode</tt> property set to <tt>:routed</tt>, the session
 will use the <a href="http://tokbox.com/#multiparty" target="_parent" title="OpenTok Media Router">OpenTok Media Router</a>. The
 OpenTok Media Router provides the following benefits:</p>
 <ul><li>
 <p>The OpenTok Media Router can decrease bandwidth usage in multiparty
-sessions. (When the <tt>mediaMode</tt> property is set to <tt>:routed</tt>,
-each client must send a separate audio-video stream to each client
-subscribing to it.)</p>
+sessions. (When the <tt>mediaMode</tt> property is set to
+<tt>:relayed</tt>, each client must send a separate audio-video stream to
+each client subscribing to it.)</p>
 </li><li>
 <p>The OpenTok Media Router can improve the quality of the user experience
-through <a href="http://tokbox.com/#iqc" target="_parent" title="Intellegent Quality Control">Intellegent Quality Control</a>. With
-Intellegent Quality Control, if a client’s connectivity degrades to a
+through <a href="http://tokbox.com/#iqc" target="_parent" title="Intelligent Quality Control">Intelligent Quality Control</a>. With
+Intelligent Quality Control, if a client’s connectivity degrades to a
 degree that it does not support video for a stream it’s subscribing to, the
 video is dropped on that client (without affecting other clients), and the
 client receives audio only. If the client’s connectivity improves, the
@@ -949,20 +949,20 @@ cannot be updated once it is set.</p>
 </span>  <span class='comment'># @param [Hash] opts (Optional) This hash defines options for the session.
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @option opts [String] :media_mode Determines whether the session will transmit streams the
-</span>  <span class='comment'>#   using OpenTok Media Router (:routed) or not (:relayed). By default, sessions
-</span>  <span class='comment'>#   use the OpenTok Media Router.
+</span>  <span class='comment'>#   using OpenTok Media Router (&lt;code&gt;:routed&lt;/code&gt;) or not (&lt;code&gt;:relayed&lt;/code&gt;).
+</span>  <span class='comment'>#   By default, sessions use the OpenTok Media Router.
 </span>  <span class='comment'>#
 </span>  <span class='comment'>#   With the &lt;code&gt;mediaMode&lt;/code&gt; property set to &lt;code&gt;:routed&lt;/code&gt;, the session
 </span>  <span class='comment'>#   will use the {http://tokbox.com/#multiparty OpenTok Media Router}.
 </span>  <span class='comment'>#   The OpenTok Media Router provides the following benefits:
 </span>  <span class='comment'>#
 </span>  <span class='comment'>#   * The OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
-</span>  <span class='comment'>#     (When the &lt;code&gt;mediaMode&lt;/code&gt; property is set to &lt;code&gt;:routed&lt;/code&gt;,
+</span>  <span class='comment'>#     (When the &lt;code&gt;mediaMode&lt;/code&gt; property is set to &lt;code&gt;:relayed&lt;/code&gt;,
 </span>  <span class='comment'>#     each client must send a separate audio-video stream to each client subscribing to
 </span>  <span class='comment'>#     it.)
 </span>  <span class='comment'>#   * The OpenTok Media Router can improve the quality of the user experience through
-</span>  <span class='comment'>#     {http://tokbox.com/#iqc Intellegent Quality Control}. With
-</span>  <span class='comment'>#     Intellegent Quality Control, if a client's connectivity degrades to a degree that
+</span>  <span class='comment'>#     {http://tokbox.com/#iqc Intelligent Quality Control}. With
+</span>  <span class='comment'>#     Intelligent Quality Control, if a client's connectivity degrades to a degree that
 </span>  <span class='comment'>#     it does not support video for a stream it's subscribing to, the video is dropped on
 </span>  <span class='comment'>#     that client (without affecting other clients), and the client receives audio only.
 </span>  <span class='comment'>#     If the client's connectivity improves, the video returns.
@@ -1037,7 +1037,7 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Tue May 20 11:09:05 2014 by
+  Generated on Tue May 20 12:26:38 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-1.9.3).
 </div>
