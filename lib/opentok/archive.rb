@@ -1,5 +1,4 @@
 require "active_support/inflector"
-require "multi_json"
 
 module OpenTok
     # Represents an archive of an OpenTok session.
