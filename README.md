@@ -33,10 +33,6 @@ $ bundle install
 $ gem install opentok -v 2.2.0pre
 ```
 
-## Manually:
-
-**TODO**: download from releases page?
-
 # Usage
 
 ## Initializing
@@ -58,14 +54,17 @@ and specifying a location hint. The `session_id` method of the returned `OpenTok
 instance is useful to get a sessionId that can be saved to a persistent store (e.g. database).
 
 ```ruby
-# Just a plain Session
+# Just a plain Session:
 session = opentok.create_session
-# A p2p Session
-session = opentok.create_session :p2p => true
-# A Session with a location hint
+
+# The session will attempt to transmit streams directly between clients.
+# If clients cannot connect, the session uses the OpenTok TURN server:
+session = opentok.create_session :media_mode => :relayed
+
+# A Session with a location hint:
 session = opentok.create_session :location => '12.34.56.78'
 
-# Store this sessionId in the database for later use
+# Store this sessionId in the database for later use:
 session_id = session.session_id
 ```
 
@@ -158,15 +157,18 @@ You need an OpenTok API key and API secret, which you can obtain at <https://das
 
 The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
-# Release Notes
-
-**TODO**: See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details 
-about each release.
-
 ## Important changes in v2.2
 
 This version of the SDK includes support for working with OpenTok 2.0 archives. (This API does not
 work with OpenTok 1.0 archives.)
+
+Note also that the `options` parameter of the `OpenTok.create_session()` method has a `media_mode`
+property instead of a `p2p` property.
+
+See the reference documentation
+<http://www.tokbox.com/opentok/libraries/server/ruby/reference/index.html> and in the
+docs directory of the SDK.
+
 
 # Development and Contributing
 
