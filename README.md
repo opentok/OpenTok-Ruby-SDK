@@ -1,8 +1,6 @@
 # OpenTok Ruby SDK
 
-**TODO**: got to change this to opentok fork instead of aoberoi
-
-[![Build Status](https://travis-ci.org/aoberoi/Opentok-Ruby-SDK.png?branch=modernization)](https://travis-ci.org/aoberoi/Opentok-Ruby-SDK)
+[![Build Status](https://travis-ci.org/opentok/Opentok-Ruby-SDK.png?branch=modernization)](https://travis-ci.org/opentok/Opentok-Ruby-SDK)
 
 The OpenTok Ruby SDK lets you generate
 [sessions](http://tokbox.com/opentok/tutorials/create-session/) and
@@ -35,7 +33,8 @@ $ gem install opentok -v 2.2.0pre
 
 ## Manually:
 
-**TODO**: download from releases page?
+Download the gem file for the latest release from the [Releases]() page. This gem can be installed
+using the the `gem` [command line utility](http://guides.rubygems.org/command-reference/#gem-install).
 
 # Usage
 
@@ -123,7 +122,7 @@ the `opentok.archives.find(archive_id)` method.
 archive = opentok.archives.find archive_id
 ```
 
-To delete an Archive, you can call the `opentok.archives.delete_by_id(archive_id)` method or the 
+To delete an Archive, you can call the `opentok.archives.delete_by_id(archive_id)` method or the
 `delete` method of an `OpenTok::Archive` instance.
 
 ```ruby
@@ -147,6 +146,14 @@ archive_list[i]
 $total = archive_list.total
 ```
 
+# Samples
+
+There are two sample applications included in this repository. To get going as fast as possible, clone the whole
+repository and follow the Walkthroughs:
+
+*  [HelloWorld](sample/HelloWorld/README.md)
+*  [Archiving](sample/Archiving/README.md)
+
 # Documentation
 
 Reference documentation is available at <http://www.tokbox.com//opentok/libraries/server/ruby/reference/index.html> and in the
@@ -160,7 +167,7 @@ The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
 # Release Notes
 
-**TODO**: See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details 
+**TODO**: See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details
 about each release.
 
 ## Important changes in v2.2
