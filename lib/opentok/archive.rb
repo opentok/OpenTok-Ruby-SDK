@@ -3,7 +3,7 @@ require "active_support/inflector"
 module OpenTok
     # Represents an archive of an OpenTok session.
     #
-    # @attr [int] createdAt
+    # @attr [int] created_at
     #   The time at which the archive was created, in milliseconds since the UNIX epoch.
     #
     # @attr [string] duration
@@ -16,7 +16,7 @@ module OpenTok
     #   The name of the archive. If no name was provided when the archive was created, this is set
     #   to null.
     #
-    # @attr [string] partnerId
+    # @attr [string] partner_id
     #   The API key associated with the archive.
     #
     # @attr [string] reason
@@ -24,7 +24,7 @@ module OpenTok
     #   "session ended", or "user initiated". For archives with the status "failed", this can be set
     #   to "system failure".
     #
-    # @attr [string] sessionId
+    # @attr [string] session_id
     #   The session ID of the OpenTok session associated with this archive.
     #
     # @attr [float] size
@@ -52,6 +52,11 @@ module OpenTok
       @interface = interface
       # TODO: validate json fits schema
       @json = json
+    end
+
+    # A JSON encoded string representation of the archive
+    def to_json
+      @json.to_json
     end
 
     # Stops an OpenTok archive that is being recorded.
