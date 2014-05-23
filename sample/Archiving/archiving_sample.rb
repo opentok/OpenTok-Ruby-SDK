@@ -72,7 +72,7 @@ class ArchivingSample < Sinatra::Base
 
   get '/delete/:archive_id' do
     settings.opentok.archives.delete_by_id(params[:archive_id])
-    body archive.to_json
+    redirect '/history'
   end
 
   # start the server if ruby file executed directly

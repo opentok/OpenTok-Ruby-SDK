@@ -9,7 +9,7 @@ connect and conduct a group chat.
 First, download the dependencies using [Bundler](http://bundler.io)
 
 ```
-$ bundler install
+$ bundle install
 ```
 
 Next, add your own API Key and API Secret to the environment variables. There are a few ways to do
@@ -26,7 +26,7 @@ Finally, start the server using Bundler to handle dependencies
 $ bundle exec ruby hello_world.rb
 ```
 
-Visit <http://localhost:4567> in your browser. Open it again in a second window. Smile! You've just
+Visit <http://localhost:9393> in your browser. Open it again in a second window. Smile! You've just
 set up a group chat.
 
 ## Walkthrough
