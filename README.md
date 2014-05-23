@@ -3,10 +3,16 @@
 [![Build Status](https://travis-ci.org/opentok/Opentok-Ruby-SDK.png?branch=modernization)](https://travis-ci.org/opentok/Opentok-Ruby-SDK)
 
 The OpenTok Ruby SDK lets you generate
-[sessions](http://tokbox.com/opentok/tutorials/create-session/) and
-[tokens](http://tokbox.com/opentok/tutorials/create-token/) for [OpenTok](http://www.tokbox.com/)
-applications. This version of the SDK also includes support for working with OpenTok 2.0 archives.
+[sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
+[tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for 
+OpenTok](http://www.tokbox.com/) applications, and
+[archive](http://www.tokbox.com/platform/archiving) OpenTok 2.0 sessions.
 
+
+<p>The OpenTok Python SDK lets you generate
+		<a href="http://tokbox.com/opentok/tutorials/create-session/">sessions</a> and
+		<a href="http://tokbox.com/opentok/tutorials/create-token/">tokens</a> for OpenTok
+		applications, and <a href="/platform/archiving">archive</a> OpenTok 2.0 sessions.</p>
 # Installation
 
 ## Bundler (recommended):

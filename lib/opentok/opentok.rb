@@ -110,8 +110,8 @@ module OpenTok
     #     it does not support video for a stream it's subscribing to, the video is dropped on
     #     that client (without affecting other clients), and the client receives audio only.
     #     If the client's connectivity improves, the video returns.
-    #   * The OpenTok Media Router supports the {http://tokbox.com/#archiving archiving and
-    #     playback} feature, which lets you record, save, and retrieve OpenTok sessions.
+    #   * The OpenTok Media Router supports the {http://tokbox.com/platform/archiving archiving}
+    #     feature, which lets you record, save, and retrieve OpenTok sessions.
     #
     #   With the <code>mediaMode</code> property set to <code>:relayed</code>, the session
     #   will attempt to transmit streams directly between clients. If clients cannot connect due to
