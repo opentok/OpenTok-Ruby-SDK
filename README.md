@@ -5,7 +5,7 @@
 The OpenTok Ruby SDK lets you generate
 [sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
 [tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for 
-OpenTok](http://www.tokbox.com/) applications, and
+[OpenTok](http://www.tokbox.com/) applications, and
 [archive](http://www.tokbox.com/platform/archiving) OpenTok 2.0 sessions.
 
 If you are updating from a previous version of this SDK, see
