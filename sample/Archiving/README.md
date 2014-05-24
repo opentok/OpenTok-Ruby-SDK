@@ -1,8 +1,7 @@
-# OpenTok Hello World Ruby
+# OpenTok Archiving Sample for Ruby
 
-This is a simple demo app that shows how you can use the OpenTok-Ruby-SDK to create Sessions,
-generate Tokens with those Sessions, and then pass these values to a JavaScript client that can
-connect and conduct a group chat.
+This is a simple demo app that shows how you can use the OpenTok Java SDK to archive (or record)
+Sessions, list archives that have been created, download the recordings, and delete the recordings.
 
 ## Running the App
 
@@ -26,98 +25,188 @@ Finally, start the server using Bundler to handle dependencies
 $ bundle exec ruby hello_world.rb
 ```
 
-Visit <http://localhost:9393> in your browser. Open it again in a second window. Smile! You've just
-set up a group chat.
+Visit <http://localhost:9393> in your browser. You can now create new archives (either as a host or
+as a participant) and also play archives that have already been created.
 
 ## Walkthrough
 
-This demo application uses the [Sinatra web framework](http://www.sinatrarb.com/). It is similar to
-many other popular web frameworks, such as [Rails](http://rubyonrails.org/), but more light-weight.
-We are only covering the very basics of the framework, but you can learn more by following the links
-above.
+This demo application uses the same frameworks and libraries as the HelloWorld sample. If you have
+not already gotten familiar with the code in that project, consider doing so before continuing.
 
-### Main Application (hello_world.rb)
+The explanations below are separated by page. Each section will focus on a route handler within the
+main application (archiving_sample.rb).
 
-The first thing done in this file is to require the dependencies we will be using. In this case that
-is the Sinatra web framework and most importantly the OpenTok SDK. By running the application with
-the `bundle exec` command, we allow Bundler to select the right versions of these gems from the
-right place.
+### Creating Archives – Host View
 
-```ruby
-require 'sinatra/base'
-require 'opentok'
-```
+Start by visiting the host page at <http://localhost:9393/host> and using the application to record
+an archive. Your browser will first ask you to approve permission to use the camera and microphone.
+Once you've accepted, your image will appear inside the section titled 'Host'. To start recording
+the video stream, press the 'Start Archiving' button. Once archiving has begun the button will turn
+green and change to 'Stop Archiving'. You should also see a red blinking indicator that you are
+being recorded. Wave and say hello! Stop archiving when you are done.
 
-Next this file performs some basic checks on the environment. If it cannot find the `API_KEY`and
-`API_SECRET` environment variables, there is no point in continuing.
-
-The class `HelloWorld` is our application. The first thing it does is to initialize an instance of
-OpenTok and also store it using Sinatra's `set` method so it can be accessed in other parts of the
-application. At the same time, we also `set` the `api_key` separately so that we can access
-it on its own.
+Next we will see how the host view is implemented on the server. The route handler for this page is
+shown below:
 
 ```ruby
-  set :api_key, ENV['API_KEY']
-  set :opentok, OpenTok::OpenTok.new(api_key, ENV['API_SECRET'])
+get '/host' do
+  api_key = settings.api_key
+  session_id = settings.session.session_id
+  token = settings.opentok.generate_token(session_id, :role => :moderator)
+
+  erb :host, :locals => {
+    :api_key => api_key,
+    :session_id => session_id,
+    :token => token
+  }
+end
 ```
 
-Now, lets discuss the Hello World application's functionality. We want to set up a group chat so
-that any client that visits a page will connect to the same OpenTok Session. Once they are connected
-they can Publish a Stream and Subscribe to all the other streams in that Session. So we just need
-one Session object, and it needs to be accessible every time a request is made. The next line of our
-application simply calls the `OpenTok` instance's `create_session` method and once again uses `set`
-to store it. Alternatively, `session_id`s are commonly stored in databses for applications that have
-many of them.
+If you've completed the HelloWorld walkthrough, this should look familiar. This handler simply
+generates the three strings that the client (JavaScript) needs to connect to the session: `api_key`,
+`session_id` and `token`. After the user has connected to the session, they press the
+'Start Archiving' button, which sends an XHR (or Ajax) request to the <http://localhost:9393/start>
+URL. The route handler for this URL is shown below:
 
 ```ruby
-  set :session, opentok.create_session
+get '/start' do
+  archive = settings.opentok.archives.create settings.session.session_id, {
+    :name => "Ruby Archiving Sample App"
+  }
+  body archive.to_json
+end
 ```
 
-We only need one page, so we create one route handler for any HTTP GET requests to trigger.
+In this handler, `opentok.archives.create` is called with the `session_id` for the session that
+needs to be archived. The optional second argument is a hash which contains a `:name` key. The value
+is a string that will be stored with the archive and can be read later. In this case, as in the
+HelloWorld sample app, there is only one session created and it is used here and for the participant
+view. This will trigger the recording to begin. The response sent back to the client's XHR request
+will be the JSON representation of the archive, which is returned from the `to_json()` method. The
+client is also listening for the `archiveStarted` event, and uses that event to change the
+'Start Archiving' button to show 'Stop Archiving' instead. When the user presses the button this
+time, another XHR request is sent to the <http://localhost:9393/stop/:archiveId> URL where
+`:archiveId` represents the ID the client receives in the 'archiveStarted' event. The route handler
+for this request is shown below:
 
 ```ruby
-  get '\' do
-    # ...
-  end
+get '/stop/:archive_id' do
+  archive = settings.opentok.archives.stop_by_id(params[:archive_id])
+  body archive.to_json
+end
 ```
 
-Now all we have to do is serve a page with the three values the client will need to connect to the
-session: `api_key`, `session_id`, and `token`. The first two are right on the `settings` object
-because we called `set` earlier. Note that the we call the `session_id` method to get just that
-value from the `session` object. The `token` is generated freshly on this request by calling the
-`generate_token` method of the `opentok` instance, and passing in the `session_id`. This is because
-a Token is a piece of information that carries a specific client's permissions in a certain Session.
-Ideally, as we've done here, you generate a unique token for each client that will connect.
+This handler is very similar to the previous one. Instead of calling the `archives.create()` method,
+the `archives.stop_by_id()` method is called. This method takes an `archive_id` as its parameter,
+which is different for each time a session starts recording. But the client has sent this to the
+server as part of the URL, so the `params[:archive_id]` expression is used to retrieve it.
+
+Now you have understood the three main routes that are used to create the Host experience of
+creating an archive. Much of the functionality is done in the client with JavaScript. That code can
+be found in the `public/js/host.js` file. Read about the
+[OpenTok.js JavaScript](http://tokbox.com/opentok/libraries/client/js/) library to learn more.
+
+### Creating Archives - Participant View
+
+With the host view still open and publishing, open an additional window or tab and navigate to
+<http://localhost:9393/participant> and allow the browser to use your camera and microphone. Once
+again, start archiving in the host view. Back in the participant view, notice that the red blinking
+indicator has been shown so that the participant knows his video is being recorded. Now stop the
+archiving in the host view. Notice that the indicator has gone away in the participant view too.
+
+Creating this view on the server is as simple as the HelloWorld sample application. See the code
+for the route handler below:
 
 ```ruby
-    api_key = settings.api_key
-    session_id = settings.session.session_id
-    token = settings.opentok.generate_token(session_id)
+get '/participant' do
+  api_key = settings.api_key
+  session_id = settings.session.session_id
+  token = settings.opentok.generate_token(session_id, :role => :moderator)
+
+  erb :participant, :locals => {
+    :api_key => api_key,
+    :session_id => session_id,
+    :token => token
+  }
+end
 ```
 
-Now all we have to do is serve a page with those three values. Lets call our `erb` helper that will
-pick up a template called `index.erb` from the `views/` directory in our application and pass in
-the local variables for it to print using the `:locals` hash.
+Since this view has no further interactivity with buttons, this is all that is needed for a client
+that is participating in an archived session. Once again, much of the functionality is implemented
+in the client, in code that can be found in the `public/js/participant.js` file.
+
+### Past Archives
+
+Start by visiting the history page at <http://localhost:9393/history>. You will see a table that
+displays all the archives created with your API Key. If there are more than five, the older ones
+can be seen by clicking the "Older →" link. If you click on the name of an archive, your browser
+will start downloading the archive file. If you click the "Delete" link in the end of the row
+for any archive, that archive will be deleted and no longer available. Some basic information like
+when the archive was created, how long it is, and its status is also shown. You should see the
+archives you created in the previous sections here.
+
+We begin to see how this page is created by looking at the route handler for this URL:
 
 ```ruby
-    erb :index, :locals => {
-      :api_key => api_key,
-      :session_id => session_id,
-      :token => token
-    }
+get '/history' do
+  page = (params[:page] || "1").to_i
+  offset = (page - 1) * 5
+  archives = settings.opentok.archives.all(:offset => offset, :count => 5)
+
+  show_previous = page > 1 ? '/history?page=' + (page-1).to_s : nil
+  show_next = archives.total > (offset + 5) ? '/history?page=' + (page+1).to_s : nil
+
+  erb :history, :locals => {
+    :archives => archives,
+    :show_previous => show_previous,
+    :show_next => show_next
+  }
+end
 ```
 
-### Main Template (views/index.rb)
+This view is paginated so that we don't potentially show hundreds of rows on the table, which would
+be difficult for the user to navigate. So this code starts by figuring out which page needs to be
+shown, where each page is a set of 5 archives. The `page` number is read from the request's query
+string parameters as a string and then converted into an Integer. The `offset`, which represents how
+many archives are being skipped is always calculated as five times as many pages that are less than
+the current page, which is `(page - 1) * 5`. Now there is enough information to ask for a list of
+archives from OpenTok, which we do by calling the `archives.all()` method of the `opentok` instance.
+The parameter is an optional Hash that contains the offset, the count (which is always 5 in this
+view). If we are not at the first page, we can pass the view a string that contains the relative URL
+for the previous page. Similarly, we can also include one for the next page. Now the application
+renders the view using that information and the partial list of archives.
 
-This file simply sets up the HTML page for the JavaScript application to run, imports the
-JavaScript library, and passes the values created by the server into the JavaScript application
-inside `public/js/helloworld.js`
+At this point the template file `views/history.erb` handles looping over the array of archives and
+outputting the proper information for each column in the table. It also places a link to the
+download and delete routes around the archive's name and its delete button, respectively.
 
-### JavaScript Applicaton (public/js/helloworld.js)
+The code for the download route handler is shown below:
 
-The group chat is mostly implemented in this file. At a high level, we connect to the given
-Session, publish a stream from our webcam, and listen for new streams from other clients to
-subscribe to.
+```ruby
+get '/download/:archive_id' do
+  archive = settings.opentok.archives.find(params[:archive_id])
+  redirect archive.url
+end
+```
 
-For more details, read the comments in the file or go to the
-[JavaScript Client Library](http://tokbox.com/opentok/libraries/client/js/) for a full reference.
+The download URL for an archive is available as a property of an `Archive` instance. In order to get
+an instance to this archive, the `archives.find()` method of the `opentok` instance is used. The only
+parameter it needs is the `archive_id`. We use the same technique as above to read that `archive_id`
+from the URL. Lastly, we send a redirect response to the download URL back to the browser so the
+download begins.
+
+The code for the delete route handler is shown below:
+
+```ruby
+get '/delete/:archive_id' do
+  settings.opentok.archives.delete_by_id(params[:archive_id])
+  redirect '/history'
+end
+```
+
+Once again the `archive_id` is retrieved from the URL of the request. This value is then passed to
+the `archives.delete_by_id()` method of the `opentok` instance. Now that the archive has been
+deleted, a redirect response back to the first page of the history is sent back to the browser.
+
+That completes the walkthrough for this Archiving sample application. Feel free to continue to use
+this application to browse the archives created for your API Key.
