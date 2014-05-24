@@ -4,7 +4,7 @@
 
 The OpenTok Ruby SDK lets you generate
 [sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
-[tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for 
+[tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for
 [OpenTok](http://www.tokbox.com/) applications, and
 [archive](http://www.tokbox.com/platform/archiving) OpenTok 2.0 sessions.
 
@@ -174,10 +174,10 @@ The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
 # Release Notes
 
-**TODO**: See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details
+See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details
 about each release.
 
-# Important changes in v2.2
+## Important changes in v2.2
 
 This version of the SDK includes support for working with OpenTok 2.0 archives. (This API does not
 work with OpenTok 1.0 archives.)
