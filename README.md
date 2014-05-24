@@ -3,9 +3,13 @@
 [![Build Status](https://travis-ci.org/opentok/Opentok-Ruby-SDK.png?branch=modernization)](https://travis-ci.org/opentok/Opentok-Ruby-SDK)
 
 The OpenTok Ruby SDK lets you generate
-[sessions](http://tokbox.com/opentok/tutorials/create-session/) and
-[tokens](http://tokbox.com/opentok/tutorials/create-token/) for [OpenTok](http://www.tokbox.com/)
-applications. This version of the SDK also includes support for working with OpenTok 2.0 archives.
+[sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
+[tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for
+[OpenTok](http://www.tokbox.com/) applications, and
+[archive](http://www.tokbox.com/platform/archiving) OpenTok 2.0 sessions.
+
+If you are updating from a previous version of this SDK, see
+[Important changes in v2.2](#important-changes-in-v22).
 
 # Installation
 
@@ -57,14 +61,17 @@ and specifying a location hint. The `session_id` method of the returned `OpenTok
 instance is useful to get a sessionId that can be saved to a persistent store (e.g. database).
 
 ```ruby
-# Just a plain Session
+# Just a plain Session:
 session = opentok.create_session
-# A p2p Session
-session = opentok.create_session :p2p => true
-# A Session with a location hint
+
+# The session will attempt to transmit streams directly between clients.
+# If clients cannot connect, the session uses the OpenTok TURN server:
+session = opentok.create_session :media_mode => :relayed
+
+# A Session with a location hint:
 session = opentok.create_session :location => '12.34.56.78'
 
-# Store this sessionId in the database for later use
+# Store this sessionId in the database for later use:
 session_id = session.session_id
 ```
 
@@ -167,13 +174,21 @@ The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
 # Release Notes
 
-**TODO**: See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details
+See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details
 about each release.
 
 ## Important changes in v2.2
 
 This version of the SDK includes support for working with OpenTok 2.0 archives. (This API does not
 work with OpenTok 1.0 archives.)
+
+Note also that the `options` parameter of the `OpenTok.create_session()` method has a `media_mode`
+property instead of a `p2p` property.
+
+See the reference documentation
+<http://www.tokbox.com/opentok/libraries/server/ruby/reference/index.html> and in the
+docs directory of the SDK.
+
 
 # Development and Contributing
 

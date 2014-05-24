@@ -25,14 +25,14 @@ module OpenTok
   #     the token.
   #
   #   @param [Hash] options A hash defining options for the token.
-  #   @option options [String] :role The role for the token. Valid values are defined in the Role
-  #     class:
-  #     * <code>SUBSCRIBER</code> -- A subscriber can only subscribe to streams.
+  #   @option options [String] :role The role for the token. Set this to one of the following
+  #     values:
+  #     * <code>:subscriber</code> -- A subscriber can only subscribe to streams.
   #
-  #     * <code>PUBLISHER</code> -- A publisher can publish streams, subscribe to
+  #     * <code>:publisher</code> -- A publisher can publish streams, subscribe to
   #       streams, and signal. (This is the default value if you do not specify a role.)
   #
-  #     * <code>MODERATOR</code> -- In addition to the privileges granted to a
+  #     * <code>:moderator</code> -- In addition to the privileges granted to a
   #       publisher, in clients using the OpenTok.js 2.2 library, a moderator can call the
   #       <code>forceUnpublish()</code> and <code>forceDisconnect()</code> method of the
   #       Session object.
@@ -92,24 +92,35 @@ module OpenTok
     #
     # @param [Hash] opts (Optional) This hash defines options for the session.
     #
-    # @option opts [Boolean] :p2p The session's streams will be transmitted directly between
-    #     peers (true) or using the OpenTok Media Router (false). By default, sessions use
-    #     the OpenTok Media Router.
+    # @option opts [String] :media_mode Determines whether the session will transmit streams the
+    #   using OpenTok Media Router (<code>:routed</code>) or not (<code>:relayed</code>).
+    #   By default, sessions use the OpenTok Media Router.
     #
-    #     The OpenTok Media Router</a> provides benefits not available in peer-to-peer sessions.
-    #     For example, the OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
-    #     Also, the OpenTok Media Router can improve the quality of the user experience through
-    #     dynamic traffic shaping. For more information, see
-    #     http://www.tokbox.com/blog/mantis-next-generation-cloud-technology-for-webrtc and
-    #     http://www.tokbox.com/blog/quality-of-experience-and-traffic-shaping-the-next-step-with-mantis.
+    #   With the <code>mediaMode</code> property set to <code>:routed</code>, the session
+    #   will use the {http://tokbox.com/#multiparty OpenTok Media Router}.
+    #   The OpenTok Media Router provides the following benefits:
     #
-    #     For peer-to-peer sessions, the session will attempt to transmit streams directly
-    #     between clients. If clients cannot connect due to firewall restrictions, the session uses
-    #     the OpenTok TURN server to relay audio-video streams.
+    #   * The OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
+    #     (When the <code>mediaMode</code> property is set to <code>:relayed</code>,
+    #     each client must send a separate audio-video stream to each client subscribing to
+    #     it.)
+    #   * The OpenTok Media Router can improve the quality of the user experience through
+    #     {http://tokbox.com/#iqc Intelligent Quality Control}. With
+    #     Intelligent Quality Control, if a client's connectivity degrades to a degree that
+    #     it does not support video for a stream it's subscribing to, the video is dropped on
+    #     that client (without affecting other clients), and the client receives audio only.
+    #     If the client's connectivity improves, the video returns.
+    #   * The OpenTok Media Router supports the {http://tokbox.com/platform/archiving archiving}
+    #     feature, which lets you record, save, and retrieve OpenTok sessions.
     #
-    #     You will be billed for streamed minutes if you use the OpenTok Media Router or if the
-    #     peer-to-peer session uses the OpenTok TURN server to relay streams. For information on
-    #     pricing, see the OpenTok pricing page (http://www.tokbox.com/pricing).
+    #   With the <code>mediaMode</code> property set to <code>:relayed</code>, the session
+    #   will attempt to transmit streams directly between clients. If clients cannot connect due to
+    #   firewall restrictions, the session uses the OpenTok TURN server to relay audio-video
+    #   streams.
+    #
+    #   You will be billed for streamed minutes if you use the OpenTok Media Router or if the
+    #   session uses the OpenTok TURN server to relay streams. For information on pricing, see the
+    #   {http://www.tokbox.com/pricing OpenTok pricing page}.
     #
     # @option opts [String] :location  An IP address that the OpenTok servers will use to
     #     situate the session in its global network. If you do not set a location hint,
@@ -130,7 +141,7 @@ module OpenTok
       # keep opts around for Session constructor, build REST params
       params = opts.clone
 
-      # anything other than :relayed sets the REST param to "enabled", in which case we force
+      # anything other than :relayed sets the REST param to "disabled", in which case we force
       # opts to be :routed. if we were more strict we could raise an error when the value isn't
       # either :relayed or :routed
       if params.delete(:media_mode) == :relayed
