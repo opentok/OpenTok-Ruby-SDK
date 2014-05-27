@@ -32,13 +32,8 @@ $ bundle install
 ## RubyGems:
 
 ```
-$ gem install opentok -v 2.2.0pre
+$ gem install opentok -v 2.2.0.beta.1
 ```
-
-## Manually:
-
-Download the gem file for the latest release from the [Releases]() page. This gem can be installed
-using the the `gem` [command line utility](http://guides.rubygems.org/command-reference/#gem-install).
 
 # Usage
 
@@ -192,10 +187,8 @@ docs directory of the SDK.
 
 # Development and Contributing
 
-Interested in contributing? We <3 pull requests! File a new
-[Issue](https://github.com/opentok/opentok-ruby-sdk/issues) or take a look at the existing ones. If
-you are going to send us a pull request, please try to run the test suite first and also include
-tests for your changes.
+Interested in contributing? We :heart: pull requests! See the [Development](DEVELOPING.md) and
+[Contribution](CONTRIBUTING.md) guidelines.
 
 # Support
 
