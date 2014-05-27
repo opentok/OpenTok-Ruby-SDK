@@ -1,81 +1,198 @@
-# OpenTok Server SDK for Ruby
+# OpenTok Ruby SDK
 
-The OpenTok server SDK for Ruby lets you generate [sessions](http://tokbox.com/opentok/tutorials/create-session/) and
-[tokens](http://tokbox.com/opentok/tutorials/create-token/) for [OpenTok](http://www.tokbox.com/) applications.
+[![Build Status](https://travis-ci.org/opentok/Opentok-Ruby-SDK.png?branch=modernization)](https://travis-ci.org/opentok/Opentok-Ruby-SDK)
 
+The OpenTok Ruby SDK lets you generate
+[sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
+[tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for
+[OpenTok](http://www.tokbox.com/) applications, and
+[archive](http://www.tokbox.com/platform/archiving) OpenTok 2.0 sessions.
 
-## Installation
+If you are updating from a previous version of this SDK, see
+[Important changes in v2.2](#important-changes-in-v22).
 
-To install using bundler, add Opentok to your `gemfile` and run `bundle install`:
-<pre>
-gem 'opentok'
-</pre>
+# Installation
 
-To install as a regular gem just type `gem install opentok`
+## Bundler (recommended):
 
+Bundler helps manage dependencies for Ruby projects. Find more info here: <http://bundler.io>
 
-## Requirements
+Add this gem to your `Gemfile`:
 
-The OpenTok server SDK for Ruby requires Ruby 1.9 or greater.
+```ruby
+gem "opentok", "~> 2.2.x"
+```
+
+Allow bundler to install the change.
+
+```
+$ bundle install
+```
+
+## RubyGems:
+
+```
+$ gem install opentok -v 2.2.0.beta.1
+```
+
+# Usage
+
+## Initializing
+
+Load the gem at the top of any file where it will be used. Then initialize an `OpenTok::OpenTok`
+object with your OpenTok API key and API secret.
+
+```ruby
+require "opentok"
+
+opentok = OpenTok::OpenTok.new api_key, api_secret
+```
+
+## Creating Sessions
+
+To create an OpenTok Session, use the `OpenTok.create_session(properties)` method. The
+`properties` parameter is an optional Hash used to specify whether you are creating a p2p Session
+and specifying a location hint. The `session_id` method of the returned `OpenTok::Session`
+instance is useful to get a sessionId that can be saved to a persistent store (e.g. database).
+
+```ruby
+# Just a plain Session:
+session = opentok.create_session
+
+# The session will attempt to transmit streams directly between clients.
+# If clients cannot connect, the session uses the OpenTok TURN server:
+session = opentok.create_session :media_mode => :relayed
+
+# A Session with a location hint:
+session = opentok.create_session :location => '12.34.56.78'
+
+# Store this sessionId in the database for later use:
+session_id = session.session_id
+```
+
+## Generating Tokens
+
+Once a Session is created, you can start generating Tokens for clients to use when connecting to it.
+You can generate a token either by calling the `opentok.generate_token(session_id, options)` method,
+or by calling the `session.generate_token(options)` method on the an instance after creating it. The
+`options` parameter is an optional Hash used to set the role, expire time, and connection data of
+the Token.
+
+```ruby
+# Generate a Token from just a session_id (fetched from a database)
+token = opentok.generate_token session_id
+
+# Generate a Token by calling the method on the Session (returned from createSession)
+token = session.generate_token
+
+# Set some options in a token
+token = session.generate_token({
+    :role        => :moderator
+    :expire_time => Time.now.to_i+(7 * 24 * 60 * 60) # in one week
+    :data        => 'name=Johnny'
+});
+```
+
+## Working with Archives
+
+You can start the recording of an OpenTok Session using the `opentok.archives.create(session_id,
+options)` method. This will return an `OpenTok::Archive` instance. The parameter `options` is an
+optional Hash used to assign a name for the Archive. Note that you can only start an
+Archive on a Session that has clients connected.
+
+```ruby
+archive = opentok.archives.create session_id :name => "Important Presentation"
+
+# Store this archive_id in the database for later use
+archive_id = archive.id
+```
+
+You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
+method. You can also do this using the `archive.stop` method of the `OpenTok::Archive` instance.
+
+```ruby
+# Stop an Archive from an archive_id (fetched from database)
+opentok.archives.stop_by_id archive_id
+# Stop an Archive from an instance (returned from opentok.archives.create)
+archive.stop
+```
+
+To get an `OpenTok::Archive` instance (and all the information about it) from an `archive_id`, use
+the `opentok.archives.find(archive_id)` method.
+
+```ruby
+archive = opentok.archives.find archive_id
+```
+
+To delete an Archive, you can call the `opentok.archives.delete_by_id(archive_id)` method or the
+`delete` method of an `OpenTok::Archive` instance.
+
+```ruby
+# Delete an Archive from an archive_id (fetched from database)
+opentok.archives.delete_by_id archive_id
+# Delete an Archive from an Archive instance (returned from archives.create, archives.find)
+archive.delete
+```
+
+You can also get a list of all the Archives you've created (up to 1000) with your API Key. This is
+done using the `opentok.archives.all(options)` method. The parameter `options` is an optional Hash
+used to specify an `:offset` and `:count` to help you paginate through the results. This will return
+an instance of the `OpenTok::ArchiveList` class.
+
+```ruby
+archive_list = opentok.archives.all
+
+# Get an specific Archive from the list
+archive_list[i]
+# Get the total number of Archives for this API Key
+$total = archive_list.total
+```
+
+# Samples
+
+There are two sample applications included in this repository. To get going as fast as possible, clone the whole
+repository and follow the Walkthroughs:
+
+*  [HelloWorld](sample/HelloWorld/README.md)
+*  [Archiving](sample/Archiving/README.md)
+
+# Documentation
+
+Reference documentation is available at <http://www.tokbox.com//opentok/libraries/server/ruby/reference/index.html> and in the
+doc directory of the SDK.
+
+# Requirements
 
 You need an OpenTok API key and API secret, which you can obtain at <https://dashboard.tokbox.com>.
 
-# OpenTokSDK
+The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
-In order to use any of the server side functions, you must first create an `OpenTokSDK` object with your developer credentials.  
-`OpenTokSDK` takes two parameters:
+# Release Notes
 
-* key (string) - Given to you when you register  
-* secret (string) - Given to you when you register  
+See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details
+about each release.
 
-<pre>
-# Creating an OpenTok Object
-API_KEY = ''     # replace with your OpenTok API key
-API_SECRET = ''  # replace with your OpenTok API secret
-OTSDK = OpenTok::OpenTokSDK.new API_KEY, API_SECRET
-</pre>
+## Important changes in v2.2
 
-## Creating Sessions
-Call the `createSession()` method of the `OpenTokSDK` object to create a session. The method returns a Session object.
-The `sessionId` property of the Session object is the OpenTok session ID:
-<pre>
-# creating an OpenTok server-enabled session
-sessionId = OTSDK.createSession().to_s
+This version of the SDK includes support for working with OpenTok 2.0 archives. (This API does not
+work with OpenTok 1.0 archives.)
 
-# Creating peer-to-peer session
-sessionProperties = {OpenTok::SessionPropertyConstants::P2P_PREFERENCE => "enabled"}
-sessionId = OTSDK.createSession( nil, sessionProperties ).to_s
-</pre>
+Note also that the `options` parameter of the `OpenTok.create_session()` method has a `media_mode`
+property instead of a `p2p` property.
 
-## Generating Tokens
-With the generated session ID, you can generate tokens for each user:
-
-<pre>
-# Generating a publisher token
-token = OTSDK.generateToken :session_id => sessionId
- 
-# Generating a token with moderator role and connection data
-role = OpenTok::RoleConstants::MODERATOR
-connection_data = "username=Bob,level=4"
-token = OTSDK.generateToken :session_id => sessionId, :role => role, :connection_data => connection_data
-</pre>
-
-Possible Errors:
-
-* "Null or empty session ID are not valid"  
-* "An invalid session ID was passed"
-
-# Contributing
-To contribute, simple fork this repository and send a pull request when you are done.  
-Before you send pull requests, make sure all test cases are passing.  
-
-To install necessary gems, type `bundle install` in the root directory.  
-
-To run test cases, type `rspec spec/` in the root directory.   
+See the reference documentation
+<http://www.tokbox.com/opentok/libraries/server/ruby/reference/index.html> and in the
+docs directory of the SDK.
 
 
-# More information
+# Development and Contributing
 
-See the [reference documentation](doc/reference.md).
+Interested in contributing? We :heart: pull requests! See the [Development](DEVELOPING.md) and
+[Contribution](CONTRIBUTING.md) guidelines.
 
-For more information on OpenTok, go to <http://www.tokbox.com/>.
+# Support
+
+See <http://tokbox.com/opentok/support/> for all our support options.
+
+Find a bug? File it on the [Issues](https://github.com/opentok/opentok-ruby-sdk/issues) page. Hint:
+test cases are really helpful!
