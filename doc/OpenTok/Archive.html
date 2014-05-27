@@ -274,8 +274,8 @@ epoch.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>For archives with the status “stopped”, this can be set to “90 mins
-exceeded”, “failure”, “session ended”, or “user initiated”.</p>
+<p>For archives with the status "stopped", this can be set to "90 mins
+exceeded", "failure", "session ended", or "user initiated".</p>
 </div></span>
   
 </li>
@@ -852,9 +852,9 @@ created, this is set to null.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>For archives with the status “stopped”, this can be set to “90 mins
-exceeded”, “failure”, “session ended”, or “user initiated”. For archives
-with the status “failed”, this can be set to “system failure”.</p>
+<p>For archives with the status "stopped", this can be set to "90 mins
+exceeded", "failure", "session ended", or "user initiated". For archives
+with the status "failed", this can be set to "system failure".</p>
 
 
   </div>
@@ -1040,15 +1040,16 @@ value is set to 0.</p>
     
 <p>The status of the archive, which can be one of the following:</p>
 <ul><li>
-<p>“available” – The archive is available for download from the OpenTok cloud.</p>
+<p>"available" -- The archive is available for download from the OpenTok
+cloud.</p>
 </li><li>
-<p>“failed” – The archive recording failed.</p>
+<p>"failed" -- The archive recording failed.</p>
 </li><li>
-<p>“started” – The archive started and is in the process of being recorded.</p>
+<p>"started" -- The archive started and is in the process of being recorded.</p>
 </li><li>
-<p>“stopped” – The archive stopped recording.</p>
+<p>"stopped" -- The archive stopped recording.</p>
 </li><li>
-<p>“uploaded” – The archive is available for download from the the upload
+<p>"uploaded" -- The archive is available for download from the the upload
 target S3 bucket.</p>
 </li></ul>
 
@@ -1112,8 +1113,8 @@ target S3 bucket.</p>
   <div class="discussion">
     
 <p>The download URL of the available MP4 file. This is only set for an archive
-with the status set to “available”; for other archives, (including archives
-with the status “uploaded”) this property is set to null. The download URL
+with the status set to "available"; for other archives, (including archives
+with the status "uploaded") this property is set to null. The download URL
 is obfuscated, and the file is only available from the URL for 10 minutes.
 To generate a new URL, call the Archive.listArchives() or
 OpenTok.getArchive() method.</p>
@@ -1184,9 +1185,9 @@ OpenTok.getArchive() method.</p>
     
 <p>Deletes an OpenTok archive.</p>
 
-<p>You can only delete an archive which has a status of “available” or
-“uploaded”. Deleting an archive removes its record from the list of
-archives. For an “available” archive, it also removes the archive file,
+<p>You can only delete an archive which has a status of "available" or
+"uploaded". Deleting an archive removes its record from the list of
+archives. For an "available" archive, it also removes the archive file,
 making it unavailable for download.</p>
 
 
@@ -1211,7 +1212,7 @@ making it unavailable for download.</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span>
   <span class='comment'># TODO: validate returned json fits schema
-</span>  <span class='ivar'>@json</span> <span class='op'>=</span> <span class='ivar'>@interface</span><span class='period'>.</span><span class='id identifier rubyid_delete_by_id'>delete_by_id</span> <span class='ivar'>@json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+</span>  <span class='ivar'>@json</span> <span class='op'>=</span> <span class='ivar'>@interface</span><span class='period'>.</span><span class='id identifier rubyid_delete_by_id'>delete_by_id</span> <span class='ivar'>@json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1257,7 +1258,7 @@ have disconnected from the session being archived.</p>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stop'>stop</span>
   <span class='comment'># TODO: validate returned json fits schema
-</span>  <span class='ivar'>@json</span> <span class='op'>=</span> <span class='ivar'>@interface</span><span class='period'>.</span><span class='id identifier rubyid_stop_by_id'>stop_by_id</span> <span class='ivar'>@json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+</span>  <span class='ivar'>@json</span> <span class='op'>=</span> <span class='ivar'>@interface</span><span class='period'>.</span><span class='id identifier rubyid_stop_by_id'>stop_by_id</span> <span class='ivar'>@json</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1310,9 +1311,9 @@ have disconnected from the session being archived.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon May 26 13:41:57 2014 by
+  Generated on Tue May 27 13:24:51 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-2.0.0).
+  0.8.7.4 (ruby-1.9.3).
 </div>
 
   </body>

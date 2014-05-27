@@ -248,16 +248,16 @@
             &mdash; <div class='inline'>
 <p>The role for the token. Set this to one of the following values:</p>
 <ul><li>
-<p><code>:subscriber</code> – A subscriber can only subscribe to streams.</p>
+<p><tt>:subscriber</tt> -- A subscriber can only subscribe to streams.</p>
 </li><li>
-<p><code>:publisher</code> – A publisher can publish streams, subscribe to
+<p><tt>:publisher</tt> -- A publisher can publish streams, subscribe to
 streams, and signal. (This is the default value if you do not specify a
 role.)</p>
 </li><li>
-<p><code>:moderator</code> – In addition to the privileges granted to a
+<p><tt>:moderator</tt> -- In addition to the privileges granted to a
 publisher, in clients using the OpenTok.js 2.2 library, a moderator can
-call the <code>forceUnpublish()</code> and <code>forceDisconnect()</code>
-method of the Session object.</p>
+call the <tt>forceUnpublish()</tt> and <tt>forceDisconnect()</tt> method of
+the Session object.</p>
 </li></ul>
 </div>
           
@@ -371,12 +371,12 @@ cannot be updated once it is set.</p>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span>
 
   <span class='comment'># @private
-</span>  <span class='comment'># this implementation doesn&#39;t completely understand the format of a Session ID
+</span>  <span class='comment'># this implementation doesn't completely understand the format of a Session ID
 </span>  <span class='comment'># that is intentional, that is too much responsibility.
 </span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_belongs_to_api_key?'>belongs_to_api_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_encoded'>encoded</span> <span class='op'>=</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='id identifier rubyid_session_id'>session_id</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='rbracket'>]</span><span class='period'>
-</span><span class='id identifier rubyid_                        .gsub'>                        .gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>+</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_                        .gsub'>                        .gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</span><span class='id identifier rubyid_                        .gsub'>                        .gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>+</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_                        .gsub'>                        .gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_decoded'>decoded</span> <span class='op'>=</span> <span class='const'>Base64</span><span class='period'>.</span><span class='id identifier rubyid_decode64'>decode64</span><span class='lparen'>(</span><span class='id identifier rubyid_encoded'>encoded</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_decoded'>decoded</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_api_key'>api_key</span>
   <span class='kw'>end</span>
@@ -402,9 +402,9 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon May 26 13:41:57 2014 by
+  Generated on Tue May 27 13:24:51 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-2.0.0).
+  0.8.7.4 (ruby-1.9.3).
 </div>
 
   </body>
