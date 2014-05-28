@@ -20,7 +20,7 @@ Bundler helps manage dependencies for Ruby projects. Find more info here: <http:
 Add this gem to your `Gemfile`:
 
 ```ruby
-gem "opentok", "~> 2.2.x"
+gem "opentok", "~> 2.2"
 ```
 
 Allow bundler to install the change.
@@ -32,7 +32,7 @@ $ bundle install
 ## RubyGems:
 
 ```
-$ gem install opentok -v 2.2.0
+$ gem install opentok -v 2.2.1
 ```
 
 # Usage
