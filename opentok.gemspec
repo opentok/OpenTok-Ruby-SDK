@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   # TODO: exclude this for compatibility with rbx
   # spec.add_development_dependency "debugger", "~> 1.6.6"
 
-  spec.add_dependency "addressable", "~> 2.3.5"
-  spec.add_dependency "httparty", "0.13.0"
-  spec.add_dependency "activesupport", ">= 3.2"
+  spec.add_dependency "addressable", "~> 2.3" #  2.3.0 <= version < 3.0.0
+  spec.add_dependency "httparty", "~> 0.8"
+  spec.add_dependency "activesupport", ">= 2.0"
 end
