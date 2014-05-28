@@ -21,7 +21,7 @@ module OpenTok
       # *  session_id (required - if no lambda assigned, part of method sig)
       # *  token_opts (optional - part of method sig)
       #
-      # arg_lambdas is a hash of keys which are the above args and values are lambdas that all have the 
+      # arg_lambdas is a hash of keys which are the above args and values are lambdas that all have the
       # signature ->(instance)
       def generates_tokens(arg_lambdas={})
         @arg_lambdas = arg_lambdas
@@ -68,9 +68,9 @@ module OpenTok
       }
 
       # normalize and add additional data params
-      unless (expire_time = opts[:expire_time]).nil?
-        unless expire_time.between?(Time.now, Time.now + 30.days)
-          raise "Expire time must be within the next 30 days" 
+      unless (expire_time = opts[:expire_time].to_i) == 0
+        unless expire_time.between?(Time.now.to_i, (Time.now + 30.days).to_i)
+          raise "Expire time must be within the next 30 days"
         end
         data_params[:expire_time] = expire_time.to_i
       end
@@ -95,7 +95,7 @@ module OpenTok
     # this works when using extend TokenGenerator
     # def generates_tokens(method_opts)
     #   puts "I'm being called on #{self} with argument #{method_opts.inspect}"
-    #   
+    #
     # end
   end
 end
