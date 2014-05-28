@@ -33,6 +33,18 @@ shared_examples "opentok generates tokens" do
       expect(expiring_token).to carry_valid_token_signature api_secret
     end
 
+    it "generates tokens with an integer expire time" do
+      expire_time = Time.now.to_i + (60*60*24)
+      expiring_token = opentok.generate_token session_id, :expire_time => expire_time
+      expect(expiring_token).to be_an_instance_of String
+      expect(expiring_token).to carry_token_data :session_id => session_id
+      expect(expiring_token).to carry_token_data :api_key => api_key
+      expect(expiring_token).to carry_token_data :role => default_role
+      expect(expiring_token).to carry_token_data :expire_time => expire_time
+      expect(expiring_token).to carry_token_data [:nonce, :create_time]
+      expect(expiring_token).to carry_valid_token_signature api_secret
+    end
+
     it "generates tokens with a role" do
       role = :moderator
       role_token = opentok.generate_token session_id, :role => role
