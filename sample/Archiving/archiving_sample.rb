@@ -7,7 +7,7 @@ class ArchivingSample < Sinatra::Base
 
   set :api_key, ENV['API_KEY']
   set :opentok, OpenTok::OpenTok.new(api_key, ENV['API_SECRET'])
-  set :session, opentok.create_session
+  set :session, opentok.create_session :media_mode => :routed
   set :erb, :layout => :layout
 
   get '/' do
