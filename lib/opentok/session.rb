@@ -65,7 +65,7 @@ module OpenTok
     # @private
     def initialize(api_key, api_secret, session_id, opts={})
       @api_key, @api_secret, @session_id = api_key, api_secret, session_id
-      @media_mode, @location = opts.fetch(:media_mode, :routed), opts[:location]
+      @media_mode, @location = opts.fetch(:media_mode, :relayed), opts[:location]
     end
 
     # @private
