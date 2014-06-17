@@ -180,6 +180,12 @@ work with OpenTok 1.0 archives.)
 Note also that the `options` parameter of the `OpenTok.create_session()` method has a `media_mode`
 property instead of a `p2p` property.
 
+The default setting for the `create_session()` method is to create a session with the media mode set
+to relayed. In previous versions of the SDK, the default setting was to use the OpenTok Media Router
+(media mode set to routed). In a relayed session, clients will attempt to send streams directly
+between each other (peer-to-peer); if clients cannot connect due to firewall restrictions, the
+session uses the OpenTok TURN server to relay audio-video streams.
+
 See the reference documentation
 <http://www.tokbox.com/opentok/libraries/server/ruby/reference/index.html> and in the
 docs directory of the SDK.
