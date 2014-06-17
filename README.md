@@ -56,14 +56,14 @@ and specifying a location hint. The `session_id` method of the returned `OpenTok
 instance is useful to get a sessionId that can be saved to a persistent store (e.g. database).
 
 ```ruby
-# Just a plain Session:
+# Create a session that will attempt to transmit streams directly between clients.
+# If clients cannot connect, the session uses the OpenTok TURN server:
 session = opentok.create_session
 
-# The session will attempt to transmit streams directly between clients.
-# If clients cannot connect, the session uses the OpenTok TURN server:
+# A session that will use the OpenTok Media Server:
 session = opentok.create_session :media_mode => :relayed
 
-# A Session with a location hint:
+# A session with a location hint:
 session = opentok.create_session :location => '12.34.56.78'
 
 # Store this sessionId in the database for later use:
