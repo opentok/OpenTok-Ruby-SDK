@@ -94,7 +94,12 @@ module OpenTok
     #
     # @option opts [String] :media_mode Determines whether the session will transmit streams the
     #   using OpenTok Media Router (<code>:routed</code>) or not (<code>:relayed</code>).
-    #   By default, sessions use the OpenTok Media Router.
+    #   By default, this property is set to <code>:relayed</code>.
+    #
+    #   With the <code>mediaMode</code> property set to <code>:relayed</code>, the session
+    #   will attempt to transmit streams directly between clients. If clients cannot connect due to
+    #   firewall restrictions, the session uses the OpenTok TURN server to relay audio-video
+    #   streams.
     #
     #   With the <code>mediaMode</code> property set to <code>:routed</code>, the session
     #   will use the {http://tokbox.com/#multiparty OpenTok Media Router}.
@@ -112,11 +117,6 @@ module OpenTok
     #     If the client's connectivity improves, the video returns.
     #   * The OpenTok Media Router supports the {http://tokbox.com/platform/archiving archiving}
     #     feature, which lets you record, save, and retrieve OpenTok sessions.
-    #
-    #   With the <code>mediaMode</code> property set to <code>:relayed</code>, the session
-    #   will attempt to transmit streams directly between clients. If clients cannot connect due to
-    #   firewall restrictions, the session uses the OpenTok TURN server to relay audio-video
-    #   streams.
     #
     #   You will be billed for streamed minutes if you use the OpenTok Media Router or if the
     #   session uses the OpenTok TURN server to relay streams. For information on pricing, see the
