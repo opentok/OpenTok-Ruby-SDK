@@ -144,11 +144,11 @@ module OpenTok
       # anything other than :relayed sets the REST param to "disabled", in which case we force
       # opts to be :routed. if we were more strict we could raise an error when the value isn't
       # either :relayed or :routed
-      if params.delete(:media_mode) == :relayed
-        params["p2p.preference"] = "enabled"
-      else
+      if params.delete(:media_mode) == :routed
         params["p2p.preference"] = "disabled"
-        opts[:media_mode] = :routed
+      else
+        params["p2p.preference"] = "enabled"
+        opts[:media_mode] = :relayed
       end
       # location is optional, but it has to be an IP address if specified at all
       unless params[:location].nil?

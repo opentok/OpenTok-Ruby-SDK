@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/session/create
     body:
       encoding: UTF-8
-      string: p2p.preference=disabled
+      string: p2p.preference=enabled
     headers:
       X-Tb-Partner-Auth:
       - 123456:1234567890abcdef1234567890abcdef1234567890

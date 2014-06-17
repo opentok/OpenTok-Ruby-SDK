@@ -26,8 +26,8 @@ describe OpenTok::Session do
     it "should be represented by session_id when coerced to a string" do
       expect(session.to_s).to eq session_id
     end
-    it "should have the default media mode of routed" do
-      expect(session.media_mode).to eq :routed
+    it "should have the default media mode of relayed" do
+      expect(session.media_mode).to eq :relayed
     end
     it "should not have a location value" do
       expect(session.location).to eq nil

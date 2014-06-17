@@ -37,7 +37,7 @@ describe OpenTok::OpenTok do
         expect(session).to be_an_instance_of OpenTok::Session
         # TODO: do we need to be any more specific about what a valid session_id looks like?
         expect(session.session_id).to be_an_instance_of String
-        expect(session.media_mode).to eq :routed
+        expect(session.media_mode).to eq :relayed
         expect(session.location).to eq nil
       end
 
@@ -61,7 +61,7 @@ describe OpenTok::OpenTok do
         session = opentok.create_session :location => location
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
-        expect(session.media_mode).to eq :routed
+        expect(session.media_mode).to eq :relayed
         expect(session.location).to eq location
       end
 
@@ -81,11 +81,11 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq location
       end
 
-      it "creates routed media sessions for invalid media modes", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates relayed media sessions for invalid media modes", :vcr => { :erb => { :version => OpenTok::VERSION } } do
         session = opentok.create_session :media_mode => :blah
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
-        expect(session.media_mode).to eq :routed
+        expect(session.media_mode).to eq :relayed
         expect(session.location).to eq nil
       end
 

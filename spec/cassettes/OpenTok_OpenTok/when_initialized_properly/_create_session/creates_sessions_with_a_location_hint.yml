@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/session/create
     body:
       encoding: UTF-8
-      string: location=12.34.56.78&p2p.preference=disabled
+      string: location=12.34.56.78&p2p.preference=enabled
     headers:
       X-Tb-Partner-Auth:
       - 123456:1234567890abcdef1234567890abcdef1234567890
@@ -34,6 +34,6 @@ http_interactions:
       encoding: UTF-8
       string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><sessions><Session><session_id>1_MX4xMjM0NTZ-MTIuMzQuNTYuNzh-TW9uIE1hciAxNyAwMTo0ODo1NSBQRFQgMjAxNH4wLjM0MTM0MzE0MDIyOTU4Mjh-</session_id><partner_id>123456</partner_id><create_dt>Mon
         Mar 17 01:48:55 PDT 2014</create_dt></Session></sessions>
-    http_version: 
+    http_version:
   recorded_at: Mon, 17 Mar 2014 08:48:54 GMT
 recorded_with: VCR 2.8.0
