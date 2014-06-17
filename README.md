@@ -61,7 +61,7 @@ instance is useful to get a sessionId that can be saved to a persistent store (e
 session = opentok.create_session
 
 # A session that will use the OpenTok Media Server:
-session = opentok.create_session :media_mode => :relayed
+session = opentok.create_session :media_mode => :routed
 
 # A session with a location hint:
 session = opentok.create_session :location => '12.34.56.78'
