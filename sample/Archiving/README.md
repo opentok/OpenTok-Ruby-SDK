@@ -22,7 +22,7 @@ $ export API_SECRET=abcdef1234567890abcdef01234567890abcdef
 Finally, start the server using Bundler to handle dependencies
 
 ```
-$ bundle exec ruby hello_world.rb
+$ bundle exec ruby archiving_sample.rb
 ```
 
 Visit <http://localhost:9393> in your browser. You can now create new archives (either as a host or
