@@ -172,7 +172,7 @@ The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details
 about each release.
 
-## Important changes since v2.2
+## Important changes since v2.2.0
 
 **Changes in v2.2.2:**
 
