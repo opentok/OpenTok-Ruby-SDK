@@ -34,11 +34,13 @@ module OpenTok
     #   The status of the archive, which can be one of the following:
     #
     #   * "available" -- The archive is available for download from the OpenTok cloud.
+    #   * "expired" -- The archive is no longer available for download from the OpenTok cloud.
     #   * "failed" -- The archive recording failed.
     #   * "started" -- The archive started and is in the process of being recorded.
     #   * "stopped" -- The archive stopped recording.
     #   * "uploaded" -- The archive is available for download from the the upload target
-    #     S3 bucket.
+    #     Amazon S3 bucket or Windows Azure container you set at the OpenTok dashboard
+    #     (https://dashboard.tokbox.com).
     #
     # @attr [string] url
     #   The download URL of the available MP4 file. This is only set for an archive with the status set to
