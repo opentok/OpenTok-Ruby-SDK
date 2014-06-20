@@ -605,11 +605,11 @@ ID.</p>
   <span class='comment'># anything other than :relayed sets the REST param to &quot;disabled&quot;, in which case we force
 </span>  <span class='comment'># opts to be :routed. if we were more strict we could raise an error when the value isn't
 </span>  <span class='comment'># either :relayed or :routed
-</span>  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='symbol'>:relayed</span>
-    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>else</span>
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='symbol'>:routed</span>
     <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>disabled</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:media_mode</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:routed</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:media_mode</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:relayed</span>
   <span class='kw'>end</span>
   <span class='comment'># location is optional, but it has to be an IP address if specified at all
 </span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1000,11 +1000,11 @@ cannot be updated once it is set.</p>
     <span class='comment'># anything other than :relayed sets the REST param to &quot;disabled&quot;, in which case we force
 </span>    <span class='comment'># opts to be :routed. if we were more strict we could raise an error when the value isn't
 </span>    <span class='comment'># either :relayed or :routed
-</span>    <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='symbol'>:relayed</span>
-      <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>else</span>
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='symbol'>:routed</span>
       <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>disabled</span><span class='tstring_end'>&quot;</span></span>
-      <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:media_mode</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:routed</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>p2p.preference</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>enabled</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:media_mode</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:relayed</span>
     <span class='kw'>end</span>
     <span class='comment'># location is optional, but it has to be an IP address if specified at all
 </span>    <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1037,7 +1037,7 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jun 16 23:06:55 2014 by
+  Generated on Fri Jun 20 12:49:10 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.9.3).
 </div>

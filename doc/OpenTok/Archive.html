@@ -499,18 +499,18 @@ exceeded", "failure", "session ended", or "user initiated".</p>
       <pre class="lines">
 
 
-82
-83
 84
 85
 86
 87
 88
 89
-90</pre>
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_method_missing'>method_missing</span><span class='lparen'>(</span><span class='id identifier rubyid_method'>method</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_camelized_method'>camelized_method</span> <span class='op'>=</span> <span class='id identifier rubyid_method'>method</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_camelize'>camelize</span><span class='lparen'>(</span><span class='symbol'>:lower</span><span class='rparen'>)</span>
@@ -578,12 +578,12 @@ epoch.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_created_at'>created_at</span>
   <span class='ivar'>@created_at</span>
@@ -639,12 +639,12 @@ epoch.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_duration'>duration</span>
   <span class='ivar'>@duration</span>
@@ -700,12 +700,12 @@ epoch.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_id'>id</span>
   <span class='ivar'>@id</span>
@@ -762,12 +762,12 @@ created, this is set to null.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@name</span>
@@ -823,12 +823,12 @@ created, this is set to null.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_partner_id'>partner_id</span>
   <span class='ivar'>@partner_id</span>
@@ -886,12 +886,12 @@ with the status "failed", this can be set to "system failure".</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reason'>reason</span>
   <span class='ivar'>@reason</span>
@@ -947,12 +947,12 @@ with the status "failed", this can be set to "system failure".</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_session_id'>session_id</span>
   <span class='ivar'>@session_id</span>
@@ -1009,12 +1009,12 @@ value is set to 0.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_size'>size</span>
   <span class='ivar'>@size</span>
@@ -1043,6 +1043,9 @@ value is set to 0.</p>
 <p>"available" -- The archive is available for download from the OpenTok
 cloud.</p>
 </li><li>
+<p>"expired" -- The archive is no longer available for download from the
+OpenTok cloud.</p>
+</li><li>
 <p>"failed" -- The archive recording failed.</p>
 </li><li>
 <p>"started" -- The archive started and is in the process of being recorded.</p>
@@ -1050,7 +1053,9 @@ cloud.</p>
 <p>"stopped" -- The archive stopped recording.</p>
 </li><li>
 <p>"uploaded" -- The archive is available for download from the the upload
-target S3 bucket.</p>
+target Amazon S3 bucket or Windows Azure container you set at the OpenTok
+dashboard (<a
+href="https://dashboard.tokbox.com">dashboard.tokbox.com</a>).</p>
 </li></ul>
 
 
@@ -1083,12 +1088,12 @@ target S3 bucket.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_status'>status</span>
   <span class='ivar'>@status</span>
@@ -1149,12 +1154,12 @@ OpenTok.getArchive() method.</p>
       <pre class="lines">
 
 
-48
-49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_url'>url</span>
   <span class='ivar'>@url</span>
@@ -1202,13 +1207,13 @@ making it unavailable for download.</p>
       <pre class="lines">
 
 
-76
-77
 78
-79</pre>
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete'>delete</span>
   <span class='comment'># TODO: validate returned json fits schema
@@ -1248,13 +1253,13 @@ have disconnected from the session being archived.</p>
       <pre class="lines">
 
 
-66
-67
 68
-69</pre>
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stop'>stop</span>
   <span class='comment'># TODO: validate returned json fits schema
@@ -1291,12 +1296,12 @@ have disconnected from the session being archived.</p>
       <pre class="lines">
 
 
-58
-59
-60</pre>
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archive.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_json'>to_json</span>
   <span class='ivar'>@json</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span>
@@ -1311,7 +1316,7 @@ have disconnected from the session being archived.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jun 16 23:06:55 2014 by
+  Generated on Fri Jun 20 12:49:10 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.9.3).
 </div>

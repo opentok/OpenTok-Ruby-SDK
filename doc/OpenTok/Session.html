@@ -638,7 +638,7 @@ cannot be updated once it is set.</p>
   <span class='comment'># @private
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
     <span class='ivar'>@api_key</span><span class='comma'>,</span> <span class='ivar'>@api_secret</span><span class='comma'>,</span> <span class='ivar'>@session_id</span> <span class='op'>=</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span>
-    <span class='ivar'>@media_mode</span><span class='comma'>,</span> <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:routed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
+    <span class='ivar'>@media_mode</span><span class='comma'>,</span> <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:relayed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
 
   <span class='comment'># @private
@@ -656,7 +656,7 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Jun 16 23:06:55 2014 by
+  Generated on Fri Jun 20 12:49:10 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.9.3).
 </div>
