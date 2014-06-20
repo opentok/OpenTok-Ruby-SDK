@@ -39,9 +39,8 @@ http_interactions:
           "sessionId" : "SESSIONID",
           "size" : 8347554,
           "status" : "available",
-          "url" : "http://tokbox.com.archive2.s3.amazonaws.com/123456%2Ff6e7ee58-d6cf-4a59-896b-6d56b158ec71%2Farchive.mp4?Expires=1395194362&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-          "notarealproperty" : "not a real value"
+          "url" : "http://tokbox.com.archive2.s3.amazonaws.com/123456%2Ff6e7ee58-d6cf-4a59-896b-6d56b158ec71%2Farchive.mp4?Expires=1395194362&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         }
-    http_version:
+    http_version: 
   recorded_at: Wed, 19 Mar 2014 01:49:22 GMT
 recorded_with: VCR 2.8.0
