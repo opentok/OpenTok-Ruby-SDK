@@ -29,6 +29,6 @@ Gem::Specification.new do |spec|
   # spec.add_development_dependency "debugger", "~> 1.6.6"
 
   spec.add_dependency "addressable", "~> 2.3" #  2.3.0 <= version < 3.0.0
-  spec.add_dependency "httparty", "~> 0.8"
+  spec.add_dependency "httparty", ">= 0.13.1"
   spec.add_dependency "activesupport", ">= 2.0"
 end
