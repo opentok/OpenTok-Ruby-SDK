@@ -55,6 +55,17 @@ describe OpenTok::Archives do
     # expect(archive.status).to eq ""
   end
 
+  it "should find expired archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    archive = archives.find findable_archive_id
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.status).to eq "expired"
+  end
+
+  it "should find archives with unknown properties", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    archive = archives.find findable_archive_id
+    expect(archive).to be_an_instance_of OpenTok::Archive
+  end
+
   # TODO: context "with a session that has no participants" do
   #   let(:session_id) { "" }
   #   it "should refuse to create archives with appropriate error" do
