@@ -118,10 +118,6 @@ module OpenTok
     #   * The OpenTok Media Router supports the {http://tokbox.com/platform/archiving archiving}
     #     feature, which lets you record, save, and retrieve OpenTok sessions.
     #
-    #   You will be billed for streamed minutes if you use the OpenTok Media Router or if the
-    #   session uses the OpenTok TURN server to relay streams. For information on pricing, see the
-    #   {http://www.tokbox.com/pricing OpenTok pricing page}.
-    #
     # @option opts [String] :location  An IP address that the OpenTok servers will use to
     #     situate the session in its global network. If you do not set a location hint,
     #     the OpenTok servers will be based on the first client connecting to the session.
