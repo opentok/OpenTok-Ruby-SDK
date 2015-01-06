@@ -1,7 +1,7 @@
 require "rspec/matchers"
 
 require "base64"
-require "digest/hmac"
+require "openssl"
 require "addressable/uri"
 
 RSpec::Matchers.define :carry_token_data do |input_data|
@@ -40,9 +40,10 @@ RSpec::Matchers.define :carry_valid_token_signature do |api_secret|
   match do |token|
     decoded_token = Base64.decode64(token[4..token.length])
     metadata, data_string = decoded_token.split(':')
+    digest = OpenSSL::Digest.new('sha1')
     # form_unencode returns an array of arrays, annoying so hardcoded lookup
     # expected format: [["partner_id", "..."], ["sig", "..."]]
     signature = Addressable::URI.form_unencode(metadata)[1][1]
-    signature == Digest::HMAC.hexdigest(data_string, api_secret, Digest::SHA1)
+    signature == OpenSSL::HMAC.hexdigest(digest, api_secret, data_string)
   end
 end

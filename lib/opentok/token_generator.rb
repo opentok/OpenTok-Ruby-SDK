@@ -3,7 +3,7 @@ require "opentok/session"
 
 require "base64"
 require "addressable/uri"
-require "digest/hmac"
+require "openssl"
 require "active_support/time"
 
 module OpenTok
@@ -81,11 +81,11 @@ module OpenTok
         end
         data_params[:connection_data] = data
       end
-
+      digest = OpenSSL::Digest.new('sha1')
       data_string = Addressable::URI.form_encode data_params
       meta_string = Addressable::URI.form_encode({
         :partner_id => api_key,
-        :sig => Digest::HMAC.hexdigest(data_string, api_secret, Digest::SHA1)
+        :sig => OpenSSL::HMAC.hexdigest(digest, api_secret, data_string)
       })
 
       TOKEN_SENTINEL + Base64.strict_encode64(meta_string + ":" + data_string)
