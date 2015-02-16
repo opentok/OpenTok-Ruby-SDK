@@ -50,6 +50,8 @@ In order to create a release, the following should be completed in order.
 1. Change the version number for future development by adding ".alpha.1", then make another commit with the message
    "Beginning development on next version".
 1. Push the changes to the main repository (`git push origin master`).
+1. Add a description to the [GitHub Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page
+   with any notable changes. Upload the built gem as an attachment.
 
 ## Workflow
 
