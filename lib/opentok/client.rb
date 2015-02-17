@@ -85,8 +85,7 @@ module OpenTok
     end
 
     def stop_archive(archive_id)
-      response = self.class.post("/v2/partner/#{@api_key}/archive/#{archive_id}", {
-        :body => { "action" => "stop" }.to_json,
+      response = self.class.post("/v2/partner/#{@api_key}/archive/#{archive_id}/stop", {
         :headers => { "Content-Type" => "application/json" }
       })
       case response.code
@@ -101,7 +100,7 @@ module OpenTok
       when 409
         raise OpenTokArchiveError, "The archive could not be stopped. The archive is not currently recording."
       else
-        raise OpenTokArchiveError, "The archive could not be started."
+        raise OpenTokArchiveError, "The archive could not be stopped."
       end
     end
 
