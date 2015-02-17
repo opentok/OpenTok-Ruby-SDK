@@ -2,10 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.opentok.com/v2/partner/123456/archive/30b3ebf1-ba36-4f5b-8def-6f70d9986fe9
-    body:
-      encoding: UTF-8
-      string: '{"action":"stop"}'
+    uri: https://api.opentok.com/v2/partner/123456/archive/30b3ebf1-ba36-4f5b-8def-6f70d9986fe9/stop
     headers:
       X-Tb-Partner-Auth:
       - 123456:1234567890abcdef1234567890abcdef1234567890
