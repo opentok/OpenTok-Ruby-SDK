@@ -16,6 +16,10 @@ module OpenTok
     #   The name of the archive. If no name was provided when the archive was created, this is set
     #   to null.
     #
+    # @attr [true, false] has_audio
+    #
+    # @attr [true, false] has_video
+    #
     # @attr [string] partner_id
     #   The API key associated with the archive.
     #
@@ -47,7 +51,7 @@ module OpenTok
     #   "available"; for other archives, (including archives with the status "uploaded") this property is
     #   set to null. The download URL is obfuscated, and the file is only available from the URL for
     #   10 minutes. To generate a new URL, call the Archive.listArchives() or OpenTok.getArchive() method.
-    class Archive
+  class Archive
 
     # @private
     def initialize(interface, json)

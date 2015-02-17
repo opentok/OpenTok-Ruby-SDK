@@ -39,8 +39,16 @@ module OpenTok
     # @raise [OpenTokArchiveError] The archive could not be started.
     def create(session_id, options = {})
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
-      opts = Hash.new
-      opts[:name] = options[:name].to_s || options["name"].to_s
+
+      # normalize opts so all keys are symbols and only include valid_opts
+      valid_opts = [ :name, :has_audio, :has_video ]
+      opts = options.inject({}) do |m,(k,v)|
+        if valid_opts.include? k.to_sym
+          m[k.to_sym] = v
+        end
+        m
+      end
+
       archive_json = @client.start_archive(session_id, opts)
       Archive.new self, archive_json
     end

@@ -6,7 +6,7 @@
 <title>
   Module: OpenTok
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; Documentation by YARD 0.8.7.6
   
 </title>
 
@@ -80,7 +80,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/opentok.rb<span class="defines">,<br />
-  lib/opentok/client.rb,<br /> lib/opentok/session.rb,<br /> lib/opentok/version.rb,<br /> lib/opentok/opentok.rb,<br /> lib/opentok/archive.rb,<br /> lib/opentok/archives.rb,<br /> lib/opentok/constants.rb,<br /> lib/opentok/exceptions.rb,<br /> lib/opentok/archive_list.rb,<br /> lib/opentok/token_generator.rb</span>
+  lib/opentok/client.rb,<br /> lib/opentok/session.rb,<br /> lib/opentok/version.rb,<br /> lib/opentok/archive.rb,<br /> lib/opentok/opentok.rb,<br /> lib/extensions/hash.rb,<br /> lib/opentok/archives.rb,<br /> lib/opentok/constants.rb,<br /> lib/opentok/exceptions.rb,<br /> lib/opentok/archive_list.rb,<br /> lib/opentok/token_generator.rb</span>
 </dd>
   
 </dl>
@@ -100,6 +100,8 @@
 </div><h2>Defined Under Namespace</h2>
 <p class="children">
   
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="OpenTok/HashExtensions.html" title="OpenTok::HashExtensions (module)">HashExtensions</a></span>
     
   
     
@@ -200,7 +202,7 @@
   
     <li>
       
-        <span class='name'>sessioin_id</span>
+        <span class='name'>session_id</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -248,16 +250,16 @@
             &mdash; <div class='inline'>
 <p>The role for the token. Set this to one of the following values:</p>
 <ul><li>
-<p><tt>:subscriber</tt> -- A subscriber can only subscribe to streams.</p>
+<p><code>:subscriber</code> – A subscriber can only subscribe to streams.</p>
 </li><li>
-<p><tt>:publisher</tt> -- A publisher can publish streams, subscribe to
+<p><code>:publisher</code> – A publisher can publish streams, subscribe to
 streams, and signal. (This is the default value if you do not specify a
 role.)</p>
 </li><li>
-<p><tt>:moderator</tt> -- In addition to the privileges granted to a
+<p><code>:moderator</code> – In addition to the privileges granted to a
 publisher, in clients using the OpenTok.js 2.2 library, a moderator can
-call the <tt>forceUnpublish()</tt> and <tt>forceDisconnect()</tt> method of
-the Session object.</p>
+call the <code>forceUnpublish()</code> and <code>forceDisconnect()</code>
+method of the Session object.</p>
 </li></ul>
 </div>
           
@@ -371,12 +373,12 @@ cannot be updated once it is set.</p>
   <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span>
 
   <span class='comment'># @private
-</span>  <span class='comment'># this implementation doesn't completely understand the format of a Session ID
+</span>  <span class='comment'># this implementation doesn&#39;t completely understand the format of a Session ID
 </span>  <span class='comment'># that is intentional, that is too much responsibility.
 </span>  <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_belongs_to_api_key?'>belongs_to_api_key?</span><span class='lparen'>(</span><span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_encoded'>encoded</span> <span class='op'>=</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='id identifier rubyid_session_id'>session_id</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='rbracket'>]</span><span class='period'>
-</span><span class='id identifier rubyid_                        .gsub'>                        .gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>+</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>
-</span><span class='id identifier rubyid_                        .gsub'>                        .gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>_</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+</span><span class='id identifier rubyid_                        .gsub'>                        .gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>-</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>+</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>
+</span><span class='id identifier rubyid_                        .gsub'>                        .gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>_</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_decoded'>decoded</span> <span class='op'>=</span> <span class='const'>Base64</span><span class='period'>.</span><span class='id identifier rubyid_decode64'>decode64</span><span class='lparen'>(</span><span class='id identifier rubyid_encoded'>encoded</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_decoded'>decoded</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_api_key'>api_key</span>
   <span class='kw'>end</span>
@@ -402,9 +404,9 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jun 20 12:49:10 2014 by
+  Generated on Mon Feb 16 21:01:44 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-1.9.3).
+  0.8.7.6 (ruby-2.0.0).
 </div>
 
   </body>

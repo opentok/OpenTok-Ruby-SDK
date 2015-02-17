@@ -21,7 +21,7 @@ module OpenTok
   # @!method generate_token(options)
   #   Generates a token for a given session.
   #
-  #   @param [String] sessioin_id The session ID of the session to be accessed by the client using
+  #   @param [String] session_id The session ID of the session to be accessed by the client using
   #     the token.
   #
   #   @param [Hash] options A hash defining options for the token.
