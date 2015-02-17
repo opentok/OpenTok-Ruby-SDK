@@ -1,4 +1,5 @@
 require "opentok/exceptions"
+require "extensions/hash"
 
 require "httparty"
 
@@ -31,8 +32,8 @@ module OpenTok
     end
 
     def start_archive(session_id, opts)
-      body = { "sessionId" => session_id, "action" => "start" }
-      body["name"] = opts[:name] unless opts[:name].nil?
+      opts.extend(HashExtensions)
+      body = { "sessionId" => session_id, "action" => "start" }.merge(opts.camelize_keys!)
       response = self.class.post("/v2/partner/#{@api_key}/archive", {
         :body => body.to_json,
         :headers => { "Content-Type" => "application/json" }

@@ -97,11 +97,18 @@ token = session.generate_token({
 
 You can start the recording of an OpenTok Session using the `opentok.archives.create(session_id,
 options)` method. This will return an `OpenTok::Archive` instance. The parameter `options` is an
-optional Hash used to assign a name for the Archive. Note that you can only start an
-Archive on a Session that has clients connected.
+optional Hash used to set the `has_audio`, `has_video`, and `name` options. Note that you can
+only start an Archive on a Session that has clients connected.
 
 ```ruby
+# Create an Archive
+archive = opentok.archives.create session_id
+
+# Create a named Archive
 archive = opentok.archives.create session_id :name => "Important Presentation"
+
+# Create an audio-only Archive
+archive = opentok.archives.create session_id :has_video => false
 
 # Store this archive_id in the database for later use
 archive_id = archive.id
@@ -113,6 +120,7 @@ method. You can also do this using the `archive.stop` method of the `OpenTok::Ar
 ```ruby
 # Stop an Archive from an archive_id (fetched from database)
 opentok.archives.stop_by_id archive_id
+
 # Stop an Archive from an instance (returned from opentok.archives.create)
 archive.stop
 ```
@@ -130,6 +138,7 @@ To delete an Archive, you can call the `opentok.archives.delete_by_id(archive_id
 ```ruby
 # Delete an Archive from an archive_id (fetched from database)
 opentok.archives.delete_by_id archive_id
+
 # Delete an Archive from an Archive instance (returned from archives.create, archives.find)
 archive.delete
 ```
@@ -144,6 +153,7 @@ archive_list = opentok.archives.all
 
 # Get an specific Archive from the list
 archive_list[i]
+
 # Get the total number of Archives for this API Key
 $total = archive_list.total
 ```

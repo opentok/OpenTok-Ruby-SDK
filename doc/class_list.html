@@ -20,7 +20,11 @@
   </head>
   <body>
     <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) {
+      var hasFrames = false;
+      try {
+        hasFrames = window.top.frames.main ? true : false;
+      } catch (e) { }
+      if (hasFrames) {
         document.getElementById('base_target').target = 'main';
         document.body.className = 'frames';
       }
@@ -46,7 +50,7 @@
 
       <ul id="full_list" class="class">
         <li><span class='object_link'><a href="top-level-namespace.html" title="Top Level Namespace (root)">Top Level Namespace</a></span></li>
-<li><a class='toggle'></a> <span class='object_link'><a href="OpenTok.html" title="OpenTok (module)">OpenTok</a></span><small class='search_info'>Top Level Namespace</small></li><ul><li><span class='object_link'><a href="OpenTok/Archive.html" title="OpenTok::Archive (class)">Archive</a></span> &lt; Object<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/ArchiveList.html" title="OpenTok::ArchiveList (class)">ArchiveList</a></span> &lt; Array<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/Archives.html" title="OpenTok::Archives (class)">Archives</a></span> &lt; Object<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/OpenTok.html" title="OpenTok::OpenTok (class)">OpenTok</a></span> &lt; Object<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/OpenTokArchiveError.html" title="OpenTok::OpenTokArchiveError (class)">OpenTokArchiveError</a></span> &lt; OpenTokError<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/OpenTokAuthenticationError.html" title="OpenTok::OpenTokAuthenticationError (class)">OpenTokAuthenticationError</a></span> &lt; OpenTokError<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/OpenTokError.html" title="OpenTok::OpenTokError (class)">OpenTokError</a></span> &lt; StandardError<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/Session.html" title="OpenTok::Session (class)">Session</a></span> &lt; Object<small class='search_info'>OpenTok</small></li></ul>
+<li><a class='toggle'></a> <span class='object_link'><a href="OpenTok.html" title="OpenTok (module)">OpenTok</a></span><small class='search_info'>Top Level Namespace</small></li><ul><li><span class='object_link'><a href="OpenTok/Archive.html" title="OpenTok::Archive (class)">Archive</a></span> &lt; Object<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/ArchiveList.html" title="OpenTok::ArchiveList (class)">ArchiveList</a></span> &lt; Array<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/Archives.html" title="OpenTok::Archives (class)">Archives</a></span> &lt; Object<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/HashExtensions.html" title="OpenTok::HashExtensions (module)">HashExtensions</a></span><small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/OpenTok.html" title="OpenTok::OpenTok (class)">OpenTok</a></span> &lt; Object<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/OpenTokArchiveError.html" title="OpenTok::OpenTokArchiveError (class)">OpenTokArchiveError</a></span> &lt; OpenTokError<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/OpenTokAuthenticationError.html" title="OpenTok::OpenTokAuthenticationError (class)">OpenTokAuthenticationError</a></span> &lt; OpenTokError<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/OpenTokError.html" title="OpenTok::OpenTokError (class)">OpenTokError</a></span> &lt; StandardError<small class='search_info'>OpenTok</small></li><li><span class='object_link'><a href="OpenTok/Session.html" title="OpenTok::Session (class)">Session</a></span> &lt; Object<small class='search_info'>OpenTok</small></li></ul>
 
       </ul>
     </div>

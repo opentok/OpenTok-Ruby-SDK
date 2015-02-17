@@ -36,6 +36,13 @@ describe OpenTok::Archives do
     expect(archive.name).to eq archive_name
   end
 
+  it "should create audio only archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    archive = archives.create session_id, :has_video => false
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.session_id).to eq session_id
+    expect(archive.has_video).to be false
+    expect(archive.has_audio).to be true
+  end
 
   it "should stop archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
     archive = archives.stop_by_id started_archive_id
