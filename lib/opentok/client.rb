@@ -31,7 +31,7 @@ module OpenTok
     end
 
     def start_archive(session_id, opts)
-      body = { "sessionId" => session_id, "action" => "start" }
+      body = { "sessionId" => session_id }
       body["name"] = opts[:name] unless opts[:name].nil?
       response = self.class.post("/v2/partner/#{@api_key}/archive", {
         :body => body.to_json,
