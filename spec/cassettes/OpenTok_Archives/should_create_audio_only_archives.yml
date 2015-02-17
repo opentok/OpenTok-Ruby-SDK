@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/v2/partner/123456/archive
     body:
       encoding: UTF-8
-      string: '{"sessionId":"SESSIONID","action":"start","hasVideo":false}'
+      string: '{"sessionId":"SESSIONID","hasVideo":false}'
     headers:
       X-Tb-Partner-Auth:
       - 123456:1234567890abcdef1234567890abcdef1234567890
