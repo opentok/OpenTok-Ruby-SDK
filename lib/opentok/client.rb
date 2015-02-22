@@ -6,7 +6,9 @@ module OpenTok
   # @private For internal use by the SDK.
   class Client
     include HTTParty
+
     default_timeout 1 # Set HTTParty default timeout (open/read) to 1 second
+
     # TODO: expose a setting for http debugging for developers
     # debug_output $stdout
 
@@ -29,6 +31,8 @@ module OpenTok
       else
         raise OpenTokError, "Failed to create session. Response code: #{response.code}"
       end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
     def start_archive(session_id, opts)
@@ -52,6 +56,8 @@ module OpenTok
       else
         raise OpenTokArchiveError, "The archive could not be started"
       end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
     def get_archive(archive_id)
@@ -66,6 +72,8 @@ module OpenTok
       else
         raise OpenTokArchiveError, "The archive could not be retrieved."
       end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
     def list_archives(offset, count)
@@ -83,6 +91,8 @@ module OpenTok
       else
         raise OpenTokArchiveError, "The archives could not be retrieved."
       end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
     def stop_archive(archive_id)
@@ -104,6 +114,8 @@ module OpenTok
       else
         raise OpenTokArchiveError, "The archive could not be started."
       end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
     def delete_archive(archive_id)
@@ -120,7 +132,8 @@ module OpenTok
       else
         raise OpenTokArchiveError, "The archive could not be deleted."
       end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
-
   end
 end

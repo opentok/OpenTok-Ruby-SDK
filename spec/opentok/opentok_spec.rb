@@ -88,7 +88,6 @@ describe OpenTok::OpenTok do
         expect(session.media_mode).to eq :relayed
         expect(session.location).to eq nil
       end
-
     end
 
     context "with an api_key that's a number" do
@@ -121,7 +120,19 @@ describe OpenTok::OpenTok do
       # TODO: i don't need to run all the tests, just a set that checks for the URL's effect
       # include_examples "generates tokens"
     end
+  end
 
+  context "http client errors" do
+    let(:api_key) { "123456" }
+    let(:api_secret) { "1234567890abcdef1234567890abcdef1234567890" }
+
+    before(:each) do
+      stub_request(:post, 'https://api.opentok.com/session/create').to_timeout
+    end
+
+    subject { -> { opentok.create_session } }
+
+    it { should raise_error(OpenTok::OpenTokError) }
   end
 
   # ah, the magic of duck typing. the errors raised don't have any specific description
