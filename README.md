@@ -6,7 +6,7 @@ The OpenTok Ruby SDK lets you generate
 [sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
 [tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for
 [OpenTok](http://www.tokbox.com/) applications, and
-[archive](http://www.tokbox.com/platform/archiving) OpenTok 2.0 sessions.
+[archive](http://www.tokbox.com/platform/archiving) OpenTok sessions.
 
 If you are updating from a previous version of this SDK, see
 [Important changes since v2.2.0](#important-changes-since-v220).
@@ -194,8 +194,7 @@ session uses the OpenTok TURN server to relay audio-video streams.
 
 **Changes in v2.2.0:**
 
-This version of the SDK includes support for working with OpenTok 2.0 archives. (This API does not
-work with OpenTok 1.0 archives.)
+This version of the SDK includes support for working with OpenTok archives.
 
 Note also that the `options` parameter of the `OpenTok.create_session()` method has a `media_mode`
 property instead of a `p2p` property.

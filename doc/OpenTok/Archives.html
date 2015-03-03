@@ -6,7 +6,7 @@
 <title>
   Class: OpenTok::Archives
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.8.7.4
   
 </title>
 
@@ -373,14 +373,14 @@ archives returned is 1000.</p>
       <pre class="lines">
 
 
-82
-83
-84
-85
-86</pre>
+93
+94
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 93</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Limit is invalid</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:count</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='lparen'>(</span><span class='int'>0</span><span class='op'>..</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:count</span><span class='rbracket'>]</span>
@@ -413,6 +413,8 @@ successfully start recording an archive.</p>
 record archives of sessions that use the OpenTok Media Router (sessions
 with the media mode set to routed); you cannot archive sessions with the
 media mode set to relayed.</p>
+
+<p>:name.</p>
 
 
   </div>
@@ -450,7 +452,7 @@ media mode set to relayed.</p>
       
         &mdash;
         <div class='inline'>
-<p>A hash with the key &#39;name&#39; or :name.</p>
+<p>A hash with the key ‘name’, ‘has_audio’, and ‘has_video’ (or</p>
 </div>
       
     </li>
@@ -475,7 +477,41 @@ media mode set to relayed.</p>
             &mdash; <div class='inline'>
 <p>This is the name of the archive. You can use this name to identify the
 archive. It is a property of the Archive object, and it is a property of
-archive-related events in the OpenTok.js library.</p>
+archive-related events in the OpenTok client SDKs.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:has_audio</span>
+          <span class="type">(<tt>true</tt>, <tt>false</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Whether the archive will include an audio track (<tt>true</tt>) or not
+<tt>false</tt>). The default value is <tt>true</tt> (an audio track is
+included). If you set both  <tt>has_audio</tt> and <tt>has_video</tt> to
+<tt>false</tt>, the call to the <tt>create()</tt> method results in an
+error.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:has_video</span>
+          <span class="type">(<tt>true</tt>, <tt>false</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Whether the archive will include a video track (<tt>true</tt>) or not
+<tt>false</tt>). The default value is <tt>true</tt> (a video track is
+included). If you set both  <tt>has_audio</tt> and <tt>has_video</tt> to
+<tt>false</tt>, the call to the <tt>create()</tt> method results in an
+error.</p>
 </div>
           
         </li>
@@ -585,24 +621,24 @@ session is already being recorded.</p>
       <pre class="lines">
 
 
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
 51
 52
 53
-54</pre>
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>session_id not provided</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -638,10 +674,10 @@ session is already being recorded.</p>
     
 <p>Deletes an OpenTok archive.</p>
 
-<p>You can only delete an archive which has a status of “available”,
-“uploaded”, or “deleted”. Deleting an archive removes its record from the
-list of archives. For an “available” archive, it also removes the archive
-file, making it unavailable for download. For a “deleted” archive, the
+<p>You can only delete an archive which has a status of "available",
+"uploaded", or "deleted". Deleting an archive removes its record from the
+list of archives. For an "available" archive, it also removes the archive
+file, making it unavailable for download. For a "deleted" archive, the
 archive remains deleted.</p>
 
 
@@ -695,8 +731,8 @@ archive remains deleted.</p>
       
         &mdash;
         <div class='inline'>
-<p>The archive could not be deleted. The status must be &#39;available&#39;,
-&#39;deleted&#39;, or &#39;uploaded&#39;.</p>
+<p>The archive could not be deleted. The status must be ‘available’,
+‘deleted’, or ‘uploaded’.</p>
 </div>
       
     </li>
@@ -723,14 +759,14 @@ archive remains deleted.</p>
       <pre class="lines">
 
 
-122
-123
-124
-125
-126</pre>
+133
+134
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_by_id'>delete_by_id</span><span class='lparen'>(</span><span class='id identifier rubyid_archive_id'>archive_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>archive_id not provided</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_archive_id'>archive_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -852,14 +888,14 @@ archive remains deleted.</p>
       <pre class="lines">
 
 
-65
-66
-67
-68
-69</pre>
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_archive_id'>archive_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>archive_id not provided</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_archive_id'>archive_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1012,14 +1048,14 @@ have disconnected from the session being archived.</p>
       <pre class="lines">
 
 
-103
-104
-105
-106
-107</pre>
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stop_by_id'>stop_by_id</span><span class='lparen'>(</span><span class='id identifier rubyid_archive_id'>archive_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>archive_id not provided</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_archive_id'>archive_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1036,9 +1072,9 @@ have disconnected from the session being archived.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Feb 16 21:01:45 2015 by
+  Generated on Wed Feb 25 17:37:47 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.0.0).
+  0.8.7.4 (ruby-1.9.3).
 </div>
 
   </body>

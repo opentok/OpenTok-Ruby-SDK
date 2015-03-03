@@ -17,8 +17,10 @@ module OpenTok
     #   to null.
     #
     # @attr [true, false] has_audio
+    #   Whether the archive has an audio track (true) or not (false).
     #
     # @attr [true, false] has_video
+    #   Whether the archive has a video track (true) or not (false).
     #
     # @attr [string] partner_id
     #   The API key associated with the archive.

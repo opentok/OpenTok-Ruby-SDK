@@ -21,10 +21,21 @@ module OpenTok
     # you cannot archive sessions with the media mode set to relayed.
     #
     # @param [String] session_id The session ID of the OpenTok session to archive.
-    # @param [Hash] options  A hash with the key 'name' or :name.
+    # @param [Hash] options  A hash with the key 'name', 'has_audio', and 'has_video' (or
+    # :name.
     # @option options [String] :name This is the name of the archive. You can use this name
     #   to identify the archive. It is a property of the Archive object, and it is a property
-    #   of archive-related events in the OpenTok.js library.
+    #   of archive-related events in the OpenTok client SDKs.
+    # @option options [true, false] :has_audio Whether the archive will include an audio track
+    #   (<code>true</code>) or not <code>false</code>). The default value is <code>true</code>
+    #   (an audio track is included). If you set both  <code>has_audio</code> and
+    #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
+    #   method results in an error.
+    # @option options [true, false] :has_video Whether the archive will include a video track
+    #   (<code>true</code>) or not <code>false</code>). The default value is <code>true</code>
+    #   (a video track is included). If you set both  <code>has_audio</code> and
+    #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
+    #   method results in an error.
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
