@@ -25,7 +25,7 @@ Finally, start the server using Bundler to handle dependencies
 $ bundle exec ruby archiving_sample.rb
 ```
 
-Visit <http://localhost:9393> in your browser. You can now create new archives (either as a host or
+Visit <http://localhost:4567> in your browser. You can now create new archives (either as a host or
 as a participant) and also play archives that have already been created.
 
 ## Walkthrough
@@ -38,7 +38,7 @@ main application (archiving_sample.rb).
 
 ### Creating Archives – Host View
 
-Start by visiting the host page at <http://localhost:9393/host> and using the application to record
+Start by visiting the host page at <http://localhost:4567/host> and using the application to record
 an archive. Your browser will first ask you to approve permission to use the camera and microphone.
 Once you've accepted, your image will appear inside the section titled 'Host'. To start recording
 the video stream, press the 'Start Archiving' button. Once archiving has begun the button will turn
@@ -65,7 +65,7 @@ end
 If you've completed the HelloWorld walkthrough, this should look familiar. This handler simply
 generates the three strings that the client (JavaScript) needs to connect to the session: `api_key`,
 `session_id` and `token`. After the user has connected to the session, they press the
-'Start Archiving' button, which sends an XHR (or Ajax) request to the <http://localhost:9393/start>
+'Start Archiving' button, which sends an XHR (or Ajax) request to the <http://localhost:4567/start>
 URL. The route handler for this URL is shown below:
 
 ```ruby
@@ -85,7 +85,7 @@ view. This will trigger the recording to begin. The response sent back to the cl
 will be the JSON representation of the archive, which is returned from the `to_json()` method. The
 client is also listening for the `archiveStarted` event, and uses that event to change the
 'Start Archiving' button to show 'Stop Archiving' instead. When the user presses the button this
-time, another XHR request is sent to the <http://localhost:9393/stop/:archiveId> URL where
+time, another XHR request is sent to the <http://localhost:4567/stop/:archiveId> URL where
 `:archiveId` represents the ID the client receives in the 'archiveStarted' event. The route handler
 for this request is shown below:
 
@@ -109,7 +109,7 @@ be found in the `public/js/host.js` file. Read about the
 ### Creating Archives - Participant View
 
 With the host view still open and publishing, open an additional window or tab and navigate to
-<http://localhost:9393/participant> and allow the browser to use your camera and microphone. Once
+<http://localhost:4567/participant> and allow the browser to use your camera and microphone. Once
 again, start archiving in the host view. Back in the participant view, notice that the red blinking
 indicator has been shown so that the participant knows his video is being recorded. Now stop the
 archiving in the host view. Notice that the indicator has gone away in the participant view too.
@@ -137,7 +137,7 @@ in the client, in code that can be found in the `public/js/participant.js` file.
 
 ### Past Archives
 
-Start by visiting the history page at <http://localhost:9393/history>. You will see a table that
+Start by visiting the history page at <http://localhost:4567/history>. You will see a table that
 displays all the archives created with your API Key. If there are more than five, the older ones
 can be seen by clicking the "Older →" link. If you click on the name of an archive, your browser
 will start downloading the archive file. If you click the "Delete" link in the end of the row
