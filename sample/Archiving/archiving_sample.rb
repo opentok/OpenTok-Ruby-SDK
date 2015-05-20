@@ -7,7 +7,7 @@ class ArchivingSample < Sinatra::Base
 
   set :api_key, ENV['API_KEY']
   set :opentok, OpenTok::OpenTok.new(api_key, ENV['API_SECRET'])
-  set :session, opentok.create_session, :media_mode => :routed
+  set :session, opentok.create_session(:media_mode => :routed)
   set :erb, :layout => :layout
 
   get '/' do
@@ -58,9 +58,12 @@ class ArchivingSample < Sinatra::Base
     redirect archive.url
   end
 
-  get '/start' do
+  post '/start' do
     archive = settings.opentok.archives.create settings.session.session_id, {
-      :name => "Ruby Archiving Sample App"
+      :name => "Ruby Archiving Sample App",
+      :output_mode => params[:output_mode],
+      :has_audio => params[:has_audio] == "on",
+      :has_video => params[:has_video] == "on"
     }
     body archive.to_json
   end
