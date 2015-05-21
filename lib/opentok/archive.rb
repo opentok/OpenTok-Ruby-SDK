@@ -42,6 +42,12 @@ module OpenTok
     #   * "available" -- The archive is available for download from the OpenTok cloud.
     #   * "expired" -- The archive is no longer available for download from the OpenTok cloud.
     #   * "failed" -- The archive recording failed.
+    #   * "paused" -- The archive is in progress and no clients are publishing streams to the
+    #     session. When an archive is in progress and any client publishes a stream, the status is
+    #     "started". When an archive is paused, nothing is recorded. When a client starts publishing
+    #     a stream, the recording starts (or resumes). If all clients disconnect from a session that
+    #     is being archived, the status changes to "paused", and after 60 seconds the archive
+    #     recording stops (and the status changes to "stopped").
     #   * "started" -- The archive started and is in the process of being recorded.
     #   * "stopped" -- The archive stopped recording.
     #   * "uploaded" -- The archive is available for download from the the upload target
