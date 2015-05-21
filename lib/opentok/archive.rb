@@ -97,7 +97,11 @@ module OpenTok
       camelized_method = method.to_s.camelize(:lower)
       if @json.has_key? camelized_method and args.empty?
         # TODO: convert create_time method call to a Time object
-        @json[camelized_method]
+        if camelized_method == 'outputMode'
+          @json[camelized_method].to_sym
+        else
+          @json[camelized_method]
+        end
       else
         super method, *args, &block
       end
