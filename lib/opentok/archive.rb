@@ -22,6 +22,10 @@ module OpenTok
     # @attr [true, false] has_video
     #   Whether the archive has a video track (true) or not (false).
     #
+    # @attr [String] output_mode
+    #   Whether all streams in the archive are recorded to a single file (<code>:composed</code>)
+    #   or to individual files (<code>:individual</code>).
+    #
     # @attr [string] partner_id
     #   The API key associated with the archive.
     #
