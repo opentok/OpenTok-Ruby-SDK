@@ -36,6 +36,11 @@ module OpenTok
     #   (a video track is included). If you set both  <code>has_audio</code> and
     #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
     #   method results in an error.
+    # @option options [String] :output_mode Whether all streams in the archive are recorded
+    #     to a single file (<code>:composed</code>, the default) or to individual files
+    #     (<code>:individual</code>). For more information on archiving and the archive file
+    #     formats, see the {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving}
+    #     programming guide.
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
