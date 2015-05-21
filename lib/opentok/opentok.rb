@@ -101,8 +101,8 @@ module OpenTok
     #   firewall restrictions, the session uses the OpenTok TURN server to relay audio-video
     #   streams.
     #
-    #   With the <code>mediaMode</code> property set to <code>:routed</code>, the session
-    #   will use the {http://tokbox.com/#multiparty OpenTok Media Router}.
+    #   With the <code>mediaMode</code> property set to <code>:routed</code>, the session will use
+    #   the {https://tokbox.com/opentok/tutorials/create-session/#media-mode OpenTok Media Router}.
     #   The OpenTok Media Router provides the following benefits:
     #
     #   * The OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
@@ -110,12 +110,13 @@ module OpenTok
     #     each client must send a separate audio-video stream to each client subscribing to
     #     it.)
     #   * The OpenTok Media Router can improve the quality of the user experience through
-    #     {http://tokbox.com/#iqc Intelligent Quality Control}. With
-    #     Intelligent Quality Control, if a client's connectivity degrades to a degree that
+    #     {https://tokbox.com/platform/fallback audio fallback and video recovery}. With
+    #     these features, if a client's connectivity degrades to a degree that
     #     it does not support video for a stream it's subscribing to, the video is dropped on
     #     that client (without affecting other clients), and the client receives audio only.
     #     If the client's connectivity improves, the video returns.
-    #   * The OpenTok Media Router supports the {http://tokbox.com/platform/archiving archiving}
+    #   * The OpenTok Media Router supports the
+    #     {https://tokbox.com/opentok/tutorials/archiving archiving}
     #     feature, which lets you record, save, and retrieve OpenTok sessions.
     #
     # @option opts [String] :location  An IP address that the OpenTok servers will use to
@@ -155,7 +156,7 @@ module OpenTok
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts
     end
 
-    # An Archives object, which lets you work with OpenTok 2.0 archives.
+    # An Archives object, which lets you work with OpenTok archives.
     def archives
       @archives ||= Archives.new client
     end
