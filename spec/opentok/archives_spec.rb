@@ -14,6 +14,7 @@ describe OpenTok::Archives do
   let(:archive_name) { "ARCHIVE NAME" }
   let(:started_archive_id) { "30b3ebf1-ba36-4f5b-8def-6f70d9986fe9" }
   let(:findable_archive_id) { "f6e7ee58-d6cf-4a59-896b-6d56b158ec71" }
+  let(:findable_paused_archive_id) { "f6e7ee58-d6cf-4a59-896b-6d56b158ec71" }
   let(:deletable_archive_id) { "832641bf-5dbf-41a1-ad94-fea213e59a92" }
 
   let(:opentok) { OpenTok::OpenTok.new api_key, api_secret }
@@ -45,10 +46,10 @@ describe OpenTok::Archives do
   end
 
   it "should create individual archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
-    archive = archives.create session_id, :output_mode => 'individual'
+    archive = archives.create session_id, :output_mode => :individual
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.session_id).to eq session_id
-    expect(archive.output_mode).to eq 'individual'
+    expect(archive.output_mode).to eq :individual
   end
 
   it "should stop archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
@@ -61,6 +62,13 @@ describe OpenTok::Archives do
     archive = archives.find findable_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.id).to eq findable_archive_id
+  end
+
+  it "should find paused archives by id", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    archive = archives.find findable_paused_archive_id
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.id).to eq findable_paused_archive_id
+    expect(archive.status).to eq "paused"
   end
 
   it "should delete an archive by id", :vcr => { :erb => { :version => OpenTok::VERSION } } do
