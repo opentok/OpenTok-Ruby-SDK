@@ -8,9 +8,6 @@ The OpenTok Ruby SDK lets you generate
 [OpenTok](http://www.tokbox.com/) applications, and
 [archive](https://tokbox.com/opentok/tutorials/archiving) OpenTok sessions.
 
-If you are updating from a previous version of this SDK, see
-[Important changes since v2.2.0](#important-changes-since-v220).
-
 # Installation
 
 ## Bundler (recommended):
