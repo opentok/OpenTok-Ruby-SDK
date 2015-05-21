@@ -52,7 +52,7 @@ module OpenTok
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :name, :has_audio, :has_video ]
+      valid_opts = [ :name, :has_audio, :has_video, :output_mode ]
       opts = options.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v

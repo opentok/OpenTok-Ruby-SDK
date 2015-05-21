@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/v2/partner/123456/archive
+    body:
+      encoding: UTF-8
+      string: '{"sessionId":"SESSIONID","outputMode":"individual"}'
+    headers:
+      X-Tb-Partner-Auth:
+      - 123456:1234567890abcdef1234567890abcdef1234567890
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Wed, 19 Mar 2014 01:49:22 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "createdAt" : 1395193762293,
+          "duration" : 0,
+          "id" : "d7f4d2a3-da74-414d-868a-190532a835bc",
+          "name" : "ARCHIVE NAME",
+          "partnerId" : 123456,
+          "reason" : "",
+          "sessionId" : "SESSIONID",
+          "size" : 0,
+          "status" : "started",
+          "url" : null,
+          "hasAudio" : true,
+          "hasVideo" : false,
+          "outputMode": "individual"
+        }
+    http_version:
+  recorded_at: Wed, 19 Mar 2014 01:49:22 GMT
+recorded_with: VCR 2.8.0
