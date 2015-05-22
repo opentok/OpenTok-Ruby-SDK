@@ -1,6 +1,7 @@
 require "opentok/exceptions"
 require "extensions/hash"
 
+require "active_support/inflector"
 require "httparty"
 
 module OpenTok
@@ -20,7 +21,8 @@ module OpenTok
     end
 
     def create_session(opts)
-      response = self.class.post("/session/create", :body => opts)
+      opts.extend(HashExtensions)
+      response = self.class.post("/session/create", :body => opts.camelize_keys!)
       case response.code
       when (200..300)
         response
