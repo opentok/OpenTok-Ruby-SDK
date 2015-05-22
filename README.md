@@ -48,9 +48,10 @@ opentok = OpenTok::OpenTok.new api_key, api_secret
 ## Creating Sessions
 
 To create an OpenTok Session, use the `OpenTok.create_session(properties)` method. The
-`properties` parameter is an optional Hash used to specify whether you are creating a p2p Session
-and specifying a location hint. The `session_id` method of the returned `OpenTok::Session`
-instance is useful to get a sessionId that can be saved to a persistent store (e.g. database).
+`properties` parameter is an optional Hash used to specify whether you are creating a session that
+uses the OpenTok Media Server and specifying a location hint. The `session_id` method of the
+returned `OpenTok::Session` instance is useful to get a sessionId that can be saved to a persistent
+store (e.g. database).
 
 ```ruby
 # Create a session that will attempt to transmit streams directly between clients.
@@ -62,6 +63,9 @@ session = opentok.create_session :media_mode => :routed
 
 # A session with a location hint:
 session = opentok.create_session :location => '12.34.56.78'
+
+# A session with automatic archiving (must use the routed media mode):
+session = opentok.create_session :archive_mode => :always, :media_mode => :routed
 
 # Store this sessionId in the database for later use:
 session_id = session.session_id

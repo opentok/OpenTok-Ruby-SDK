@@ -21,7 +21,7 @@ module OpenTok
   #   Generates a token.
   #
   #   @param [Hash] options
-  #   @option options [String] :role The role for the token. Set this to one of the following
+  #   @option options [Symbol] :role The role for the token. Set this to one of the following
   #     values:
   #     * <code>:subscriber</code> -- A subscriber can only subscribe to streams.
   #
@@ -49,7 +49,7 @@ module OpenTok
       :session_id => ->(instance) { instance.session_id }
     })
 
-    attr_reader :session_id, :media_mode, :location, :api_key, :api_secret
+    attr_reader :session_id, :media_mode, :location, :archive_mode, :api_key, :api_secret
 
     # @private
     # this implementation doesn't completely understand the format of a Session ID
@@ -65,7 +65,7 @@ module OpenTok
     # @private
     def initialize(api_key, api_secret, session_id, opts={})
       @api_key, @api_secret, @session_id = api_key, api_secret, session_id
-      @media_mode, @location = opts.fetch(:media_mode, :relayed), opts[:location]
+      @media_mode, @location, @archive_mode = opts.fetch(:media_mode, :relayed), opts[:location], opts.fetch(:archive_mode, :manual)
     end
 
     # @private

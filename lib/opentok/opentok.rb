@@ -5,6 +5,7 @@ require "opentok/token_generator"
 require "opentok/archives"
 
 require "resolv"
+require "set"
 
 module OpenTok
   # Contains methods for creating OpenTok sessions, generating tokens, and working with archives.
@@ -25,7 +26,7 @@ module OpenTok
   #     the token.
   #
   #   @param [Hash] options A hash defining options for the token.
-  #   @option options [String] :role The role for the token. Set this to one of the following
+  #   @option options [Symbol] :role The role for the token. Set this to one of the following
   #     values:
   #     * <code>:subscriber</code> -- A subscriber can only subscribe to streams.
   #
@@ -64,7 +65,7 @@ module OpenTok
     #   (https://dashboard.tokbox.com).
     # @param [String] api_secret Your OpenTok API key.
     # @param [String] api_url Do not set this parameter. It is for internal use by TokBox.
-    def initialize(api_key, api_secret , api_url = ::OpenTok::API_URL)
+    def initialize(api_key, api_secret, api_url=::OpenTok::API_URL)
       @api_key = api_key.to_s()
       @api_secret = api_secret
       # TODO: do we really need a copy of this in the instance or should we overwrite the module
@@ -92,7 +93,7 @@ module OpenTok
     #
     # @param [Hash] opts (Optional) This hash defines options for the session.
     #
-    # @option opts [String] :media_mode Determines whether the session will transmit streams the
+    # @option opts [Symbol] :media_mode Determines whether the session will transmit streams the
     #   using OpenTok Media Router (<code>:routed</code>) or not (<code>:relayed</code>).
     #   By default, this property is set to <code>:relayed</code>.
     #
@@ -123,11 +124,15 @@ module OpenTok
     #     situate the session in its global network. If you do not set a location hint,
     #     the OpenTok servers will be based on the first client connecting to the session.
     #
+    # @option opts [Symbol] :archive_mode Determines whether the session will be archived
+    #     automatically (<code>:always</code>) or not (<code>:manual</code>). When using automatic
+    #     archiving on a session, it must be one with the <code>:routed</code> media mode.
+    #
     # @return [Session] The Session object. The session_id property of the object is the session ID.
     def create_session(opts={})
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :media_mode, :location ]
+      valid_opts = [ :media_mode, :location, :archive_mode ]
       opts = opts.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v
@@ -151,6 +156,12 @@ module OpenTok
       unless params[:location].nil?
         raise "location must be an IPv4 address" unless params[:location] =~ Resolv::IPv4::Regex
       end
+      # archive mode is optional, but it has to be one of the valid values if present
+      unless params[:archive_mode].nil?
+        raise "archive mode must be either always or manual" unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
+      end
+
+      raise "A session with always archive mode must also have the routed media mode." if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
 
       response = client.create_session(params)
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts

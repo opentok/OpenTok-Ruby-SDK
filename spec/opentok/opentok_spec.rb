@@ -89,6 +89,19 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq nil
       end
 
+      it "creates always archived sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session :media_mode => :routed, :archive_mode => :always
+        expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.archive_mode).to eq :always
+        expect(session.location).to eq nil
+      end
+
+      context "with relayed media mode and always archive mode" do
+        subject { -> { session = opentok.create_session :archive_mode => :always, :media_mode => :relayed }}
+        it { should raise_error }
+      end
+
     end
 
     context "with an api_key that's a number" do
@@ -128,15 +141,15 @@ describe OpenTok::OpenTok do
   # see discussion here: https://www.ruby-forum.com/topic/194593
   context "when initialized improperly" do
     context "with no arguments" do
-      subject { -> { @opentok = OpenTOk::OpenTok.new } }
+      subject { -> { @opentok = OpenTok::OpenTok.new } }
       it { should raise_error }
     end
     context "with just an api_key" do
-      subject { -> { @opentok = OpenTOk::OpenTok.new "123456" } }
+      subject { -> { @opentok = OpenTok::OpenTok.new "123456" } }
       it { should raise_error }
     end
     context "with arguments of the wrong type" do
-      subject { -> { @opentok = OpenTOk::OpenTok.new api_key: "123456" } }
+      subject { -> { @opentok = OpenTok::OpenTok.new api_key: "123456" } }
       it { should raise_error }
     end
   end
