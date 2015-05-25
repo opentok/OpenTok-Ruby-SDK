@@ -6,7 +6,7 @@
 <title>
   Class: OpenTok::Archives
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; Documentation by YARD 0.8.7.6
   
 </title>
 
@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A class for working with OpenTok 2.0 archives.</p>
+<p>A class for working with OpenTok archives.</p>
 
 
   </div>
@@ -168,7 +168,7 @@ and in-progress, for your API key.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Starts archiving an OpenTok 2.0 session.</p>
+<p>Starts archiving an OpenTok session.</p>
 </div></span>
   
 </li>
@@ -373,14 +373,14 @@ archives returned is 1000.</p>
       <pre class="lines">
 
 
-93
-94
-95
-96
-97</pre>
+101
+102
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_all'>all</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Limit is invalid</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:count</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='lparen'>(</span><span class='int'>0</span><span class='op'>..</span><span class='int'>100</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:count</span><span class='rbracket'>]</span>
@@ -404,7 +404,7 @@ archives returned is 1000.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Starts archiving an OpenTok 2.0 session.</p>
+<p>Starts archiving an OpenTok session.</p>
 
 <p>Clients must be actively connected to the OpenTok session for you to
 successfully start recording an archive.</p>
@@ -413,6 +413,10 @@ successfully start recording an archive.</p>
 record archives of sessions that use the OpenTok Media Router (sessions
 with the media mode set to routed); you cannot archive sessions with the
 media mode set to relayed.</p>
+
+<p>For more information on archiving, see the
+<a href="https://tokbox.com/opentok/tutorials/archiving" target="_parent" title="OpenTok archiving">OpenTok archiving</a>
+programming guide.</p>
 
 <p>:name.</p>
 
@@ -512,6 +516,22 @@ error.</p>
 included). If you set both  <tt>has_audio</tt> and <tt>has_video</tt> to
 <tt>false</tt>, the call to the <tt>create()</tt> method results in an
 error.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:output_mode</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Whether all streams in the archive are recorded to a single file
+(<tt>:composed</tt>, the default) or to individual files
+(<tt>:individual</tt>). For more information on archiving and the archive
+file formats, see the <a href="https://tokbox.com/opentok/tutorials/archiving" target="_parent" title="OpenTok archiving">OpenTok archiving</a> programming guide.</p>
 </div>
           
         </li>
@@ -621,30 +641,30 @@ session is already being recorded.</p>
       <pre class="lines">
 
 
-51
-52
-53
-54
-55
-56
-57
-58
 59
 60
 61
 62
 63
 64
-65</pre>
+65
+66
+67
+68
+69
+70
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>session_id not provided</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
 
   <span class='comment'># normalize opts so all keys are symbols and only include valid_opts
-</span>  <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:has_audio</span><span class='comma'>,</span> <span class='symbol'>:has_video</span> <span class='rbracket'>]</span>
+</span>  <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='symbol'>:has_audio</span><span class='comma'>,</span> <span class='symbol'>:has_video</span><span class='comma'>,</span> <span class='symbol'>:output_mode</span> <span class='rbracket'>]</span>
   <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_valid_opts'>valid_opts</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
       <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span>
@@ -759,14 +779,14 @@ archive remains deleted.</p>
       <pre class="lines">
 
 
-133
-134
-135
-136
-137</pre>
+141
+142
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_delete_by_id'>delete_by_id</span><span class='lparen'>(</span><span class='id identifier rubyid_archive_id'>archive_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>archive_id not provided</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_archive_id'>archive_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -888,14 +908,14 @@ archive remains deleted.</p>
       <pre class="lines">
 
 
-76
-77
-78
-79
-80</pre>
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_archive_id'>archive_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>archive_id not provided</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_archive_id'>archive_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1048,14 +1068,14 @@ have disconnected from the session being archived.</p>
       <pre class="lines">
 
 
-114
-115
-116
-117
-118</pre>
+122
+123
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/archives.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stop_by_id'>stop_by_id</span><span class='lparen'>(</span><span class='id identifier rubyid_archive_id'>archive_id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>archive_id not provided</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_archive_id'>archive_id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1072,9 +1092,9 @@ have disconnected from the session being archived.</p>
 </div>
 
     <div id="footer">
-  Generated on Wed Feb 25 17:37:47 2015 by
+  Generated on Mon May 25 15:52:46 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-1.9.3).
+  0.8.7.6 (ruby-1.9.3).
 </div>
 
   </body>

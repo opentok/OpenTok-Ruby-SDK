@@ -115,6 +115,16 @@ archive = opentok.archives.create session_id :has_video => false
 archive_id = archive.id
 ```
 
+Setting the `:output_mode` option to `:individual` setting causes each stream in the archive
+to be recorded to its own individual file:
+
+```ruby
+archive = opentok.archives.create session_id :output_mode => :individual
+```
+
+The `:output_mode => :composed` setting (the default) causes all streams in the archive to be
+recorded to a single (composed) file.
+
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
 method. You can also do this using the `archive.stop` method of the `OpenTok::Archive` instance.
 
@@ -158,6 +168,13 @@ archive_list[i]
 # Get the total number of Archives for this API Key
 $total = archive_list.total
 ```
+
+Note that you can also create an automatically archived session, by passing in `:always`
+as the `:archive_mode` property of the `options` parameter passed into the
+`OpenTok.create_session()` method (see "Creating Sessions," above).
+
+For more information on archiving, see the
+[OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
 # Samples
 

@@ -97,17 +97,17 @@ module OpenTok
     #   using OpenTok Media Router (<code>:routed</code>) or not (<code>:relayed</code>).
     #   By default, this property is set to <code>:relayed</code>.
     #
-    #   With the <code>mediaMode</code> property set to <code>:relayed</code>, the session
+    #   With the <code>media_mode</code> property set to <code>:relayed</code>, the session
     #   will attempt to transmit streams directly between clients. If clients cannot connect due to
     #   firewall restrictions, the session uses the OpenTok TURN server to relay audio-video
     #   streams.
     #
-    #   With the <code>mediaMode</code> property set to <code>:routed</code>, the session will use
+    #   With the <code>media_mode</code> property set to <code>:routed</code>, the session will use
     #   the {https://tokbox.com/opentok/tutorials/create-session/#media-mode OpenTok Media Router}.
     #   The OpenTok Media Router provides the following benefits:
     #
     #   * The OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
-    #     (When the <code>mediaMode</code> property is set to <code>:relayed</code>,
+    #     (When the <code>media_mode</code> property is set to <code>:relayed</code>,
     #     each client must send a separate audio-video stream to each client subscribing to
     #     it.)
     #   * The OpenTok Media Router can improve the quality of the user experience through
@@ -126,7 +126,7 @@ module OpenTok
     #
     # @option opts [Symbol] :archive_mode Determines whether the session will be archived
     #     automatically (<code>:always</code>) or not (<code>:manual</code>). When using automatic
-    #     archiving on a session, it must be one with the <code>:routed</code> media mode.
+    #     archiving, the session must use the <code>:routed</code> media mode.
     #
     # @return [Session] The Session object. The session_id property of the object is the session ID.
     def create_session(opts={})

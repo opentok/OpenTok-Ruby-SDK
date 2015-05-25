@@ -17,6 +17,9 @@ module OpenTok
   # @attr_reader [String] location The location hint IP address. See the OpenTok.createSession()
   #   method.
   #
+  # @attr_reader [String] archive_mode Whether the session will be archived automatically
+  #  (<code>:always</code>) or not (<code>:manual</code>).
+  #
   # @!method generate_token(options)
   #   Generates a token.
   #

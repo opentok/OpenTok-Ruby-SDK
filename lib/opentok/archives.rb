@@ -3,7 +3,7 @@ require "opentok/archive"
 require "opentok/archive_list"
 
 module OpenTok
-  # A class for working with OpenTok 2.0 archives.
+  # A class for working with OpenTok archives.
   class Archives
 
     # @private
@@ -11,7 +11,7 @@ module OpenTok
       @client = client
     end
 
-    # Starts archiving an OpenTok 2.0 session.
+    # Starts archiving an OpenTok session.
     #
     # Clients must be actively connected to the OpenTok session for you to successfully start
     # recording an archive.
@@ -19,6 +19,9 @@ module OpenTok
     # You can only record one archive at a time for a given session. You can only record archives
     # of sessions that use the OpenTok Media Router (sessions with the media mode set to routed);
     # you cannot archive sessions with the media mode set to relayed.
+    #
+    # For more information on archiving, see the
+    # {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving} programming guide.
     #
     # @param [String] session_id The session ID of the OpenTok session to archive.
     # @param [Hash] options  A hash with the key 'name', 'has_audio', and 'has_video' (or
