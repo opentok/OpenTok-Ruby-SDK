@@ -47,7 +47,7 @@ opentok = OpenTok::OpenTok.new api_key, api_secret
 
 ## Creating Sessions
 
-To create an OpenTok Session, use the `OpenTok.create_session(properties)` method. The
+To create an OpenTok Session, use the `OpenTok#create_session(properties)` method. The
 `properties` parameter is an optional Hash used to specify whether you are creating a session that
 uses the OpenTok Media Server and specifying a location hint. The `session_id` method of the
 returned `OpenTok::Session` instance is useful to get a sessionId that can be saved to a persistent
@@ -75,7 +75,7 @@ session_id = session.session_id
 
 Once a Session is created, you can start generating Tokens for clients to use when connecting to it.
 You can generate a token either by calling the `opentok.generate_token(session_id, options)` method,
-or by calling the `session.generate_token(options)` method on the an instance after creating it. The
+or by calling the `Session#generate_token(options)` method on the an instance after creating it. The
 `options` parameter is an optional Hash used to set the role, expire time, and connection data of
 the Token.
 
@@ -126,7 +126,7 @@ The `:output_mode => :composed` setting (the default) causes all streams in the 
 recorded to a single (composed) file.
 
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
-method. You can also do this using the `archive.stop` method of the `OpenTok::Archive` instance.
+method. You can also do this using the `Archive#stop()` method.
 
 ```ruby
 # Stop an Archive from an archive_id (fetched from database)
@@ -171,7 +171,7 @@ $total = archive_list.total
 
 Note that you can also create an automatically archived session, by passing in `:always`
 as the `:archive_mode` property of the `options` parameter passed into the
-`OpenTok.create_session()` method (see "Creating Sessions," above).
+`OpenTok#create_session()` method (see "Creating Sessions," above).
 
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
