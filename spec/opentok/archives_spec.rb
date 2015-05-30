@@ -121,4 +121,14 @@ describe OpenTok::Archives do
     end
   end
 
+  context "http client errors" do
+    before(:each) do
+      stub_request(:get, /.*\/v2\/partner.*/).to_timeout
+    end
+
+    subject { -> { archives.all } }
+
+    it { should raise_error(OpenTok::OpenTokError) }
+  end
+
 end
