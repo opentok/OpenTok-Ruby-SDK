@@ -20,7 +20,11 @@
   </head>
   <body>
     <script type="text/javascript" charset="utf-8">
-      if (window.top.frames.main) {
+      var hasFrames = false;
+      try {
+        hasFrames = window.top.frames.main ? true : false;
+      } catch (e) { }
+      if (hasFrames) {
         document.getElementById('base_target').target = 'main';
         document.body.className = 'frames';
       }
@@ -54,8 +58,20 @@
   
 
   <li class="r2 ">
+    <span class='object_link'><a href="OpenTok/Session.html#archive_mode-instance_method" title="OpenTok::Session#archive_mode (method)">#archive_mode</a></span>
+    <small>OpenTok::Session</small>
+  </li>
+  
+
+  <li class="r1 ">
     <span class='object_link'><a href="OpenTok/OpenTok.html#archives-instance_method" title="OpenTok::OpenTok#archives (method)">#archives</a></span>
     <small>OpenTok::OpenTok</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="OpenTok/HashExtensions.html#camelize_keys%21-instance_method" title="OpenTok::HashExtensions#camelize_keys! (method)">#camelize_keys!</a></span>
+    <small>OpenTok::HashExtensions</small>
   </li>
   
 
@@ -126,6 +142,18 @@
   
 
   <li class="r2 ">
+    <span class='object_link'><a href="OpenTok/Archive.html#has_audio-instance_method" title="OpenTok::Archive#has_audio (method)">#has_audio</a></span>
+    <small>OpenTok::Archive</small>
+  </li>
+  
+
+  <li class="r1 ">
+    <span class='object_link'><a href="OpenTok/Archive.html#has_video-instance_method" title="OpenTok::Archive#has_video (method)">#has_video</a></span>
+    <small>OpenTok::Archive</small>
+  </li>
+  
+
+  <li class="r2 ">
     <span class='object_link'><a href="OpenTok/Archive.html#id-instance_method" title="OpenTok::Archive#id (method)">#id</a></span>
     <small>OpenTok::Archive</small>
   </li>
@@ -156,13 +184,25 @@
   
 
   <li class="r1 ">
-    <span class='object_link'><a href="OpenTok/Archive.html#partner_id-instance_method" title="OpenTok::Archive#partner_id (method)">#partner_id</a></span>
+    <span class='object_link'><a href="OpenTok/Archive.html#output_mode-instance_method" title="OpenTok::Archive#output_mode (method)">#output_mode</a></span>
     <small>OpenTok::Archive</small>
   </li>
   
 
   <li class="r2 ">
+    <span class='object_link'><a href="OpenTok/Archive.html#partner_id-instance_method" title="OpenTok::Archive#partner_id (method)">#partner_id</a></span>
+    <small>OpenTok::Archive</small>
+  </li>
+  
+
+  <li class="r1 ">
     <span class='object_link'><a href="OpenTok/Archive.html#reason-instance_method" title="OpenTok::Archive#reason (method)">#reason</a></span>
+    <small>OpenTok::Archive</small>
+  </li>
+  
+
+  <li class="r2 ">
+    <span class='object_link'><a href="OpenTok/Archive.html#session_id-instance_method" title="OpenTok::Archive#session_id (method)">#session_id</a></span>
     <small>OpenTok::Archive</small>
   </li>
   
@@ -174,48 +214,42 @@
   
 
   <li class="r2 ">
-    <span class='object_link'><a href="OpenTok/Archive.html#session_id-instance_method" title="OpenTok::Archive#session_id (method)">#session_id</a></span>
-    <small>OpenTok::Archive</small>
-  </li>
-  
-
-  <li class="r1 ">
     <span class='object_link'><a href="OpenTok/Archive.html#size-instance_method" title="OpenTok::Archive#size (method)">#size</a></span>
     <small>OpenTok::Archive</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="OpenTok/Archive.html#status-instance_method" title="OpenTok::Archive#status (method)">#status</a></span>
     <small>OpenTok::Archive</small>
   </li>
   
 
-  <li class="r1 ">
+  <li class="r2 ">
     <span class='object_link'><a href="OpenTok/Archive.html#stop-instance_method" title="OpenTok::Archive#stop (method)">#stop</a></span>
     <small>OpenTok::Archive</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="OpenTok/Archives.html#stop_by_id-instance_method" title="OpenTok::Archives#stop_by_id (method)">#stop_by_id</a></span>
     <small>OpenTok::Archives</small>
   </li>
   
 
-  <li class="r1 ">
+  <li class="r2 ">
     <span class='object_link'><a href="OpenTok/Archive.html#to_json-instance_method" title="OpenTok::Archive#to_json (method)">#to_json</a></span>
     <small>OpenTok::Archive</small>
   </li>
   
 
-  <li class="r2 ">
+  <li class="r1 ">
     <span class='object_link'><a href="OpenTok/ArchiveList.html#total-instance_method" title="OpenTok::ArchiveList#total (method)">#total</a></span>
     <small>OpenTok::ArchiveList</small>
   </li>
   
 
-  <li class="r1 ">
+  <li class="r2 ">
     <span class='object_link'><a href="OpenTok/Archive.html#url-instance_method" title="OpenTok::Archive#url (method)">#url</a></span>
     <small>OpenTok::Archive</small>
   </li>

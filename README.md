@@ -6,10 +6,7 @@ The OpenTok Ruby SDK lets you generate
 [sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
 [tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for
 [OpenTok](http://www.tokbox.com/) applications, and
-[archive](http://www.tokbox.com/platform/archiving) OpenTok 2.0 sessions.
-
-If you are updating from a previous version of this SDK, see
-[Important changes since v2.2.0](#important-changes-since-v220).
+[archive](https://tokbox.com/opentok/tutorials/archiving) OpenTok sessions.
 
 # Installation
 
@@ -50,10 +47,11 @@ opentok = OpenTok::OpenTok.new api_key, api_secret
 
 ## Creating Sessions
 
-To create an OpenTok Session, use the `OpenTok.create_session(properties)` method. The
-`properties` parameter is an optional Hash used to specify whether you are creating a p2p Session
-and specifying a location hint. The `session_id` method of the returned `OpenTok::Session`
-instance is useful to get a sessionId that can be saved to a persistent store (e.g. database).
+To create an OpenTok Session, use the `OpenTok#create_session(properties)` method. The
+`properties` parameter is an optional Hash used to specify whether you are creating a session that
+uses the OpenTok Media Server and specifying a location hint. The `session_id` method of the
+returned `OpenTok::Session` instance is useful to get a sessionId that can be saved to a persistent
+store (e.g. database).
 
 ```ruby
 # Create a session that will attempt to transmit streams directly between clients.
@@ -66,6 +64,9 @@ session = opentok.create_session :media_mode => :routed
 # A session with a location hint:
 session = opentok.create_session :location => '12.34.56.78'
 
+# A session with automatic archiving (must use the routed media mode):
+session = opentok.create_session :archive_mode => :always, :media_mode => :routed
+
 # Store this sessionId in the database for later use:
 session_id = session.session_id
 ```
@@ -74,7 +75,7 @@ session_id = session.session_id
 
 Once a Session is created, you can start generating Tokens for clients to use when connecting to it.
 You can generate a token either by calling the `opentok.generate_token(session_id, options)` method,
-or by calling the `session.generate_token(options)` method on the an instance after creating it. The
+or by calling the `Session#generate_token(options)` method on the an instance after creating it. The
 `options` parameter is an optional Hash used to set the role, expire time, and connection data of
 the Token.
 
@@ -97,22 +98,40 @@ token = session.generate_token({
 
 You can start the recording of an OpenTok Session using the `opentok.archives.create(session_id,
 options)` method. This will return an `OpenTok::Archive` instance. The parameter `options` is an
-optional Hash used to assign a name for the Archive. Note that you can only start an
-Archive on a Session that has clients connected.
+optional Hash used to set the `has_audio`, `has_video`, and `name` options. Note that you can
+only start an Archive on a Session that has clients connected.
 
 ```ruby
+# Create an Archive
+archive = opentok.archives.create session_id
+
+# Create a named Archive
 archive = opentok.archives.create session_id :name => "Important Presentation"
+
+# Create an audio-only Archive
+archive = opentok.archives.create session_id :has_video => false
 
 # Store this archive_id in the database for later use
 archive_id = archive.id
 ```
 
+Setting the `:output_mode` option to `:individual` setting causes each stream in the archive
+to be recorded to its own individual file:
+
+```ruby
+archive = opentok.archives.create session_id :output_mode => :individual
+```
+
+The `:output_mode => :composed` setting (the default) causes all streams in the archive to be
+recorded to a single (composed) file.
+
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
-method. You can also do this using the `archive.stop` method of the `OpenTok::Archive` instance.
+method. You can also do this using the `Archive#stop()` method.
 
 ```ruby
 # Stop an Archive from an archive_id (fetched from database)
 opentok.archives.stop_by_id archive_id
+
 # Stop an Archive from an instance (returned from opentok.archives.create)
 archive.stop
 ```
@@ -130,6 +149,7 @@ To delete an Archive, you can call the `opentok.archives.delete_by_id(archive_id
 ```ruby
 # Delete an Archive from an archive_id (fetched from database)
 opentok.archives.delete_by_id archive_id
+
 # Delete an Archive from an Archive instance (returned from archives.create, archives.find)
 archive.delete
 ```
@@ -144,9 +164,17 @@ archive_list = opentok.archives.all
 
 # Get an specific Archive from the list
 archive_list[i]
+
 # Get the total number of Archives for this API Key
 $total = archive_list.total
 ```
+
+Note that you can also create an automatically archived session, by passing in `:always`
+as the `:archive_mode` property of the `options` parameter passed into the
+`OpenTok#create_session()` method (see "Creating Sessions," above).
+
+For more information on archiving, see the
+[OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
 # Samples
 
@@ -184,8 +212,7 @@ session uses the OpenTok TURN server to relay audio-video streams.
 
 **Changes in v2.2.0:**
 
-This version of the SDK includes support for working with OpenTok 2.0 archives. (This API does not
-work with OpenTok 1.0 archives.)
+This version of the SDK includes support for working with OpenTok archives.
 
 Note also that the `options` parameter of the `OpenTok.create_session()` method has a `media_mode`
 property instead of a `p2p` property.

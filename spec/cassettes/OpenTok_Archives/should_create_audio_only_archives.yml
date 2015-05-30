@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/v2/partner/123456/archive
     body:
       encoding: UTF-8
-      string: '{"sessionId":"SESSIONID"}'
+      string: '{"sessionId":"SESSIONID","hasVideo":false}'
     headers:
       X-Tb-Partner-Auth:
       - 123456:1234567890abcdef1234567890abcdef1234567890
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 18 Mar 2014 22:54:03 GMT
+      - Wed, 19 Mar 2014 01:49:22 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -32,17 +32,19 @@ http_interactions:
       encoding: UTF-8
       string: |-
         {
-          "createdAt" : 1395183243556,
+          "createdAt" : 1395193762293,
           "duration" : 0,
-          "id" : "30b3ebf1-ba36-4f5b-8def-6f70d9986fe9",
-          "name" : "",
+          "id" : "d7f4d2a3-da74-414d-868a-190532a835bc",
+          "name" : "ARCHIVE NAME",
           "partnerId" : 123456,
           "reason" : "",
           "sessionId" : "SESSIONID",
           "size" : 0,
           "status" : "started",
-          "url" : null
+          "url" : null,
+          "hasAudio" : true,
+          "hasVideo" : false
         }
     http_version: 
-  recorded_at: Tue, 18 Mar 2014 22:54:03 GMT
+  recorded_at: Wed, 19 Mar 2014 01:49:22 GMT
 recorded_with: VCR 2.8.0

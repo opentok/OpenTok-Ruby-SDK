@@ -6,7 +6,7 @@
 <title>
   Module: OpenTok
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; Documentation by YARD 0.8.7.6
   
 </title>
 
@@ -80,7 +80,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/opentok.rb<span class="defines">,<br />
-  lib/opentok/client.rb,<br /> lib/opentok/session.rb,<br /> lib/opentok/version.rb,<br /> lib/opentok/opentok.rb,<br /> lib/opentok/archive.rb,<br /> lib/opentok/archives.rb,<br /> lib/opentok/constants.rb,<br /> lib/opentok/exceptions.rb,<br /> lib/opentok/archive_list.rb,<br /> lib/opentok/token_generator.rb</span>
+  lib/opentok/client.rb,<br /> lib/opentok/session.rb,<br /> lib/opentok/version.rb,<br /> lib/opentok/archive.rb,<br /> lib/opentok/opentok.rb,<br /> lib/extensions/hash.rb,<br /> lib/opentok/archives.rb,<br /> lib/opentok/constants.rb,<br /> lib/opentok/exceptions.rb,<br /> lib/opentok/archive_list.rb,<br /> lib/opentok/token_generator.rb</span>
 </dd>
   
 </dl>
@@ -100,6 +100,8 @@
 </div><h2>Defined Under Namespace</h2>
 <p class="children">
   
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="OpenTok/HashExtensions.html" title="OpenTok::HashExtensions (module)">HashExtensions</a></span>
     
   
     
@@ -126,6 +128,11 @@
           
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span> <span class='label'>subscriber:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>subscriber</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>publisher:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>publisher</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>moderator:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>moderator</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="ARCHIVE_MODES-constant" class="">ARCHIVE_MODES =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='symbol'>:manual</span><span class='comma'>,</span> <span class='symbol'>:always</span><span class='rbracket'>]</span><span class='rparen'>)</span></pre></dd>
       
     </dl>
   
@@ -200,7 +207,7 @@
   
     <li>
       
-        <span class='name'>sessioin_id</span>
+        <span class='name'>session_id</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -240,7 +247,7 @@
       
         <li>
           <span class="name">:role</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt>Symbol</tt>)</span>
           <span class="default">
             
           </span>
@@ -322,9 +329,6 @@ cannot be updated once it is set.</p>
       <pre class="lines">
 
 
-43
-44
-45
 46
 47
 48
@@ -354,10 +358,13 @@ cannot be updated once it is set.</p>
 72
 73
 74
-75</pre>
+75
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 46</span>
 
 <span class='kw'>class</span> <span class='const'>Session</span>
 
@@ -368,7 +375,7 @@ cannot be updated once it is set.</p>
     <span class='symbol'>:session_id</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_instance'>instance</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_session_id'>session_id</span> <span class='rbrace'>}</span>
   <span class='rbrace'>}</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:archive_mode</span><span class='comma'>,</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span>
 
   <span class='comment'># @private
 </span>  <span class='comment'># this implementation doesn't completely understand the format of a Session ID
@@ -384,7 +391,7 @@ cannot be updated once it is set.</p>
   <span class='comment'># @private
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
     <span class='ivar'>@api_key</span><span class='comma'>,</span> <span class='ivar'>@api_secret</span><span class='comma'>,</span> <span class='ivar'>@session_id</span> <span class='op'>=</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span>
-    <span class='ivar'>@media_mode</span><span class='comma'>,</span> <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:relayed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
+    <span class='ivar'>@media_mode</span><span class='comma'>,</span> <span class='ivar'>@location</span><span class='comma'>,</span> <span class='ivar'>@archive_mode</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:relayed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:archive_mode</span><span class='comma'>,</span> <span class='symbol'>:manual</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'># @private
@@ -402,9 +409,9 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jun 20 12:49:10 2014 by
+  Generated on Mon May 25 15:52:46 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-1.9.3).
+  0.8.7.6 (ruby-1.9.3).
 </div>
 
   </body>

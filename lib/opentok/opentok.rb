@@ -5,6 +5,7 @@ require "opentok/token_generator"
 require "opentok/archives"
 
 require "resolv"
+require "set"
 
 module OpenTok
   # Contains methods for creating OpenTok sessions, generating tokens, and working with archives.
@@ -21,11 +22,11 @@ module OpenTok
   # @!method generate_token(options)
   #   Generates a token for a given session.
   #
-  #   @param [String] sessioin_id The session ID of the session to be accessed by the client using
+  #   @param [String] session_id The session ID of the session to be accessed by the client using
   #     the token.
   #
   #   @param [Hash] options A hash defining options for the token.
-  #   @option options [String] :role The role for the token. Set this to one of the following
+  #   @option options [Symbol] :role The role for the token. Set this to one of the following
   #     values:
   #     * <code>:subscriber</code> -- A subscriber can only subscribe to streams.
   #
@@ -64,7 +65,7 @@ module OpenTok
     #   (https://dashboard.tokbox.com).
     # @param [String] api_secret Your OpenTok API key.
     # @param [String] api_url Do not set this parameter. It is for internal use by TokBox.
-    def initialize(api_key, api_secret , api_url = ::OpenTok::API_URL)
+    def initialize(api_key, api_secret, api_url=::OpenTok::API_URL)
       @api_key = api_key.to_s()
       @api_secret = api_secret
       # TODO: do we really need a copy of this in the instance or should we overwrite the module
@@ -92,41 +93,46 @@ module OpenTok
     #
     # @param [Hash] opts (Optional) This hash defines options for the session.
     #
-    # @option opts [String] :media_mode Determines whether the session will transmit streams the
+    # @option opts [Symbol] :media_mode Determines whether the session will transmit streams the
     #   using OpenTok Media Router (<code>:routed</code>) or not (<code>:relayed</code>).
     #   By default, this property is set to <code>:relayed</code>.
     #
-    #   With the <code>mediaMode</code> property set to <code>:relayed</code>, the session
+    #   With the <code>media_mode</code> property set to <code>:relayed</code>, the session
     #   will attempt to transmit streams directly between clients. If clients cannot connect due to
     #   firewall restrictions, the session uses the OpenTok TURN server to relay audio-video
     #   streams.
     #
-    #   With the <code>mediaMode</code> property set to <code>:routed</code>, the session
-    #   will use the {http://tokbox.com/#multiparty OpenTok Media Router}.
+    #   With the <code>media_mode</code> property set to <code>:routed</code>, the session will use
+    #   the {https://tokbox.com/opentok/tutorials/create-session/#media-mode OpenTok Media Router}.
     #   The OpenTok Media Router provides the following benefits:
     #
     #   * The OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
-    #     (When the <code>mediaMode</code> property is set to <code>:relayed</code>,
+    #     (When the <code>media_mode</code> property is set to <code>:relayed</code>,
     #     each client must send a separate audio-video stream to each client subscribing to
     #     it.)
     #   * The OpenTok Media Router can improve the quality of the user experience through
-    #     {http://tokbox.com/#iqc Intelligent Quality Control}. With
-    #     Intelligent Quality Control, if a client's connectivity degrades to a degree that
+    #     {https://tokbox.com/platform/fallback audio fallback and video recovery}. With
+    #     these features, if a client's connectivity degrades to a degree that
     #     it does not support video for a stream it's subscribing to, the video is dropped on
     #     that client (without affecting other clients), and the client receives audio only.
     #     If the client's connectivity improves, the video returns.
-    #   * The OpenTok Media Router supports the {http://tokbox.com/platform/archiving archiving}
+    #   * The OpenTok Media Router supports the
+    #     {https://tokbox.com/opentok/tutorials/archiving archiving}
     #     feature, which lets you record, save, and retrieve OpenTok sessions.
     #
     # @option opts [String] :location  An IP address that the OpenTok servers will use to
     #     situate the session in its global network. If you do not set a location hint,
     #     the OpenTok servers will be based on the first client connecting to the session.
     #
+    # @option opts [Symbol] :archive_mode Determines whether the session will be archived
+    #     automatically (<code>:always</code>) or not (<code>:manual</code>). When using automatic
+    #     archiving, the session must use the <code>:routed</code> media mode.
+    #
     # @return [Session] The Session object. The session_id property of the object is the session ID.
     def create_session(opts={})
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :media_mode, :location ]
+      valid_opts = [ :media_mode, :location, :archive_mode ]
       opts = opts.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v
@@ -150,12 +156,18 @@ module OpenTok
       unless params[:location].nil?
         raise "location must be an IPv4 address" unless params[:location] =~ Resolv::IPv4::Regex
       end
+      # archive mode is optional, but it has to be one of the valid values if present
+      unless params[:archive_mode].nil?
+        raise "archive mode must be either always or manual" unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
+      end
+
+      raise "A session with always archive mode must also have the routed media mode." if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
 
       response = client.create_session(params)
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts
     end
 
-    # An Archives object, which lets you work with OpenTok 2.0 archives.
+    # An Archives object, which lets you work with OpenTok archives.
     def archives
       @archives ||= Archives.new client
     end

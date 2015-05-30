@@ -6,7 +6,7 @@
 <title>
   Class: OpenTok::OpenTok
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; Documentation by YARD 0.8.7.6
   
 </title>
 
@@ -153,7 +153,7 @@ constructor (only on your web server) to create OpenTok sessions.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>An Archives object, which lets you work with OpenTok 2.0 archives.</p>
+<p>An Archives object, which lets you work with OpenTok archives.</p>
 </div></span>
   
 </li>
@@ -327,18 +327,18 @@ href="https://dashboard.tokbox.com">dashboard.tokbox.com</a>).</p>
       <pre class="lines">
 
 
-67
 68
 69
 70
 71
 72
-73</pre>
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 68</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span> <span class='comma'>,</span> <span class='id identifier rubyid_api_url'>api_url</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>OpenTok</span><span class='op'>::</span><span class='const'>API_URL</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_api_url'>api_url</span><span class='op'>=</span><span class='op'>::</span><span class='const'>OpenTok</span><span class='op'>::</span><span class='const'>API_URL</span><span class='rparen'>)</span>
   <span class='ivar'>@api_key</span> <span class='op'>=</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='rparen'>)</span>
   <span class='ivar'>@api_secret</span> <span class='op'>=</span> <span class='id identifier rubyid_api_secret'>api_secret</span>
   <span class='comment'># TODO: do we really need a copy of this in the instance or should we overwrite the module
@@ -369,7 +369,7 @@ href="https://dashboard.tokbox.com">dashboard.tokbox.com</a>).</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An Archives object, which lets you work with OpenTok 2.0 archives.</p>
+<p>An Archives object, which lets you work with OpenTok archives.</p>
 
 
   </div>
@@ -383,12 +383,12 @@ href="https://dashboard.tokbox.com">dashboard.tokbox.com</a>).</p>
       <pre class="lines">
 
 
-163
-164
-165</pre>
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_archives'>archives</span>
   <span class='ivar'>@archives</span> <span class='op'>||=</span> <span class='const'>Archives</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_client'>client</span>
@@ -466,7 +466,7 @@ href="https://dashboard.tokbox.com/projects">dashboard.tokbox.com/projects</a>).
       
         <li>
           <span class="name">:media_mode</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt>Symbol</tt>)</span>
           <span class="default">
             
           </span>
@@ -476,30 +476,30 @@ href="https://dashboard.tokbox.com/projects">dashboard.tokbox.com/projects</a>).
 Media Router (<tt>:routed</tt>) or not (<tt>:relayed</tt>). By default,
 this property is set to <tt>:relayed</tt>.</p>
 
-<p>With the <tt>mediaMode</tt> property set to <tt>:relayed</tt>, the session
+<p>With the <tt>media_mode</tt> property set to <tt>:relayed</tt>, the session
 will attempt to transmit streams directly between clients. If clients
 cannot connect due to firewall restrictions, the session uses the OpenTok
 TURN server to relay audio-video streams.</p>
 
-<p>With the <tt>mediaMode</tt> property set to <tt>:routed</tt>, the session
-will use the <a href="http://tokbox.com/#multiparty" target="_parent" title="OpenTok Media Router">OpenTok Media Router</a>. The
-OpenTok Media Router provides the following benefits:</p>
+<p>With the <tt>media_mode</tt> property set to <tt>:routed</tt>, the session
+will use the
+<a href="https://tokbox.com/opentok/tutorials/create-session/#media-mode" target="_parent" title="OpenTok Media Router">OpenTok Media Router</a>. The OpenTok Media Router provides the following benefits:</p>
 <ul><li>
 <p>The OpenTok Media Router can decrease bandwidth usage in multiparty
-sessions. (When the <tt>mediaMode</tt> property is set to
+sessions. (When the <tt>media_mode</tt> property is set to
 <tt>:relayed</tt>, each client must send a separate audio-video stream to
 each client subscribing to it.)</p>
 </li><li>
 <p>The OpenTok Media Router can improve the quality of the user experience
-through <a href="http://tokbox.com/#iqc" target="_parent" title="Intelligent Quality Control">Intelligent Quality Control</a>. With
-Intelligent Quality Control, if a client’s connectivity degrades to a
+through <a href="https://tokbox.com/platform/fallback" target="_parent" title="audio fallback and video recovery">audio fallback and video recovery</a>. With these features, if a client’s connectivity degrades to a
 degree that it does not support video for a stream it’s subscribing to, the
 video is dropped on that client (without affecting other clients), and the
 client receives audio only. If the client’s connectivity improves, the
 video returns.</p>
 </li><li>
-<p>The OpenTok Media Router supports the <a href="http://tokbox.com/platform/archiving" target="_parent" title="archiving">archiving</a> feature, which lets you record, save, and retrieve OpenTok
-sessions.</p>
+<p>The OpenTok Media Router supports the
+<a href="https://tokbox.com/opentok/tutorials/archiving" target="_parent" title="archiving">archiving</a> feature, which
+lets you record, save, and retrieve OpenTok sessions.</p>
 </li></ul>
 </div>
           
@@ -516,6 +516,21 @@ sessions.</p>
 <p>An IP address that the OpenTok servers will use to situate the session in
 its global network. If you do not set a location hint, the OpenTok servers
 will be based on the first client connecting to the session.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:archive_mode</span>
+          <span class="type">(<tt>Symbol</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Determines whether the session will be archived automatically
+(<tt>:always</tt>) or not (<tt>:manual</tt>). When using automatic
+archiving, the session must use the <tt>:routed</tt> media mode.</p>
 </div>
           
         </li>
@@ -549,8 +564,6 @@ ID.</p>
       <pre class="lines">
 
 
-130
-131
 132
 133
 134
@@ -579,15 +592,23 @@ ID.</p>
 157
 158
 159
-160</pre>
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 
   <span class='comment'># normalize opts so all keys are symbols and only include valid_opts
-</span>  <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span> <span class='rbracket'>]</span>
+</span>  <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:archive_mode</span> <span class='rbracket'>]</span>
   <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_valid_opts'>valid_opts</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
       <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span>
@@ -611,6 +632,12 @@ ID.</p>
 </span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>location must be an IPv4 address</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>IPv4</span><span class='op'>::</span><span class='const'>Regex</span>
   <span class='kw'>end</span>
+  <span class='comment'># archive mode is optional, but it has to be one of the valid values if present
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:archive_mode</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>archive mode must be either always or manual</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>ARCHIVE_MODES</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:archive_mode</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A session with always archive mode must also have the routed media mode.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:archive_mode</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:always</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:media_mode</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:relayed</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='const'>Session</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>sessions</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Session</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>session_id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
@@ -643,7 +670,7 @@ ID.</p>
   
     <li>
       
-        <span class='name'>sessioin_id</span>
+        <span class='name'>session_id</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -683,7 +710,7 @@ ID.</p>
       
         <li>
           <span class="name">:role</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt>Symbol</tt>)</span>
           <span class="default">
             
           </span>
@@ -765,7 +792,6 @@ cannot be updated once it is set.</p>
       <pre class="lines">
 
 
-47
 48
 49
 50
@@ -891,10 +917,18 @@ cannot be updated once it is set.</p>
 170
 171
 172
-173</pre>
+173
+174
+175
+176
+177
+178
+179
+180
+181</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/opentok.rb', line 48</span>
 
 <span class='kw'>class</span> <span class='const'>OpenTok</span>
 
@@ -916,7 +950,7 @@ cannot be updated once it is set.</p>
 </span>  <span class='comment'>#   (https://dashboard.tokbox.com).
 </span>  <span class='comment'># @param [String] api_secret Your OpenTok API key.
 </span>  <span class='comment'># @param [String] api_url Do not set this parameter. It is for internal use by TokBox.
-</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span> <span class='comma'>,</span> <span class='id identifier rubyid_api_url'>api_url</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>OpenTok</span><span class='op'>::</span><span class='const'>API_URL</span><span class='rparen'>)</span>
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_api_url'>api_url</span><span class='op'>=</span><span class='op'>::</span><span class='const'>OpenTok</span><span class='op'>::</span><span class='const'>API_URL</span><span class='rparen'>)</span>
     <span class='ivar'>@api_key</span> <span class='op'>=</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='rparen'>)</span>
     <span class='ivar'>@api_secret</span> <span class='op'>=</span> <span class='id identifier rubyid_api_secret'>api_secret</span>
     <span class='comment'># TODO: do we really need a copy of this in the instance or should we overwrite the module
@@ -944,41 +978,46 @@ cannot be updated once it is set.</p>
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @param [Hash] opts (Optional) This hash defines options for the session.
 </span>  <span class='comment'>#
-</span>  <span class='comment'># @option opts [String] :media_mode Determines whether the session will transmit streams the
+</span>  <span class='comment'># @option opts [Symbol] :media_mode Determines whether the session will transmit streams the
 </span>  <span class='comment'>#   using OpenTok Media Router (&lt;code&gt;:routed&lt;/code&gt;) or not (&lt;code&gt;:relayed&lt;/code&gt;).
 </span>  <span class='comment'>#   By default, this property is set to &lt;code&gt;:relayed&lt;/code&gt;.
 </span>  <span class='comment'>#
-</span>  <span class='comment'>#   With the &lt;code&gt;mediaMode&lt;/code&gt; property set to &lt;code&gt;:relayed&lt;/code&gt;, the session
+</span>  <span class='comment'>#   With the &lt;code&gt;media_mode&lt;/code&gt; property set to &lt;code&gt;:relayed&lt;/code&gt;, the session
 </span>  <span class='comment'>#   will attempt to transmit streams directly between clients. If clients cannot connect due to
 </span>  <span class='comment'>#   firewall restrictions, the session uses the OpenTok TURN server to relay audio-video
 </span>  <span class='comment'>#   streams.
 </span>  <span class='comment'>#
-</span>  <span class='comment'>#   With the &lt;code&gt;mediaMode&lt;/code&gt; property set to &lt;code&gt;:routed&lt;/code&gt;, the session
-</span>  <span class='comment'>#   will use the {http://tokbox.com/#multiparty OpenTok Media Router}.
+</span>  <span class='comment'>#   With the &lt;code&gt;media_mode&lt;/code&gt; property set to &lt;code&gt;:routed&lt;/code&gt;, the session will use
+</span>  <span class='comment'>#   the {https://tokbox.com/opentok/tutorials/create-session/#media-mode OpenTok Media Router}.
 </span>  <span class='comment'>#   The OpenTok Media Router provides the following benefits:
 </span>  <span class='comment'>#
 </span>  <span class='comment'>#   * The OpenTok Media Router can decrease bandwidth usage in multiparty sessions.
-</span>  <span class='comment'>#     (When the &lt;code&gt;mediaMode&lt;/code&gt; property is set to &lt;code&gt;:relayed&lt;/code&gt;,
+</span>  <span class='comment'>#     (When the &lt;code&gt;media_mode&lt;/code&gt; property is set to &lt;code&gt;:relayed&lt;/code&gt;,
 </span>  <span class='comment'>#     each client must send a separate audio-video stream to each client subscribing to
 </span>  <span class='comment'>#     it.)
 </span>  <span class='comment'>#   * The OpenTok Media Router can improve the quality of the user experience through
-</span>  <span class='comment'>#     {http://tokbox.com/#iqc Intelligent Quality Control}. With
-</span>  <span class='comment'>#     Intelligent Quality Control, if a client's connectivity degrades to a degree that
+</span>  <span class='comment'>#     {https://tokbox.com/platform/fallback audio fallback and video recovery}. With
+</span>  <span class='comment'>#     these features, if a client's connectivity degrades to a degree that
 </span>  <span class='comment'>#     it does not support video for a stream it's subscribing to, the video is dropped on
 </span>  <span class='comment'>#     that client (without affecting other clients), and the client receives audio only.
 </span>  <span class='comment'>#     If the client's connectivity improves, the video returns.
-</span>  <span class='comment'>#   * The OpenTok Media Router supports the {http://tokbox.com/platform/archiving archiving}
+</span>  <span class='comment'>#   * The OpenTok Media Router supports the
+</span>  <span class='comment'>#     {https://tokbox.com/opentok/tutorials/archiving archiving}
 </span>  <span class='comment'>#     feature, which lets you record, save, and retrieve OpenTok sessions.
 </span>  <span class='comment'>#
 </span>  <span class='comment'># @option opts [String] :location  An IP address that the OpenTok servers will use to
 </span>  <span class='comment'>#     situate the session in its global network. If you do not set a location hint,
 </span>  <span class='comment'>#     the OpenTok servers will be based on the first client connecting to the session.
 </span>  <span class='comment'>#
+</span>  <span class='comment'># @option opts [Symbol] :archive_mode Determines whether the session will be archived
+</span>  <span class='comment'>#     automatically (&lt;code&gt;:always&lt;/code&gt;) or not (&lt;code&gt;:manual&lt;/code&gt;). When using automatic
+</span>  <span class='comment'>#     archiving, the session must use the &lt;code&gt;:routed&lt;/code&gt; media mode.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Session] The Session object. The session_id property of the object is the session ID.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
 
     <span class='comment'># normalize opts so all keys are symbols and only include valid_opts
-</span>    <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span> <span class='rbracket'>]</span>
+</span>    <span class='id identifier rubyid_valid_opts'>valid_opts</span> <span class='op'>=</span> <span class='lbracket'>[</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:archive_mode</span> <span class='rbracket'>]</span>
     <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='comma'>,</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span>
       <span class='kw'>if</span> <span class='id identifier rubyid_valid_opts'>valid_opts</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
         <span class='id identifier rubyid_m'>m</span><span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span>
@@ -1002,12 +1041,18 @@ cannot be updated once it is set.</p>
 </span>    <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>location must be an IPv4 address</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span> <span class='op'>=~</span> <span class='const'>Resolv</span><span class='op'>::</span><span class='const'>IPv4</span><span class='op'>::</span><span class='const'>Regex</span>
     <span class='kw'>end</span>
+    <span class='comment'># archive mode is optional, but it has to be one of the valid values if present
+</span>    <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:archive_mode</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>archive mode must be either always or manual</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>ARCHIVE_MODES</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:archive_mode</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A session with always archive mode must also have the routed media mode.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:archive_mode</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:always</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:media_mode</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='symbol'>:relayed</span><span class='rparen'>)</span>
 
     <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span><span class='period'>.</span><span class='id identifier rubyid_create_session'>create_session</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
     <span class='const'>Session</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_response'>response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>sessions</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Session</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>session_id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span>
   <span class='kw'>end</span>
 
-  <span class='comment'># An Archives object, which lets you work with OpenTok 2.0 archives.
+  <span class='comment'># An Archives object, which lets you work with OpenTok archives.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_archives'>archives</span>
     <span class='ivar'>@archives</span> <span class='op'>||=</span> <span class='const'>Archives</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_client'>client</span>
   <span class='kw'>end</span>
@@ -1029,9 +1074,9 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jun 20 12:49:10 2014 by
+  Generated on Mon May 25 15:52:46 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-1.9.3).
+  0.8.7.6 (ruby-1.9.3).
 </div>
 
   </body>

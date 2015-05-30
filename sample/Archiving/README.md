@@ -69,17 +69,23 @@ generates the three strings that the client (JavaScript) needs to connect to the
 URL. The route handler for this URL is shown below:
 
 ```ruby
-get '/start' do
+post '/start' do
   archive = settings.opentok.archives.create settings.session.session_id, {
-    :name => "Ruby Archiving Sample App"
+    :name => "Ruby Archiving Sample App",
+    :output_mode => params[:output_mode],
+    :has_audio => params[:has_audio] == "on",
+    :has_video => params[:has_video] == "on"
   }
   body archive.to_json
 end
 ```
 
 In this handler, `opentok.archives.create` is called with the `session_id` for the session that
-needs to be archived. The optional second argument is a hash which contains a `:name` key. The value
-is a string that will be stored with the archive and can be read later. In this case, as in the
+needs to be archived. The optional second argument is a hash which defines optional properties
+for the archive. The `:name` value defines the archive's name, which is stored with the archive and
+can be read later. The `:has_audio`, `:has_video`, and `:output_mode` values are read from the
+request body; these define whether the archive will record audio and video, and whether it will
+record streams individually or to a single file composed of all streams. In this case, as in the
 HelloWorld sample app, there is only one session created and it is used here and for the participant
 view. This will trigger the recording to begin. The response sent back to the client's XHR request
 will be the JSON representation of the archive, which is returned from the `to_json()` method. The

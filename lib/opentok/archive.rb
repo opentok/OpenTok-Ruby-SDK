@@ -16,6 +16,16 @@ module OpenTok
     #   The name of the archive. If no name was provided when the archive was created, this is set
     #   to null.
     #
+    # @attr [true, false] has_audio
+    #   Whether the archive has an audio track (true) or not (false).
+    #
+    # @attr [true, false] has_video
+    #   Whether the archive has a video track (true) or not (false).
+    #
+    # @attr [String] output_mode
+    #   Whether all streams in the archive are recorded to a single file (<code>:composed</code>)
+    #   or to individual files (<code>:individual</code>).
+    #
     # @attr [string] partner_id
     #   The API key associated with the archive.
     #
@@ -36,6 +46,12 @@ module OpenTok
     #   * "available" -- The archive is available for download from the OpenTok cloud.
     #   * "expired" -- The archive is no longer available for download from the OpenTok cloud.
     #   * "failed" -- The archive recording failed.
+    #   * "paused" -- The archive is in progress and no clients are publishing streams to the
+    #     session. When an archive is in progress and any client publishes a stream, the status is
+    #     "started". When an archive is paused, nothing is recorded. When a client starts publishing
+    #     a stream, the recording starts (or resumes). If all clients disconnect from a session that
+    #     is being archived, the status changes to "paused", and after 60 seconds the archive
+    #     recording stops (and the status changes to "stopped").
     #   * "started" -- The archive started and is in the process of being recorded.
     #   * "stopped" -- The archive stopped recording.
     #   * "uploaded" -- The archive is available for download from the the upload target
@@ -47,7 +63,7 @@ module OpenTok
     #   "available"; for other archives, (including archives with the status "uploaded") this property is
     #   set to null. The download URL is obfuscated, and the file is only available from the URL for
     #   10 minutes. To generate a new URL, call the Archive.listArchives() or OpenTok.getArchive() method.
-    class Archive
+  class Archive
 
     # @private
     def initialize(interface, json)
@@ -85,7 +101,11 @@ module OpenTok
       camelized_method = method.to_s.camelize(:lower)
       if @json.has_key? camelized_method and args.empty?
         # TODO: convert create_time method call to a Time object
-        @json[camelized_method]
+        if camelized_method == 'outputMode'
+          @json[camelized_method].to_sym
+        else
+          @json[camelized_method]
+        end
       else
         super method, *args, &block
       end

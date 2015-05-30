@@ -6,7 +6,7 @@
 <title>
   Class: OpenTok::Session
   
-    &mdash; Documentation by YARD 0.8.7.4
+    &mdash; Documentation by YARD 0.8.7.6
   
 </title>
 
@@ -122,6 +122,36 @@ the session_id property of the Session object to get the session ID.</p>
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#archive_mode-instance_method" title="#archive_mode (instance method)">- (String) <strong>archive_mode</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Whether the session will be archived automatically (:always) or not
+(:manual).</p>
+</div></span>
+  
+</li>
+
     
       <li class="public ">
   <span class="summary_signature">
@@ -264,7 +294,69 @@ if the session attempts to transmit streams directly between clients.</p>
       
       <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="location-instance_method">
+  <h3 class="signature first" id="archive_mode-instance_method">
+  
+    - (<tt>String</tt>) <strong>archive_mode</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Whether the session will be archived automatically (<tt>:always</tt>) or
+not (<tt>:manual</tt>).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the current value of archive_mode</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_archive_mode'>archive_mode</span>
+  <span class='ivar'>@archive_mode</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="location-instance_method">
   
     - (<tt>String</tt>) <strong>location</strong>  <span class="extras">(readonly)</span>
   
@@ -307,12 +399,12 @@ if the session attempts to transmit streams directly between clients.</p>
       <pre class="lines">
 
 
-43
-44
-45</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_location'>location</span>
   <span class='ivar'>@location</span>
@@ -369,12 +461,12 @@ if the session attempts to transmit streams directly between clients.</p>
       <pre class="lines">
 
 
-43
-44
-45</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_media_mode'>media_mode</span>
   <span class='ivar'>@media_mode</span>
@@ -430,12 +522,12 @@ if the session attempts to transmit streams directly between clients.</p>
       <pre class="lines">
 
 
-43
-44
-45</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_session_id'>session_id</span>
   <span class='ivar'>@session_id</span>
@@ -494,7 +586,7 @@ if the session attempts to transmit streams directly between clients.</p>
       
         <li>
           <span class="name">:role</span>
-          <span class="type">(<tt>String</tt>)</span>
+          <span class="type">(<tt>Symbol</tt>)</span>
           <span class="default">
             
           </span>
@@ -576,9 +668,6 @@ cannot be updated once it is set.</p>
       <pre class="lines">
 
 
-43
-44
-45
 46
 47
 48
@@ -608,10 +697,13 @@ cannot be updated once it is set.</p>
 72
 73
 74
-75</pre>
+75
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/opentok/session.rb', line 46</span>
 
 <span class='kw'>class</span> <span class='const'>Session</span>
 
@@ -622,7 +714,7 @@ cannot be updated once it is set.</p>
     <span class='symbol'>:session_id</span> <span class='op'>=&gt;</span> <span class='tlambda'>-&gt;</span><span class='lparen'>(</span><span class='id identifier rubyid_instance'>instance</span><span class='rparen'>)</span> <span class='tlambeg'>{</span> <span class='id identifier rubyid_instance'>instance</span><span class='period'>.</span><span class='id identifier rubyid_session_id'>session_id</span> <span class='rbrace'>}</span>
   <span class='rbrace'>}</span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:session_id</span><span class='comma'>,</span> <span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:location</span><span class='comma'>,</span> <span class='symbol'>:archive_mode</span><span class='comma'>,</span> <span class='symbol'>:api_key</span><span class='comma'>,</span> <span class='symbol'>:api_secret</span>
 
   <span class='comment'># @private
 </span>  <span class='comment'># this implementation doesn't completely understand the format of a Session ID
@@ -638,7 +730,7 @@ cannot be updated once it is set.</p>
   <span class='comment'># @private
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
     <span class='ivar'>@api_key</span><span class='comma'>,</span> <span class='ivar'>@api_secret</span><span class='comma'>,</span> <span class='ivar'>@session_id</span> <span class='op'>=</span> <span class='id identifier rubyid_api_key'>api_key</span><span class='comma'>,</span> <span class='id identifier rubyid_api_secret'>api_secret</span><span class='comma'>,</span> <span class='id identifier rubyid_session_id'>session_id</span>
-    <span class='ivar'>@media_mode</span><span class='comma'>,</span> <span class='ivar'>@location</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:relayed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
+    <span class='ivar'>@media_mode</span><span class='comma'>,</span> <span class='ivar'>@location</span><span class='comma'>,</span> <span class='ivar'>@archive_mode</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:media_mode</span><span class='comma'>,</span> <span class='symbol'>:relayed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:archive_mode</span><span class='comma'>,</span> <span class='symbol'>:manual</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 
   <span class='comment'># @private
@@ -656,9 +748,9 @@ cannot be updated once it is set.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Jun 20 12:49:10 2014 by
+  Generated on Mon May 25 15:52:46 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.4 (ruby-1.9.3).
+  0.8.7.6 (ruby-1.9.3).
 </div>
 
   </body>

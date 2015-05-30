@@ -3,7 +3,7 @@ require "opentok/archive"
 require "opentok/archive_list"
 
 module OpenTok
-  # A class for working with OpenTok 2.0 archives.
+  # A class for working with OpenTok archives.
   class Archives
 
     # @private
@@ -11,7 +11,7 @@ module OpenTok
       @client = client
     end
 
-    # Starts archiving an OpenTok 2.0 session.
+    # Starts archiving an OpenTok session.
     #
     # Clients must be actively connected to the OpenTok session for you to successfully start
     # recording an archive.
@@ -20,11 +20,30 @@ module OpenTok
     # of sessions that use the OpenTok Media Router (sessions with the media mode set to routed);
     # you cannot archive sessions with the media mode set to relayed.
     #
+    # For more information on archiving, see the
+    # {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving} programming guide.
+    #
     # @param [String] session_id The session ID of the OpenTok session to archive.
-    # @param [Hash] options  A hash with the key 'name' or :name.
+    # @param [Hash] options  A hash with the key 'name', 'has_audio', and 'has_video' (or
+    # :name.
     # @option options [String] :name This is the name of the archive. You can use this name
     #   to identify the archive. It is a property of the Archive object, and it is a property
-    #   of archive-related events in the OpenTok.js library.
+    #   of archive-related events in the OpenTok client SDKs.
+    # @option options [true, false] :has_audio Whether the archive will include an audio track
+    #   (<code>true</code>) or not <code>false</code>). The default value is <code>true</code>
+    #   (an audio track is included). If you set both  <code>has_audio</code> and
+    #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
+    #   method results in an error.
+    # @option options [true, false] :has_video Whether the archive will include a video track
+    #   (<code>true</code>) or not <code>false</code>). The default value is <code>true</code>
+    #   (a video track is included). If you set both  <code>has_audio</code> and
+    #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
+    #   method results in an error.
+    # @option options [String] :output_mode Whether all streams in the archive are recorded
+    #     to a single file (<code>:composed</code>, the default) or to individual files
+    #     (<code>:individual</code>). For more information on archiving and the archive file
+    #     formats, see the {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving}
+    #     programming guide.
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
@@ -39,8 +58,16 @@ module OpenTok
     # @raise [OpenTokArchiveError] The archive could not be started.
     def create(session_id, options = {})
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
-      opts = Hash.new
-      opts[:name] = options[:name].to_s || options["name"].to_s
+
+      # normalize opts so all keys are symbols and only include valid_opts
+      valid_opts = [ :name, :has_audio, :has_video, :output_mode ]
+      opts = options.inject({}) do |m,(k,v)|
+        if valid_opts.include? k.to_sym
+          m[k.to_sym] = v
+        end
+        m
+      end
+
       archive_json = @client.start_archive(session_id, opts)
       Archive.new self, archive_json
     end
