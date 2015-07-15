@@ -9,7 +9,7 @@ module OpenTok
   class Client
     include HTTParty
 
-    default_timeout 1 # Set HTTParty default timeout (open/read) to 1 second
+    open_timeout 2 # Set HTTParty default timeout (open/read) to 2 seconds
 
     # TODO: expose a setting for http debugging for developers
     # debug_output $stdout
