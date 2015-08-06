@@ -56,7 +56,7 @@ module OpenTok
     # @private
     # don't want these to be mutable, may cause bugs related to inconsistency since these values are
     # cached in objects that this can create
-    attr_reader :api_key, :api_secret, :api_url
+    attr_reader :api_key, :api_secret, :api_url, :ua_addendum
 
     ##
     # Create a new OpenTok object.
@@ -64,13 +64,13 @@ module OpenTok
     # @param [String] api_key Your OpenTok API key. See the OpenTok dashboard
     #   (https://dashboard.tokbox.com).
     # @param [String] api_secret Your OpenTok API key.
-    # @param [String] api_url Do not set this parameter. It is for internal use by TokBox.
-    def initialize(api_key, api_secret, api_url=::OpenTok::API_URL)
+    # @option opts [Symbol] :api_url Do not set this parameter. It is for internal use by TokBox.
+    # @option opts [Symbol] :ua_addendum Do not set this parameter. It is for internal use by TokBox.
+    def initialize(api_key, api_secret, opts={})
       @api_key = api_key.to_s()
       @api_secret = api_secret
-      # TODO: do we really need a copy of this in the instance or should we overwrite the module
-      # constant so that other objects can access the same copy?
-      @api_url = api_url
+      @api_url = opts[:api_url] || API_URL
+      @ua_addendum = opts[:ua_addendum]
     end
 
     # Creates a new OpenTok session and returns the session ID, which uniquely identifies
@@ -175,7 +175,7 @@ module OpenTok
     protected
 
     def client
-      @client ||= Client.new api_key, api_secret, api_url
+      @client ||= Client.new api_key, api_secret, api_url, ua_addendum
     end
 
   end

@@ -14,11 +14,11 @@ module OpenTok
     # TODO: expose a setting for http debugging for developers
     # debug_output $stdout
 
-    def initialize(api_key, api_secret, api_url)
+    def initialize(api_key, api_secret, api_url, ua_addendum="")
       self.class.base_uri api_url
       self.class.headers({
         "X-TB-PARTNER-AUTH" => "#{api_key}:#{api_secret}",
-        "User-Agent" => "OpenTok-Ruby-SDK/#{VERSION}"
+        "User-Agent" => "OpenTok-Ruby-SDK/#{VERSION}" + (ua_addendum ? " #{ua_addendum}" : "")
       })
       @api_key = api_key
     end

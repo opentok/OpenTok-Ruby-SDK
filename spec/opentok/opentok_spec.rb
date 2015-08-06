@@ -122,7 +122,7 @@ describe OpenTok::OpenTok do
 
     context "with an additional api_url" do
       let(:api_url) { "http://example.opentok.com" }
-      let(:opentok) { OpenTok::OpenTok.new api_key, api_secret, api_url }
+      let(:opentok) { OpenTok::OpenTok.new api_key, api_secret, :api_url => api_url }
 
       it { should be_an_instance_of(OpenTok::OpenTok) }
 
@@ -132,6 +132,23 @@ describe OpenTok::OpenTok do
 
       # TODO: i don't need to run all the tests, just a set that checks for the URL's effect
       # include_examples "generates tokens"
+    end
+
+    context "with an addendum to the user agent string" do
+      let(:opentok) { OpenTok::OpenTok.new api_key, api_secret, :ua_addendum => ua_addendum }
+      let(:ua_addendum) { "BOOYAH"}
+
+      it { should be_an_instance_of(OpenTok::OpenTok) }
+
+      it "should have a ua_addendum property" do
+        expect(opentok.ua_addendum).to eq ua_addendum
+      end
+
+      # NOTE: ua_addendum is hardcoded into cassette
+      it "should append the addendum to the user agent header", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+        session = opentok.create_session
+        expect(session).to be_an_instance_of OpenTok::Session
+      end
     end
   end
 
