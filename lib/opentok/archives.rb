@@ -106,7 +106,7 @@ module OpenTok
 
     # Stops an OpenTok archive that is being recorded.
     #
-    # Archives automatically stop recording after 90 minutes or when all clients have disconnected
+    # Archives automatically stop recording after 120 minutes or when all clients have disconnected
     # from the session being archived.
     #
     # @param [String] archive_id The archive ID of the archive you want to stop recording.

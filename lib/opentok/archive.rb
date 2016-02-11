@@ -30,9 +30,9 @@ module OpenTok
     #   The API key associated with the archive.
     #
     # @attr [string] reason
-    #   For archives with the status "stopped", this can be set to "90 mins exceeded", "failure",
-    #   "session ended", or "user initiated". For archives with the status "failed", this can be set
-    #   to "system failure".
+    #   For archives with the status "stopped", this can be set to "maximum duration exceeded",
+    #   "maximum idle time exceeded", "session ended", "user initiated. For archives with the
+    #   status "failed", this can be set to "failure".
     #
     # @attr [string] session_id
     #   The session ID of the OpenTok session associated with this archive.
@@ -79,7 +79,7 @@ module OpenTok
 
     # Stops an OpenTok archive that is being recorded.
     #
-    # Archives automatically stop recording after 90 minutes or when all clients have disconnected
+    # Archives automatically stop recording after 120 minutes or when all clients have disconnected
     # from the session being archived.
     def stop
       # TODO: validate returned json fits schema
