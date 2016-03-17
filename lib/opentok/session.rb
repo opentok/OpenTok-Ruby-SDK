@@ -1,5 +1,5 @@
 require "base64"
-require_relative "token_generator"
+require "./lib/opentok/token_generator"
 
 module OpenTok
 

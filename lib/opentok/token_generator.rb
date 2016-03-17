@@ -1,5 +1,5 @@
-require_relative "constants"
-require_relative "session"
+require "./lib/opentok/constants"
+require "./lib/opentok/session"
 
 require "base64"
 require "addressable/uri"
