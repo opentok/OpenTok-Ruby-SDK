@@ -1,5 +1,4 @@
-require "./lib/opentok/version"
-require "./lib/opentok/opentok"
+require_relative "opentok/opentok"
 
 # Namespace for classes and modules in the OpenTok 2.2 Ruby SDK.
 module OpenTok
