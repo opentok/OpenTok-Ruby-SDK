@@ -1,8 +1,8 @@
-require './lib/opentok/constants'
-require './lib/opentok/session'
-require './lib/opentok/client'
-require './lib/opentok/token_generator'
-require './lib/opentok/archives'
+require_relative "constants"
+require_relative "session"
+require_relative "client"
+require_relative "token_generator"
+require_relative "archives"
 
 require "resolv"
 require "set"
