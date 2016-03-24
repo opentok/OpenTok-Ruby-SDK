@@ -1,5 +1,5 @@
 # coding: utf-8
-require File.expand_path("../lib/opentok/version.rb", __FILE__)
+require './lib/opentok/version.rb'
 
 Gem::Specification.new do |spec|
   spec.name        = "opentok"
