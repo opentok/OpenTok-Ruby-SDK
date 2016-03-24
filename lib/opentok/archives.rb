@@ -1,6 +1,6 @@
-require_relative "client"
-require_relative "archive"
-require_relative "archive_list"
+require "opentok/client"
+require "opentok/archive"
+require "opentok/archive_list"
 
 module OpenTok
   # A class for working with OpenTok archives.

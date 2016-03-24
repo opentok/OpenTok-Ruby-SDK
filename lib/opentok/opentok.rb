@@ -1,8 +1,8 @@
-require_relative "constants"
-require_relative "session"
-require_relative "client"
-require_relative "token_generator"
-require_relative "archives"
+require "opentok/constants"
+require "opentok/session"
+require "opentok/client"
+require "opentok/token_generator"
+require "opentok/archives"
 
 require "resolv"
 require "set"

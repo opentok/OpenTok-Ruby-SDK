@@ -1,4 +1,4 @@
-require_relative "archive"
+require "opentok/archive"
 
 module OpenTok
   # A class for accessing an array of Archive objects.

@@ -1,5 +1,5 @@
-require_relative "exceptions"
-require_relative "../extensions/hash"
+require "opentok/exceptions"
+require "opentok/extensions/hash"
 
 require "active_support/inflector"
 require "httparty"
