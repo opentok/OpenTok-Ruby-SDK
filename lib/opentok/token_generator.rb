@@ -81,6 +81,15 @@ module OpenTok
         end
         data_params[:connection_data] = data
       end
+
+      if opts[:initial_layout_classes]
+        if opts[:initial_layout_classes].is_a?(Array)
+          data_params[:initial_layout_class_list] = opts[:initial_layout_classes].join(' ')
+        else
+          data_params[:initial_layout_class_list] = opts[:initial_layout_classes].to_s
+        end
+      end
+
       digest = OpenSSL::Digest.new('sha1')
       data_string = Addressable::URI.form_encode data_params
       meta_string = Addressable::URI.form_encode({

@@ -7,7 +7,8 @@ require "addressable/uri"
 RSpec::Matchers.define :carry_token_data do |input_data|
   option_to_token_key = {
     :api_key => :partner_id,
-    :data => :connection_data
+    :data => :connection_data,
+    :initial_layout_classes => :initial_layout_class_list
   }
   match do |token|
     decoded_token = Base64.decode64(token[4..token.length])
