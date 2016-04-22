@@ -68,6 +68,31 @@ shared_examples "opentok generates tokens" do
       expect(data_bearing_token).to carry_valid_token_signature api_secret
     end
 
+    it "generates tokens with initial layout classes" do
+      layout_classes = ["focus", "small"]
+      layout_class_bearing_token = opentok.generate_token session_id, :initial_layout_classes => layout_classes
+      expect(layout_class_bearing_token).to be_an_instance_of String
+      expect(layout_class_bearing_token).to carry_token_data :session_id => session_id
+      expect(layout_class_bearing_token).to carry_token_data :api_key => api_key
+      expect(layout_class_bearing_token).to carry_token_data :role => default_role
+      expect(layout_class_bearing_token).to carry_token_data :initial_layout_classes => layout_classes.join(' ')
+      expect(layout_class_bearing_token).to carry_token_data [:nonce, :create_time]
+      expect(layout_class_bearing_token).to carry_valid_token_signature api_secret
+    end
+
+    it "generates tokens with one initial layout class" do
+      layout_class = "focus"
+      layout_class_bearing_token = opentok.generate_token session_id, :initial_layout_classes => layout_class
+      expect(layout_class_bearing_token).to be_an_instance_of String
+      expect(layout_class_bearing_token).to carry_token_data :session_id => session_id
+      expect(layout_class_bearing_token).to carry_token_data :api_key => api_key
+      expect(layout_class_bearing_token).to carry_token_data :role => default_role
+      expect(layout_class_bearing_token).to carry_token_data :initial_layout_classes => layout_class
+      expect(layout_class_bearing_token).to carry_token_data [:nonce, :create_time]
+      expect(layout_class_bearing_token).to carry_valid_token_signature api_secret
+    end
+
+
     # TODO a context about using a bad session_id
   end
 

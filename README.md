@@ -77,7 +77,8 @@ Once a Session is created, you can start generating Tokens for clients to use wh
 You can generate a token either by calling the `opentok.generate_token(session_id, options)` method,
 or by calling the `Session#generate_token(options)` method on the an instance after creating it. The
 `options` parameter is an optional Hash used to set the role, expire time, and connection data of
-the Token.
+the Token. For layout control in archives and broadcasts, the initial layout class list of streams
+published from connections using this token can be set as well.
 
 ```ruby
 # Generate a Token from just a session_id (fetched from a database)
@@ -88,9 +89,10 @@ token = session.generate_token
 
 # Set some options in a token
 token = session.generate_token({
-    :role        => :moderator
-    :expire_time => Time.now.to_i+(7 * 24 * 60 * 60) # in one week
-    :data        => 'name=Johnny'
+    :role                   => :moderator
+    :expire_time            => Time.now.to_i+(7 * 24 * 60 * 60) # in one week
+    :data                   => 'name=Johnny',
+    :initial_layout_classes => ['focus', 'inactive']
 });
 ```
 
