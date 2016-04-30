@@ -105,7 +105,7 @@ token = session.generate_token({
 
 ## Working with Archives
 
-**Important:** You can only archive sessions that use the OpenTok Media Router
+You can only archive sessions that use the OpenTok Media Router
 (sessions with the media mode set to routed).
 
 You can start the recording of an OpenTok Session using the `opentok.archives.create(session_id,
