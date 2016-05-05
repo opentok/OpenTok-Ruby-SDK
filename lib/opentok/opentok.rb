@@ -11,7 +11,7 @@ module OpenTok
   # Contains methods for creating OpenTok sessions, generating tokens, and working with archives.
   #
   # To create a new OpenTok object, call the OpenTok constructor with your OpenTok API key
-  # and the API secret from the OpenTok dashboard (https://dashboard.tokbox.com). Do not
+  # and the API secret for your {TokBox account https://tokbox.com/account}. Do not
   # publicly share your API secret. You will use it with the OpenTok constructor (only on your web
   # server) to create OpenTok sessions.
   #
@@ -61,8 +61,8 @@ module OpenTok
     ##
     # Create a new OpenTok object.
     #
-    # @param [String] api_key Your OpenTok API key. See the OpenTok dashboard
-    #   (https://dashboard.tokbox.com).
+    # @param [String] api_key Your OpenTok API key. See your
+    @   {TokBox account page https://tokbox.com/account}.
     # @param [String] api_secret Your OpenTok API key.
     # @option opts [Symbol] :api_url Do not set this parameter. It is for internal use by TokBox.
     # @option opts [Symbol] :ua_addendum Do not set this parameter. It is for internal use by TokBox.
@@ -88,8 +88,8 @@ module OpenTok
     # Check the error message for details.
     #
     # You can also create a session using the OpenTok REST API (see
-    # http://www.tokbox.com/opentok/api/#session_id_production) or the OpenTok dashboard
-    # (see https://dashboard.tokbox.com/projects).
+    # http://www.tokbox.com/opentok/api/#session_id_production) or by logging in to your
+    # {TokBox account https://tokbox.com/account}.
     #
     # @param [Hash] opts (Optional) This hash defines options for the session.
     #

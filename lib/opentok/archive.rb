@@ -55,8 +55,8 @@ module OpenTok
     #   * "started" -- The archive started and is in the process of being recorded.
     #   * "stopped" -- The archive stopped recording.
     #   * "uploaded" -- The archive is available for download from the the upload target
-    #     Amazon S3 bucket or Windows Azure container you set at the OpenTok dashboard
-    #     (https://dashboard.tokbox.com).
+    #     Amazon S3 bucket or Windows Azure container you set up for your
+    #     {https://tokbox.com/opentok/account OpenTok project}.
     #
     # @attr [string] url
     #   The download URL of the available MP4 file. This is only set for an archive with the status set to
