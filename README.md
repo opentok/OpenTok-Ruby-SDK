@@ -186,8 +186,7 @@ repository and follow the Walkthroughs:
 
 # Documentation
 
-Reference documentation is available at <http://www.tokbox.com//opentok/libraries/server/ruby/reference/index.html> and in the
-doc directory of the SDK.
+Reference documentation is available at <http://www.tokbox.com//opentok/libraries/server/ruby/reference/index.html>.
 
 # Requirements
 
