@@ -75,7 +75,7 @@ session_id = session.session_id
 
 Once a Session is created, you can start generating Tokens for clients to use when connecting to it.
 You can generate a token either by calling the `opentok.generate_token(session_id, options)` method,
-or by calling the `Session#generate_token(options)` method on the an instance after creating it. The
+or by calling the `Session#generate_token(options)` method on the instance after creating it. The
 `options` parameter is an optional Hash used to set the role, expire time, and connection data of
 the Token.
 
