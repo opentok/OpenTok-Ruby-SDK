@@ -1,13 +1,13 @@
-require "rspec/matchers"
+require 'rspec/matchers'
 
-require "base64"
-require "openssl"
-require "addressable/uri"
+require 'base64'
+require 'openssl'
+require 'addressable/uri'
 
 RSpec::Matchers.define :carry_token_data do |input_data|
   option_to_token_key = {
-    :api_key => :partner_id,
-    :data => :connection_data
+    api_key: :partner_id,
+    data: :connection_data
   }
   match do |token|
     decoded_token = Base64.decode64(token[4..token.length])
@@ -16,19 +16,17 @@ RSpec::Matchers.define :carry_token_data do |input_data|
       token_part_array = token_part_array_array.map do |array|
         { array[0].to_sym => array[1] }
       end
-      token_part_array.reduce Hash.new, :merge
+      token_part_array.reduce({}, :merge)
     end
-    token_data = token_data_array.reduce Hash.new, :merge
-    check_token_data = lambda { |key, value|
-      key = option_to_token_key[key] if option_to_token_key.has_key? key
-      if token_data.has_key? key
-        unless value.nil?
-          return token_data[key] == value.to_s
-        end
+    token_data = token_data_array.reduce({}, :merge)
+    check_token_data = lambda do |key, value|
+      key = option_to_token_key[key] if option_to_token_key.key? key
+      if token_data.key? key
+        return token_data[key] == value.to_s unless value.nil?
         return true
       end
       false
-    }
+    end
     unless input_data.respond_to? :all?
       return check_token_data.call(input_data, nil)
     end

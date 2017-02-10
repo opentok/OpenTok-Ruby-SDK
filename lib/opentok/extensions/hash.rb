@@ -4,7 +4,7 @@ module OpenTok
       keys.each do |k|
         new_key = k.to_s.camelize(:lower)
         new_key = new_key.to_sym if k.is_a? Symbol
-        self[new_key] = self.delete(k)
+        self[new_key] = delete(k)
       end
       self
     end

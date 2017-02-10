@@ -1,11 +1,10 @@
-require "opentok/client"
-require "opentok/archive"
-require "opentok/archive_list"
+require 'opentok/client'
+require 'opentok/archive'
+require 'opentok/archive_list'
 
 module OpenTok
   # A class for working with OpenTok archives.
   class Archives
-
     # @private
     def initialize(client)
       @client = client
@@ -57,14 +56,12 @@ module OpenTok
     #   peer-to-peer or the session is already being recorded.
     # @raise [OpenTokArchiveError] The archive could not be started.
     def create(session_id, options = {})
-      raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
+      raise ArgumentError, 'session_id not provided' if session_id.to_s.empty?
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :name, :has_audio, :has_video, :output_mode ]
-      opts = options.inject({}) do |m,(k,v)|
-        if valid_opts.include? k.to_sym
-          m[k.to_sym] = v
-        end
+      valid_opts = [:name, :has_audio, :has_video, :output_mode]
+      opts = options.each_with_object({}) do |(k, v), m|
+        m[k.to_sym] = v if valid_opts.include? k.to_sym
         m
       end
 
@@ -82,7 +79,7 @@ module OpenTok
     #   Invalid API key.
     # @raise [OpenTokArchiveError] The archive could not be retrieved.
     def find(archive_id)
-      raise ArgumentError, "archive_id not provided" if archive_id.to_s.empty?
+      raise ArgumentError, 'archive_id not provided' if archive_id.to_s.empty?
       archive_json = @client.get_archive(archive_id.to_s)
       Archive.new self, archive_json
     end
@@ -99,7 +96,7 @@ module OpenTok
     #
     # @return [ArchiveList] An ArchiveList object, which is an array of Archive objects.
     def all(options = {})
-      raise ArgumentError, "Limit is invalid" unless options[:count].nil? or (0..100).include? options[:count]
+      raise ArgumentError, 'Limit is invalid' unless options[:count].nil? || (0..100).cover?(options[:count])
       archive_list_json = @client.list_archives(options[:offset], options[:count])
       ArchiveList.new self, archive_list_json
     end
@@ -120,7 +117,7 @@ module OpenTok
     #   recording.
     # @raise [OpenTokArchiveError] The archive could not be started.
     def stop_by_id(archive_id)
-      raise ArgumentError, "archive_id not provided" if archive_id.to_s.empty?
+      raise ArgumentError, 'archive_id not provided' if archive_id.to_s.empty?
       archive_json = @client.stop_archive(archive_id)
       Archive.new self, archive_json
     end
@@ -139,10 +136,9 @@ module OpenTok
     #   'available', 'deleted', or 'uploaded'.
     # @raise [OpenTokArchiveError] The archive could not be deleted.
     def delete_by_id(archive_id)
-      raise ArgumentError, "archive_id not provided" if archive_id.to_s.empty?
+      raise ArgumentError, 'archive_id not provided' if archive_id.to_s.empty?
       response = @client.delete_archive(archive_id)
-      (200..300).include? response.code
+      (200..300).cover? response.code
     end
-
   end
 end
