@@ -1,11 +1,11 @@
-require "opentok/constants"
-require "opentok/session"
-require "opentok/client"
-require "opentok/token_generator"
-require "opentok/archives"
+require 'opentok/constants'
+require 'opentok/session'
+require 'opentok/client'
+require 'opentok/token_generator'
+require 'opentok/archives'
 
-require "resolv"
-require "set"
+require 'resolv'
+require 'set'
 
 module OpenTok
   # Contains methods for creating OpenTok sessions, generating tokens, and working with archives.
@@ -46,12 +46,11 @@ module OpenTok
   #     updated once it is set.
   #   @return [String] The token string.
   class OpenTok
-
     include TokenGenerator
-    generates_tokens({
-      :api_key => ->(instance) { instance.api_key },
-      :api_secret => ->(instance) { instance.api_secret }
-    })
+    generates_tokens(
+      api_key: ->(instance) { instance.api_key },
+      api_secret: ->(instance) { instance.api_secret }
+    )
 
     # @private
     # don't want these to be mutable, may cause bugs related to inconsistency since these values are
@@ -66,8 +65,8 @@ module OpenTok
     # @param [String] api_secret Your OpenTok API key.
     # @option opts [Symbol] :api_url Do not set this parameter. It is for internal use by TokBox.
     # @option opts [Symbol] :ua_addendum Do not set this parameter. It is for internal use by TokBox.
-    def initialize(api_key, api_secret, opts={})
-      @api_key = api_key.to_s()
+    def initialize(api_key, api_secret, opts = {})
+      @api_key = api_key.to_s
       @api_secret = api_secret
       @api_url = opts[:api_url] || API_URL
       @ua_addendum = opts[:ua_addendum]
@@ -129,14 +128,11 @@ module OpenTok
     #     archiving, the session must use the <code>:routed</code> media mode.
     #
     # @return [Session] The Session object. The session_id property of the object is the session ID.
-    def create_session(opts={})
-
+    def create_session(opts = {})
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :media_mode, :location, :archive_mode ]
-      opts = opts.inject({}) do |m,(k,v)|
-        if valid_opts.include? k.to_sym
-          m[k.to_sym] = v
-        end
+      valid_opts = [:media_mode, :location, :archive_mode]
+      opts = opts.each_with_object({}) do |(k, v), m|
+        m[k.to_sym] = v if valid_opts.include? k.to_sym
         m
       end
 
@@ -147,21 +143,21 @@ module OpenTok
       # opts to be :routed. if we were more strict we could raise an error when the value isn't
       # either :relayed or :routed
       if params.delete(:media_mode) == :routed
-        params["p2p.preference"] = "disabled"
+        params['p2p.preference'] = 'disabled'
       else
-        params["p2p.preference"] = "enabled"
+        params['p2p.preference'] = 'enabled'
         opts[:media_mode] = :relayed
       end
       # location is optional, but it has to be an IP address if specified at all
       unless params[:location].nil?
-        raise "location must be an IPv4 address" unless params[:location] =~ Resolv::IPv4::Regex
+        raise 'location must be an IPv4 address' unless params[:location] =~ Resolv::IPv4::Regex
       end
       # archive mode is optional, but it has to be one of the valid values if present
       unless params[:archive_mode].nil?
-        raise "archive mode must be either always or manual" unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
+        raise 'archive mode must be either always or manual' unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
       end
 
-      raise "A session with always archive mode must also have the routed media mode." if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
+      raise 'A session with always archive mode must also have the routed media mode.' if params[:archive_mode] == :always && params[:media_mode] == :relayed
 
       response = client.create_session(params)
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts
@@ -177,6 +173,5 @@ module OpenTok
     def client
       @client ||= Client.new api_key, api_secret, api_url, ua_addendum
     end
-
   end
 end

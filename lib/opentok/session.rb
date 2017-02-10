@@ -1,8 +1,7 @@
-require "base64"
-require "opentok/token_generator"
+require 'base64'
+require 'opentok/token_generator'
 
 module OpenTok
-
   # Represents an OpenTok session.
   #
   # Use the OpenTok.createSession() method to create an OpenTok session. Use the
@@ -44,13 +43,12 @@ module OpenTok
   #     updated once it is set.
   #   @return [String] The token string.
   class Session
-
     include TokenGenerator
-    generates_tokens({
-      :api_key => ->(instance) { instance.api_key },
-      :api_secret => ->(instance) { instance.api_secret },
-      :session_id => ->(instance) { instance.session_id }
-    })
+    generates_tokens(
+      api_key: ->(instance) { instance.api_key },
+      api_secret: ->(instance) { instance.api_secret },
+      session_id: ->(instance) { instance.session_id }
+    )
 
     attr_reader :session_id, :media_mode, :location, :archive_mode, :api_key, :api_secret
 
@@ -59,16 +57,20 @@ module OpenTok
     # that is intentional, that is too much responsibility.
     def self.belongs_to_api_key?(session_id, api_key)
       encoded = session_id[2..session_id.length]
-                          .gsub('-', '+')
-                          .gsub('_', '/')
+                  .tr('-', '+')
+                  .tr('_', '/')
       decoded = Base64.decode64(encoded)
-      decoded.include? api_key
+      decoded.include?(api_key)
     end
 
     # @private
-    def initialize(api_key, api_secret, session_id, opts={})
-      @api_key, @api_secret, @session_id = api_key, api_secret, session_id
-      @media_mode, @location, @archive_mode = opts.fetch(:media_mode, :relayed), opts[:location], opts.fetch(:archive_mode, :manual)
+    def initialize(api_key, api_secret, session_id, opts = {})
+      @api_key = api_key
+      @api_secret = api_secret
+      @session_id = session_id
+      @media_mode = opts.fetch(:media_mode, :relayed)
+      @location = opts[:location]
+      @archive_mode = opts.fetch(:archive_mode, :manual)
     end
 
     # @private
