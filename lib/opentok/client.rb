@@ -41,7 +41,7 @@ module OpenTok
     def start_archive(session_id, opts)
       opts.extend(HashExtensions)
       body = { "sessionId" => session_id }.merge(opts.camelize_keys!)
-      response = self.class.post("/v2/partner/#{@api_key}/archive", {
+      response = self.class.post("/v2/project/#{@api_key}/archive", {
         :body => body.to_json,
         :headers => { "Content-Type" => "application/json" }
       })
@@ -64,7 +64,7 @@ module OpenTok
     end
 
     def get_archive(archive_id)
-      response = self.class.get("/v2/partner/#{@api_key}/archive/#{archive_id}")
+      response = self.class.get("/v2/project/#{@api_key}/archive/#{archive_id}")
       case response.code
       when 200
         response
@@ -83,7 +83,7 @@ module OpenTok
       query = Hash.new
       query[:offset] = offset unless offset.nil?
       query[:count] = count unless count.nil?
-      response = self.class.get("/v2/partner/#{@api_key}/archive", {
+      response = self.class.get("/v2/project/#{@api_key}/archive", {
         :query => query.empty? ? nil : query
       })
       case response.code
@@ -99,7 +99,7 @@ module OpenTok
     end
 
     def stop_archive(archive_id)
-      response = self.class.post("/v2/partner/#{@api_key}/archive/#{archive_id}/stop", {
+      response = self.class.post("/v2/project/#{@api_key}/archive/#{archive_id}/stop", {
         :headers => { "Content-Type" => "application/json" }
       })
       case response.code
@@ -121,7 +121,7 @@ module OpenTok
     end
 
     def delete_archive(archive_id)
-      response = self.class.delete("/v2/partner/#{@api_key}/archive/#{archive_id}", {
+      response = self.class.delete("/v2/project/#{@api_key}/archive/#{archive_id}", {
         :headers => { "Content-Type" => "application/json" }
       })
       case response.code

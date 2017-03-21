@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.opentok.com/v2/partner/123456/archive/f6e7ee58-d6cf-4a59-896b-6d56b158ec71
+    uri: https://api.opentok.com/v2/project/123456/archive/f6e7ee58-d6cf-4a59-896b-6d56b158ec71
     body:
       encoding: US-ASCII
       string: ''
