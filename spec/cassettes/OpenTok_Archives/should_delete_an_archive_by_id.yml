@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: https://api.opentok.com/v2/partner/123456/archive/832641bf-5dbf-41a1-ad94-fea213e59a92
+    uri: https://api.opentok.com/v2/project/123456/archive/832641bf-5dbf-41a1-ad94-fea213e59a92
     body:
       encoding: US-ASCII
       string: ''
