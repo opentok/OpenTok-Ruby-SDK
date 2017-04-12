@@ -88,8 +88,8 @@ token = session.generate_token
 
 # Set some options in a token
 token = session.generate_token({
-    :role        => :moderator
-    :expire_time => Time.now.to_i+(7 * 24 * 60 * 60) # in one week
+    :role        => :moderator,
+    :expire_time => Time.now.to_i+(7 * 24 * 60 * 60), # in one week
     :data        => 'name=Johnny'
 });
 ```
