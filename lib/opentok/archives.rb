@@ -96,11 +96,13 @@ module OpenTok
     #   the most recent archive. If you do not specify an offset, 0 is used.
     # @option options [integer] :count Optional. The number of archives to be returned. The maximum
     #   number of archives returned is 1000.
+    # @option options [string] :session_id Optional. The session id of the archives. This is useful
+    #   when listing multiple archives for an automatically archived session.
     #
     # @return [ArchiveList] An ArchiveList object, which is an array of Archive objects.
     def all(options = {})
       raise ArgumentError, "Limit is invalid" unless options[:count].nil? or (0..100).include? options[:count]
-      archive_list_json = @client.list_archives(options[:offset], options[:count])
+      archive_list_json = @client.list_archives(options[:offset], options[:count], options[:session_id])
       ArchiveList.new self, archive_list_json
     end
 
