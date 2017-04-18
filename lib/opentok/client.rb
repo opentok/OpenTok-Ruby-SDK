@@ -137,5 +137,30 @@ module OpenTok
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
+
+    def dial(session_id, token, sip_uri, opts)
+      opts.extend(HashExtensions)
+      body = { "sessionId" => session_id,
+               "token" => token,
+               "sip" => { "uri" => sip_uri }.merge(opts.camelize_keys!)
+      }
+
+      response = self.class.post("/v2/project/#{@api_key}/dial", {
+        :body => body.to_json,
+        :headers => { "Content-Type" => "application/json" }
+      })
+      case response.code
+      when 200
+        response
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while dialing a sip session. API Key: #{@api_key}"
+      when 404
+        raise OpenTokSipError, "The sip session could not be dialed. The Session ID does not exist: #{session_id}"
+      else
+        raise OpenTokSipError, "The sip session could not be dialed"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
   end
 end
