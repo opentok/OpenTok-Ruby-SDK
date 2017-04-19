@@ -6,6 +6,11 @@ require "shared/opentok_generates_tokens"
 
 describe OpenTok::OpenTok do
 
+  before(:each) do
+    now = Time.parse("2017-04-18 20:17:40")
+    allow(Time).to receive(:now) { now }
+  end
+
   let(:opentok) { OpenTok::OpenTok.new api_key, api_secret }
   subject { opentok }
 
