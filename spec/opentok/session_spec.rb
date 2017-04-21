@@ -6,7 +6,7 @@ require "shared/session_generates_tokens"
 describe OpenTok::Session do
 
   before(:each) do
-    now = Time.parse("2017-04-18 20:17:40")
+    now = Time.parse("2017-04-18 20:17:40 +1000")
     allow(Time).to receive(:now) { now }
   end
 
