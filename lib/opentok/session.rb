@@ -59,9 +59,7 @@ module OpenTok
     # that is intentional, that is too much responsibility.
     def self.belongs_to_api_key?(session_id, api_key)
       encoded = session_id[2..session_id.length]
-                          .gsub('-', '+')
-                          .gsub('_', '/')
-      decoded = Base64.decode64(encoded)
+      decoded = Base64.urlsafe_decode64(encoded)
       decoded.include? api_key
     end
 
