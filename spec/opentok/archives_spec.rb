@@ -8,6 +8,11 @@ require "spec_helper"
 
 describe OpenTok::Archives do
 
+  before(:each) do
+    now = Time.parse("2017-04-18 20:17:40 +1000")
+    allow(Time).to receive(:now) { now }
+  end
+
   let(:api_key) { "123456" }
   let(:api_secret) { "1234567890abcdef1234567890abcdef1234567890" }
   let(:session_id) { "SESSIONID" }
