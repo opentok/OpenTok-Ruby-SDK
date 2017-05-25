@@ -102,10 +102,11 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
-    def list_archives(offset, count)
+    def list_archives(offset, count, session_id)
       query = Hash.new
       query[:offset] = offset unless offset.nil?
       query[:count] = count unless count.nil?
+      query[:session_id] = session_id unless session_id.nil?
       response = self.class.get("/v2/project/#{@api_key}/archive", {
         :query => query.empty? ? nil : query,
         :headers => generate_headers
