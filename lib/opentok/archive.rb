@@ -71,6 +71,9 @@ module OpenTok
       @json = json
     end
 
+    # A JSON encoded representation of the archive
+    attr_reader :json
+
     # A JSON encoded string representation of the archive
     def to_json
       @json.to_json
