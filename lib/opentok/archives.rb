@@ -100,7 +100,9 @@ module OpenTok
     # @return [ArchiveList] An ArchiveList object, which is an array of Archive objects.
     def all(options = {})
       raise ArgumentError, "Limit is invalid" unless options[:count].nil? or (0..100).include? options[:count]
-      archive_list_json = @client.list_archives(options[:offset], options[:count])
+      archive_list_json = @client.list_archives(options[:offset],
+                                                options[:count],
+                                                options[:session_id])
       ArchiveList.new self, archive_list_json
     end
 
