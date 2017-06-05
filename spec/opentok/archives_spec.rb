@@ -124,6 +124,12 @@ describe OpenTok::Archives do
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.count).to eq 4
     end
+
+    it "should return part of the archives when using session_id", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      archive_list = archives.all :session_id => "abc-123"
+      expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
+      expect(archive_list.count).to eq 1
+    end
   end
 
   context "http client errors" do
