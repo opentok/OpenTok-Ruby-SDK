@@ -1,6 +1,7 @@
 # OpenTok Ruby SDK
 
 [![Build Status](https://travis-ci.org/opentok/OpenTok-Ruby-SDK.png)](https://travis-ci.org/opentok/OpenTok-Ruby-SDK)
+[![codecov](https://codecov.io/gh/opentok/OpenTok-Ruby-SDK/branch/master/graph/badge.svg)](https://codecov.io/gh/opentok/OpenTok-Ruby-SDK)
 
 The OpenTok Ruby SDK lets you generate
 [sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
