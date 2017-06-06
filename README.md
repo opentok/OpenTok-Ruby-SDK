@@ -190,7 +190,8 @@ Reference documentation is available at <http://www.tokbox.com//opentok/librarie
 
 # Requirements
 
-You need an OpenTok API key and API secret, which you can obtain at <https://dashboard.tokbox.com>.
+You need an OpenTok API key and API secret, which you can obtain by logging into your
+[TokBox account](https://tokbox.com/account).
 
 The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
