@@ -2,9 +2,10 @@ var session = OT.initSession(sessionId),
     publisher = OT.initPublisher('publisher'),
     archiveID = null;
 
-session.connect(apiKey, token, function(err, info) {
-  if(err) {
-    alert(err.message || err);
+session.connect(apiKey, token, function(error) {
+  if (error) {
+    console.error(error.message);
+    return;
   }
   session.publish(publisher);
 });
