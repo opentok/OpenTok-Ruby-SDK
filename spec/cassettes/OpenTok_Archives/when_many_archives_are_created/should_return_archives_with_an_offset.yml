@@ -30,7 +30,7 @@ http_interactions:
       encoding: UTF-8
       string: |-
         {
-          "count" : 6,
+          "count" : 3,
           "items" : [ {
             "createdAt" : 1395183243000,
             "duration" : 544,
