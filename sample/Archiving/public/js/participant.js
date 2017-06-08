@@ -1,5 +1,5 @@
 var session = OT.initSession(apiKey, sessionId),
-    publisher = OT.initPublisher("publisher");
+    publisher = OT.initPublisher('publisher');
 
 session.connect(token, function(error, info) {
   if (error) {
@@ -14,8 +14,8 @@ session.connect(token, function(error, info) {
 });
 
 session.on('streamCreated', function(event) {
-  session.subscribe(event.stream, "subscribers", {
-    insertMode : "append"
+  session.subscribe(event.stream, 'subscribers', {
+    insertMode : 'append'
   }, function(error) {
     if (error) {
       console.error('Failed to subscribe', error);
