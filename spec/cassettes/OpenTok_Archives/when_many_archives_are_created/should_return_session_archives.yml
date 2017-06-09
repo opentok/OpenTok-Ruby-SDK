@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.opentok.com/v2/project/123456/archive
+    uri: https://api.opentok.com/v2/project/123456/archive?sessionId=SESSIONID
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Wed, 19 Mar 2014 00:14:55 GMT
+      - Wed, 19 Mar 2017 00:44:22 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -30,41 +30,8 @@ http_interactions:
       encoding: UTF-8
       string: |-
         {
-          "count" : 6,
+          "count" : 3,
           "items" : [ {
-            "createdAt" : 1395187930000,
-            "duration" : 22,
-            "id" : "ef546c5a-4fd7-4e59-ab3d-f1cfb4148d1d",
-            "name" : "",
-            "partnerId" : 123456,
-            "reason" : "",
-            "sessionId" : "SESSIONID",
-            "size" : 2909274,
-            "status" : "available",
-            "url" : "http://tokbox.com.archive2.s3.amazonaws.com/123456%2Fef546c5a-4fd7-4e59-ab3d-f1cfb4148d1d%2Farchive.mp4?Expires=1395188695&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          }, {
-            "createdAt" : 1395187910000,
-            "duration" : 14,
-            "id" : "5350f06f-0166-402e-bc27-09ba54948512",
-            "name" : "",
-            "partnerId" : 123456,
-            "reason" : "",
-            "sessionId" : "SESSIONID",
-            "size" : 1952651,
-            "status" : "available",
-            "url" : "http://tokbox.com.archive2.s3.amazonaws.com/123456%2F5350f06f-0166-402e-bc27-09ba54948512%2Farchive.mp4?Expires=1395188695&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          }, {
-            "createdAt" : 1395187836000,
-            "duration" : 62,
-            "id" : "f6e7ee58-d6cf-4a59-896b-6d56b158ec71",
-            "name" : "",
-            "partnerId" : 123456,
-            "reason" : "",
-            "sessionId" : "SESSIONID",
-            "size" : 8347554,
-            "status" : "available",
-            "url" : "http://tokbox.com.archive2.s3.amazonaws.com/123456%2Ff6e7ee58-d6cf-4a59-896b-6d56b158ec71%2Farchive.mp4?Expires=1395188695&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Signature=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          }, {
             "createdAt" : 1395183243000,
             "duration" : 544,
             "id" : "30b3ebf1-ba36-4f5b-8def-6f70d9986fe9",
@@ -100,5 +67,5 @@ http_interactions:
           } ]
         }
     http_version:
-  recorded_at: Wed, 19 Mar 2014 00:14:55 GMT
+  recorded_at: Wed, 19 Mar 2017 00:44:22 GMT
 recorded_with: VCR 2.8.0
