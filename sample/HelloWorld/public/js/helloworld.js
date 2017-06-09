@@ -7,7 +7,9 @@ var publisher = OT.initPublisher('publisher', {
     width: '100%',
     height: '100%'
 }, function(error) {
-  alert(error);
+  if (error) {
+    console.error('Failed to initialise publisher', error);
+  }
 });
 
 // Attach event handlers
@@ -18,7 +20,9 @@ session.on({
     // Publish the publisher we initialzed earlier (this will trigger 'streamCreated' on other
     // clients)
     session.publish(publisher, function(error) {
-      alert(error);
+      if (error) {
+        console.error('Failed to publish', error);
+      }
     });
   },
 
@@ -31,10 +35,18 @@ session.on({
     document.getElementById('subscribers').appendChild(subContainer);
 
     // Subscribe to the stream that caused this event, put it inside the container we just made
-    session.subscribe(event.stream, subContainer);
+    session.subscribe(event.stream, subContainer, function(error) {
+      if (error) {
+        console.error('Failed to subscribe', error);
+      }
+    });
   }
 
 });
 
 // Connect to the Session using a 'token'
-session.connect(token);
+session.connect(token, function(error) {
+  if (error) {
+    console.error('Failed to connect', error);
+  }
+});
