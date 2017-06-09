@@ -32,7 +32,7 @@ module OpenTok
   #       streams, and signal. (This is the default value if you do not specify a role.)
   #
   #     * <code>:moderator</code> -- In addition to the privileges granted to a
-  #       publisher, in clients using the OpenTok.js 2.2 library, a moderator can call the
+  #       publisher, in clients using the OpenTok.js library, a moderator can call the
   #       <code>forceUnpublish()</code> and <code>forceDisconnect()</code> method of the
   #       Session object.
   #   @option options [integer] :expire_time The expiration time, in seconds since the UNIX epoch.
