@@ -2,7 +2,7 @@ var session = OT.initSession(apiKey, sessionId),
     publisher = OT.initPublisher('publisher'),
     archiveID = null;
 
-session.connect(token, function(error, info) {
+session.connect(token, function(error) {
   if (error) {
     console.error('Failed to connect', error);
   } else {
