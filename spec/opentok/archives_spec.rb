@@ -8,6 +8,11 @@ require "spec_helper"
 
 describe OpenTok::Archives do
 
+  before(:each) do
+    now = Time.parse("2017-04-18 20:17:40 +1000")
+    allow(Time).to receive(:now) { now }
+  end
+
   let(:api_key) { "123456" }
   let(:api_secret) { "1234567890abcdef1234567890abcdef1234567890" }
   let(:session_id) { "SESSIONID" }
@@ -100,11 +105,13 @@ describe OpenTok::Archives do
       archive_list = archives.all
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.total).to eq 6
+      expect(archive_list.count).to eq 6
     end
 
     it "should return archives with an offset", :vcr => { :erb => { :version => OpenTok::VERSION } } do
       archive_list = archives.all :offset => 3
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
+      expect(archive_list.total).to eq 3
       expect(archive_list.count).to eq 3
     end
 
@@ -112,12 +119,21 @@ describe OpenTok::Archives do
       archive_list = archives.all :count => 2
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.count).to eq 2
+      expect(archive_list.count).to eq 2
     end
 
     it "should return part of the archives when using offset and count", :vcr => { :erb => { :version => OpenTok::VERSION } } do
       archive_list = archives.all :count => 4, :offset => 2
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.count).to eq 4
+      expect(archive_list.count).to eq 4
+    end
+
+    it "should return session archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      archive_list = archives.all :sessionId => session_id
+      expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
+      expect(archive_list.total).to eq 3
+      expect(archive_list.count).to eq 3
     end
   end
 

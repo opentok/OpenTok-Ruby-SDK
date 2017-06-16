@@ -17,7 +17,7 @@ Bundler helps manage dependencies for Ruby projects. Find more info here: <http:
 Add this gem to your `Gemfile`:
 
 ```ruby
-gem "opentok", "~> 2.3"
+gem "opentok", "~> 2.4"
 ```
 
 Allow bundler to install the change.
@@ -29,7 +29,7 @@ $ bundle install
 ## RubyGems:
 
 ```
-$ gem install opentok -v 2.3.4
+$ gem install opentok -v 2.4.0
 ```
 
 # Usage
@@ -75,7 +75,7 @@ session_id = session.session_id
 
 Once a Session is created, you can start generating Tokens for clients to use when connecting to it.
 You can generate a token either by calling the `opentok.generate_token(session_id, options)` method,
-or by calling the `Session#generate_token(options)` method on the an instance after creating it. The
+or by calling the `Session#generate_token(options)` method on the instance after creating it. The
 `options` parameter is an optional Hash used to set the role, expire time, and connection data of
 the Token.
 
@@ -88,8 +88,8 @@ token = session.generate_token
 
 # Set some options in a token
 token = session.generate_token({
-    :role        => :moderator
-    :expire_time => Time.now.to_i+(7 * 24 * 60 * 60) # in one week
+    :role        => :moderator,
+    :expire_time => Time.now.to_i+(7 * 24 * 60 * 60), # in one week
     :data        => 'name=Johnny'
 });
 ```
@@ -186,8 +186,7 @@ repository and follow the Walkthroughs:
 
 # Documentation
 
-Reference documentation is available at <http://www.tokbox.com//opentok/libraries/server/ruby/reference/index.html> and in the
-doc directory of the SDK.
+Reference documentation is available at <http://www.tokbox.com//opentok/libraries/server/ruby/reference/index.html>.
 
 # Requirements
 

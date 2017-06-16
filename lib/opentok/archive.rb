@@ -30,9 +30,8 @@ module OpenTok
     #   The API key associated with the archive.
     #
     # @attr [string] reason
-    #   For archives with the status "stopped", this can be set to "90 mins exceeded", "failure",
-    #   "session ended", or "user initiated". For archives with the status "failed", this can be set
-    #   to "system failure".
+    #   For archives with the status "stopped" or "failed", this string describes the
+    #   reason the archive stopped (such as "maximum duration exceeded") or failed.
     #
     # @attr [string] session_id
     #   The session ID of the OpenTok session associated with this archive.

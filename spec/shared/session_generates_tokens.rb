@@ -3,6 +3,11 @@ require "matchers/token"
 
 shared_examples "session generates tokens" do
   describe "#generate_token" do
+    before(:each) do
+      now = Time.parse("2017-04-18 20:17:40 +1000")
+      allow(Time).to receive(:now) { now }
+    end
+
     # these must be known quantities because generate_token will have to verify that the session_id
     # belongs to the api_key, it doesn't have the luxury of getting that type of failure in an error
     # response from the server
