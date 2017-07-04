@@ -59,6 +59,26 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def disconnection_connection(session_id, connection_id)
+      response = self.class.delete("/v2/partner/#{@api_key}/session/#{session_id}/connection/#{connection_id}", {
+        :headers => { "Content-Type" => "application/json" }
+      })
+      case response.code
+      when 204
+        response
+      when 403
+        raise OpenTokAuthenticationError, "You are not authorized to forceDisconnect, check your authentication credentials. API Key: #{@api_key}, Session ID: #{session_id}"
+      when 400
+        raise OpenTokError, "One of the arguments — sessionId or connectionId — is invalid."
+      when 404
+        raise OpenTokError, "The client specified by the connectionId property is not connected to the session."
+      else
+        raise OpenTokError, "Failed to disconect the connection. Response code: #{response.code}"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def start_archive(session_id, opts)
       opts.extend(HashExtensions)
       body = { "sessionId" => session_id }.merge(opts.camelize_keys!)
