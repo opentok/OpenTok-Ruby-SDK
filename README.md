@@ -29,7 +29,7 @@ $ bundle install
 ## RubyGems:
 
 ```
-$ gem install opentok -v 2.4.1
+$ gem install opentok
 ```
 
 # Usage
