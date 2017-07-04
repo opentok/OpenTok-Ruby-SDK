@@ -89,9 +89,9 @@ token = session.generate_token
 
 # Set some options in a token
 token = session.generate_token({
-    :role                   => :moderator,
-    :expire_time            => Time.now.to_i+(7 * 24 * 60 * 60), # in one week
-    :data                   => 'name=Johnny',
+    :role        => :moderator,
+    :expire_time => Time.now.to_i+(7 * 24 * 60 * 60), # in one week
+    :data        => 'name=Johnny',
     :initial_layout_class_list => ['focus', 'inactive']
 });
 ```
