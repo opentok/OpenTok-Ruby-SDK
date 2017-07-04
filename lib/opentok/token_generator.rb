@@ -82,11 +82,11 @@ module OpenTok
         data_params[:connection_data] = data
       end
 
-      if opts[:initial_layout_classes]
-        if opts[:initial_layout_classes].is_a?(Array)
-          data_params[:initial_layout_class_list] = opts[:initial_layout_classes].join(' ')
+      if opts[:initial_layout_class_list]
+        if opts[:initial_layout_class_list].is_a?(Array)
+          data_params[:initial_layout_class_list] = opts[:initial_layout_class_list].join(' ')
         else
-          data_params[:initial_layout_class_list] = opts[:initial_layout_classes].to_s
+          data_params[:initial_layout_class_list] = opts[:initial_layout_class_list].to_s
         end
       end
 
