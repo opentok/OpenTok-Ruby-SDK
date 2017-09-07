@@ -41,7 +41,7 @@ Common tasks:
 In order to create a release, the following should be completed in order.
 
 1. Ensure all tests are passing (`rake spec`) and that there is enough test coverage.
-1. Make sure you are on the `master` branch of the repository, with all changes merged/committed already.
+1. Make sure you are on the `dev` branch of the repository, with all changes merged/committed already.
 1. Update the version number in the source code (`lib/opentok/version.rb`) and the README. See [Versioning](#versioning) for
    information about selecting an appropriate version number.
 1. Commit the version number change with the message ("Update to version v.x.x.x"), substituting the new version number.
@@ -49,7 +49,7 @@ In order to create a release, the following should be completed in order.
 1. Run `rake release`, which will create a git tag for the version number, build, and push the gem to Rubygems.
 1. Change the version number for future development by adding ".alpha.1", then make another commit with the message
    "Beginning development on next version".
-1. Push the changes to the main repository (`git push origin master`).
+1. Push the changes to the main repository (`git push origin dev`).
 1. Add a description to the [GitHub Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page
    with any notable changes. Upload the built gem as an attachment.
 
@@ -66,11 +66,12 @@ from 1.
 
 ### Branches
 
-*  `master` - the main development branch.
+*  `dev` - the main development branch.
+*  `master` - reflects the latest stable release.
 *  `feat.foo` - feature branches. these are used for longer running tasks that cannot be accomplished in one commit.
-   once merged into master, these branches should be deleted.
-*  `vx.x.x` - if development for a future version/milestone has begun while master is working towards a sooner
-   release, this is the naming scheme for that branch. once merged into master, these branches should be deleted.
+   once merged into dev, these branches should be deleted.
+*  `vx.x.x` - if development for a future version/milestone has begun while dev is working towards a sooner
+   release, this is the naming scheme for that branch. once merged into dev, these branches should be deleted.
 
 ### Tags
 
