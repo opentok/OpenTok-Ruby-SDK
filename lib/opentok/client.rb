@@ -172,7 +172,7 @@ module OpenTok
 
       response = self.class.post("/v2/project/#{@api_key}/dial", {
         :body => body.to_json,
-        :headers => { "Content-Type" => "application/json" }
+        :headers => generate_headers("Content-Type" => "application/json")
       })
       case response.code
       when 200
