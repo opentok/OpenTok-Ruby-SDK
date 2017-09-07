@@ -178,6 +178,24 @@ as the `:archive_mode` property of the `options` parameter passed into the
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
+
+## Initiating a SIP call
+
+You can initiate a SIP call using the `opentok.sip.dial(session_id, token, sip_uri, opts)` method.  This requires a SIP url. You will often need to pass options for authenticating to the SIP provider and specifying encrypted session establishment.
+
+
+```ruby
+opts = { "auth" => { "username" => sip_username,
+                     "password" => sip_password },
+         "secure" => "true"
+}
+response = opentok.sip.dial(session_id, token, "sip:+15128675309@acme.pstn.example.com;transport=tls", opts)
+```
+
+For more information on SIP Interconnect, see the
+[OpenTok SIP Interconnect](https://tokbox.com/developer/guides/sip/) programming guide.
+
+
 # Samples
 
 There are two sample applications included in this repository. To get going as fast as possible, clone the whole

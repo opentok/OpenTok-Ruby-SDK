@@ -3,6 +3,7 @@ require "opentok/session"
 require "opentok/client"
 require "opentok/token_generator"
 require "opentok/archives"
+require "opentok/sip"
 
 require "resolv"
 require "set"
@@ -170,6 +171,10 @@ module OpenTok
     # An Archives object, which lets you work with OpenTok archives.
     def archives
       @archives ||= Archives.new client
+    end
+
+    def sip
+      @sip ||= Sip.new client
     end
 
     protected
