@@ -17,7 +17,7 @@ Bundler helps manage dependencies for Ruby projects. Find more info here: <http:
 Add this gem to your `Gemfile`:
 
 ```ruby
-gem "opentok", "~> 2.5.0"
+gem "opentok", "~> 3.0.0"
 ```
 
 Allow bundler to install the change.
@@ -220,6 +220,11 @@ See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page fo
 about each release.
 
 ## Important changes since v2.2.0
+
+**Changes in v3.0.0:**
+
+The SDK now now requires Ruby v2.0.0 or higher. For Ruby v1.9.3 please continue to use the
+OpenTok Ruby SDK v2.5.0.
 
 **Changes in v2.2.2:**
 
