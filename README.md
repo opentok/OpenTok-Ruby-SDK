@@ -17,7 +17,7 @@ Bundler helps manage dependencies for Ruby projects. Find more info here: <http:
 Add this gem to your `Gemfile`:
 
 ```ruby
-gem "opentok", "~> 3.0.0"
+gem "opentok", "~> 3.0.1"
 ```
 
 Allow bundler to install the change.
