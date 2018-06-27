@@ -1,5 +1,6 @@
 require "opentok/opentok"
 require "opentok/sip"
+require "opentok/version"
 require "spec_helper"
 
 describe OpenTok::Sip do
@@ -19,7 +20,7 @@ describe OpenTok::Sip do
   let(:sip) { opentok.sip }
   subject { sip }
 
-  it "receives a valid response", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "receives a valid response", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     opts = { "auth" => { "username" => sip_username,
                          "password" => sip_password },
              "secure" => "true"
