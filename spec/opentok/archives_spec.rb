@@ -28,21 +28,21 @@ describe OpenTok::Archives do
 
   it { should be_an_instance_of OpenTok::Archives }
 
-  it "should create archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should create archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.create session_id
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.session_id).to eq session_id
     expect(archive.id).not_to be_nil
   end
 
-  it "should create named archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should create named archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     archive = archives.create session_id, :name => archive_name
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.session_id).to eq session_id
     expect(archive.name).to eq archive_name
   end
 
-  it "should create audio only archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should create audio only archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.create session_id, :has_video => false
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.session_id).to eq session_id
@@ -50,45 +50,45 @@ describe OpenTok::Archives do
     expect(archive.has_audio).to be true
   end
 
-  it "should create individual archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should create individual archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.create session_id, :output_mode => :individual
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.session_id).to eq session_id
     expect(archive.output_mode).to eq :individual
   end
 
-  it "should stop archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should stop archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.stop_by_id started_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.status).to eq "stopped"
   end
 
-  it "should find archives by id", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should find archives by id", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.find findable_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.id).to eq findable_archive_id
   end
 
-  it "should find paused archives by id", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should find paused archives by id", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.find findable_paused_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.id).to eq findable_paused_archive_id
     expect(archive.status).to eq "paused"
   end
 
-  it "should delete an archive by id", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should delete an archive by id", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     success = archives.delete_by_id deletable_archive_id
     expect(success).to be_true
     # expect(archive.status).to eq ""
   end
 
-  it "should find expired archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should find expired archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     archive = archives.find findable_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.status).to eq "expired"
   end
 
-  it "should find archives with unknown properties", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+  it "should find archives with unknown properties", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     archive = archives.find findable_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive
   end
@@ -101,35 +101,35 @@ describe OpenTok::Archives do
   # end
 
   context "when many archives are created" do
-    it "should return all archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    it "should return all archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
       archive_list = archives.all
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.total).to eq 6
       expect(archive_list.count).to eq 6
     end
 
-    it "should return archives with an offset", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    it "should return archives with an offset", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
       archive_list = archives.all :offset => 3
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.total).to eq 3
       expect(archive_list.count).to eq 3
     end
 
-    it "should return count number of archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    it "should return count number of archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
       archive_list = archives.all :count => 2
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.count).to eq 2
       expect(archive_list.count).to eq 2
     end
 
-    it "should return part of the archives when using offset and count", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    it "should return part of the archives when using offset and count", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
       archive_list = archives.all :count => 4, :offset => 2
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.count).to eq 4
       expect(archive_list.count).to eq 4
     end
 
-    it "should return session archives", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+    it "should return session archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
       archive_list = archives.all :sessionId => session_id
       expect(archive_list).to be_an_instance_of OpenTok::ArchiveList
       expect(archive_list.total).to eq 3
