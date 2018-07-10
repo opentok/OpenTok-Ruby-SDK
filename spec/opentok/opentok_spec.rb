@@ -37,7 +37,7 @@ describe OpenTok::OpenTok do
 
       let(:location) { '12.34.56.78' }
 
-      it "creates default sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates default sessions", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
         session = opentok.create_session
         expect(session).to be_an_instance_of OpenTok::Session
         # TODO: do we need to be any more specific about what a valid session_id looks like?
@@ -46,7 +46,7 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq nil
       end
 
-      it "creates relayed media sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates relayed media sessions", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :media_mode => :relayed
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
@@ -54,7 +54,7 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq nil
       end
 
-      it "creates routed media sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates routed media sessions", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :media_mode => :routed
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
@@ -62,7 +62,7 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq nil
       end
 
-      it "creates sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :location => location
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
@@ -70,7 +70,7 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq location
       end
 
-      it "creates relayed media sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates relayed media sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :media_mode => :relayed, :location => location
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
@@ -78,7 +78,7 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq location
       end
 
-      it "creates routed media sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates routed media sessions with a location hint", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :media_mode => :routed, :location => location
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
@@ -86,14 +86,14 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq location
       end
 
-      it "creates relayed media sessions for invalid media modes", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates relayed media sessions for invalid media modes", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :media_mode => :blah
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
         expect(session.media_mode).to eq :relayed
         expect(session.location).to eq nil
       end
-      it "creates always archived sessions", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "creates always archived sessions", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :media_mode => :routed, :archive_mode => :always
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
@@ -150,7 +150,7 @@ describe OpenTok::OpenTok do
       end
 
       # NOTE: ua_addendum is hardcoded into cassette
-      it "should append the addendum to the user agent header", :vcr => { :erb => { :version => OpenTok::VERSION } } do
+      it "should append the addendum to the user agent header", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session
         expect(session).to be_an_instance_of OpenTok::Session
       end
