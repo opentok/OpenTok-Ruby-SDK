@@ -4,7 +4,16 @@ require "opentok/session"
 require "base64"
 require "addressable/uri"
 require "openssl"
-require "active_support/time"
+
+# Fallback to active_support/core_ext since
+#   activesupport 2 doesn't have active_support/time
+# active_support/core_ext requires active_support/core_ext/numeric
+#   which implements methods such as '30.days'
+begin
+  require "active_support/time"
+rescue LoadError
+  require "active_support/core_ext"
+end
 
 module OpenTok
   # @private
