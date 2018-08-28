@@ -29,9 +29,9 @@ module OpenTok
     # @raise [OpenTokSignalingError] You are not authorized to send the signal. Check your authentication credentials.
     # @raise [OpenTokArchiveError] The client specified by the connId property is not connected to the session.
     # @raise [OpenTokArchiveError] The type string exceeds the maximum length (128 bytes), or the data string exceeds the maximum size (8 kB).
-    def send(session_id, options = {})
+    def send(session_id, connectionId = "", options = {})
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
-      response = @client.signal(session_id, options)
+      response = @client.signal(session_id, connectionId, options)
       (200..300).include? response.code
     end
 

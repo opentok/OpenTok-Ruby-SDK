@@ -164,9 +164,10 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
-    def signal(session_id, opts)
+    def signal(session_id, connection_id, opts)
       opts.extend(HashExtensions)
-      url = "/v2/project/#{@api_key}/session/#{session_id}/signal"
+      connectionPath = connection_id.to_s.empty? ? "" : "/connection/#{connection_id}"
+      url = "/v2/project/#{@api_key}/session/#{session_id}#{connectionPath}/signal"
       response = self.class.post(url, {
           :body => opts.camelize_keys!.to_json,
           :headers => generate_headers("Content-Type" => "application/json")
