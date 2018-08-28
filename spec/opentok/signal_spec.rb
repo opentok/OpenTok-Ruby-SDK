@@ -14,19 +14,19 @@ describe OpenTok::Signals do
   let(:session_id) { "SESSIONID" }
   let(:connection_id) { "CONNID" }
   let(:opentok) { OpenTok::OpenTok.new api_key, api_secret }
-  let(:signals) { opentok.signals}
+  let(:signal) { opentok.signal}
 
-  subject { signals }
+  subject { signal }
 
   it 'raise an error on nil sessionId' do
     expect {
-      signals.send(nil)
+      signal.send(nil)
     }.to raise_error(ArgumentError)
   end
 
   it 'raise an error on empty sessionId' do
     expect {
-      signals.send('')
+      signal.send('')
     }.to raise_error(ArgumentError)
   end
 
@@ -34,7 +34,7 @@ describe OpenTok::Signals do
     opts = { "type" => "chat",
              "data" => "Hello",
     }
-    response = signals.send(session_id, "", opts)
+    response = signal.send(session_id, "", opts)
     expect(response).not_to be_nil
   end
 
@@ -42,7 +42,7 @@ describe OpenTok::Signals do
     opts = { "type" => "chat",
              "data" => "Hello",
     }
-    response = signals.send(session_id, connection_id, opts)
+    response = signal.send(session_id, connection_id, opts)
     expect(response).not_to be_nil
   end
 

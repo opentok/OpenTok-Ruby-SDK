@@ -177,8 +177,8 @@ module OpenTok
       @sip ||= Sip.new client
     end
 
-    def signals
-      @signals ||= Signals.new client
+    def signal
+      @signal ||= Signals.new client
     end
 
     protected
