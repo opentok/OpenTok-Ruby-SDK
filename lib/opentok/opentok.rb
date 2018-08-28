@@ -177,8 +177,11 @@ module OpenTok
       @sip ||= Sip.new client
     end
 
-    protected
+    def signals
+      @signals ||= Signals.new client
+    end
 
+    protected
     def client
       @client ||= Client.new api_key, api_secret, api_url, ua_addendum
     end
