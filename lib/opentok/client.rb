@@ -164,6 +164,31 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def signal(session_id, opts)
+      opts.extend(HashExtensions)
+      url = "/v2/project/#{@api_key}/session/#{session_id}/signal"
+      response = self.class.post(url, {
+          :body => opts.camelize_keys!.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 204
+        response
+      when 400
+        raise ArgumentError, "One of the signal properties — data, type, sessionId or connectionId — is invalid."
+      when 403
+        raise OpenTokAuthenticationError, "You are not authorized to send the signal. Check your authentication credentials."
+      when 404
+        raise OpenTokError, "The client specified by the connectionId property is not connected to the session."
+      when 413
+        raise OpenTokError, "The type string exceeds the maximum length (128 bytes), or the data string exceeds the maximum size (8 kB)."
+      else
+        raise OpenTokError, "The signal could not be send."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def dial(session_id, token, sip_uri, opts)
       opts.extend(HashExtensions)
       body = { "sessionId" => session_id,

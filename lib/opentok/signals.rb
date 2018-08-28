@@ -24,7 +24,6 @@ module OpenTok
     # @option options [String] :data This is the data within the the signal or the payload.
     # Contains main information to be sent in the signal. It is a property of the Signal object.
     # @option options [String] :connId When a connId is specified only that connection recieves a signal.
-    # If it is nil or not specified then the same signal is send to all the participants in that session.
     #
     # @raise [OpenTokSignalingError] Signaling failed due to invalid properties.
     # @raise [OpenTokSignalingError] You are not authorized to send the signal. Check your authentication credentials.
@@ -32,7 +31,8 @@ module OpenTok
     # @raise [OpenTokArchiveError] The type string exceeds the maximum length (128 bytes), or the data string exceeds the maximum size (8 kB).
     def send(session_id, options = {})
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
-
+      response = @client.signal(session_id, options)
+      (200..300).include? response.code
     end
 
   end
