@@ -197,7 +197,7 @@ The `data` string must not exceeds the maximum size (8 kB).
 The `connection_id` and `opts` parameter are jointly optional by default. Hence you can also 
 use `opentok.signal.send(session_id)`
 
-For more information on signalling, see the
+For more information on signaling, see the
 [OpenTok Signaling](https://tokbox.com/developer/guides/signaling/js/) programming guide.
 
 
