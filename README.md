@@ -178,6 +178,28 @@ as the `:archive_mode` property of the `options` parameter passed into the
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
+## Signaling
+
+You can send a signal using the `opentok.signal.send(session_id, connection_id, opts)` method.  
+If `connection_id` is nil or an empty string, then the signal is send to all valid connections in the 
+session. 
+
+The hash `opts` field is optional. An example of it is as follows:
+
+```ruby
+opts = { "type" => "chat",
+         "data" => "Hello", 
+       }
+```
+The maximum length of the `type` string is 128 bytes, and it must contain only letters (A-Z and a-z), numbers (0-9), '-', '_', and '~'.
+The `data` string must not exceeds the maximum size (8 kB).
+
+The `connection_id` and `opts` parameter are jointly optional by default. Hence you can also 
+use `opentok.signal.send(session_id)`
+
+For more information on signalling, see the
+[OpenTok Signaling](https://tokbox.com/developer/guides/signaling/js/) programming guide.
+
 
 ## Initiating a SIP call
 
