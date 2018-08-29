@@ -177,6 +177,10 @@ module OpenTok
       @sip ||= Sip.new client
     end
 
+    def connection
+      @connection ||= Connections.new client
+    end
+
     protected
 
     def client

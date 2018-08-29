@@ -179,6 +179,14 @@ For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
 
+## Force disconnect 
+
+You can force disconnect a connection within a session by using the `opentok.connection.forceDisconnect(session_id, connection_id)` method.
+You are essentially forcing a client endpoint to disconnect from a session.
+
+For more information on force disconnect, see the
+[OpenTok Force disconnect](https://tokbox.com/developer/rest/#forceDisconnect) programming guide.
+
 ## Initiating a SIP call
 
 You can initiate a SIP call using the `opentok.sip.dial(session_id, token, sip_uri, opts)` method.  This requires a SIP url. You will often need to pass options for authenticating to the SIP provider and specifying encrypted session establishment.
