@@ -1,6 +1,6 @@
 require "opentok/opentok"
 require "opentok/version"
-require 'opentok/connections'
+require "opentok/connections"
 require "spec_helper"
 
 describe OpenTok::Connections do
