@@ -104,7 +104,7 @@ module OpenTok
     end
 
     def get_archive_by_session_id(session_id)
-      response = self.class.get("/v2/project/#{@api_key}/archive/#{archive_id}?sessionId=#{session_id}", {
+      response = self.class.get("/v2/project/#{@api_key}/archive/#{session_id}?sessionId=#{session_id}", {
         :headers => generate_headers
       })
       case response.code
