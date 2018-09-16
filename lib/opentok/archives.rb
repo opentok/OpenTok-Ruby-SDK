@@ -87,6 +87,12 @@ module OpenTok
       Archive.new self, archive_json
     end
 
+    def find_by_session_id(session_id)
+      raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
+      archive_json = @client.get_archive_by_session_id(session_id.to_s)
+      Archive.new self, archive_json
+    end
+
     # Returns an ArchiveList, which is an array of archives that are completed and in-progress,
     # for your API key.
     #
