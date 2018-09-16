@@ -20,7 +20,7 @@ module OpenTok
     def initialize(api_key, api_secret, api_url, ua_addendum="")
       self.class.base_uri api_url
       self.class.headers({
-        "User-Agent" => "OpenTok-Ruby-SDK/#{VERSION}" + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" + (ua_addendum ? " #{ua_addendum}" : "")        
+        "User-Agent" => "OpenTok-Ruby-SDK/#{VERSION}" + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" + (ua_addendum ? " #{ua_addendum}" : "")
       })
       @api_key = api_key
       @api_secret = api_secret
@@ -94,6 +94,24 @@ module OpenTok
         response
       when 400
         raise OpenTokArchiveError, "The archive could not be retrieved. The Archive ID was invalid: #{archive_id}"
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while retrieving an archive. API Key: #{@api_key}"
+      else
+        raise OpenTokArchiveError, "The archive could not be retrieved."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def get_archive_by_session_id(session_id)
+      response = self.class.get("/v2/project/#{@api_key}/archive/#{archive_id}?sessionId=#{session_id}", {
+        :headers => generate_headers
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokArchiveError, "The archive could not be retrieved. The Session ID was invalid: #{session_id}"
       when 403
         raise OpenTokAuthenticationError, "Authentication failed while retrieving an archive. API Key: #{@api_key}"
       else
