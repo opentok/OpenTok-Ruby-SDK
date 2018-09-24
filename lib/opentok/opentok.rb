@@ -2,6 +2,7 @@ require "opentok/constants"
 require "opentok/session"
 require "opentok/client"
 require "opentok/token_generator"
+require "opentok/connections"
 require "opentok/archives"
 require "opentok/sip"
 
