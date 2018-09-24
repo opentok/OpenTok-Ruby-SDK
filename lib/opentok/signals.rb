@@ -18,10 +18,10 @@ module OpenTok
     # {https://tokbox.com/developer/rest/#send_signal} programming guide.
     #
     # @param [String] session_id The session ID of the OpenTok session.
-    # @param [Hash] options  A hash with the key 'type', 'data', and 'connId'.
+    # @param [Hash] options  A hash with the keys 'type' and 'data'.
     # @option options [String] :type This is the type of the signal. You can use this
     # field to group and filter signals. It is a property of the Signal object.
-    # @option options [String] :data This is the data within the the signal or the payload.
+    # @option options [String] :data This is the data within the signal or the payload.
     # Contains main information to be sent in the signal. It is a property of the Signal object.
     # @option options [String] :connId When a connId is specified only that connection recieves a signal.
     #

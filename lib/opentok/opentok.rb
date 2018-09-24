@@ -4,6 +4,7 @@ require "opentok/client"
 require "opentok/token_generator"
 require "opentok/archives"
 require "opentok/sip"
+require "opentok/signals"
 
 require "resolv"
 require "set"

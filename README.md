@@ -184,7 +184,7 @@ You can send a signal using the `opentok.signal.send(session_id, connection_id, 
 If `connection_id` is nil or an empty string, then the signal is send to all valid connections in the 
 session. 
 
-The hash `opts` field is optional. An example of it is as follows:
+An example of `opts` field can be as follows:
 
 ```ruby
 opts = { "type" => "chat",
