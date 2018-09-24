@@ -4,6 +4,7 @@ require "opentok/client"
 require "opentok/token_generator"
 require "opentok/archives"
 require "opentok/sip"
+require "opentok/signals"
 
 require "resolv"
 require "set"
@@ -177,8 +178,11 @@ module OpenTok
       @sip ||= Sip.new client
     end
 
-    protected
+    def signal
+      @signal ||= Signals.new client
+    end
 
+    protected
     def client
       @client ||= Client.new api_key, api_secret, api_url, ua_addendum
     end
