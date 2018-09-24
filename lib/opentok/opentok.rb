@@ -1,12 +1,13 @@
-require "opentok/constants"
-require "opentok/session"
-require "opentok/client"
-require "opentok/token_generator"
-require "opentok/archives"
-require "opentok/sip"
+require 'opentok/constants'
+require 'opentok/session'
+require 'opentok/client'
+require 'opentok/token_generator'
+require 'opentok/archives'
+require 'opentok/sip'
+require 'opentok/streams'
 
-require "resolv"
-require "set"
+require 'resolv'
+require 'set'
 
 module OpenTok
   # Contains methods for creating OpenTok sessions, generating tokens, and working with archives.
@@ -148,21 +149,21 @@ module OpenTok
       # opts to be :routed. if we were more strict we could raise an error when the value isn't
       # either :relayed or :routed
       if params.delete(:media_mode) == :routed
-        params["p2p.preference"] = "disabled"
+        params['p2p.preference'] = 'disabled'
       else
-        params["p2p.preference"] = "enabled"
+        params['p2p.preference'] = 'enabled'
         opts[:media_mode] = :relayed
       end
       # location is optional, but it has to be an IP address if specified at all
       unless params[:location].nil?
-        raise "location must be an IPv4 address" unless params[:location] =~ Resolv::IPv4::Regex
+        raise 'location must be an IPv4 address' unless params[:location] =~ Resolv::IPv4::Regex
       end
       # archive mode is optional, but it has to be one of the valid values if present
       unless params[:archive_mode].nil?
-        raise "archive mode must be either always or manual" unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
+        raise 'archive mode must be either always or manual' unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
       end
 
-      raise "A session with always archive mode must also have the routed media mode." if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
+      raise 'A session with always archive mode must also have the routed media mode.' if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
 
       response = client.create_session(params)
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts
@@ -177,6 +178,10 @@ module OpenTok
       @sip ||= Sip.new client
     end
 
+    def streams
+      @streams ||= Streams.new client
+    end
+    
     protected
 
     def client
