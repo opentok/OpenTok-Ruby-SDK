@@ -1,6 +1,8 @@
 require 'opentok/opentok'
 require 'opentok/version'
 require 'opentok/streams'
+require 'opentok/stream'
+
 require 'spec_helper'
 
 describe OpenTok::Streams do
@@ -18,6 +20,7 @@ describe OpenTok::Streams do
 
   subject { streams }
 
+  it { should be_an_instance_of OpenTok::Streams }
   it 'raise an error on nil session_id' do
     expect {
       streams.info_stream(nil)
@@ -33,7 +36,9 @@ describe OpenTok::Streams do
     expect(response).not_to be_nil
   end
   it 'get specific stream information', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
-    response = streams.info_stream(session_id, stream_id)
-    expect(response).not_to be_nil
+    stream = streams.info_stream(session_id, stream_id)
+    expect(stream).to be_an_instance_of OpenTok::Stream
+    expect(stream.videoType).to eq 'camera'
+    expect(stream.id).not_to be_nil
   end
 end

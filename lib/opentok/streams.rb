@@ -1,4 +1,5 @@
-require "opentok/client"
+require 'opentok/client'
+require 'opentok/stream'
 
 module OpenTok
   #  A class for working with OpenTok signconnectionsals.
@@ -21,15 +22,15 @@ module OpenTok
     #
     # @param [String] session_id The session ID of the OpenTok session.
     # @param [String] stream_id The stream ID within the session.
-    #
+    # @return [Stream] The Stream object.
     # @raise [ArgumentError] stream_id or session_id is invalid.
     # @raise [OpenTokAuthenticationError] You are not authorized to fetch the stream information. Check your authentication credentials.
     # @raise [OpenTokError] An OpenTok server error.
     #
     def info_stream(session_id, stream_id = '')
       raise ArgumentError, 'session_id not provided' if session_id.to_s.empty?
-      response = @client.info_stream(session_id, stream_id)
-      (200..300).include? response.code
+      stream_json = @client.info_stream(session_id, stream_id)
+      Stream.new stream_json
     end
 
   end
