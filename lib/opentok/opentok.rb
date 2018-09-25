@@ -181,7 +181,7 @@ module OpenTok
     def streams
       @streams ||= Streams.new client
     end
-    
+
     protected
 
     def client

@@ -36,9 +36,10 @@ describe OpenTok::Streams do
     all_streams = streams.all(session_id)
     expect(all_streams).to be_an_instance_of OpenTok::StreamList
     expect(all_streams.total).to eq 2
+    expect(all_streams[0].layoutClassList[1]).to eq "focus"
   end
   it 'get specific stream information', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
-    stream = streams.this_one(session_id, stream_id)
+    stream = streams.find(session_id, stream_id)
     expect(stream).to be_an_instance_of OpenTok::Stream
     expect(stream.videoType).to eq 'camera'
     expect(stream.layoutClassList.count).to eq 1

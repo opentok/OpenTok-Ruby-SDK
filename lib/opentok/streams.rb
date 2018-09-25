@@ -9,7 +9,7 @@ module OpenTok
       @client = client
     end
 
-    # Use this method to get information on an OpenTok stream (or all streams in a session).
+    # Use this method to get information on an OpenTok stream.
     #
     # For example, you can call this method to get information about layout classes used by an OpenTok stream.
     # The layout classes define how the stream is displayed in the layout of a broadcast stream.
@@ -27,12 +27,13 @@ module OpenTok
     # @raise [OpenTokAuthenticationError] You are not authorized to fetch the stream information. Check your authentication credentials.
     # @raise [OpenTokError] An OpenTok server error.
     #
-    def this_one(session_id, stream_id)
+    def find(session_id, stream_id)
       raise ArgumentError, 'session_id not provided' if session_id.to_s.empty?
       raise ArgumentError, 'stream_id not provided' if session_id.to_s.empty?
       stream_json = @client.info_stream(session_id, stream_id)
       Stream.new stream_json
     end
+
     # Use this method to get information on all OpenTok stream.
     #
     # For example, you can call this method to get information about layout classes used by an OpenTok stream.
