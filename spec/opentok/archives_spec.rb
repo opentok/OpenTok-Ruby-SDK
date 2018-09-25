@@ -93,6 +93,46 @@ describe OpenTok::Archives do
     expect(archive).to be_an_instance_of OpenTok::Archive
   end
 
+  it "raise an error if layout options are empty" do
+    expect {
+      archives.layout(started_archive_id, {})
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if archive id is not provided" do
+    expect {
+      archives.layout("", {
+          :type => "custom",
+          :stylesheet => "the layout stylesheet (only used with type == custom)"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if custom type has no style sheet" do
+    expect {
+      archives.layout(started_archive_id, {
+          :type => "custom",
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if non-custom type has style sheet" do
+    expect {
+      archives.layout(started_archive_id, {
+          "type": "pip",
+          "stylesheet": "the layout stylesheet (only used with type == custom)"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if invalid layout type" do
+    expect {
+      archives.layout(started_archive_id, {
+          "type": "pip1",
+      })
+    }.to raise_error(ArgumentError)
+  end
+
   # TODO: context "with a session that has no participants" do
   #   let(:session_id) { "" }
   #   it "should refuse to create archives with appropriate error" do

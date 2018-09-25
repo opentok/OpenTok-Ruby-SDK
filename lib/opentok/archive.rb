@@ -95,6 +95,16 @@ module OpenTok
       @json = @interface.delete_by_id @json['id']
     end
 
+    # Layouts an OpenTok archive.
+    #
+    # You can only delete an archive which has a status of "available" or "uploaded". Deleting an
+    # archive removes its record from the list of archives. For an "available" archive, it also
+    # removes the archive file, making it unavailable for download.
+    def layout
+      # TODO: validate returned json fits schema
+      @json = @interface.layout @json['id']
+    end
+
     # @private ignore
     def method_missing(method, *args, &block)
       camelized_method = method.to_s.camelize(:lower)
