@@ -24,8 +24,8 @@ module OpenTok
     # {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving} programming guide.
     #
     # @param [String] session_id The session ID of the OpenTok session to archive.
-    # @param [Hash] options  A hash with the key 'name', 'has_audio', and 'has_video' (or
-    # :name.
+    # @param [Hash] options  A hash with the keys 'name', 'has_audio', 'has_video',
+    #   and 'output_mode'.
     # @option options [String] :name This is the name of the archive. You can use this name
     #   to identify the archive. It is a property of the Archive object, and it is a property
     #   of archive-related events in the OpenTok client SDKs.
@@ -97,7 +97,7 @@ module OpenTok
     # @option options [integer] :count Optional. The number of archives to be returned. The maximum
     #   number of archives returned is 1000.
     # @option options [String] :session_id Optional. The session ID that archives belong to. This is
-    #   useful when listing multiple archives for an {https://tokbox.com/developer/guides/archiving/#automatic-archives automatically archived session}
+    #   useful when listing multiple archives for an {https://tokbox.com/developer/guides/archiving/#automatic-archives automatically archived session}.
     #
     # @return [ArchiveList] An ArchiveList object, which is an array of Archive objects.
     def all(options = {})
@@ -108,7 +108,7 @@ module OpenTok
 
     # Stops an OpenTok archive that is being recorded.
     #
-    # Archives automatically stop recording after 90 minutes or when all clients have disconnected
+    # Archives automatically stop recording after 120 minutes or when all clients have disconnected
     # from the session being archived.
     #
     # @param [String] archive_id The archive ID of the archive you want to stop recording.

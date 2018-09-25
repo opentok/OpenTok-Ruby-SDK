@@ -12,7 +12,7 @@ module OpenTok
   # Contains methods for creating OpenTok sessions, generating tokens, and working with archives.
   #
   # To create a new OpenTok object, call the OpenTok constructor with your OpenTok API key
-  # and the API secret from the OpenTok dashboard (https://dashboard.tokbox.com). Do not
+  # and the API secret for your {https://tokbox.com/account OpenTok project}. Do not
   # publicly share your API secret. You will use it with the OpenTok constructor (only on your web
   # server) to create OpenTok sessions.
   #
@@ -20,7 +20,7 @@ module OpenTok
   # @attr_reader [String] api_key @private The OpenTok API key.
   #
   #
-  # @!method generate_token(options)
+  # @!method generate_token(session_id, options)
   #   Generates a token for a given session.
   #
   #   @param [String] session_id The session ID of the session to be accessed by the client using
@@ -62,8 +62,8 @@ module OpenTok
     ##
     # Create a new OpenTok object.
     #
-    # @param [String] api_key Your OpenTok API key. See the OpenTok dashboard
-    #   (https://dashboard.tokbox.com).
+    # @param [String] api_key The OpenTok API key for your
+    #   {https://tokbox.com/account OpenTok project}.
     # @param [String] api_secret Your OpenTok API key.
     # @option opts [Symbol] :api_url Do not set this parameter. It is for internal use by TokBox.
     # @option opts [Symbol] :ua_addendum Do not set this parameter. It is for internal use by TokBox.
@@ -89,8 +89,8 @@ module OpenTok
     # Check the error message for details.
     #
     # You can also create a session using the OpenTok REST API (see
-    # http://www.tokbox.com/opentok/api/#session_id_production) or the OpenTok dashboard
-    # (see https://dashboard.tokbox.com/projects).
+    # http://www.tokbox.com/opentok/api/#session_id_production) or at your
+    # {https://tokbox.com/account OpenTok account page}.
     #
     # @param [Hash] opts (Optional) This hash defines options for the session.
     #
@@ -173,6 +173,7 @@ module OpenTok
       @archives ||= Archives.new client
     end
 
+    # A Sip object, which lets you use the OpenTok SIP gateway.
     def sip
       @sip ||= Sip.new client
     end

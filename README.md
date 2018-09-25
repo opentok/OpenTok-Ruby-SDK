@@ -47,11 +47,19 @@ opentok = OpenTok::OpenTok.new api_key, api_secret
 
 ## Creating Sessions
 
-To create an OpenTok Session, use the `OpenTok#create_session(properties)` method. The
-`properties` parameter is an optional Hash used to specify whether you are creating a session that
-uses the OpenTok Media Server and specifying a location hint. The `session_id` method of the
-returned `OpenTok::Session` instance is useful to get a sessionId that can be saved to a persistent
-store (e.g. database).
+To create an OpenTok Session, use the `OpenTok#create_session(properties)` method.
+The `properties` parameter is an optional Hash used to specify the following:
+
+* Whether the session uses the [OpenTok Media
+  Router](https://tokbox.com/developer/guides/create-session/#media-mode),
+  which is required for some OpenTok features (such as archiving)
+
+* A location hint for the OpenTok server.
+
+* Whether the session is automatically archived.
+
+The `session_id` method of the returned `OpenTok::Session` instance is useful to
+get a sessionId that can be saved to a persistent store (such as a database).
 
 ```ruby
 # Create a session that will attempt to transmit streams directly between clients.
@@ -97,6 +105,9 @@ token = session.generate_token({
 ```
 
 ## Working with Archives
+
+You can only archive sessions that use the OpenTok Media Router
+(sessions with the media mode set to routed).
 
 You can start the recording of an OpenTok Session using the `opentok.archives.create(session_id,
 options)` method. This will return an `OpenTok::Archive` instance. The parameter `options` is an
@@ -210,7 +221,8 @@ Reference documentation is available at <http://www.tokbox.com//opentok/librarie
 
 # Requirements
 
-You need an OpenTok API key and API secret, which you can obtain at <https://dashboard.tokbox.com>.
+You need an OpenTok API key and API secret, which you can obtain by logging into your
+[TokBox account](https://tokbox.com/account).
 
 The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
 
