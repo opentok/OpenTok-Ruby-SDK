@@ -18,7 +18,6 @@ describe OpenTok::Connections do
 
   subject { connection }
 
-  subject { signal }
 
   it 'raise an error on nil session_id' do
     expect {

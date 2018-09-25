@@ -1,5 +1,5 @@
 module OpenTok
-  #  A class for working with OpenTok signconnectionsals.
+  #  A class for working with OpenTok connections.
   class Connections
     # @private
     def initialize(client)
