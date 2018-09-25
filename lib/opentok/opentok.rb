@@ -2,6 +2,7 @@ require "opentok/constants"
 require "opentok/session"
 require "opentok/client"
 require "opentok/token_generator"
+require "opentok/connections"
 require "opentok/archives"
 require "opentok/sip"
 require "opentok/signals"
@@ -180,6 +181,10 @@ module OpenTok
 
     def signal
       @signal ||= Signals.new client
+    end
+
+    def connection
+      @connection ||= Connections.new client
     end
 
     protected
