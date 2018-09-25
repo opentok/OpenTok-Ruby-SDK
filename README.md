@@ -127,6 +127,19 @@ archive = opentok.archives.create session_id :output_mode => :individual
 The `:output_mode => :composed` setting (the default) causes all streams in the archive to be
 recorded to a single (composed) file.
 
+For composed archives you can set the resolution of the archive, either "640x480" (SD, the default)
+or "1280x720" (HD). The `resolution` parameter is optional and could be included in the options
+hash (second argument) of the `opentok.archives.create()` method. 
+
+```ruby
+opts = {
+    :output_mode => :composed,
+    :resolution => "1280x720"
+}
+
+archive = opentok.archives.create session_id, opts
+```
+
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
 method. You can also do this using the `Archive#stop()` method.
 
