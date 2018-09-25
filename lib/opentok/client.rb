@@ -164,6 +164,24 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def forceDisconnect(session_id, connection_id)
+      response = self.class.delete("/v2/project/#{@api_key}/session/#{session_id}/connection/#{connection_id}", {
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 204
+        response
+      when 400
+        raise ArgumentError, "Force disconnect failed.Connection ID: #{connection_id} or Session ID: #{session_id} is invalid"
+      when 403
+        raise OpenTokAuthenticationError, "You are not authorized to forceDisconnect, check your authentication credentials or token type is non-moderator"
+      when 404
+        raise OpenTokConnectionError, "The client specified by the connectionId: #{connection_id} is not connected to the session"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def signal(session_id, connection_id, opts)
       opts.extend(HashExtensions)
       connectionPath = connection_id.to_s.empty? ? "" : "/connection/#{connection_id}"
