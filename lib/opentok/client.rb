@@ -256,5 +256,27 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def layout_streams(session_id, opts)
+      opts.extend(HashExtensions)
+      response = self.class.put("/v2/project/#{@api_key}/session/#{session_id}/stream", {
+          :body => opts.camelize_keys!.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokStreamLayoutError, "Setting the layout failed.The request was invalid or maybe invalid layout options were given."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed.API Key: #{@api_key}"
+      when 500
+        raise OpenTokError, "Setting the layout failed.OpenTok server error."
+      else
+        raise OpenTokStreamLayoutError, "Setting the layout failed."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
   end
 end

@@ -46,4 +46,30 @@ describe OpenTok::Streams do
     expect(stream.layoutClassList.first).to eq "full"
     expect(stream.id).not_to be_nil
   end
+  it 'layout raises an error on empty session_id' do
+    expect {
+      streams.layout('', {} )
+    }.to raise_error(ArgumentError)
+  end
+  it 'layout raises an error on an empty stream list' do
+    expect {
+      streams.layout(session_id, {})
+    }.to raise_error(ArgumentError)
+  end
+  it 'layout working on two stream list', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} }  do
+    streams_list = {
+        :items => [
+            {
+                :id => "8b732909-0a06-46a2-8ea8-074e64d43422",
+                :layoutClassList => ["full"]
+            },
+            {
+                :id => "8b732909-0a06-46a2-8ea8-074e64d43423",
+                :layoutClassList => ["full", "focus"]
+            }
+        ]
+    }
+    response = streams.layout(session_id, streams_list)
+    expect(response).not_to be_nil
+  end
 end
