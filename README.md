@@ -187,9 +187,9 @@ session.
 An example of `opts` field can be as follows:
 
 ```ruby
-opts = { "type" => "chat",
-         "data" => "Hello", 
-       }
+  opts = { :type => "chat",
+           :data => "Hello"
+  }
 ```
 The maximum length of the `type` string is 128 bytes, and it must contain only letters (A-Z and a-z), numbers (0-9), '-', '_', and '~'.
 The `data` string must not exceeds the maximum size (8 kB).

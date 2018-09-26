@@ -167,7 +167,7 @@ module OpenTok
     def layout_archive(archive_id, opts)
       opts.extend(HashExtensions)
       response = self.class.put("/v2/project/#{@api_key}/archive/#{archive_id}/layout", {
-          :body => opts.camelize_keys!,
+          :body => opts.camelize_keys!.to_json,
           :headers => generate_headers("Content-Type" => "application/json")
       })
       case response.code
