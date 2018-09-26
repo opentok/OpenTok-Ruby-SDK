@@ -100,9 +100,9 @@ module OpenTok
     # You can only delete an archive which has a status of "available" or "uploaded". Deleting an
     # archive removes its record from the list of archives. For an "available" archive, it also
     # removes the archive file, making it unavailable for download.
-    def layout
+    def layout(opts= {})
       # TODO: validate returned json fits schema
-      @json = @interface.layout @json['id']
+      @json = @interface.layout(@json['id'], opts)
     end
 
     # @private ignore

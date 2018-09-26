@@ -166,7 +166,7 @@ module OpenTok
 
     def layout_archive(archive_id, opts)
       opts.extend(HashExtensions)
-      response = self.class.delete("/v2/project/#{@api_key}/archive/#{archive_id}/layout", {
+      response = self.class.put("/v2/project/#{@api_key}/archive/#{archive_id}/layout", {
           :body => opts.camelize_keys!,
           :headers => generate_headers("Content-Type" => "application/json")
       })
