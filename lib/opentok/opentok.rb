@@ -2,9 +2,11 @@ require "opentok/constants"
 require "opentok/session"
 require "opentok/client"
 require "opentok/token_generator"
+require "opentok/connections"
 require "opentok/archives"
 require "opentok/sip"
 require "opentok/streams"
+require "opentok/signals"
 
 require "resolv"
 require "set"
@@ -182,8 +184,15 @@ module OpenTok
       @streams ||= Streams.new client
     end
 
-    protected
+    def signal
+      @signal ||= Signals.new client
+    end
 
+    def connection
+      @connection ||= Connections.new client
+    end
+
+    protected
     def client
       @client ||= Client.new api_key, api_secret, api_url, ua_addendum
     end

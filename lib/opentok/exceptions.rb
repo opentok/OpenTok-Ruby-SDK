@@ -8,5 +8,7 @@ module OpenTok
   class OpenTokSipError < OpenTokError; end
   # Defines errors raised when you attempt an operation using an invalid OpenTok API key or secret.
   class OpenTokAuthenticationError < OpenTokError; end
+  # Defines errors raised when you attempt a force disconnect a connection and it is not connected to the session.
+  class OpenTokConnectionError < OpenTokError; end
 
 end

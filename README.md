@@ -154,6 +154,19 @@ archive = opentok.archives.create session_id :output_mode => :individual
 The `:output_mode => :composed` setting (the default) causes all streams in the archive to be
 recorded to a single (composed) file.
 
+For composed archives you can set the resolution of the archive, either "640x480" (SD, the default)
+or "1280x720" (HD). The `resolution` parameter is optional and could be included in the options
+hash (second argument) of the `opentok.archives.create()` method. 
+
+```ruby
+opts = {
+    :output_mode => :composed,
+    :resolution => "1280x720"
+}
+
+archive = opentok.archives.create session_id, opts
+```
+
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
 method. You can also do this using the `Archive#stop()` method.
 
@@ -205,6 +218,36 @@ as the `:archive_mode` property of the `options` parameter passed into the
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
+## Signaling
+
+You can send a signal using the `opentok.signal.send(session_id, connection_id, opts)` method.  
+If `connection_id` is nil or an empty string, then the signal is send to all valid connections in the 
+session. 
+
+An example of `opts` field can be as follows:
+
+```ruby
+opts = { "type" => "chat",
+         "data" => "Hello", 
+       }
+```
+The maximum length of the `type` string is 128 bytes, and it must contain only letters (A-Z and a-z), numbers (0-9), '-', '_', and '~'.
+The `data` string must not exceeds the maximum size (8 kB).
+
+The `connection_id` and `opts` parameter are jointly optional by default. Hence you can also 
+use `opentok.signal.send(session_id)`
+
+For more information on signaling, see the
+[OpenTok Signaling](https://tokbox.com/developer/guides/signaling/js/) programming guide.
+
+
+## Force disconnect 
+
+You can force disconnect a connection within a session by using the `opentok.connection.forceDisconnect(session_id, connection_id)` method.
+You are essentially forcing a client endpoint to disconnect from a session.
+
+For more information on force disconnect, see the
+[OpenTok Force disconnect](https://tokbox.com/developer/rest/#forceDisconnect) programming guide.
 
 ## Initiating a SIP call
 
