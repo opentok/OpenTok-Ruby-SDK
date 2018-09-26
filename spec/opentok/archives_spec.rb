@@ -102,8 +102,8 @@ describe OpenTok::Archives do
   it "raise an error if archive id is not provided" do
     expect {
       archives.layout("", {
-          :type => "custom",
-          :stylesheet => "the layout stylesheet (only used with type == custom)"
+          type: "custom",
+          stylesheet: "the layout stylesheet (only used with type == custom)"
       })
     }.to raise_error(ArgumentError)
   end
@@ -111,7 +111,7 @@ describe OpenTok::Archives do
   it "raise an error if custom type has no style sheet" do
     expect {
       archives.layout(started_archive_id, {
-          :type => "custom",
+          type: "custom",
       })
     }.to raise_error(ArgumentError)
   end
@@ -119,8 +119,8 @@ describe OpenTok::Archives do
   it "raise an error if non-custom type has style sheet" do
     expect {
       archives.layout(started_archive_id, {
-          "type": "pip",
-          "stylesheet": "the layout stylesheet (only used with type == custom)"
+          type: "pip",
+          stylesheet: "the layout stylesheet (only used with type == custom)"
       })
     }.to raise_error(ArgumentError)
   end
@@ -128,7 +128,7 @@ describe OpenTok::Archives do
   it "raise an error if invalid layout type" do
     expect {
       archives.layout(started_archive_id, {
-          "type": "pip1",
+          type: "pip1",
       })
     }.to raise_error(ArgumentError)
   end
