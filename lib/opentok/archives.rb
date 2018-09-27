@@ -44,6 +44,10 @@ module OpenTok
     #     (<code>:individual</code>). For more information on archiving and the archive file
     #     formats, see the {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving}
     #     programming guide.
+    # @option options [String] :resolution The resolution of the archive, either "640x480" (SD, the
+    #   default) or "1280x720" (HD). This property only applies to composed archives. If you set
+    #   this property and set the outputMode property to "individual", the call to the REST method
+    #   results in an error.
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
@@ -58,9 +62,11 @@ module OpenTok
     # @raise [OpenTokArchiveError] The archive could not be started.
     def create(session_id, options = {})
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
+      raise ArgumentError,
+        "Resolution cannot be supplied for individual output mode" if options.key?(:resolution) and options[:output_mode] == :individual
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :name, :has_audio, :has_video, :output_mode ]
+      valid_opts = [ :name, :has_audio, :has_video, :output_mode, :resolution ]
       opts = options.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v

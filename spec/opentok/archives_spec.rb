@@ -93,6 +93,23 @@ describe OpenTok::Archives do
     expect(archive).to be_an_instance_of OpenTok::Archive
   end
 
+  it "should create hd archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    archive = archives.create session_id, { :output_mode => :composed, :resolution => "1280x720" }
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.session_id).to eq session_id
+    expect(archive.output_mode).to eq :composed
+    expect(archive.resolution).to eq "1280x720"
+  end
+
+  it "should create archives throws exception", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    opts = {
+      :output_mode => :individual,
+      :resolution => "1280x720"
+    }
+
+    expect { archives.create session_id, opts }.to raise_exception
+  end
+
   it "raise an error if layout options are empty" do
     expect {
       archives.layout(started_archive_id, {})
