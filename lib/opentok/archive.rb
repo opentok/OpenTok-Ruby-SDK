@@ -97,9 +97,11 @@ module OpenTok
 
     # Layouts an OpenTok archive.
     #
-    # You can only delete an archive which has a status of "available" or "uploaded". Deleting an
-    # archive removes its record from the list of archives. For an "available" archive, it also
-    # removes the archive file, making it unavailable for download.
+    # You can dynamically change the layout type of a composed archive while it is being recorded.
+    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a `custom` type. Else
+    # add an additional key 'stylesheet'
+    # Refer the {https://tokbox.com/developer/rest/#change_composed_archive_layout}
+    
     def layout(opts= {})
       # TODO: validate returned json fits schema
       @json = @interface.layout(@json['id'], opts)
