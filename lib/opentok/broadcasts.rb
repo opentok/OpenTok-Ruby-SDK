@@ -1,8 +1,9 @@
 require "opentok/client"
+require "opentok/broadcast"
 
 
 module OpenTok
-  # A class for working with OpenTok archives.
+  # A class for working with OpenTok broadcasts.
   class Broadcasts
 
     # @private
@@ -10,55 +11,50 @@ module OpenTok
       @client = client
     end
 
-    # Starts archiving an OpenTok session.
+    # Starts broadcast of  an OpenTok session.
     #
     # Clients must be actively connected to the OpenTok session for you to successfully start
-    # recording an archive.
+    # a broadcast.
     #
-    # You can only record one archive at a time for a given session. You can only record archives
-    # of sessions that use the OpenTok Media Router (sessions with the media mode set to routed);
-    # you cannot archive sessions with the media mode set to relayed.
-    #
+    # This broadcasts the session to an HLS (HTTP live streaming) or to RTMP streams.
     # For more information on archiving, see the
-    # {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving} programming guide.
+    # {https://tokbox.com/developer/rest/#start_broadcast OpenTok b roadcasting} programming guide.
     #
-    # @param [String] session_id The session ID of the OpenTok session to archive.
-    # @param [Hash] options  A hash with the key 'name', 'has_audio', and 'has_video' (or
-    # :name.
-    # @option options [String] :name This is the name of the archive. You can use this name
-    #   to identify the archive. It is a property of the Archive object, and it is a property
-    #   of archive-related events in the OpenTok client SDKs.
-    # @option options [true, false] :has_audio Whether the archive will include an audio track
-    #   (<code>true</code>) or not <code>false</code>). The default value is <code>true</code>
-    #   (an audio track is included). If you set both  <code>has_audio</code> and
-    #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
-    #   method results in an error.
-    # @option options [true, false] :has_video Whether the archive will include a video track
-    #   (<code>true</code>) or not <code>false</code>). The default value is <code>true</code>
-    #   (a video track is included). If you set both  <code>has_audio</code> and
-    #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
-    #   method results in an error.
-    # @option options [String] :output_mode Whether all streams in the archive are recorded
-    #     to a single file (<code>:composed</code>, the default) or to individual files
-    #     (<code>:individual</code>). For more information on archiving and the archive file
-    #     formats, see the {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving}
-    #     programming guide.
-    # @option options [String] :resolution The resolution of the archive, either "640x480" (SD, the
-    #   default) or "1280x720" (HD). This property only applies to composed archives. If you set
-    #   this property and set the outputMode property to "individual", the call to the REST method
-    #   results in an error.
+    # @param [String] session_id The session ID of the OpenTok session to broadcast.
+    # @attr [Hash] options is defined as follows:
+    #   [Hash] layout
+    #   Optional. Specify this to assign the initial layout  for the broadcast.
+    #   Valid values for the layout (<code>:type</code>) property are "bestFit" (best fit), "custom" (custom),
+    #   "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and
+    #   "verticalPresentation" (vertical presentation)).
+    #   If you specify a (<code>:custom</code>)  layout type, set the (<code>:stylesheet</code>) property of the layout object
+    #   to the stylesheet. (For other layout types, do not set a stylesheet property.)
+    #   If you do not specify an initial layout type, the broadcast stream uses the Best Fit layout type.
     #
-    # @return [Archive] The Archive object, which includes properties defining the archive,
-    #   including the archive ID.
+    #  [int] maxDuration
+    #   Optional. The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when
+    #   the maximum duration is reached. You can set the maximum duration to a value from 60 (60 seconds) to 36000 (10 hours).
+    #   The default maximum duration is 2 hours (7200 seconds).
     #
-    # @raise [OpenTokArchiveError] The archive could not be started. The request was invalid or
-    #   the session has no connected clients.
+    #   [Hash] outputs
+    #   This object defines the types of broadcast streams you want to start (both HLS and RTMP).
+    #   You can include HLS, RTMP, or both as broadcast streams. If you include RTMP streaming,
+    #   you can specify up to five target RTMP streams (or just one).
+    #   The (<code>:hls</code>)  property is set  to an empty [Hash] object. The HLS URL is returned in the response.
+    #   The (<code>:rtmp</code>)  property is set  to an [Array] of Rtmp [Hash] properties.
+    #   For each RTMP , specify (<code>:serverUrl</code>) for the RTMP server URL,
+    #   (<code>:streamName</code>) such as the YouTube Live stream name or the Facebook stream key),
+    #   and (optionally) (<code>:id</code>), a unique ID for the stream.
+    #
+    #   [string] resolution
+    #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD). This property is optional.
+    # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
+    #   including the broadcast ID.
+    #
+    # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
     # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
     #   Invalid API key.
-    # @raise [OpenTokArchiveError] The archive could not be started. The session ID does not exist.
-    # @raise [OpenTokArchiveError] The archive could not be started. The session could be
-    #   peer-to-peer or the session is already being recorded.
-    # @raise [OpenTokArchiveError] The archive could not be started.
+    # @raise [OpenTokError] OpenTok server error.
     def create(session_id, options = {})
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
       raise ArgumentError, "options cannot be empty" if options.empty?
@@ -66,15 +62,17 @@ module OpenTok
       Broadcast.new self, broadcast_json
     end
 
-    # Gets an Archive object for the given archive ID.
+    # Gets a Broadcast object for the given broadcast ID.
     #
-    # @param [String] archive_id The archive ID.
+    # @param [String] broadcast_id The broadcast ID.
     #
-    # @return [Archive] The Archive object.
-    # @raise [OpenTokArchiveError] The archive could not be retrieved. The archive ID is invalid.
-    # @raise [OpenTokAuthenticationError] Authentication failed while retrieving the archive.
+    # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
+    #   including the broadcast ID.
+    #
+    # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
+    # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
     #   Invalid API key.
-    # @raise [OpenTokArchiveError] The archive could not be retrieved.
+    # @raise [OpenTokError] OpenTok server error.
     def find(broadcast_id)
       raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
       broadcast_json = @client.get_broadcast(broadcast_id.to_s)
@@ -82,29 +80,43 @@ module OpenTok
     end
 
 
-    # Stops an OpenTok archive that is being recorded.
+    # Stops an OpenTok broadcast
     #
-    # Archives automatically stop recording after 90 minutes or when all clients have disconnected
-    # from the session being archived.
+    # Note that broadcasts automatically stop after 120 minute
     #
-    # @param [String] archive_id The archive ID of the archive you want to stop recording.
+    # @param [String] broadcast_id The broadcast ID.
     #
-    # @return [Archive] The Archive object corresponding to the archive being stopped.
+    # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
+    #   including the broadcast ID.
     #
-    # @raise [OpenTokArchiveError] The archive could not be stopped. The request was invalid.
-    # @raise [OpenTokAuthenticationError] Authentication failed while stopping an archive.
-    # @raise [OpenTokArchiveError] The archive could not be stopped. The archive ID does not exist.
-    # @raise [OpenTokArchiveError] The archive could not be stopped. The archive is not currently
-    #   recording.
-    # @raise [OpenTokArchiveError] The archive could not be started.
+    # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
+    # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
+    #   Invalid API key.
+    # @raise [OpenTokError] OpenTok server error.
     def stop(broadcast_id)
       raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
-      broadcast_json = @client.stop_archive(broadcast_id)
+      broadcast_json = @client.stop_broadcast(broadcast_id)
       Broadcast.new self, broadcast_json
     end
 
-    def layout(broadcast_id)
-
+    # Dynamically alters the layout an OpenTok broadcast
+    #
+    # @param [String] broadcast_id The broadcast ID.
+    #
+    # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
+    # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
+    #   Invalid API key.
+    # @raise [OpenTokError] OpenTok server error.
+    def layout(broadcast_id, options = {})
+      raise ArgumentError, "option parameter is empty" if options.empty?
+      raise ArgumentError, "archive_id not provided" if broadcast_id.to_s.empty?
+      type = options[:type]
+      raise ArgumentError, "custom type must have a stylesheet" if (type.eql? "custom") && (!options.key? :stylesheet)
+      valid_non_custom_type = ["bestFit","horizontalPresentation","pip", "verticalPresentation", ""].include? type
+      raise ArgumentError, "type is not valid or stylesheet not needed" if !valid_non_custom_type
+      raise ArgumentError, "type is not valid or stylesheet not needed" if valid_non_custom_type and options.key? :stylesheet
+      response = @client.layout_broadcast(broadcast_id, options)
+      (200..300).include? response.code
     end
 
 
