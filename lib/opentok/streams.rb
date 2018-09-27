@@ -1,5 +1,6 @@
 require 'opentok/client'
 require 'opentok/stream'
+require 'opentok/stream_list'
 
 
 module OpenTok
@@ -60,7 +61,7 @@ module OpenTok
 
     # Use this method to set the layout of a composed (archive or broadcast) OpenTok stream.
     #
-    # For example, you can call this method to get information about layout classes used by an OpenTok stream.
+    # For example, you can call this method to set the layout classes of an OpenTok stream.
     # The layout classes define how the stream is displayed in the layout of a broadcast or archive stream.
     # For more information, see Assigning{https://tokbox.com/developer/guides/broadcast/live-streaming/#assign-layout-classes-to-streams}
     # live streaming layout classes to OpenTok streams.

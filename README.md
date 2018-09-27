@@ -100,7 +100,7 @@ token = session.generate_token({
 Use this method to get information of a OpenTok stream, or all streams in a session.
 For example, you can call this method to get information about layout classes used by an OpenTok stream. 
 
-To get information of a specific stream in a session , do
+To get information of a specific stream in a session, do
 `stream = opentok.streams.find(session_id, stream_id)`. The return object is a `Stream` object and
 you can access various stream properties as shown in the following example (using RSpec notations):
 ```ruby
