@@ -6,6 +6,7 @@ require "opentok/connections"
 require "opentok/archives"
 require "opentok/sip"
 require "opentok/signals"
+require "opentok/broadcasts"
 
 require "resolv"
 require "set"
