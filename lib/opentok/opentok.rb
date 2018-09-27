@@ -175,6 +175,10 @@ module OpenTok
       @archives ||= Archives.new client
     end
 
+    def broadcast
+      @broadcast ||= Broadcasts.new client
+    end
+
     def sip
       @sip ||= Sip.new client
     end
