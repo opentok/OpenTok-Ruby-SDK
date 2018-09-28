@@ -213,6 +213,94 @@ use `opentok.signal.send(session_id)`
 For more information on signaling, see the
 [OpenTok Signaling](https://tokbox.com/developer/guides/signaling/js/) programming guide.
 
+## Broadcasting
+You can broadcast your streams to a HLS or RTMP servers.
+To successfully start broadcasting a session, at least one publishing client must be connected to the session.
+You can only have one active live streaming broadcast at a time for a session (however, having more than one would not be useful). 
+The live streaming broadcast can target one HLS endpoint and up to five RTMP servers simultaneously for a session. 
+You can only start live streaming for sessions that use the OpenTok Media Router (with the media mode set to routed). You cannot use live streaming
+with sessions that have the media mode set to relayed.                                                         
+
+To create a HLS only broadcast:
+```ruby
+    opts = {
+        :outputs => {
+            :hls => {}
+        }
+    }
+    broadcast = opentok.broadcast.create(session_id, opts)
+    
+   # HLS + RTMP
+    opts = {
+         :outputs => {
+             :hls => {},
+             :rtmp => [
+                 {
+                     :id => "myOpentokStream",
+                     :serverUrl => "rtmp://x.rtmp.youtube.com/live123",
+                     :streamName => "66c9-jwuh-pquf-9x00"
+                 }
+             ]
+         }
+     }
+     broadcast = opentok.broadcast.create(session_id, opts) 
+
+ # The returned broadcast object has information property like id, sessionId , projectId ,
+ # createdAt , updatedAt , resolution , status and a Hash of broadcastUrls. The broadcastUrls 
+ # consists of HLS url and an array of RTMP objects. The RTMP objects resembles the above `rtmp` value object in
+ # opts. 
+```
+For more information on broadcast, see the
+[OpenTok Broadcast guide](https://tokbox.com/developer/rest/#start_broadcast) programming guide.
+
+To get information about a broadcast stream 
+```ruby
+my_broadcast = opentok.broadcast.find broadcast_id
+
+ # The returned broadcast object has information property like id, sessionId , projectId ,
+ # createdAt , updatedAt , resolution , status and a Hash of broadcastUrls. The broadcastUrls 
+ # consists of HLS url and an array of RTMP objects. The RTMP objects resembles the above `rtmp` value object in
+ # opts. 
+```
+
+To stop a broadcast
+```ruby
+ my_broadcast = opentok.broadcast.stop broadcast_id
+ 
+ # stop at a broadcast object level too
+ # 
+ my_broadcast = opentok.broadcast.find broadcast_id
+ ret_broadcast =  my_broadcast.stop
+ 
+ # Both the above returned objects has the "broadcastUrls" property as a nil value and the status 
+ # property value is "stopped"
+```
+
+
+To change the layout of a broadcast dynamically 
+```ruby
+opentok.broadcast.layout(started_broadcast_id, {
+        :type => "verticalPresentation"
+    })
+    
+  # On an object level
+   my_broadcast = opentok.broadcast.find broadcast_id
+   my_broadcast.layout(
+             :type => 'pip1',
+             )
+             
+   # the returned value is true if successful
+```
+The hash above has two entries.
+The `type` is the layout type for the archive. 
+Valid values are "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)). 
+If you specify a "custom" layout type, set the stylesheet property. 
+(For other layout types, do not set the stylesheet property.) 
+Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
+for more details. 
+
+You can also change the layout of an individual stream dynamically. Refer [working with streams](#working-with-streams)
+
 
 ## Force disconnect 
 

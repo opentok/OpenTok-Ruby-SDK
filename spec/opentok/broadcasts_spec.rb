@@ -78,7 +78,7 @@ describe OpenTok::Broadcasts do
   end
 
   it 'finds a broadcast', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
-    b = broadcast.find(started_broadcast_id)
+    b = broadcast.find started_broadcast_id
     expect(b).to be_an_instance_of OpenTok::Broadcast
     expect(b.id).to eq started_broadcast_id
     expect(b.broadcastUrls["rtmp"][0]["serverUrl"]).to eq "rtmp://x.rtmp.youtube.com/live2"
@@ -157,13 +157,13 @@ describe OpenTok::Broadcasts do
     expect(b.id).to eq started_broadcast_id
     expect {
       b.layout(
-          type: 'pip1',
+          :type => 'pip1',
           )
     }.to raise_error(ArgumentError)
   end
   it "changes the layout of a broadcast", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     response = broadcast.layout(started_broadcast_id, {
-        type: "verticalPresentation"
+        :type => "verticalPresentation"
     })
     expect(response).not_to be_nil
   end
