@@ -215,6 +215,19 @@ Note that you can also create an automatically archived session, by passing in `
 as the `:archive_mode` property of the `options` parameter passed into the
 `OpenTok#create_session()` method (see "Creating Sessions," above).
 
+You can set the [layout](https://tokbox.com/developer/rest/#change_composed_archive_layout) of an archive using 
+```ruby
+opts = { :type => "verticalPresentation" }
+opentok.archives.layout(archive_id, opts)
+```
+The hash `opts` has two entries.
+The `type` is the layout type for the archive. 
+Valid values are "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)). 
+If you specify a "custom" layout type, set the stylesheet property. 
+(For other layout types, do not set the stylesheet property.) 
+Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
+for more details. 
+
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
@@ -227,9 +240,9 @@ session.
 An example of `opts` field can be as follows:
 
 ```ruby
-opts = { "type" => "chat",
-         "data" => "Hello", 
-       }
+  opts = { :type => "chat",
+           :data => "Hello"
+  }
 ```
 The maximum length of the `type` string is 128 bytes, and it must contain only letters (A-Z and a-z), numbers (0-9), '-', '_', and '~'.
 The `data` string must not exceeds the maximum size (8 kB).
