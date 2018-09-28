@@ -14,6 +14,7 @@ describe OpenTok::Broadcasts do
   let(:api_secret) { "1234567890abcdef1234567890abcdef1234567890" }
   let(:session_id) { "SESSIONID" }
   let(:broadcast_id) { "BROADCASTID" }
+  let(:started_broadcast_id) { "13dbcc23-af92-4862-9184-74b21815a814" }
   let(:opentok) { OpenTok::OpenTok.new api_key, api_secret }
   let(:broadcast) { opentok.broadcast}
 
@@ -76,5 +77,12 @@ describe OpenTok::Broadcasts do
     expect(b_rtmp.broadcastUrls["rtmp"].count).to eq 1
   end
 
+  it 'finds a broadcast', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    b = broadcast.find(started_broadcast_id)
+    expect(b).to be_an_instance_of OpenTok::Broadcast
+    expect(b.id).to eq started_broadcast_id
+    expect(b.broadcastUrls["rtmp"][0]["serverUrl"]).to eq "rtmp://x.rtmp.youtube.com/live2"
+    expect(b.broadcastUrls["rtmp"].count).to eq 1
+  end
 
 end
