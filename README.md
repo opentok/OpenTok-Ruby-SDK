@@ -95,6 +95,33 @@ token = session.generate_token({
     :initial_layout_class_list => ['focus', 'inactive']
 });
 ```
+## Working with streams 
+
+Use this method to get information of a OpenTok stream, or all streams in a session.
+For example, you can call this method to get information about layout classes used by an OpenTok stream. 
+
+To get information of a specific stream in a session, do
+`stream = opentok.streams.find(session_id, stream_id)`. The return object is a `Stream` object and
+you can access various stream properties as shown in the following example (using RSpec notations):
+```ruby
+    expect(stream).to be_an_instance_of OpenTok::Stream
+    expect(stream.videoType).to eq 'camera'
+    expect(stream.layoutClassList.count).to eq 1
+    expect(stream.layoutClassList.first).to eq "full"
+```
+
+To get information on all streams in a session
+do `all_streams = opentok.streams.all(session_id)`. The return object is a `StreamList`. An example can be as follows:
+```ruby
+
+    expect(all_streams).to be_an_instance_of OpenTok::StreamList
+    expect(all_streams.total).to eq 2
+    expect(all_streams[0].layoutClassList[1]).to eq "focus"
+```
+
+For more information on getting stream information, see the
+[OpenTok Stream Information](https://tokbox.com/developer/rest/#get-stream-info) programming guide.
+
 
 ## Working with Archives
 
