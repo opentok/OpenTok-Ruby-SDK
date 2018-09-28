@@ -111,4 +111,61 @@ describe OpenTok::Broadcasts do
     expect(b.broadcastUrls).to be_nil
     expect(b.status).to eq "stopped"
   end
+
+  it "raise an error if layout options are empty" do
+    expect {
+      broadcast.layout(started_broadcast_id, {})
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if broadcast id is not provided" do
+    expect {
+      broadcast.layout("", {
+          type: "custom",
+          stylesheet: "the layout stylesheet (only used with type == custom)"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if custom type has no style sheet" do
+    expect {
+      broadcast.layout(started_broadcast_id, {
+          type: "custom",
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if non-custom type has style sheet" do
+    expect {
+      broadcast.layout(started_broadcast_id, {
+          type: "pip",
+          stylesheet: "the layout stylesheet (only used with type == custom)"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if invalid layout type" do
+    expect {
+      broadcast.layout(started_broadcast_id, {
+          type: "pip1"
+      })
+    }.to raise_error(ArgumentError)
+  end
+  it "calls layout on broadcast object", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    b = broadcast.find started_broadcast_id
+    expect(b).to be_an_instance_of OpenTok::Broadcast
+    expect(b.id).to eq started_broadcast_id
+    expect {
+      b.layout(
+          type: 'pip1',
+          )
+    }.to raise_error(ArgumentError)
+  end
+  it "changes the layout of a broadcast", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    response = broadcast.layout(started_broadcast_id, {
+        type: "verticalPresentation"
+    })
+    expect(response).not_to be_nil
+  end
+
 end

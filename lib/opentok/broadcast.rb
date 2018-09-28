@@ -65,7 +65,7 @@ module OpenTok
     # add an additional key 'stylesheet'
     # Refer the {https://tokbox.com/developer/rest/#change_composed_archive_layout}
 
-    def layout(opts= {})
+    def layout(opts = {})
       # TODO: validate returned json fits schema
       @json = @interface.layout(@json['id'], opts)
     end
