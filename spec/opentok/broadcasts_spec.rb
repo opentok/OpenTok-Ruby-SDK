@@ -84,5 +84,31 @@ describe OpenTok::Broadcasts do
     expect(b.broadcastUrls["rtmp"][0]["serverUrl"]).to eq "rtmp://x.rtmp.youtube.com/live2"
     expect(b.broadcastUrls["rtmp"].count).to eq 1
   end
-
+  it 'raise an error on empty broadcastId in find' do
+    expect {
+      broadcast.find("")
+    }.to raise_error(ArgumentError)
+  end
+  it 'raise an error on nil broadcastId in find' do
+    expect {
+      broadcast.find(nil)
+    }.to raise_error(ArgumentError)
+  end
+  it 'raise an error on empty broadcastId stop' do
+    expect {
+      broadcast.stop("")
+    }.to raise_error(ArgumentError)
+  end
+  it 'raise an error on nil broadcastId stop' do
+    expect {
+      broadcast.stop(nil)
+    }.to raise_error(ArgumentError)
+  end
+  it 'stops a broadcast', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    b = broadcast.stop(started_broadcast_id)
+    expect(b).to be_an_instance_of OpenTok::Broadcast
+    expect(b.id).to eq started_broadcast_id
+    expect(b.broadcastUrls).to be_nil
+    expect(b.status).to eq "stopped"
+  end
 end

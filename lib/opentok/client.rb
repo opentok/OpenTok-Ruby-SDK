@@ -281,7 +281,7 @@ module OpenTok
     end
 
     def stop_broadcast(broadcast_id)
-      response = self.class.get("/v2/project/#{@api_key}/broadcast/#{broadcast_id}/stop", {
+      response = self.class.post("/v2/project/#{@api_key}/broadcast/#{broadcast_id}/stop", {
           :headers => generate_headers
       })
       case response.code
