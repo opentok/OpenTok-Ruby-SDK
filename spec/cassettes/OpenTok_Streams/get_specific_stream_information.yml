@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.opentok.com/v2/project/123456/session/SESSIONID/stream/STREAMID
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      X-Opentok-Auth:
+      - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImlzdCI6InByb2plY3QifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.Oh_JHhtEUKK1pPV4s6neXJj_RXI8EcEpJRRpG_2c9U0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 24 Sep 2018 20:41:24 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+        "id": "8b732909-0a06-46a2-8ea8-074e64d43422",
+        "videoType": "camera",
+        "name": "",
+        "layoutClassList": ["full"]
+        }
+    http_version: 
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 2.8.0
