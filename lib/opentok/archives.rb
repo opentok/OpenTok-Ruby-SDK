@@ -152,5 +152,16 @@ module OpenTok
       (200..300).include? response.code
     end
 
+    def layout(archive_id, options = {})
+      raise ArgumentError, "option parameter is empty" if options.empty?
+      raise ArgumentError, "archive_id not provided" if archive_id.to_s.empty?
+      type = options[:type]
+      raise ArgumentError, "custom type must have a stylesheet" if (type.eql? "custom") && (!options.key? :stylesheet)
+      valid_non_custom_type = ["bestFit","horizontalPresentation","pip", "verticalPresentation", ""].include? type
+      raise ArgumentError, "type is not valid or stylesheet not needed" if !valid_non_custom_type
+      raise ArgumentError, "type is not valid or stylesheet not needed" if valid_non_custom_type and options.key? :stylesheet
+      response = @client.layout_archive(archive_id, options)
+      (200..300).include? response.code
+    end
   end
 end

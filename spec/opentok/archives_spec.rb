@@ -110,6 +110,62 @@ describe OpenTok::Archives do
     expect { archives.create session_id, opts }.to raise_exception
   end
 
+  it "raise an error if layout options are empty" do
+    expect {
+      archives.layout(started_archive_id, {})
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if archive id is not provided" do
+    expect {
+      archives.layout("", {
+          type: "custom",
+          stylesheet: "the layout stylesheet (only used with type == custom)"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if custom type has no style sheet" do
+    expect {
+      archives.layout(started_archive_id, {
+          type: "custom",
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if non-custom type has style sheet" do
+    expect {
+      archives.layout(started_archive_id, {
+          type: "pip",
+          stylesheet: "the layout stylesheet (only used with type == custom)"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if invalid layout type" do
+    expect {
+      archives.layout(started_archive_id, {
+          type: "pip1"
+      })
+    }.to raise_error(ArgumentError)
+  end
+  it "calls layout on archive object", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    archive = archives.find findable_archive_id
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.id).to eq findable_archive_id
+    expect {
+      archive.layout(
+          type: 'pip1',
+      )
+    }.to raise_error(ArgumentError)
+  end
+  it "changes the layout of an archive", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+     response = archives.layout(started_archive_id, {
+          type: "pip"
+      })
+     expect(response).not_to be_nil
+  end
+
   # TODO: context "with a session that has no participants" do
   #   let(:session_id) { "" }
   #   it "should refuse to create archives with appropriate error" do

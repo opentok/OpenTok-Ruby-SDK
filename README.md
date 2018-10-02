@@ -95,6 +95,33 @@ token = session.generate_token({
     :initial_layout_class_list => ['focus', 'inactive']
 });
 ```
+## Working with streams 
+
+Use this method to get information of a OpenTok stream, or all streams in a session.
+For example, you can call this method to get information about layout classes used by an OpenTok stream. 
+
+To get information of a specific stream in a session, do
+`stream = opentok.streams.find(session_id, stream_id)`. The return object is a `Stream` object and
+you can access various stream properties as shown in the following example (using RSpec notations):
+```ruby
+    expect(stream).to be_an_instance_of OpenTok::Stream
+    expect(stream.videoType).to eq 'camera'
+    expect(stream.layoutClassList.count).to eq 1
+    expect(stream.layoutClassList.first).to eq "full"
+```
+
+To get information on all streams in a session
+do `all_streams = opentok.streams.all(session_id)`. The return object is a `StreamList`. An example can be as follows:
+```ruby
+
+    expect(all_streams).to be_an_instance_of OpenTok::StreamList
+    expect(all_streams.total).to eq 2
+    expect(all_streams[0].layoutClassList[1]).to eq "focus"
+```
+
+For more information on getting stream information, see the
+[OpenTok Stream Information](https://tokbox.com/developer/rest/#get-stream-info) programming guide.
+
 
 ## Working with Archives
 
@@ -188,6 +215,19 @@ Note that you can also create an automatically archived session, by passing in `
 as the `:archive_mode` property of the `options` parameter passed into the
 `OpenTok#create_session()` method (see "Creating Sessions," above).
 
+You can set the [layout](https://tokbox.com/developer/rest/#change_composed_archive_layout) of an archive using 
+```ruby
+opts = { :type => "verticalPresentation" }
+opentok.archives.layout(archive_id, opts)
+```
+The hash `opts` has two entries.
+The `type` is the layout type for the archive. 
+Valid values are "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)). 
+If you specify a "custom" layout type, set the stylesheet property. 
+(For other layout types, do not set the stylesheet property.) 
+Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
+for more details. 
+
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
@@ -200,9 +240,9 @@ session.
 An example of `opts` field can be as follows:
 
 ```ruby
-opts = { "type" => "chat",
-         "data" => "Hello", 
-       }
+  opts = { :type => "chat",
+           :data => "Hello"
+  }
 ```
 The maximum length of the `type` string is 128 bytes, and it must contain only letters (A-Z and a-z), numbers (0-9), '-', '_', and '~'.
 The `data` string must not exceeds the maximum size (8 kB).

@@ -164,6 +164,28 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def layout_archive(archive_id, opts)
+      opts.extend(HashExtensions)
+      response = self.class.put("/v2/project/#{@api_key}/archive/#{archive_id}/layout", {
+          :body => opts.camelize_keys!.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokArchiveError, "Setting the layout failed.The request was invalid or maybe invalid layout options were given."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed.API Key: #{@api_key}"
+      when 500
+        raise OpenTokError, "Setting the layout failed.OpenTok server error."
+      else
+        raise OpenTokArchiveError, "Setting the layout failed."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def forceDisconnect(session_id, connection_id)
       response = self.class.delete("/v2/project/#{@api_key}/session/#{session_id}/connection/#{connection_id}", {
           :headers => generate_headers("Content-Type" => "application/json")
@@ -228,6 +250,51 @@ module OpenTok
         raise OpenTokSipError, "The sip session could not be dialed. The Session ID does not exist: #{session_id}"
       else
         raise OpenTokSipError, "The sip session could not be dialed"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def info_stream(session_id, stream_id)
+      streamId = stream_id.to_s.empty? ? '' : "/#{stream_id}"
+      url = "/v2/project/#{@api_key}/session/#{session_id}/stream#{streamId}"
+      response = self.class.get(url,
+                                headers: generate_headers('Content-Type' => 'application/json'))
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, 'Invalid request. You did not pass in a valid session ID or stream ID.'
+      when 403
+        raise OpenTokAuthenticationError, 'Check your authentication credentials.You passed in an invalid OpenTok API key.'
+      when 408
+        raise ArgumentError, 'You passed in an invalid stream ID.'
+      when 500
+        raise OpenTokError, 'OpenTok server error.'
+      else
+        raise OpenTokError, 'Could not fetch the stream information'
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def layout_streams(session_id, opts)
+      opts.extend(HashExtensions)
+      response = self.class.put("/v2/project/#{@api_key}/session/#{session_id}/stream", {
+          :body => opts.camelize_keys!.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokStreamLayoutError, "Setting the layout failed.The request was invalid or maybe invalid layout options were given."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed.API Key: #{@api_key}"
+      when 500
+        raise OpenTokError, "Setting the layout failed.OpenTok server error."
+      else
+        raise OpenTokStreamLayoutError, "Setting the layout failed."
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"

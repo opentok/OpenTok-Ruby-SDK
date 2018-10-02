@@ -5,6 +5,7 @@ require "opentok/token_generator"
 require "opentok/connections"
 require "opentok/archives"
 require "opentok/sip"
+require "opentok/streams"
 require "opentok/signals"
 require "opentok/broadcasts"
 
@@ -182,6 +183,10 @@ module OpenTok
 
     def sip
       @sip ||= Sip.new client
+    end
+
+    def streams
+      @streams ||= Streams.new client
     end
 
     def signal
