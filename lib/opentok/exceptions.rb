@@ -12,5 +12,7 @@ module OpenTok
   class OpenTokConnectionError < OpenTokError; end
   # Defines errors raised when you attempt set layout classes to a stream.
   class OpenTokStreamLayoutError < OpenTokError; end
+  # Defines errors raised when you perform Broadcast operations
+  class OpenTokBroadcastError < OpenTokError; end
 
 end

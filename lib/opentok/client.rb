@@ -300,5 +300,96 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def start_broadcast(session_id, opts)
+      opts.extend(HashExtensions)
+      body = { :sessionId => session_id }.merge(opts.camelize_keys!)
+      response = self.class.post("/v2/project/#{@api_key}/broadcast", {
+          :body => body.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokBroadcastError, "The broadcast could not be started. The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
+      when 409
+        raise OpenTokBroadcastError, "The broadcast has already started for the session."
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokBroadcastError, "The broadcast could not be started"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def get_broadcast(broadcast_id)
+      response = self.class.get("/v2/project/#{@api_key}/broadcast/#{broadcast_id}", {
+          :headers => generate_headers
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokBroadcastError, "The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
+      when 404
+        raise OpenTokBroadcastError, "No matching broadcast found (with the specified ID)"
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokBroadcastError, "Could not fetch the broadcast information."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def stop_broadcast(broadcast_id)
+      response = self.class.post("/v2/project/#{@api_key}/broadcast/#{broadcast_id}/stop", {
+          :headers => generate_headers
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokBroadcastError, "The request was invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
+      when 404
+        raise OpenTokBroadcastError, "No matching broadcast found (with the specified ID)"
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokBroadcastError, "The broadcast could not be stopped"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def layout_broadcast(broadcast_id, opts)
+      opts.extend(HashExtensions)
+      response = self.class.put("/v2/project/#{@api_key}/broadcast/#{broadcast_id}/layout", {
+          :body => opts.camelize_keys!.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokBroadcastError, "The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokBroadcastError, "The broadcast layout could not be performed"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
   end
 end

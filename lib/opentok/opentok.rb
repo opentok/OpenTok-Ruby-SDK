@@ -7,6 +7,7 @@ require "opentok/archives"
 require "opentok/sip"
 require "opentok/streams"
 require "opentok/signals"
+require "opentok/broadcasts"
 
 require "resolv"
 require "set"
@@ -174,6 +175,10 @@ module OpenTok
     # An Archives object, which lets you work with OpenTok archives.
     def archives
       @archives ||= Archives.new client
+    end
+
+    def broadcast
+      @broadcast ||= Broadcasts.new client
     end
 
     def sip
