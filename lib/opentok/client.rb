@@ -333,7 +333,7 @@ module OpenTok
       when 200
         response
       when 400
-        raise OpenTokBroadcastError, "The broadcast could not be started. The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
+        raise OpenTokBroadcastError, "The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
       when 403
         raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
       when 404
@@ -341,7 +341,7 @@ module OpenTok
       when 500
         raise OpenTokError, "OpenTok server error."
       else
-        raise OpenTokBroadcastError, "The broadcast could not be started"
+        raise OpenTokBroadcastError, "Could not fetch the broadcast information."
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -355,7 +355,7 @@ module OpenTok
       when 200
         response
       when 400
-        raise OpenTokBroadcastError, "The broadcast could not be started. The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
+        raise OpenTokBroadcastError, "The request was invalid."
       when 403
         raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
       when 404
@@ -363,7 +363,7 @@ module OpenTok
       when 500
         raise OpenTokError, "OpenTok server error."
       else
-        raise OpenTokBroadcastError, "The broadcast could not be started"
+        raise OpenTokBroadcastError, "The broadcast could not be stopped"
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -379,13 +379,13 @@ module OpenTok
       when 200
         response
       when 400
-        raise OpenTokBroadcastError, "The broadcast could not be started. The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
+        raise OpenTokBroadcastError, "The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
       when 403
         raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
       when 500
         raise OpenTokError, "OpenTok server error."
       else
-        raise OpenTokBroadcastError, "The broadcast could not be started"
+        raise OpenTokBroadcastError, "The broadcast layout could not be performed"
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"

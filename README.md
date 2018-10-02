@@ -326,7 +326,7 @@ opentok.broadcast.layout(started_broadcast_id, {
   # On an object level
    my_broadcast = opentok.broadcast.find broadcast_id
    my_broadcast.layout(
-             :type => 'pip1',
+             :type => 'pip',
              )
              
    # the returned value is true if successful
