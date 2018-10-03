@@ -95,6 +95,18 @@ module OpenTok
       @json = @interface.delete_by_id @json['id']
     end
 
+    # Layouts an OpenTok archive.
+    #
+    # You can dynamically change the layout type of a composed archive while it is being recorded.
+    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a `custom` type. Else
+    # add an additional key 'stylesheet'
+    # Refer the {https://tokbox.com/developer/rest/#change_composed_archive_layout}
+    
+    def layout(opts= {})
+      # TODO: validate returned json fits schema
+      @json = @interface.layout(@json['id'], opts)
+    end
+
     # @private ignore
     def method_missing(method, *args, &block)
       camelized_method = method.to_s.camelize(:lower)

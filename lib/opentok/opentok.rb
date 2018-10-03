@@ -2,8 +2,12 @@ require "opentok/constants"
 require "opentok/session"
 require "opentok/client"
 require "opentok/token_generator"
+require "opentok/connections"
 require "opentok/archives"
 require "opentok/sip"
+require "opentok/streams"
+require "opentok/signals"
+require "opentok/broadcasts"
 
 require "resolv"
 require "set"
@@ -173,13 +177,28 @@ module OpenTok
       @archives ||= Archives.new client
     end
 
+    def broadcast
+      @broadcast ||= Broadcasts.new client
+    end
+
     # A Sip object, which lets you use the OpenTok SIP gateway.
     def sip
       @sip ||= Sip.new client
     end
 
-    protected
+    def streams
+      @streams ||= Streams.new client
+    end
 
+    def signal
+      @signal ||= Signals.new client
+    end
+
+    def connection
+      @connection ||= Connections.new client
+    end
+
+    protected
     def client
       @client ||= Client.new api_key, api_secret, api_url, ua_addendum
     end

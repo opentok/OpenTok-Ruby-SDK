@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/v2/project/123456/broadcast/13dbcc23-af92-4862-9184-74b21815a814/stop
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      X-Opentok-Auth:
+      - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImlzdCI6InByb2plY3QifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.Oh_JHhtEUKK1pPV4s6neXJj_RXI8EcEpJRRpG_2c9U0
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 28 Sep 2018 19:23:21 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+          {
+            "id":"13dbcc23-af92-4862-9184-74b21815a814",
+            "sessionId":"SESSIONID",
+            "projectId":123456,
+            "createdAt":1538162113387,
+            "broadcastUrls":null,
+            "updatedAt":1538162113387,
+            "status":"stopped",
+            "maxDuration":7200,
+            "resolution":"640x480",
+            "event":"broadcast",
+            "partnerId":123456
+          }
+    http_version: 
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 2.8.0

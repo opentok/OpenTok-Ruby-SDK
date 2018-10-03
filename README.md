@@ -103,6 +103,33 @@ token = session.generate_token({
     :initial_layout_class_list => ['focus', 'inactive']
 });
 ```
+## Working with streams 
+
+Use this method to get information of a OpenTok stream, or all streams in a session.
+For example, you can call this method to get information about layout classes used by an OpenTok stream. 
+
+To get information of a specific stream in a session, do
+`stream = opentok.streams.find(session_id, stream_id)`. The return object is a `Stream` object and
+you can access various stream properties as shown in the following example (using RSpec notations):
+```ruby
+    expect(stream).to be_an_instance_of OpenTok::Stream
+    expect(stream.videoType).to eq 'camera'
+    expect(stream.layoutClassList.count).to eq 1
+    expect(stream.layoutClassList.first).to eq "full"
+```
+
+To get information on all streams in a session
+do `all_streams = opentok.streams.all(session_id)`. The return object is a `StreamList`. An example can be as follows:
+```ruby
+
+    expect(all_streams).to be_an_instance_of OpenTok::StreamList
+    expect(all_streams.total).to eq 2
+    expect(all_streams[0].layoutClassList[1]).to eq "focus"
+```
+
+For more information on getting stream information, see the
+[OpenTok Stream Information](https://tokbox.com/developer/rest/#get-stream-info) programming guide.
+
 
 ## Working with Archives
 
@@ -137,6 +164,19 @@ archive = opentok.archives.create session_id :output_mode => :individual
 
 The `:output_mode => :composed` setting (the default) causes all streams in the archive to be
 recorded to a single (composed) file.
+
+For composed archives you can set the resolution of the archive, either "640x480" (SD, the default)
+or "1280x720" (HD). The `resolution` parameter is optional and could be included in the options
+hash (second argument) of the `opentok.archives.create()` method. 
+
+```ruby
+opts = {
+    :output_mode => :composed,
+    :resolution => "1280x720"
+}
+
+archive = opentok.archives.create session_id, opts
+```
 
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
 method. You can also do this using the `Archive#stop()` method.
@@ -186,9 +226,140 @@ Note that you can also create an automatically archived session, by passing in `
 as the `:archive_mode` property of the `options` parameter passed into the
 `OpenTok#create_session()` method (see "Creating Sessions," above).
 
+You can set the [layout](https://tokbox.com/developer/rest/#change_composed_archive_layout) of an archive using 
+```ruby
+opts = { :type => "verticalPresentation" }
+opentok.archives.layout(archive_id, opts)
+```
+The hash `opts` has two entries.
+The `type` is the layout type for the archive. 
+Valid values are "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)). 
+If you specify a "custom" layout type, set the stylesheet property. 
+(For other layout types, do not set the stylesheet property.) 
+Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
+for more details. 
+
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
+## Signaling
+
+You can send a signal using the `opentok.signal.send(session_id, connection_id, opts)` method.  
+If `connection_id` is nil or an empty string, then the signal is send to all valid connections in the 
+session. 
+
+An example of `opts` field can be as follows:
+
+```ruby
+  opts = { :type => "chat",
+           :data => "Hello"
+  }
+```
+The maximum length of the `type` string is 128 bytes, and it must contain only letters (A-Z and a-z), numbers (0-9), '-', '_', and '~'.
+The `data` string must not exceeds the maximum size (8 kB).
+
+The `connection_id` and `opts` parameter are jointly optional by default. Hence you can also 
+use `opentok.signal.send(session_id)`
+
+For more information on signaling, see the
+[OpenTok Signaling](https://tokbox.com/developer/guides/signaling/js/) programming guide.
+
+## Broadcasting
+You can broadcast your streams to a HLS or RTMP servers.
+To successfully start broadcasting a session, at least one publishing client must be connected to the session.
+You can only have one active live streaming broadcast at a time for a session (however, having more than one would not be useful). 
+The live streaming broadcast can target one HLS endpoint and up to five RTMP servers simultaneously for a session. 
+You can only start live streaming for sessions that use the OpenTok Media Router (with the media mode set to routed). You cannot use live streaming
+with sessions that have the media mode set to relayed.                                                         
+
+To create a HLS only broadcast:
+```ruby
+    opts = {
+        :outputs => {
+            :hls => {}
+        }
+    }
+    broadcast = opentok.broadcast.create(session_id, opts)
+    
+   # HLS + RTMP
+    opts = {
+         :outputs => {
+             :hls => {},
+             :rtmp => [
+                 {
+                     :id => "myOpentokStream",
+                     :serverUrl => "rtmp://x.rtmp.youtube.com/live123",
+                     :streamName => "66c9-jwuh-pquf-9x00"
+                 }
+             ]
+         }
+     }
+     broadcast = opentok.broadcast.create(session_id, opts) 
+
+ # The returned broadcast object has information property like id, sessionId , projectId ,
+ # createdAt , updatedAt , resolution , status and a Hash of broadcastUrls. The broadcastUrls 
+ # consists of HLS url and an array of RTMP objects. The RTMP objects resembles the above `rtmp` value object in
+ # opts. 
+```
+For more information on broadcast, see the
+[OpenTok Broadcast guide](https://tokbox.com/developer/rest/#start_broadcast) programming guide.
+
+To get information about a broadcast stream 
+```ruby
+my_broadcast = opentok.broadcast.find broadcast_id
+
+ # The returned broadcast object has information property like id, sessionId , projectId ,
+ # createdAt , updatedAt , resolution , status and a Hash of broadcastUrls. The broadcastUrls 
+ # consists of HLS url and an array of RTMP objects. The RTMP objects resembles the above `rtmp` value object in
+ # opts. 
+```
+
+To stop a broadcast
+```ruby
+ my_broadcast = opentok.broadcast.stop broadcast_id
+ 
+ # stop at a broadcast object level too
+ # 
+ my_broadcast = opentok.broadcast.find broadcast_id
+ ret_broadcast =  my_broadcast.stop
+ 
+ # Both the above returned objects has the "broadcastUrls" property as a nil value and the status 
+ # property value is "stopped"
+```
+
+
+To change the layout of a broadcast dynamically 
+```ruby
+opentok.broadcast.layout(started_broadcast_id, {
+        :type => "verticalPresentation"
+    })
+    
+  # On an object level
+   my_broadcast = opentok.broadcast.find broadcast_id
+   my_broadcast.layout(
+             :type => 'pip',
+             )
+             
+   # the returned value is true if successful
+```
+The hash above has two entries.
+The `type` is the layout type for the archive. 
+Valid values are "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)). 
+If you specify a "custom" layout type, set the stylesheet property. 
+(For other layout types, do not set the stylesheet property.) 
+Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
+for more details. 
+
+You can also change the layout of an individual stream dynamically. Refer [working with streams](#working-with-streams)
+
+
+## Force disconnect 
+
+You can force disconnect a connection within a session by using the `opentok.connection.forceDisconnect(session_id, connection_id)` method.
+You are essentially forcing a client endpoint to disconnect from a session.
+
+For more information on force disconnect, see the
+[OpenTok Force disconnect](https://tokbox.com/developer/rest/#forceDisconnect) programming guide.
 
 ## Initiating a SIP call
 
