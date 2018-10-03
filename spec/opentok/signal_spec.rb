@@ -14,7 +14,7 @@ describe OpenTok::Signals do
   let(:session_id) { "SESSIONID" }
   let(:connection_id) { "CONNID" }
   let(:opentok) { OpenTok::OpenTok.new api_key, api_secret }
-  let(:signal) { opentok.signal}
+  let(:signal) { opentok.signals }
 
   subject { signal }
 

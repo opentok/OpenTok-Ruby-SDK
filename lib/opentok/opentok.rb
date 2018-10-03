@@ -177,8 +177,8 @@ module OpenTok
       @archives ||= Archives.new client
     end
 
-    def broadcast
-      @broadcast ||= Broadcasts.new client
+    def broadcasts
+      @broadcasts ||= Broadcasts.new client
     end
 
     def sip
@@ -189,12 +189,12 @@ module OpenTok
       @streams ||= Streams.new client
     end
 
-    def signal
-      @signal ||= Signals.new client
+    def signals
+      @signals ||= Signals.new client
     end
 
-    def connection
-      @connection ||= Connections.new client
+    def connections
+      @connections ||= Connections.new client
     end
 
     protected
