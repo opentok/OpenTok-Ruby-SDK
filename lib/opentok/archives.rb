@@ -46,7 +46,7 @@ module OpenTok
     #     programming guide.
     # @option options [String] :resolution The resolution of the archive, either "640x480" (SD, the
     #   default) or "1280x720" (HD). This property only applies to composed archives. If you set
-    #   this property and set the outputMode property to "individual", the call to the REST method
+    #   this property and set the outputMode property to "individual", the call the method
     #   results in an error.
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,

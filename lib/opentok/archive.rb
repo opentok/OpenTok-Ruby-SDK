@@ -71,7 +71,7 @@ module OpenTok
       @json = json
     end
 
-    # A JSON encoded string representation of the archive
+    # A JSON-encoded string representation of the archive.
     def to_json
       @json.to_json
     end
@@ -95,12 +95,14 @@ module OpenTok
       @json = @interface.delete_by_id @json['id']
     end
 
-    # Layouts an OpenTok archive.
+    # The layout type of the archive.
     #
     # You can dynamically change the layout type of a composed archive while it is being recorded.
+    #
+    # See {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing the video layout for composed archives}.
+    #
     # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a `custom` type. Else
-    # add an additional key 'stylesheet'
-    # Refer the {https://tokbox.com/developer/rest/#change_composed_archive_layout}
+    # add an additional key 'stylesheet', representing the custom stylesheet.
     
     def layout(opts= {})
       # TODO: validate returned json fits schema

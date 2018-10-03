@@ -13,7 +13,10 @@ require "resolv"
 require "set"
 
 module OpenTok
-  # Contains methods for creating OpenTok sessions, generating tokens, and working with archives.
+  # Contains methods for creating OpenTok sessions and generating tokens. It also includes
+  # methods for returning object that let you work with archives, work with live streaming
+  # broadcasts, using SIP interconnect, sending signals to sessions, disconnect clients from
+  # sessions, and set the layout classes for streams.
   #
   # To create a new OpenTok object, call the OpenTok constructor with your OpenTok API key
   # and the API secret for your {https://tokbox.com/account OpenTok project}. Do not
@@ -177,6 +180,7 @@ module OpenTok
       @archives ||= Archives.new client
     end
 
+    # A Broadcasts object, which lets you work with OpenTok live streaming broadcasts.
     def broadcast
       @broadcast ||= Broadcasts.new client
     end
@@ -186,14 +190,17 @@ module OpenTok
       @sip ||= Sip.new client
     end
 
+    # A Streams object, which lets you work with OpenTok live streaming broadcasts.
     def streams
       @streams ||= Streams.new client
     end
 
+    # A Signals object, which lets you send signals to OpenTok sessions.
     def signal
       @signal ||= Signals.new client
     end
 
+    # A Connections object, which lets disconnect clients from an OpenTok session.
     def connection
       @connection ||= Connections.new client
     end

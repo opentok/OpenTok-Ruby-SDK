@@ -2,10 +2,10 @@ require "opentok/stream"
 
 
 module OpenTok
-  # A class for accessing an array of Stream objects.
+  # A class for accessing a list of Stream objects.
   class StreamList < Array
 
-    # The total number archives.
+    # The total number streams.
     attr_reader :total
 
     # @private

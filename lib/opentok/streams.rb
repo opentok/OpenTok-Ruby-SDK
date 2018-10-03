@@ -2,9 +2,9 @@ require 'opentok/client'
 require 'opentok/stream'
 require 'opentok/stream_list'
 
-
 module OpenTok
-  #  A class for working with OpenTok signconnectionsals.
+  # A class for working with OpenTok streams. It includes methods for getting info
+  # about OpenTok streams and for setting layout classes for streams.
   class Streams
     # @private
     def initialize(client)
@@ -15,12 +15,8 @@ module OpenTok
     #
     # For example, you can call this method to get information about layout classes used by an OpenTok stream.
     # The layout classes define how the stream is displayed in the layout of a broadcast stream.
-    # For more information, see Assigning{https://tokbox.com/developer/guides/broadcast/live-streaming/#assign-layout-classes-to-streams}
-    # live streaming layout classes to OpenTok streams.
-    #
-
-    # For more information on getting stream information, see the
-    # {https://tokbox.com/developer/rest/#get-stream-info} programming guide.
+    # For more information, see {https://tokbox.com/developer/guides/broadcast/live-streaming/#assign-layout-classes-to-streams Assigning layout classes to streams in live streaming broadcasts}
+    # and {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing the video layout for composed archives}.
     #
     # @param [String] session_id The session ID of the OpenTok session.
     # @param [String] stream_id The stream ID within the session.
@@ -36,20 +32,17 @@ module OpenTok
       Stream.new stream_json
     end
 
-    # Use this method to get information on all OpenTok stream.
+    # Use this method to get information on all OpenTok streams in a session.
     #
-    # For example, you can call this method to get information about layout classes used by an OpenTok stream.
-    # The layout classes define how the stream is displayed in the layout of a broadcast stream.
-    # For more information, see Assigning{https://tokbox.com/developer/guides/broadcast/live-streaming/#assign-layout-classes-to-streams}
-    # live streaming layout classes to OpenTok streams.
-    #
-
-    # For more information on getting stream information, see the
-    # {https://tokbox.com/developer/rest/#get-stream-info} programming guide.
+    # For example, you can call this method to get information about layout classes used by OpenTok streams.
+    # The layout classes define how the stream is displayed in the layout of a live streaming
+    # broadcast or a composed archive. For more information, see
+    # {https://tokbox.com/developer/guides/broadcast/live-streaming/#assign-layout-classes-to-streams Assigning layout classes to streams in live streaming broadcasts}
+    # and {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing the video layout for composed archives}.
     #
     # @param [String] session_id The session ID of the OpenTok session.
-    # @return [StreamList] The StreamList of Stream objects
-    # @raise [ArgumentError] stream_id or session_id is invalid.
+    # @return [StreamList] The StreamList of Stream objects.
+    # @raise [ArgumentError] The stream_id or session_id is invalid.
     # @raise [OpenTokAuthenticationError] You are not authorized to fetch the stream information. Check your authentication credentials.
     # @raise [OpenTokError] An OpenTok server error.
     #
@@ -62,17 +55,17 @@ module OpenTok
     # Use this method to set the layout of a composed (archive or broadcast) OpenTok stream.
     #
     # For example, you can call this method to set the layout classes of an OpenTok stream.
-    # The layout classes define how the stream is displayed in the layout of a broadcast or archive stream.
-    # For more information, see Assigning{https://tokbox.com/developer/guides/broadcast/live-streaming/#assign-layout-classes-to-streams}
-    # live streaming layout classes to OpenTok streams.
-    #
+    # The layout classes define how the stream is displayed in the layout of a live streaming
+    # broadcast or a composed archive. For more information, see
+    # {https://tokbox.com/developer/guides/broadcast/live-streaming/#assign-layout-classes-to-streams Assigning layout classes to streams in live streaming broadcasts}
+    # and {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing the video layout for composed archives}.
     #
     # @param [String] session_id The session ID of the OpenTok session.
-    # @param [Hash] options  A hash with one key `items` and value as array of objects having stream_id and layoutClassList
+    # @param [Hash] options  A hash with one key `items` and value as array of objects having `stream_id` and `layoutClassList` properties.
     # For more information, see Layout{https://tokbox.com/developer/rest/#change-stream-layout-classes-composed}
-    # @raise [ArgumentError] session_id is invalid.
+    # @raise [ArgumentError] The session_id is invalid.
     # @raise [OpenTokAuthenticationError] You are not authorized to fetch the stream information. Check your authentication credentials.
-    # @raise [OpenTokStreamLayoutError] The layout operation could not be performed due to wrong layout values.
+    # @raise [OpenTokStreamLayoutError] The layout operation could not be performed due to incorrect layout values.
     # @raise [OpenTokError] An OpenTok server error.
     #
     def layout(session_id, opts)

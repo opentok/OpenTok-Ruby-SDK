@@ -1,12 +1,14 @@
 require "active_support/inflector"
 
 module OpenTok
-  # Represents a broadcast of an OpenTok session.
+  # Represents a live streaming broadcast of an OpenTok session.
+  # See {https://tokbox.com/developer/guides/broadcast/live-streaming/ Live streaming broadcasts}.
+  #
   # @attr [string] id
   #   The broadcast ID.
   #
   # @attr [string] session_id
-  #   The session ID of the OpenTok session associated with this archive.
+  #   The session ID of the OpenTok session associated with this broadcast.
   #
   # @attr [string] project_id
   #   The API key associated with the broadcast.
@@ -26,7 +28,7 @@ module OpenTok
   #   you can specify up to five target RTMP streams (or just one).
   #   The (<code>:hls</code>)  property is set  to an empty [Hash] object. The HLS URL is returned in the response.
   #   The (<code>:rtmp</code>)  property is set  to an [Array] of Rtmp [Hash] properties.
-  #   For each RTMP , specify (<code>:serverUrl</code>) for the RTMP server URL,
+  #   For each RTMP stream, specify (<code>:serverUrl</code>) for the RTMP server URL,
   #   (<code>:streamName</code>) such as the YouTube Live stream name or the Facebook stream key),
   #   and (optionally) (<code>:id</code>), a unique ID for the stream.
   #
@@ -37,7 +39,6 @@ module OpenTok
   #     * "live --         The OpenTok platform has successfully connected to the remote RTMP server, and the media is streaming.
   #     * "offline" --     The OpenTok platform could not connect to the remote RTMP server. This is due to an unreachable server or an error in the RTMP handshake. Causes include rejected RTMP connections, non-existing RTMP applications, rejected stream names, authentication errors, etc. Check that the server is online, and that you have provided the correct server URL and stream name.
   #     * "error" --       There is an error in the OpenTok platform.
-
   class Broadcast
 
     # @private
@@ -47,7 +48,7 @@ module OpenTok
       @json = json
     end
 
-    # A JSON encoded string representation of the archive
+    # A JSON-encoded string representation of the broadcast.
     def to_json
       @json.to_json
     end
@@ -58,12 +59,14 @@ module OpenTok
       @json = @interface.stop @json['id']
     end
 
-    # Layouts an OpenTok broadcast.
+    # Sets the layout of the OpenTok broadcast.
     #
-    # You can dynamically change the layout type of a broadcast while it is being broadcasted.
-    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a `custom` type. Else
-    # add an additional key 'stylesheet'
-    # Refer the {https://tokbox.com/developer/rest/#change_composed_archive_layout}
+    # You can dynamically change the layout type of a broadcast while it is being broadcast.
+    # For more information, see
+    # {https://tokbox.com/developer/guides/broadcast/live-streaming/#configuring-video-layout-for-opentok-live-streaming-broadcasts Configuring video layout for OpenTok live streaming broadcasts}.
+    # @param [Hash] opts  A hash with the symbolic key 'type'. For a `custom` type,
+    # add an additional key: 'stylesheet'.
+    # Refer to {https://tokbox.com/developer/rest/#change_composed_archive_layout}
 
     def layout(opts = {})
       # TODO: validate returned json fits schema

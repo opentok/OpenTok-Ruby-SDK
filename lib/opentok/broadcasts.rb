@@ -3,7 +3,8 @@ require "opentok/broadcast"
 
 
 module OpenTok
-  # A class for working with OpenTok broadcasts.
+  # A class for working with OpenTok live streaming broadcasts.
+  # See {https://tokbox.com/developer/guides/broadcast/live-streaming/ Live streaming broadcasts}.
   class Broadcasts
 
     # @private
@@ -11,16 +12,15 @@ module OpenTok
       @client = client
     end
 
-    # Starts broadcast of  an OpenTok session.
+    # Starts a live streaming broadcast of an OpenTok session.
     #
     # Clients must be actively connected to the OpenTok session for you to successfully start
     # a broadcast.
     #
     # This broadcasts the session to an HLS (HTTP live streaming) or to RTMP streams.
-    # For more information on archiving, see the
-    # {https://tokbox.com/developer/rest/#start_broadcast OpenTok b roadcasting} programming guide.
     #
     # @param [String] session_id The session ID of the OpenTok session to broadcast.
+    #
     # @attr [Hash] options is defined as follows:
     #   [Hash] layout
     #   Optional. Specify this to assign the initial layout  for the broadcast.
@@ -48,6 +48,7 @@ module OpenTok
     #
     #   [string] resolution
     #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD). This property is optional.
+    $
     # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
     #   including the broadcast ID.
     #
@@ -66,11 +67,10 @@ module OpenTok
     #
     # @param [String] broadcast_id The broadcast ID.
     #
-    # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
-    #   including the broadcast ID.
+    # @return [Broadcast] The broadcast object, which includes properties defining the broadcast.
     #
-    # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
-    # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
+    # @raise [OpenTokBroadcastError] No matching broadcast found.
+    # @raise [OpenTokAuthenticationError] Authentication failed.
     #   Invalid API key.
     # @raise [OpenTokError] OpenTok server error.
     def find(broadcast_id)
@@ -86,11 +86,10 @@ module OpenTok
     #
     # @param [String] broadcast_id The broadcast ID.
     #
-    # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
-    #   including the broadcast ID.
+    # @return [Broadcast] The broadcast object, which includes properties defining the broadcast.
     #
-    # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
-    # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
+    # @raise [OpenTokBroadcastError] The broadcast could not be stopped. The request was invalid.
+    # @raise [OpenTokAuthenticationError] Authentication failed.
     #   Invalid API key.
     # @raise [OpenTokError] OpenTok server error.
     def stop(broadcast_id)
@@ -99,12 +98,14 @@ module OpenTok
       Broadcast.new self, broadcast_json
     end
 
-    # Dynamically alters the layout an OpenTok broadcast
+    # Dynamically alters the layout an OpenTok broadcast. For more information, see
+    # For more information, see
+    # {https://tokbox.com/developer/guides/broadcast/live-streaming/#configuring-video-layout-for-opentok-live-streaming-broadcasts Configuring video layout for OpenTok live streaming broadcasts}.
     #
     # @param [String] broadcast_id The broadcast ID.
     #
-    # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
-    # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
+    # @raise [OpenTokBroadcastError] The broadcast layout could not be updated.
+    # @raise [OpenTokAuthenticationError] Authentication failed.
     #   Invalid API key.
     # @raise [OpenTokError] OpenTok server error.
     def layout(broadcast_id, options = {})
