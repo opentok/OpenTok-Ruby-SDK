@@ -315,7 +315,7 @@ module OpenTok
       when 403
         raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
       when 409
-        raise OpenTokBroadcastError, "The broadcast has already started for the session."
+        raise OpenTokBroadcastError, "The broadcast has already been started for this session."
       when 500
         raise OpenTokError, "OpenTok server error."
       else
@@ -333,7 +333,7 @@ module OpenTok
       when 200
         response
       when 400
-        raise OpenTokBroadcastError, "The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
+        raise OpenTokBroadcastError, "The request was invalid."
       when 403
         raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
       when 404
@@ -341,7 +341,7 @@ module OpenTok
       when 500
         raise OpenTokError, "OpenTok server error."
       else
-        raise OpenTokBroadcastError, "Could not fetch the broadcast information."
+        raise OpenTokBroadcastError, "Could not fetch broadcast information."
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -359,7 +359,7 @@ module OpenTok
       when 403
         raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
       when 404
-        raise OpenTokBroadcastError, "No matching broadcast found (with the specified ID)"
+        raise OpenTokBroadcastError, "No matching broadcast found (with the specified ID) or it is already stopped"
       when 500
         raise OpenTokError, "OpenTok server error."
       else
@@ -379,9 +379,9 @@ module OpenTok
       when 200
         response
       when 400
-        raise OpenTokBroadcastError, "The request was invalid or invalid layout options or exceeded the limit of five simultaneous RTMP streams."
+        raise OpenTokBroadcastError, "The layout operation could not be performed. The request was invalid or invalid layout options."
       when 403
-        raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
+        raise OpenTokAuthenticationError, "Authentication failed for broadcast layout. API Key: #{@api_key}"
       when 500
         raise OpenTokError, "OpenTok server error."
       else
