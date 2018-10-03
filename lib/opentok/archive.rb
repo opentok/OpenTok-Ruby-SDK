@@ -101,7 +101,7 @@ module OpenTok
     #
     # See {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing the video layout for composed archives}.
     #
-    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a `custom` type. Else
+    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a <code>custom</code> type. Else
     # add an additional key 'stylesheet', representing the custom stylesheet.
     
     def layout(opts= {})

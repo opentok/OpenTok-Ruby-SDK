@@ -15,8 +15,8 @@ require "set"
 module OpenTok
   # Contains methods for creating OpenTok sessions and generating tokens. It also includes
   # methods for returning object that let you work with archives, work with live streaming
-  # broadcasts, using SIP interconnect, sending signals to sessions, disconnect clients from
-  # sessions, and set the layout classes for streams.
+  # broadcasts, using SIP interconnect, sending signals to sessions, disconnecting clients from
+  # sessions, and setting the layout classes for streams.
   #
   # To create a new OpenTok object, call the OpenTok constructor with your OpenTok API key
   # and the API secret for your {https://tokbox.com/account OpenTok project}. Do not

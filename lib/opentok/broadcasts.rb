@@ -21,34 +21,33 @@ module OpenTok
     #
     # @param [String] session_id The session ID of the OpenTok session to broadcast.
     #
-    # @attr [Hash] options is defined as follows:
-    #   [Hash] layout
-    #   Optional. Specify this to assign the initial layout  for the broadcast.
+    # @param [Hash] options A hash defining options for the broadcast.
+    # @option options [Hash] :layout Specify this to assign the initial layout  for the broadcast.
     #   Valid values for the layout (<code>:type</code>) property are "bestFit" (best fit), "custom" (custom),
     #   "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and
     #   "verticalPresentation" (vertical presentation)).
-    #   If you specify a (<code>:custom</code>)  layout type, set the (<code>:stylesheet</code>) property of the layout object
+    #   If you specify a (<code>:custom</code>) layout type, set the (<code>:stylesheet</code>) property of the layout object
     #   to the stylesheet. (For other layout types, do not set a stylesheet property.)
     #   If you do not specify an initial layout type, the broadcast stream uses the Best Fit layout type.
     #
-    #  [int] maxDuration
-    #   Optional. The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when
+    # @option options [int] maxDuration
+    #   The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when
     #   the maximum duration is reached. You can set the maximum duration to a value from 60 (60 seconds) to 36000 (10 hours).
     #   The default maximum duration is 2 hours (7200 seconds).
     #
-    #   [Hash] outputs
+    # @option options [Hash] outputs
     #   This object defines the types of broadcast streams you want to start (both HLS and RTMP).
     #   You can include HLS, RTMP, or both as broadcast streams. If you include RTMP streaming,
     #   you can specify up to five target RTMP streams (or just one).
-    #   The (<code>:hls</code>)  property is set  to an empty [Hash] object. The HLS URL is returned in the response.
+    #   The (<code>:hls</code>) property is set  to an empty [Hash] object. The HLS URL is returned in the response.
     #   The (<code>:rtmp</code>)  property is set  to an [Array] of Rtmp [Hash] properties.
     #   For each RTMP , specify (<code>:serverUrl</code>) for the RTMP server URL,
     #   (<code>:streamName</code>) such as the YouTube Live stream name or the Facebook stream key),
     #   and (optionally) (<code>:id</code>), a unique ID for the stream.
     #
-    #   [string] resolution
-    #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD). This property is optional.
-    $
+    # @option options [string] resolution
+    #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD).
+    #
     # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
     #   including the broadcast ID.
     #

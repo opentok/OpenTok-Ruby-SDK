@@ -61,7 +61,7 @@ module OpenTok
     # and {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing the video layout for composed archives}.
     #
     # @param [String] session_id The session ID of the OpenTok session.
-    # @param [Hash] options  A hash with one key `items` and value as array of objects having `stream_id` and `layoutClassList` properties.
+    # @param [Hash] opts  A hash with one key <code>items</code> and value as array of objects having <code>stream_id</code> and <code>layoutClassList</code> properties.
     # For more information, see Layout{https://tokbox.com/developer/rest/#change-stream-layout-classes-composed}
     # @raise [ArgumentError] The session_id is invalid.
     # @raise [OpenTokAuthenticationError] You are not authorized to fetch the stream information. Check your authentication credentials.

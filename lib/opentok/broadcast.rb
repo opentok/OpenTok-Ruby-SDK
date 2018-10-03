@@ -64,7 +64,7 @@ module OpenTok
     # You can dynamically change the layout type of a broadcast while it is being broadcast.
     # For more information, see
     # {https://tokbox.com/developer/guides/broadcast/live-streaming/#configuring-video-layout-for-opentok-live-streaming-broadcasts Configuring video layout for OpenTok live streaming broadcasts}.
-    # @param [Hash] opts  A hash with the symbolic key 'type'. For a `custom` type,
+    # @param [Hash] opts  A hash with the symbolic key 'type'. For a <code>custom</code> type,
     # add an additional key: 'stylesheet'.
     # Refer to {https://tokbox.com/developer/rest/#change_composed_archive_layout}
 
