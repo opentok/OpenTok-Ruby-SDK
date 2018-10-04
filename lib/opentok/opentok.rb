@@ -181,8 +181,8 @@ module OpenTok
     end
 
     # A Broadcasts object, which lets you work with OpenTok live streaming broadcasts.
-    def broadcast
-      @broadcast ||= Broadcasts.new client
+    def broadcasts
+      @broadcasts ||= Broadcasts.new client
     end
 
     # A Sip object, which lets you use the OpenTok SIP gateway.
@@ -196,13 +196,13 @@ module OpenTok
     end
 
     # A Signals object, which lets you send signals to OpenTok sessions.
-    def signal
-      @signal ||= Signals.new client
+    def signals
+      @signals ||= Signals.new client
     end
 
     # A Connections object, which lets disconnect clients from an OpenTok session.
-    def connection
-      @connection ||= Connections.new client
+    def connections
+      @connections ||= Connections.new client
     end
 
     protected
