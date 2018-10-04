@@ -233,7 +233,7 @@ For more information on archiving, see the
 
 ## Signaling
 
-You can send a signal using the `opentok.signal.send(session_id, connection_id, opts)` method.  
+You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.  
 If `connection_id` is nil or an empty string, then the signal is send to all valid connections in the 
 session. 
 
@@ -248,7 +248,7 @@ The maximum length of the `type` string is 128 bytes, and it must contain only l
 The `data` string must not exceeds the maximum size (8 kB).
 
 The `connection_id` and `opts` parameter are jointly optional by default. Hence you can also 
-use `opentok.signal.send(session_id)`
+use `opentok.signals.send(session_id)`
 
 For more information on signaling, see the
 [OpenTok Signaling](https://tokbox.com/developer/guides/signaling/js/) programming guide.
@@ -268,7 +268,7 @@ To create a HLS only broadcast:
             :hls => {}
         }
     }
-    broadcast = opentok.broadcast.create(session_id, opts)
+    broadcast = opentok.broadcasts.create(session_id, opts)
     
    # HLS + RTMP
     opts = {
@@ -283,7 +283,7 @@ To create a HLS only broadcast:
              ]
          }
      }
-     broadcast = opentok.broadcast.create(session_id, opts) 
+     broadcast = opentok.broadcasts.create(session_id, opts) 
 
  # The returned broadcast object has information property like id, sessionId , projectId ,
  # createdAt , updatedAt , resolution , status and a Hash of broadcastUrls. The broadcastUrls 
@@ -295,7 +295,7 @@ For more information on broadcast, see the
 
 To get information about a broadcast stream 
 ```ruby
-my_broadcast = opentok.broadcast.find broadcast_id
+my_broadcast = opentok.broadcasts.find broadcast_id
 
  # The returned broadcast object has information property like id, sessionId , projectId ,
  # createdAt , updatedAt , resolution , status and a Hash of broadcastUrls. The broadcastUrls 
@@ -305,11 +305,11 @@ my_broadcast = opentok.broadcast.find broadcast_id
 
 To stop a broadcast
 ```ruby
- my_broadcast = opentok.broadcast.stop broadcast_id
+ my_broadcast = opentok.broadcasts.stop broadcast_id
  
  # stop at a broadcast object level too
  # 
- my_broadcast = opentok.broadcast.find broadcast_id
+ my_broadcast = opentok.broadcasts.find broadcast_id
  ret_broadcast =  my_broadcast.stop
  
  # Both the above returned objects has the "broadcastUrls" property as a nil value and the status 
@@ -319,12 +319,12 @@ To stop a broadcast
 
 To change the layout of a broadcast dynamically 
 ```ruby
-opentok.broadcast.layout(started_broadcast_id, {
+opentok.broadcasts.layout(started_broadcast_id, {
         :type => "verticalPresentation"
     })
     
   # On an object level
-   my_broadcast = opentok.broadcast.find broadcast_id
+   my_broadcast = opentok.broadcasts.find broadcast_id
    my_broadcast.layout(
              :type => 'pip',
              )
@@ -344,7 +344,7 @@ You can also change the layout of an individual stream dynamically. Refer [worki
 
 ## Force disconnect 
 
-You can force disconnect a connection within a session by using the `opentok.connection.forceDisconnect(session_id, connection_id)` method.
+You can force disconnect a connection within a session by using the `opentok.connections.forceDisconnect(session_id, connection_id)` method.
 You are essentially forcing a client endpoint to disconnect from a session.
 
 For more information on force disconnect, see the

@@ -14,7 +14,7 @@ describe OpenTok::Connections do
   let(:session_id) { "SESSIONID" }
   let(:connection_id) { "CONNID" }
   let(:opentok) { OpenTok::OpenTok.new api_key, api_secret }
-  let(:connection) { opentok.connection}
+  let(:connection) { opentok.connections }
 
   subject { connection }
 

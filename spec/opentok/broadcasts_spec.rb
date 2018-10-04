@@ -16,7 +16,7 @@ describe OpenTok::Broadcasts do
   let(:broadcast_id) { "BROADCASTID" }
   let(:started_broadcast_id) { "13dbcc23-af92-4862-9184-74b21815a814" }
   let(:opentok) { OpenTok::OpenTok.new api_key, api_secret }
-  let(:broadcast) { opentok.broadcast}
+  let(:broadcast) { opentok.broadcasts }
 
   subject { broadcast }
 
