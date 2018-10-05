@@ -122,6 +122,25 @@ do `all_streams = opentok.streams.all(session_id)`. The return object is a `Stre
 For more information on getting stream information, see the
 [OpenTok Stream Information](https://tokbox.com/developer/rest/#get-stream-info) programming guide.
 
+You can also set the layout class list of a stream as follows:
+```ruby
+    streams_list = {
+        :items => [
+            {
+                :id => "8b732909-0a06-46a2-8ea8-074e64d43422",
+                :layoutClassList => ["full"]
+            },
+            {
+                :id => "8b732909-0a06-46a2-8ea8-074e64d43423",
+                :layoutClassList => ["full", "focus"]
+            }
+        ]
+    }
+    response = opentok.streams.layout(session_id, streams_list)
+```
+For more information on setting stream layout classes, see the
+[OpenTok Stream Information](https://tokbox.com/developer/rest/#change-stream-layout-classes-composed) programming guide.
+The streams `layout` method applies to archive and broadcast streams only. 
 
 ## Working with Archives
 
