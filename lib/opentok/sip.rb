@@ -7,7 +7,7 @@ module OpenTok
     # See the {https://tokbox.com/developer/guides/sip/ OpenTok SIP developer guide}.
     #
     # @example
-    #    opts = { "from" => "true",
+    #    opts = { "from" => "14155550101@example.com",
     #      "auth" => { "username" => sip_username,
     #        "password" => sip_password },
     #      "headers" => { "X-KEY1" => "value1",
