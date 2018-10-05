@@ -54,8 +54,8 @@ module OpenTok
     #   * "started" -- The archive started and is in the process of being recorded.
     #   * "stopped" -- The archive stopped recording.
     #   * "uploaded" -- The archive is available for download from the the upload target
-    #     Amazon S3 bucket or Windows Azure container you set at the OpenTok dashboard
-    #     (https://dashboard.tokbox.com).
+    #     Amazon S3 bucket or Windows Azure container you set for your
+    #     {https://tokbox.com/account OpenTok project}.
     #
     # @attr [string] url
     #   The download URL of the available MP4 file. This is only set for an archive with the status set to
@@ -71,14 +71,14 @@ module OpenTok
       @json = json
     end
 
-    # A JSON encoded string representation of the archive
+    # A JSON-encoded string representation of the archive.
     def to_json
       @json.to_json
     end
 
     # Stops an OpenTok archive that is being recorded.
     #
-    # Archives automatically stop recording after 90 minutes or when all clients have disconnected
+    # Archives automatically stop recording after 120 minutes or when all clients have disconnected
     # from the session being archived.
     def stop
       # TODO: validate returned json fits schema
@@ -95,12 +95,14 @@ module OpenTok
       @json = @interface.delete_by_id @json['id']
     end
 
-    # Layouts an OpenTok archive.
+    # The layout type of the archive.
     #
     # You can dynamically change the layout type of a composed archive while it is being recorded.
-    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a `custom` type. Else
-    # add an additional key 'stylesheet'
-    # Refer the {https://tokbox.com/developer/rest/#change_composed_archive_layout}
+    #
+    # See {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing the video layout for composed archives}.
+    #
+    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a <code>custom</code> type. Else
+    # add an additional key 'stylesheet', representing the custom stylesheet.
     
     def layout(opts= {})
       # TODO: validate returned json fits schema
