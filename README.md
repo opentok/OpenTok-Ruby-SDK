@@ -103,7 +103,7 @@ token = session.generate_token({
     :initial_layout_class_list => ['focus', 'inactive']
 });
 ```
-## Working with streams 
+## Working with Streams 
 
 Use this method to get information of a OpenTok stream, or all streams in a session.
 For example, you can call this method to get information about layout classes used by an OpenTok stream. 
@@ -239,6 +239,28 @@ If you specify a "custom" layout type, set the stylesheet property.
 Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
 for more details. 
 
+You can set the initial layout class for a client's streams by setting the layout option when you create the token for the client, using the `opentok.generate_token` method. And you can also change the layout classes of a stream as follows:
+
+```ruby
+    streams_list = {
+        :items => [
+            {
+                :id => "8b732909-0a06-46a2-8ea8-074e64d43422",
+                :layoutClassList => ["full"]
+            },
+            {
+                :id => "8b732909-0a06-46a2-8ea8-074e64d43423",
+                :layoutClassList => ["full", "focus"]
+            }
+        ]
+    }
+    response = opentok.streams.layout(session_id, streams_list)
+```
+For more information on setting stream layout classes, see the
+[OpenTok Stream Information](https://tokbox.com/developer/rest/#change-stream-layout-classes-composed) guide.
+
+Please keep in mind that the `streams.layout` method applies to archive and broadcast streams only. 
+
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
 
@@ -350,7 +372,7 @@ If you specify a "custom" layout type, set the stylesheet property.
 Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
 for more details. 
 
-You can also change the layout of an individual stream dynamically. Refer [working with streams](#working-with-streams)
+You can also change the layout of an individual stream dynamically. Refer [working with Streams](#working-with-streams)
 
 
 ## Force disconnect 
