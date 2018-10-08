@@ -174,11 +174,11 @@ module OpenTok
       when 200
         response
       when 400
-        raise OpenTokArchiveError, "Setting the layout failed.The request was invalid or maybe invalid layout options were given."
+        raise OpenTokArchiveError, "Setting the layout failed. The request was invalid or invalid layout options were given."
       when 403
-        raise OpenTokAuthenticationError, "Authentication failed.API Key: #{@api_key}"
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
       when 500
-        raise OpenTokError, "Setting the layout failed.OpenTok server error."
+        raise OpenTokError, "Setting the layout failed. OpenTok server error."
       else
         raise OpenTokArchiveError, "Setting the layout failed."
       end
@@ -194,11 +194,11 @@ module OpenTok
       when 204
         response
       when 400
-        raise ArgumentError, "Force disconnect failed.Connection ID: #{connection_id} or Session ID: #{session_id} is invalid"
+        raise ArgumentError, "Force disconnect failed. Connection ID #{connection_id} or Session ID #{session_id} is invalid"
       when 403
         raise OpenTokAuthenticationError, "You are not authorized to forceDisconnect, check your authentication credentials or token type is non-moderator"
       when 404
-        raise OpenTokConnectionError, "The client specified by the connectionId: #{connection_id} is not connected to the session"
+        raise OpenTokConnectionError, "The client specified by the connection ID: #{connection_id} is not connected to the session"
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -245,11 +245,11 @@ module OpenTok
       when 200
         response
       when 403
-        raise OpenTokAuthenticationError, "Authentication failed while dialing a sip session. API Key: #{@api_key}"
+        raise OpenTokAuthenticationError, "Authentication failed while dialing a SIP session. API Key: #{@api_key}"
       when 404
-        raise OpenTokSipError, "The sip session could not be dialed. The Session ID does not exist: #{session_id}"
+        raise OpenTokSipError, "The SIP session could not be dialed. The Session ID does not exist: #{session_id}"
       else
-        raise OpenTokSipError, "The sip session could not be dialed"
+        raise OpenTokSipError, "The SIP session could not be dialed"
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -266,13 +266,13 @@ module OpenTok
       when 400
         raise ArgumentError, 'Invalid request. You did not pass in a valid session ID or stream ID.'
       when 403
-        raise OpenTokAuthenticationError, 'Check your authentication credentials.You passed in an invalid OpenTok API key.'
+        raise OpenTokAuthenticationError, 'Check your authentication credentials. You passed in an invalid OpenTok API key.'
       when 408
         raise ArgumentError, 'You passed in an invalid stream ID.'
       when 500
         raise OpenTokError, 'OpenTok server error.'
       else
-        raise OpenTokError, 'Could not fetch the stream information'
+        raise OpenTokError, 'Could not fetch the stream information.'
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -288,11 +288,11 @@ module OpenTok
       when 200
         response
       when 400
-        raise OpenTokStreamLayoutError, "Setting the layout failed.The request was invalid or maybe invalid layout options were given."
+        raise OpenTokStreamLayoutError, "Setting the layout failed. The request was invalid or invalid layout options were given."
       when 403
-        raise OpenTokAuthenticationError, "Authentication failed.API Key: #{@api_key}"
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
       when 500
-        raise OpenTokError, "Setting the layout failed.OpenTok server error."
+        raise OpenTokError, "Setting the layout failed. OpenTok server error."
       else
         raise OpenTokStreamLayoutError, "Setting the layout failed."
       end
@@ -335,7 +335,7 @@ module OpenTok
       when 400
         raise OpenTokBroadcastError, "The request was invalid."
       when 403
-        raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
+        raise OpenTokAuthenticationError, "Authentication failed while getting a broadcast. API Key: #{@api_key}"
       when 404
         raise OpenTokBroadcastError, "No matching broadcast found (with the specified ID)"
       when 500
@@ -357,13 +357,13 @@ module OpenTok
       when 400
         raise OpenTokBroadcastError, "The request was invalid."
       when 403
-        raise OpenTokAuthenticationError, "Authentication failed while starting a broadcast. API Key: #{@api_key}"
+        raise OpenTokAuthenticationError, "Authentication failed while stopping a broadcast. API Key: #{@api_key}"
       when 404
         raise OpenTokBroadcastError, "No matching broadcast found (with the specified ID) or it is already stopped"
       when 500
         raise OpenTokError, "OpenTok server error."
       else
-        raise OpenTokBroadcastError, "The broadcast could not be stopped"
+        raise OpenTokBroadcastError, "The broadcast could not be stopped."
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -385,7 +385,7 @@ module OpenTok
       when 500
         raise OpenTokError, "OpenTok server error."
       else
-        raise OpenTokBroadcastError, "The broadcast layout could not be performed"
+        raise OpenTokBroadcastError, "The broadcast layout could not be performed."
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"

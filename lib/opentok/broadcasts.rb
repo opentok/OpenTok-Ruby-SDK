@@ -101,12 +101,37 @@ module OpenTok
     # For more information, see
     # {https://tokbox.com/developer/guides/broadcast/live-streaming/#configuring-video-layout-for-opentok-live-streaming-broadcasts Configuring video layout for OpenTok live streaming broadcasts}.
     #
-    # @param [String] broadcast_id The broadcast ID.
+    # @param [String] broadcast_id
+    #   The broadcast ID.
     #
-    # @raise [OpenTokBroadcastError] The broadcast layout could not be updated.
-    # @raise [OpenTokAuthenticationError] Authentication failed.
-    #   Invalid API key.
-    # @raise [OpenTokError] OpenTok server error.
+    # @option options [String] :type 
+    #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
+    #   "horizontalPresentation", "focus", or "custom".
+    #
+    # @option options [String] :stylesheet
+    #   The stylesheet for a custom layout. Set this parameter
+    #   if you set <code>type</code> to <code>"custom"</code>. Otherwise, leave it undefined.
+    #
+    # @raise [OpenTokBroadcastError]
+    #   The broadcast layout could not be updated.
+    #
+    # @raise [OpenTokAuthenticationError]
+    #   Authentication failed. Invalid API key or secret.
+    #
+    # @raise [OpenTokError]
+    #   OpenTok server error.
+    #
+    # @raise [ArgumentError]
+    #   The broadcast_id or options parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The "custom" type was specified without a stylesheet option.
+    #
+    # @raise [ArgumentError]
+    #   A stylesheet was passed in for a type other than custom. Or an invalid type was passed in.
+    #
+    # @raise [ArgumentError]
+    #   An invalid layout type was passed in.
     def layout(broadcast_id, options = {})
       raise ArgumentError, "option parameter is empty" if options.empty?
       raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?

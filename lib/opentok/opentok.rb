@@ -52,6 +52,11 @@ module OpenTok
   #     end-user. For example, you can pass the user ID, name, or other data describing the
   #     end-user. The length of the string is limited to 1000 characters. This data cannot be
   #     updated once it is set.
+  #   @option options [Array] :initial_layout_class_list
+  #     An array of class names (strings) to be used as the initial layout classes for streams
+  #     published by the client. Layout classes are used in customizing the layout of videos in
+  #     {https://tokbox.com/developer/guides/broadcast/live-streaming/ live streaming broadcasts}
+  #     and {https://tokbox.com/developer/guides/archiving/layout-control.html composed archives}.
   #   @return [String] The token string.
   class OpenTok
 

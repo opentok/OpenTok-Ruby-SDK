@@ -152,6 +152,46 @@ module OpenTok
       (200..300).include? response.code
     end
 
+    # Sets the layout type for a composed archive. For a description of layout types, see
+    # {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
+    # the video layout for composed archives}.
+    #
+    # @param [String] archive_id 
+    #   The archive ID.
+    #
+    # @option options [String] :type 
+    #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
+    #   "horizontalPresentation", "focus", or "custom".
+    #
+    # @option options [String] :stylesheet
+    #   The stylesheet for a custom layout. Set this parameter
+    #   if you set <code>type</code> to <code>"custom"</code>. Otherwise, leave it undefined.
+    #
+    # @raise [ArgumentError]
+    #   The archive_id or options parameter is empty. Or the "custom"
+    #   type was specified without a stylesheet option. Or a stylesheet was passed in for a
+    #   type other than custom. Or an invalid type was passed in.
+    #
+    # @raise [OpenTokAuthenticationError]
+    #   Authentication failed.
+    #
+    # @raise [ArgumentError]
+    #   The archive_id or options parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The "custom" type was specified without a stylesheet option.
+    #
+    # @raise [ArgumentError]
+    #   A stylesheet was passed in for a type other than custom. Or an invalid type was passed in.
+    #
+    # @raise [ArgumentError]
+    #   An invalid layout type was passed in.
+    #
+    # @raise [OpenTokError]
+    #   OpenTok server error.
+    #
+    # @raise [OpenTokArchiveError]
+    #   Setting the layout failed.
     def layout(archive_id, options = {})
       raise ArgumentError, "option parameter is empty" if options.empty?
       raise ArgumentError, "archive_id not provided" if archive_id.to_s.empty?

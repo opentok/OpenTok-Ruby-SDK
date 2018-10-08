@@ -95,15 +95,42 @@ module OpenTok
       @json = @interface.delete_by_id @json['id']
     end
 
-    # The layout type of the archive.
+    # Sets the layout type for a composed archive. For a description of layout types, see
+    # {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
+    # the video layout for composed archives}.
     #
-    # You can dynamically change the layout type of a composed archive while it is being recorded.
+    # @option options [String] :type 
+    #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
+    #   "horizontalPresentation", "focus", or "custom".
     #
-    # See {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing the video layout for composed archives}.
+    # @option options [String] :stylesheet
+    #   The stylesheet for a custom layout. Set this parameter
+    #   if you set <code>type</code> to <code>"custom"</code>. Otherwise, leave it undefined.
     #
-    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a <code>custom</code> type. Else
-    # add an additional key 'stylesheet', representing the custom stylesheet.
-    
+    # @raise [ArgumentError] The archive_id or options parameter is empty. Or the "custom"
+    #   type was specified without a stylesheet option. Or a stylesheet was passed in for a
+    #   type other than custom. Or an invalid type was passed in.
+    #
+    # @raise [OpenTokAuthenticationError]
+    #   Authentication failed.
+    #
+    # @raise [ArgumentError]
+    #   The archive_id or options parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The "custom" type was specified without a stylesheet option.
+    #
+    # @raise [ArgumentError]
+    #   A stylesheet was passed in for a type other than custom. Or an invalid type was passed in.
+    #
+    # @raise [ArgumentError]
+    #   An invalid layout type was passed in.
+    #
+    # @raise [OpenTokError]
+    #   OpenTok server error.
+    #
+    # @raise [OpenTokArchiveError]
+    #   Setting the layout failed.
     def layout(opts= {})
       # TODO: validate returned json fits schema
       @json = @interface.layout(@json['id'], opts)

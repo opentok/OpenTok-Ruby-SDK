@@ -64,8 +64,35 @@ module OpenTok
     # You can dynamically change the layout type of a broadcast while it is being broadcast.
     # For more information, see
     # {https://tokbox.com/developer/guides/broadcast/live-streaming/#configuring-video-layout-for-opentok-live-streaming-broadcasts Configuring video layout for OpenTok live streaming broadcasts}.
-    # @param [Hash] opts  A hash with the symbolic key 'type'. For a <code>custom</code> type,
-    # add an additional key: 'stylesheet'.
+    #
+    # @option options [String] :type 
+    #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
+    #   "horizontalPresentation", "focus", or "custom".
+    #
+    # @option options [String] :stylesheet
+    #   The stylesheet for a custom layout. Set this parameter
+    #   if you set <code>type</code> to <code>"custom"</code>. Otherwise, leave it undefined.
+    #
+    # @raise [OpenTokBroadcastError]
+    #   The broadcast layout could not be updated.
+    #
+    # @raise [OpenTokAuthenticationError]
+    #   Authentication failed. Invalid API key or secret.
+    #
+    # @raise [OpenTokError]
+    #   OpenTok server error.
+    #
+    # @raise [ArgumentError]
+    #   The broadcast_id or options parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The "custom" type was specified without a stylesheet option.
+    #
+    # @raise [ArgumentError]
+    #   A stylesheet was passed in for a type other than custom. Or an invalid type was passed in.
+    #
+    # @raise [ArgumentError]
+    #   An invalid layout type was passed in.
     # Refer to {https://tokbox.com/developer/rest/#change_composed_archive_layout}
 
     def layout(opts = {})
