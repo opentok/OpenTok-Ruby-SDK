@@ -9,6 +9,9 @@ class BroadcastSample < Sinatra::Base
   set :opentok, OpenTok::OpenTok.new(api_key, ENV['API_SECRET'])
   set :session, opentok.create_session(:media_mode => :routed)
   set :erb, :layout => :layout
+  set :broadcastId, nil
+  set :focusStreamId, ''
+  set :broadcastLayout, 'bestFit'
 
   get '/' do
     erb :index
@@ -17,68 +20,76 @@ class BroadcastSample < Sinatra::Base
   get '/host' do
     api_key = settings.api_key
     session_id = settings.session.session_id
-    token = settings.opentok.generate_token(session_id, :role => :publisher, :initialLayoutClassList => ['focus'])
+    token = settings.opentok.generate_token(session_id, role: :publisher, initialLayoutClassList: ['focus'])
 
     erb :host, locals: {
-        :apiKey => api_key,
-        :sessionId => session_id,
-        :token => token,
-        initialBroadcastId: nil,
-        focusStreamId: '',
-        initialLayout: nil
+        apiKey: api_key,
+        sessionId: session_id,
+        token: token,
+        initialBroadcastId: settings.broadcastId,
+        focusStreamId: settings.focusStreamId,
+        initialLayout: settings.broadcastLayout
     }
   end
 
   get '/participant' do
     api_key = settings.api_key
     session_id = settings.session.session_id
-    token = settings.opentok.generate_token(session_id, :role => :moderator)
+    token = settings.opentok.generate_token(session_id, role: :publisher)
 
-    erb :participant, :locals => {
-      :api_key => api_key,
-      :session_id => session_id,
-      :token => token
+    erb :participant, locals: {
+        apiKey: api_key,
+        sessionId: session_id,
+        token: token,
+        focusStreamId: settings.focusStreamId,
+        layout: settings.broadcastLayout
     }
-  end
-
-  get '/history' do
-    page = (params[:page] || "1").to_i
-    offset = (page - 1) * 5
-    archives = settings.opentok.archives.all(:offset => offset, :count => 5)
-
-    show_previous = page > 1 ? '/history?page=' + (page-1).to_s : nil
-    show_next = archives.total > (offset + 5) ? '/history?page=' + (page+1).to_s : nil
-
-    erb :history, :locals => {
-      :archives => archives,
-      :show_previous => show_previous,
-      :show_next => show_next
-    }
-  end
-
-  get '/download/:archive_id' do
-    archive = settings.opentok.archives.find(params[:archive_id])
-    redirect archive.url
   end
 
   post '/start' do
-    archive = settings.opentok.archives.create settings.session.session_id, {
-      :name => "Ruby Archiving Sample App",
-      :output_mode => params[:output_mode],
-      :has_audio => params[:has_audio] == "on",
-      :has_video => params[:has_video] == "on"
+    puts params
+    opts = {
+        :maxDuration => params.key?("maxDuration") ? params[:maxDuration] : 7200,
+        :resolution =>  params[:resolution],
+        :layout => params[:layout],
+        :outputs => {
+            :hls => {}
+        }
     }
-    body archive.to_json
+    b = settings.opentok.broadcasts.create(settings.session.session_id, opts)
+    settings.broadcastId = b.id
+    puts b.to_json
+    body b.to_json
   end
 
-  get '/stop/:archive_id' do
-    archive = settings.opentok.archives.stop_by_id(params[:archive_id])
-    body archive.to_json
+  get '/broadcast' do
+    b = settings.opentok.broadcasts.find settings.broadcastId
+    redirect b.broadcastUrls['hls'] if b.status == 'started'
   end
 
-  get '/delete/:archive_id' do
-    settings.opentok.archives.delete_by_id(params[:archive_id])
-    redirect '/history'
+  get '/stop/:broadcastId' do
+    settings.opentok.broadcasts.stop settings.broadcastId
+    settings.broadcastId = nil
+  end
+
+  post '/broadcast/:broadcastId/layout' do
+    layoutType = params[:type]
+    settings.opentok.broadcasts.layout(settings.broadcastId, type: layoutType)
+    settings.broadcastLayout = layoutType
+  end
+
+  post '/focus' do
+    puts params
+    hash = { items: [] }
+    hash[:items] << { id: params[:focus], layoutClassList: ['focus', 'full'] }
+    settings.focusStreamId = params[:focus]
+    if params.key?('otherStreams')
+      params[:otherStreams].each do |stream|
+        hash[:items] << { id: stream, layoutClassList: [] }
+      end
+    end
+    puts hash
+    settings.opentok.streams.layout(settings.session.session_id, hash)
   end
 
   # start the server if ruby file executed directly
