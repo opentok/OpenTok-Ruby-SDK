@@ -3,10 +3,14 @@
 [![Build Status](https://travis-ci.org/opentok/OpenTok-Ruby-SDK.png)](https://travis-ci.org/opentok/OpenTok-Ruby-SDK)
 
 The OpenTok Ruby SDK lets you generate
-[sessions](http://www.tokbox.com/opentok/tutorials/create-session/) and
-[tokens](http://www.tokbox.com/opentok/tutorials/create-token/) for
-[OpenTok](http://www.tokbox.com/) applications, and
-[archive](https://tokbox.com/opentok/tutorials/archiving) OpenTok sessions.
+[sessions](https://tokbox.com/developer/guides/create-session/) and
+[tokens](https://tokbox.com/developer/guides/create-token/) for
+[OpenTok](http://www.tokbox.com/) applications. It also includes methods for
+working with OpenTok [archives](https://tokbox.com/developer/guides/archiving),
+working with OpenTok [live streaming
+broadcasts](https://tokbox.com/developer/guides/broadcast/live-streaming/),
+working with OpenTok [SIP interconnect](https://tokbox.com/developer/guides/sip),
+and [disconnecting clients from sessions](https://tokbox.com/developer/guides/moderation/rest/).
 
 # Installation
 
@@ -17,7 +21,7 @@ Bundler helps manage dependencies for Ruby projects. Find more info here: <http:
 Add this gem to your `Gemfile`:
 
 ```ruby
-gem "opentok", "~> 3.0.3"
+gem "opentok", "~> 3.0.4"
 ```
 
 Allow bundler to install the change.
@@ -103,33 +107,32 @@ token = session.generate_token({
     :initial_layout_class_list => ['focus', 'inactive']
 });
 ```
+
 ## Working with Streams 
 
-Use this method to get information of a OpenTok stream, or all streams in a session.
-For example, you can call this method to get information about layout classes used by an OpenTok stream. 
+Use this method to get information for an OpenTok stream or for all streams in a session.
+For example, you can call this method to get information about layout classes used by an
+OpenTok stream. 
 
-To get information of a specific stream in a session, do
-`stream = opentok.streams.find(session_id, stream_id)`. The return object is a `Stream` object and
+To get information of a specific stream in a session, call
+`opentok.streams.find(session_id, stream_id)`. The return object is a `Stream` object and
 you can access various stream properties as shown in the following example (using RSpec notations):
+
 ```ruby
-    expect(stream).to be_an_instance_of OpenTok::Stream
-    expect(stream.videoType).to eq 'camera'
-    expect(stream.layoutClassList.count).to eq 1
-    expect(stream.layoutClassList.first).to eq "full"
+expect(stream).to be_an_instance_of OpenTok::Stream
+expect(stream.videoType).to eq 'camera'
+expect(stream.layoutClassList.count).to eq 1
+expect(stream.layoutClassList.first).to eq "full"
 ```
 
-To get information on all streams in a session
-do `all_streams = opentok.streams.all(session_id)`. The return object is a `StreamList`. An example can be as follows:
+To get information on all streams in a session, call `opentok.streams.all(session_id)`.
+The return value is a `StreamList` object:
+
 ```ruby
-
-    expect(all_streams).to be_an_instance_of OpenTok::StreamList
-    expect(all_streams.total).to eq 2
-    expect(all_streams[0].layoutClassList[1]).to eq "focus"
+expect(all_streams).to be_an_instance_of OpenTok::StreamList
+expect(all_streams.total).to eq 2
+expect(all_streams[0].layoutClassList[1]).to eq "focus"
 ```
-
-For more information on getting stream information, see the
-[OpenTok Stream Information](https://tokbox.com/developer/rest/#get-stream-info) programming guide.
-
 
 ## Working with Archives
 
@@ -226,38 +229,48 @@ Note that you can also create an automatically archived session, by passing in `
 as the `:archive_mode` property of the `options` parameter passed into the
 `OpenTok#create_session()` method (see "Creating Sessions," above).
 
-You can set the [layout](https://tokbox.com/developer/rest/#change_composed_archive_layout) of an archive using 
+You can set the [layout](https://tokbox.com/developer/rest/#change_composed_archive_layout) of an archive:
+
 ```ruby
 opts = { :type => "verticalPresentation" }
 opentok.archives.layout(archive_id, opts)
 ```
-The hash `opts` has two entries.
-The `type` is the layout type for the archive. 
-Valid values are "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)). 
-If you specify a "custom" layout type, set the stylesheet property. 
-(For other layout types, do not set the stylesheet property.) 
-Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
+
+The hash `opts` has two entries:
+
+* The `type` is the layout type for the archive.  Valid values are "bestFit" (best fit)
+  "custom" (custom), "horizontalPresentation" (horizontal presentation),
+  "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)).
+
+* If you specify a "custom" layout type, set the `stylesheet` property. 
+  (For other layout types, do not set the stylesheet property.) 
+
+See [Customizing the video layout for composed archives](https://tokbox.com/developer/guides/archiving/layout-control.html)
 for more details. 
 
-You can set the initial layout class for a client's streams by setting the layout option when you create the token for the client, using the `opentok.generate_token` method. And you can also change the layout classes of a stream as follows:
+You can set the initial layout class for a client's streams by setting the layout option when you
+create the token for the client, using the `opentok.generate_token` method. And you can also change
+the layout classes of a stream as follows:
 
 ```ruby
-    streams_list = {
-        :items => [
-            {
-                :id => "8b732909-0a06-46a2-8ea8-074e64d43422",
-                :layoutClassList => ["full"]
-            },
-            {
-                :id => "8b732909-0a06-46a2-8ea8-074e64d43423",
-                :layoutClassList => ["full", "focus"]
-            }
-        ]
-    }
-    response = opentok.streams.layout(session_id, streams_list)
+streams_list = {
+    :items => [
+        {
+            :id => "8b732909-0a06-46a2-8ea8-074e64d43422",
+            :layoutClassList => ["full"]
+        },
+        {
+            :id => "8b732909-0a06-46a2-8ea8-074e64d43423",
+            :layoutClassList => ["full", "focus"]
+        }
+    ]
+}
+response = opentok.streams.layout(session_id, streams_list)
 ```
+
 For more information on setting stream layout classes, see the
-[OpenTok Stream Information](https://tokbox.com/developer/rest/#change-stream-layout-classes-composed) guide.
+[Changing the composed archive layout classes for an OpenTok
+stream](https://tokbox.com/developer/rest/#change-stream-layout-classes-composed).
 
 Please keep in mind that the `streams.layout` method applies to archive and broadcast streams only. 
 
@@ -267,18 +280,21 @@ For more information on archiving, see the
 ## Signaling
 
 You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.  
-If `connection_id` is nil or an empty string, then the signal is send to all valid connections in the 
-session. 
+If `connection_id` is nil or an empty string, then the signal is send to all valid connections in
+the session. 
 
 An example of `opts` field can be as follows:
 
 ```ruby
-  opts = { :type => "chat",
-           :data => "Hello"
-  }
+opts = { :type => "chat",
+         :data => "Hello"
+}
 ```
-The maximum length of the `type` string is 128 bytes, and it must contain only letters (A-Z and a-z), numbers (0-9), '-', '_', and '~'.
-The `data` string must not exceeds the maximum size (8 kB).
+
+The maximum length of the `type` string is 128 bytes, and it must contain only letters
+(A-Z and a-z), numbers (0-9), '-', '_', and '~'.
+
+The `data` string must not exceed the maximum size (8 kB).
 
 The `connection_id` and `opts` parameter are jointly optional by default. Hence you can also 
 use `opentok.signals.send(session_id)`
@@ -287,56 +303,66 @@ For more information on signaling, see the
 [OpenTok Signaling](https://tokbox.com/developer/guides/signaling/js/) programming guide.
 
 ## Broadcasting
+
 You can broadcast your streams to a HLS or RTMP servers.
-To successfully start broadcasting a session, at least one publishing client must be connected to the session.
-You can only have one active live streaming broadcast at a time for a session (however, having more than one would not be useful). 
-The live streaming broadcast can target one HLS endpoint and up to five RTMP servers simultaneously for a session. 
-You can only start live streaming for sessions that use the OpenTok Media Router (with the media mode set to routed). You cannot use live streaming
-with sessions that have the media mode set to relayed.                                                         
+
+To successfully start broadcasting a session, at least one publishing client must be connected to
+the session.
+
+You can only have one active live streaming broadcast at a time for a session (however, having more
+than one would not be useful). 
+
+The live streaming broadcast can target one HLS endpoint and up to five RTMP servers simultaneously
+for a session. 
+
+You can only start live streaming for sessions that use the OpenTok Media Router (with the
+media mode set to routed). You cannot use live streaming with sessions that have the media mode set
+to relayed.
 
 To create a HLS only broadcast:
 ```ruby
-    opts = {
-        :outputs => {
-            :hls => {}
-        }
-    }
-    broadcast = opentok.broadcasts.create(session_id, opts)
-    
-   # HLS + RTMP
-    opts = {
-         :outputs => {
-             :hls => {},
-             :rtmp => [
-                 {
-                     :id => "myOpentokStream",
-                     :serverUrl => "rtmp://x.rtmp.youtube.com/live123",
-                     :streamName => "66c9-jwuh-pquf-9x00"
-                 }
-             ]
-         }
-     }
-     broadcast = opentok.broadcasts.create(session_id, opts) 
+opts = {
+  :outputs => {
+      :hls => {}
+  }
+}
+broadcast = opentok.broadcasts.create(session_id, opts)
 
- # The returned broadcast object has information property like id, sessionId , projectId ,
- # createdAt , updatedAt , resolution , status and a Hash of broadcastUrls. The broadcastUrls 
- # consists of HLS url and an array of RTMP objects. The RTMP objects resembles the above `rtmp` value object in
- # opts. 
+# HLS + RTMP
+opts = {
+   :outputs => {
+       :hls => {},
+       :rtmp => [
+           {
+               :id => "myOpentokStream",
+               :serverUrl => "rtmp://x.rtmp.youtube.com/live123",
+               :streamName => "66c9-jwuh-pquf-9x00"
+           }
+       ]
+   }
+}
+broadcast = opentok.broadcasts.create(session_id, opts)
 ```
+
+The returned Broadcast object has information about the broadcast, like id, sessionId , projectId,
+createdAt, updatedAt, resolution, status, and a Hash of broadcastUrls. The broadcastUrls 
+consists of an HLS URL and an array of RTMP objects. The RTMP objects resembles the `rtmp` value
+in `opts` in the example above. 
+
 For more information on broadcast, see the
 [OpenTok Broadcast guide](https://tokbox.com/developer/rest/#start_broadcast) programming guide.
 
 To get information about a broadcast stream 
 ```ruby
 my_broadcast = opentok.broadcasts.find broadcast_id
-
- # The returned broadcast object has information property like id, sessionId , projectId ,
- # createdAt , updatedAt , resolution , status and a Hash of broadcastUrls. The broadcastUrls 
- # consists of HLS url and an array of RTMP objects. The RTMP objects resembles the above `rtmp` value object in
- # opts. 
 ```
+The Broadcast object returned has properties describing the broadcast, like id, sessionId,
+projectId, createdAt, updatedAt, resolution, status, and a Hash of broadcastUrls. The broadcastUrls 
+consists of an HLS URL and an array of RTMP objects. The RTMP objects resembles the `rtmp` value
+in `opts` in the example above. 
 
-To stop a broadcast
+To stop a broadcast:
+
 ```ruby
  my_broadcast = opentok.broadcasts.stop broadcast_id
  
@@ -361,32 +387,36 @@ opentok.broadcasts.layout(started_broadcast_id, {
    my_broadcast.layout(
              :type => 'pip',
              )
-             
+
    # the returned value is true if successful
 ```
+
 The hash above has two entries.
-The `type` is the layout type for the archive. 
-Valid values are "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)). 
-If you specify a "custom" layout type, set the stylesheet property. 
-(For other layout types, do not set the stylesheet property.) 
-Refer [layout guide](https://tokbox.com/developer/guides/archiving/layout-control.html)
+
+* The `type` is the layout type for the archive. Valid values are "bestFit" (best fit),
+  "custom" (custom), "horizontalPresentation" (horizontal presentation),
+  "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation). 
+
+* If you specify a "custom" layout type, set the `stylesheet` property.  (For other layout types,
+  do not set the stylesheet property.) 
+
+Refer to [Customizing the video layout for composed
+archives](https://tokbox.com/developer/guides/archiving/layout-control.html)
 for more details. 
 
-You can also change the layout of an individual stream dynamically. Refer [working with Streams](#working-with-streams)
-
+You can also change the layout of an individual stream dynamically. Refer to
+[working with Streams](#working-with-streams).
 
 ## Force disconnect 
 
-You can force disconnect a connection within a session by using the `opentok.connections.forceDisconnect(session_id, connection_id)` method.
-You are essentially forcing a client endpoint to disconnect from a session.
-
-For more information on force disconnect, see the
-[OpenTok Force disconnect](https://tokbox.com/developer/rest/#forceDisconnect) programming guide.
+You can cause a client to be forced to disconnect from a session by using the
+`opentok.connections.forceDisconnect(session_id, connection_id)` method.
 
 ## Initiating a SIP call
 
-You can initiate a SIP call using the `opentok.sip.dial(session_id, token, sip_uri, opts)` method.  This requires a SIP url. You will often need to pass options for authenticating to the SIP provider and specifying encrypted session establishment.
-
+You can initiate a SIP call using the `opentok.sip.dial(session_id, token, sip_uri, opts)` method. 
+This requires a SIP URL. You will often need to pass options for authenticating to the SIP provider
+and specifying encrypted session establishment.
 
 ```ruby
 opts = { "auth" => { "username" => sip_username,
@@ -397,7 +427,7 @@ response = opentok.sip.dial(session_id, token, "sip:+15128675309@acme.pstn.examp
 ```
 
 For more information on SIP Interconnect, see the
-[OpenTok SIP Interconnect](https://tokbox.com/developer/guides/sip/) programming guide.
+[OpenTok SIP Interconnect](https://tokbox.com/developer/guides/sip/) developer guide.
 
 
 # Samples
