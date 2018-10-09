@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/v2/project/123456/session/SESSIONID/connection/CONNID/signal
+    body:
+      encoding: UTF-8
+      string: '{"type":"chat","data":"Hello"}'
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      X-Opentok-Auth:
+      - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImlzdCI6InByb2plY3QifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.Oh_JHhtEUKK1pPV4s6neXJj_RXI8EcEpJRRpG_2c9U0
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 204
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 28 Aug 2018 22:01:54 GMT
+      Content-Type:
+      - application/xml
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '177'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><errorPayload><code>-1</code><message>Issuer
+        not found</message><description>Issuer not found</description></errorPayload>
+    http_version: 
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 2.8.0
