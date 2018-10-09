@@ -47,7 +47,6 @@ class BroadcastSample < Sinatra::Base
   end
 
   post '/start' do
-    puts params
     opts = {
         :maxDuration => params.key?("maxDuration") ? params[:maxDuration] : 7200,
         :resolution =>  params[:resolution],
@@ -56,20 +55,20 @@ class BroadcastSample < Sinatra::Base
             :hls => {}
         }
     }
-    b = settings.opentok.broadcasts.create(settings.session.session_id, opts)
-    settings.broadcastId = b.id
-    puts b.to_json
-    body b.to_json
+    broadcast = settings.opentok.broadcasts.create(settings.session.session_id, opts)
+    settings.broadcastId = broadcast.id
+    body broadcast.to_json
   end
 
   get '/broadcast' do
-    b = settings.opentok.broadcasts.find settings.broadcastId
-    redirect b.broadcastUrls['hls'] if b.status == 'started'
+    broadcast = settings.opentok.broadcasts.find settings.broadcastId
+    redirect broadcast.broadcastUrls['hls'] if b.status == 'started'
   end
 
   get '/stop/:broadcastId' do
-    settings.opentok.broadcasts.stop settings.broadcastId
-    settings.broadcastId = nil
+    broadcast = settings.opentok.broadcasts.stop settings.broadcastId
+    settings.broadcast = nil
+    body broadcast.to_json
   end
 
   post '/broadcast/:broadcastId/layout' do

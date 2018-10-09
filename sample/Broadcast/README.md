@@ -1,7 +1,7 @@
-# OpenTok Archiving Sample for Ruby
+# OpenTok Broadcasting Sample for Ruby
 
-This is a simple demo app that shows how you can use the OpenTok Java SDK to archive (or record)
-Sessions, list archives that have been created, download the recordings, and delete the recordings.
+This is a simple demo app that shows how you can use the OpenTok Java SDK to broadcast 
+Sessions and how to stop broadcasts, change the layout of the broadcast and/or the streams within.
 
 ## Running the App
 
@@ -22,90 +22,93 @@ $ export API_SECRET=abcdef1234567890abcdef01234567890abcdef
 Finally, start the server using Bundler to handle dependencies
 
 ```
-$ bundle exec ruby archiving_sample.rb
+$ bundle exec ruby broadcast_sample.rb
 ```
 
-Visit <http://localhost:4567> in your browser. You can now create new archives (either as a host or
-as a participant) and also play archives that have already been created.
+Visit <http://localhost:4567> in your browser. You can now create new broadcast (with  a host and
+as a participant) and also view those broadcasts.
 
 ## Walkthrough
 
-This demo application uses the same frameworks and libraries as the HelloWorld sample. If you have
+This demo application uses the same frameworks and libraries as the Archiving sample. If you have
 not already gotten familiar with the code in that project, consider doing so before continuing.
 
 The explanations below are separated by page. Each section will focus on a route handler within the
 main application (archiving_sample.rb).
 
-### Creating Archives – Host View
+### Creating Broadcasts – Host View
 
-Start by visiting the host page at <http://localhost:4567/host> and using the application to record
-an archive. Your browser will first ask you to approve permission to use the camera and microphone.
-Once you've accepted, your image will appear inside the section titled 'Host'. To start recording
-the video stream, press the 'Start Archiving' button. Once archiving has begun the button will turn
-green and change to 'Stop Archiving'. You should also see a red blinking indicator that you are
-being recorded. Wave and say hello! Stop archiving when you are done.
+Start by visiting the host page at <http://localhost:4567/host> and using the application to start
+a broadcast. Your browser will first ask you to approve permission to use the camera and microphone.
+Once you've accepted, your image will appear inside the section titled 'Host'. To start broadcasting
+the video stream, press the 'Start Broadcast' button. Once broadcasting has begun the button will turn
+green and change to 'Stop Broadcast'.  Stop broadcasting when you are done.
 
 Next we will see how the host view is implemented on the server. The route handler for this page is
 shown below:
 
 ```ruby
-get '/host' do
-  api_key = settings.api_key
-  session_id = settings.session.session_id
-  token = settings.opentok.generate_token(session_id, :role => :moderator)
+ get '/host' do
+    api_key = settings.api_key
+    session_id = settings.session.session_id
+    token = settings.opentok.generate_token(session_id, role: :publisher, initialLayoutClassList: ['focus'])
 
-  erb :host, :locals => {
-    :api_key => api_key,
-    :session_id => session_id,
-    :token => token
-  }
-end
+    erb :host, locals: {
+        apiKey: api_key,
+        sessionId: session_id,
+        token: token,
+        initialBroadcastId: settings.broadcastId,
+        focusStreamId: settings.focusStreamId,
+        initialLayout: settings.broadcastLayout
+    }
+  end
+
 ```
 
-If you've completed the HelloWorld walkthrough, this should look familiar. This handler simply
+If you've completed the Archiving walkthrough, this should look familiar. This handler simply
 generates the three strings that the client (JavaScript) needs to connect to the session: `api_key`,
-`session_id` and `token`. After the user has connected to the session, they press the
-'Start Archiving' button, which sends an XHR (or Ajax) request to the <http://localhost:4567/start>
+`session_id` and `token`. The `initialBroadcastId` is the broadcast id , `focusStreamId` is the stream id which has the current
+focus and `initialLayout` is the initial layout for the current broadcast which is being started. After the user 
+has connected to the session, they press the
+'Start Broadcast' button, which sends an XHR (or Ajax) request to the <http://localhost:4567/start>
 URL. The route handler for this URL is shown below:
 
 ```ruby
-post '/start' do
-  archive = settings.opentok.archives.create settings.session.session_id, {
-    :name => "Ruby Archiving Sample App",
-    :output_mode => params[:output_mode],
-    :has_audio => params[:has_audio] == "on",
-    :has_video => params[:has_video] == "on"
-  }
-  body archive.to_json
-end
+  post '/start' do
+    opts = {
+        :maxDuration => params.key?("maxDuration") ? params[:maxDuration] : 7200,
+        :resolution =>  params[:resolution],
+        :layout => params[:layout],
+        :outputs => {
+            :hls => {}
+        }
+    }
+    broadcast = settings.opentok.broadcasts.create(settings.session.session_id, opts)
+    settings.broadcastId = broadcast.id
+    body broadcast.to_json
+  end
 ```
 
-In this handler, `opentok.archives.create` is called with the `session_id` for the session that
-needs to be archived. The optional second argument is a hash which defines optional properties
-for the archive. The `:name` value defines the archive's name, which is stored with the archive and
-can be read later. The `:has_audio`, `:has_video`, and `:output_mode` values are read from the
-request body; these define whether the archive will record audio and video, and whether it will
-record streams individually or to a single file composed of all streams. In this case, as in the
+In this handler, `opentok.broadcasts.create` is called with the `session_id` for the broadcasting session
+The optional second argument is a hash which defines optional properties
+for the broadcast. It consists of `maxDuration` of the broadcast, `resolution` and broadcast `layout`.
+In this sample app we only care for `hls` broadcasting hence we only specify that. 
+You can add RTMP servers , if you desire. Please refer Ruby SDK documentation for that. In this case, as in the
 HelloWorld sample app, there is only one session created and it is used here and for the participant
 view. This will trigger the recording to begin. The response sent back to the client's XHR request
-will be the JSON representation of the archive, which is returned from the `to_json()` method. The
-client is also listening for the `archiveStarted` event, and uses that event to change the
-'Start Archiving' button to show 'Stop Archiving' instead. When the user presses the button this
-time, another XHR request is sent to the <http://localhost:4567/stop/:archiveId> URL where
-`:archiveId` represents the ID the client receives in the 'archiveStarted' event. The route handler
-for this request is shown below:
+will be the JSON representation of the archive, which is returned from the `to_json()` method. 
+
+The Stop Broadcast code looks like:
 
 ```ruby
-get '/stop/:archive_id' do
-  archive = settings.opentok.archives.stop_by_id(params[:archive_id])
-  body archive.to_json
-end
+  get '/stop/:broadcastId' do
+    broadcast = settings.opentok.broadcasts.stop settings.broadcastId
+    settings.broadcast = nil
+    body broadcast.to_json
+  end
 ```
 
-This handler is very similar to the previous one. Instead of calling the `archives.create()` method,
-the `archives.stop_by_id()` method is called. This method takes an `archive_id` as its parameter,
-which is different for each time a session starts recording. But the client has sent this to the
-server as part of the URL, so the `params[:archive_id]` expression is used to retrieve it.
+
 
 Now you have understood the three main routes that are used to create the Host experience of
 creating an archive. Much of the functionality is done in the client with JavaScript. That code can
