@@ -62,12 +62,14 @@ class BroadcastSample < Sinatra::Base
 
   get '/broadcast' do
     broadcast = settings.opentok.broadcasts.find settings.broadcastId
-    redirect broadcast.broadcastUrls['hls'] if b.status == 'started'
+    redirect broadcast.broadcastUrls['hls'] if broadcast.status == 'started'
   end
 
   get '/stop/:broadcastId' do
     broadcast = settings.opentok.broadcasts.stop settings.broadcastId
     settings.broadcast = nil
+    settings.focusStreamId = ''
+    settings.broadcastLayout = 'bestFit'
     body broadcast.to_json
   end
 
@@ -78,7 +80,6 @@ class BroadcastSample < Sinatra::Base
   end
 
   post '/focus' do
-    puts params
     hash = { items: [] }
     hash[:items] << { id: params[:focus], layoutClassList: ['focus', 'full'] }
     settings.focusStreamId = params[:focus]
@@ -87,7 +88,6 @@ class BroadcastSample < Sinatra::Base
         hash[:items] << { id: stream, layoutClassList: [] }
       end
     end
-    puts hash
     settings.opentok.streams.layout(settings.session.session_id, hash)
   end
 
