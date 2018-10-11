@@ -9,9 +9,9 @@ class BroadcastSample < Sinatra::Base
   set :opentok, OpenTok::OpenTok.new(api_key, ENV['API_SECRET'])
   set :session, opentok.create_session(:media_mode => :routed)
   set :erb, :layout => :layout
-  set :broadcastId, nil
-  set :focusStreamId, ''
-  set :broadcastLayout, 'bestFit'
+  set :broadcast_id, nil
+  set :focus_stream_id, ''
+  set :broadcast_layout, 'horizontalPresentation'
 
   get '/' do
     erb :index
@@ -26,9 +26,9 @@ class BroadcastSample < Sinatra::Base
         apiKey: api_key,
         sessionId: session_id,
         token: token,
-        initialBroadcastId: settings.broadcastId,
-        focusStreamId: settings.focusStreamId,
-        initialLayout: settings.broadcastLayout
+        initialBroadcastId: settings.broadcast_id,
+        focusStreamId: settings.focus_stream_id,
+        initialLayout: settings.broadcast_layout
     }
   end
 
@@ -41,8 +41,8 @@ class BroadcastSample < Sinatra::Base
         apiKey: api_key,
         sessionId: session_id,
         token: token,
-        focusStreamId: settings.focusStreamId,
-        layout: settings.broadcastLayout
+        focusStreamId: settings.focus_stream_id,
+        layout: settings.broadcast_layout
     }
   end
 
@@ -56,33 +56,34 @@ class BroadcastSample < Sinatra::Base
         }
     }
     broadcast = settings.opentok.broadcasts.create(settings.session.session_id, opts)
-    settings.broadcastId = broadcast.id
+    settings.broadcast_id = broadcast.id
     body broadcast.to_json
   end
 
   get '/broadcast' do
-    broadcast = settings.opentok.broadcasts.find settings.broadcastId
+    return 'No broadcast id exists' if settings.broadcast_id.nil? || settings.broadcast_id.empty?
+    broadcast = settings.opentok.broadcasts.find settings.broadcast_id
     redirect broadcast.broadcastUrls['hls'] if broadcast.status == 'started'
   end
 
   get '/stop/:broadcastId' do
-    broadcast = settings.opentok.broadcasts.stop settings.broadcastId
-    settings.broadcast = nil
-    settings.focusStreamId = ''
-    settings.broadcastLayout = 'bestFit'
+    broadcast = settings.opentok.broadcasts.stop settings.broadcast_id
+    settings.broadcast_id = nil
+    settings.focus_stream_id = ''
+    settings.broadcast_layout = 'horizontalPresentation'
     body broadcast.to_json
   end
 
   post '/broadcast/:broadcastId/layout' do
     layoutType = params[:type]
-    settings.opentok.broadcasts.layout(settings.broadcastId, type: layoutType)
-    settings.broadcastLayout = layoutType
+    settings.opentok.broadcasts.layout(settings.broadcast_id, type: layoutType)
+    settings.broadcast_layout = layoutType
   end
 
   post '/focus' do
     hash = { items: [] }
-    hash[:items] << { id: params[:focus], layoutClassList: ['focus', 'full'] }
-    settings.focusStreamId = params[:focus]
+    hash[:items] << { id: params[:focus], layoutClassList: ['focus'] }
+    settings.focus_stream_id = params[:focus]
     if params.key?('otherStreams')
       params[:otherStreams].each do |stream|
         hash[:items] << { id: stream, layoutClassList: [] }

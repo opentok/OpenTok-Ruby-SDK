@@ -51,21 +51,20 @@ The host page , basically sets up the opentok session with the api key and secre
  broadcast exists , it defaults to it , along with the layout and the stream which had the 'full' focus.
 
 ```ruby
- get '/host' do
-    api_key = settings.api_key
-    session_id = settings.session.session_id
-    token = settings.opentok.generate_token(session_id, role: :publisher, initialLayoutClassList: ['focus'])
-
-    erb :host, locals: {
-        apiKey: api_key,
-        sessionId: session_id,
-        token: token,
-        initialBroadcastId: settings.broadcastId,
-        focusStreamId: settings.focusStreamId,
-        initialLayout: settings.broadcastLayout
-    }
-  end
-
+  get '/host' do
+     api_key = settings.api_key
+     session_id = settings.session.session_id
+     token = settings.opentok.generate_token(session_id, role: :publisher, initialLayoutClassList: ['focus'])
+ 
+     erb :host, locals: {
+         apiKey: api_key,
+         sessionId: session_id,
+         token: token,
+         initialBroadcastId: settings.broadcast_id,
+         focusStreamId: settings.focus_stream_id,
+         initialLayout: settings.broadcast_layout
+     }
+   end
 ```
 
 This handler simply
@@ -78,17 +77,17 @@ URL. The route handler for this URL is shown below:
 
 ```ruby
   post '/start' do
-    opts = {
-        :maxDuration => params.key?("maxDuration") ? params[:maxDuration] : 7200,
-        :resolution =>  params[:resolution],
-        :layout => params[:layout],
-        :outputs => {
-            :hls => {}
-        }
-    }
-    broadcast = settings.opentok.broadcasts.create(settings.session.session_id, opts)
-    settings.broadcastId = broadcast.id
-    body broadcast.to_json
+     opts = {
+         :maxDuration => params.key?("maxDuration") ? params[:maxDuration] : 7200,
+         :resolution =>  params[:resolution],
+         :layout => params[:layout],
+         :outputs => {
+             :hls => {}
+         }
+     }
+     broadcast = settings.opentok.broadcasts.create(settings.session.session_id, opts)
+     settings.broadcast_id = broadcast.id
+     body broadcast.to_json
   end
 ```
 
@@ -104,35 +103,37 @@ will be the JSON representation of the archive, which is returned from the `to_j
 
 You can view the HLS broadcast by going to your Home page in a different tab and clicking on `Broadcast URL` button.
 The code for handling this is as follows:
+
 ```ruby
   get '/broadcast' do
-    broadcast = settings.opentok.broadcasts.find settings.broadcastId
+    return 'No broadcast id exists' if settings.broadcast_id.nil? || settings.broadcast_id.empty?
+    broadcast = settings.opentok.broadcasts.find settings.broadcast_id
     redirect broadcast.broadcastUrls['hls'] if broadcast.status == 'started'
-  end
+ end
 ```
 The Stop Broadcast code looks like:
 
 ```ruby
   get '/stop/:broadcastId' do
-    broadcast = settings.opentok.broadcasts.stop settings.broadcastId
-    settings.broadcast = nil
-    settings.focusStreamId = ''
-    settings.broadcastLayout = 'bestFit'
+    broadcast = settings.opentok.broadcasts.stop settings.broadcast_id
+    settings.broadcast_id = nil
+    settings.focus_stream_id = ''
+    settings.broadcast_layout = 'horizontalPresentation'
     body broadcast.to_json
   end
 ```
 The settings revert backs to the settings when you start the app.
 
 In the host page, you also have a button called `Toggle Layout`, which toggles between `verticalPresentation` and 
-`horizontalPresentation`. We use the `bestFit` as the initial starting layout (This can be changed to whatever you want).
+`horizontalPresentation`.
 The route for `Toggle Layout` has the following code:
 
 ```ruby
-  post '/broadcast/:broadcastId/layout' do
-    layoutType = params[:type]
-    settings.opentok.broadcasts.layout(settings.broadcastId, type: layoutType)
-    settings.broadcastLayout = layoutType
-  end
+   post '/broadcast/:broadcastId/layout' do
+     layoutType = params[:type]
+     settings.opentok.broadcasts.layout(settings.broadcast_id, type: layoutType)
+     settings.broadcast_layout = layoutType
+   end
 ```
 
 ### Creating Broadcast - Participant View
@@ -152,29 +153,29 @@ the participant in your broadcasts.
         apiKey: api_key,
         sessionId: session_id,
         token: token,
-        focusStreamId: settings.focusStreamId,
-        layout: settings.broadcastLayout
+        focusStreamId: settings.focus_stream_id,
+        layout: settings.broadcast_layout
     }
   end
 ```
 
 ### Changing streams layout class
-If you click on either the host or the participant video/view, that view gets the `focus` and `full` view layout
+If you click on either the host or the participant video/view, that view gets the `focus`
 in the broadcast. The JS pages send `focus` stream id and the `other` streams layout can be `nulled`
 out, as shown below:
 
 ```ruby
-  post '/focus' do
+ post '/focus' do
     hash = { items: [] }
-    hash[:items] << { id: params[:focus], layoutClassList: ['focus', 'full'] }
-    settings.focusStreamId = params[:focus]
+    hash[:items] << { id: params[:focus], layoutClassList: ['focus'] }
+    settings.focus_stream_id = params[:focus]
     if params.key?('otherStreams')
       params[:otherStreams].each do |stream|
         hash[:items] << { id: stream, layoutClassList: [] }
       end
     end
     settings.opentok.streams.layout(settings.session.session_id, hash)
-  end
+ end
 ``` 
 
 That completes the walkthrough for this Broadcast sample application. 
