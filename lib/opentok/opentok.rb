@@ -13,10 +13,13 @@ require "resolv"
 require "set"
 
 module OpenTok
-  # Contains methods for creating OpenTok sessions, generating tokens, and working with archives.
+  # Contains methods for creating OpenTok sessions and generating tokens. It also includes
+  # methods for returning object that let you work with archives, work with live streaming
+  # broadcasts, using SIP interconnect, sending signals to sessions, disconnecting clients from
+  # sessions, and setting the layout classes for streams.
   #
   # To create a new OpenTok object, call the OpenTok constructor with your OpenTok API key
-  # and the API secret from the OpenTok dashboard (https://dashboard.tokbox.com). Do not
+  # and the API secret for your {https://tokbox.com/account OpenTok project}. Do not
   # publicly share your API secret. You will use it with the OpenTok constructor (only on your web
   # server) to create OpenTok sessions.
   #
@@ -24,7 +27,7 @@ module OpenTok
   # @attr_reader [String] api_key @private The OpenTok API key.
   #
   #
-  # @!method generate_token(options)
+  # @!method generate_token(session_id, options)
   #   Generates a token for a given session.
   #
   #   @param [String] session_id The session ID of the session to be accessed by the client using
@@ -49,6 +52,11 @@ module OpenTok
   #     end-user. For example, you can pass the user ID, name, or other data describing the
   #     end-user. The length of the string is limited to 1000 characters. This data cannot be
   #     updated once it is set.
+  #   @option options [Array] :initial_layout_class_list
+  #     An array of class names (strings) to be used as the initial layout classes for streams
+  #     published by the client. Layout classes are used in customizing the layout of videos in
+  #     {https://tokbox.com/developer/guides/broadcast/live-streaming/ live streaming broadcasts}
+  #     and {https://tokbox.com/developer/guides/archiving/layout-control.html composed archives}.
   #   @return [String] The token string.
   class OpenTok
 
@@ -66,8 +74,8 @@ module OpenTok
     ##
     # Create a new OpenTok object.
     #
-    # @param [String] api_key Your OpenTok API key. See the OpenTok dashboard
-    #   (https://dashboard.tokbox.com).
+    # @param [String] api_key The OpenTok API key for your
+    #   {https://tokbox.com/account OpenTok project}.
     # @param [String] api_secret Your OpenTok API key.
     # @option opts [Symbol] :api_url Do not set this parameter. It is for internal use by TokBox.
     # @option opts [Symbol] :ua_addendum Do not set this parameter. It is for internal use by TokBox.
@@ -93,8 +101,8 @@ module OpenTok
     # Check the error message for details.
     #
     # You can also create a session using the OpenTok REST API (see
-    # http://www.tokbox.com/opentok/api/#session_id_production) or the OpenTok dashboard
-    # (see https://dashboard.tokbox.com/projects).
+    # http://www.tokbox.com/opentok/api/#session_id_production) or at your
+    # {https://tokbox.com/account OpenTok account page}.
     #
     # @param [Hash] opts (Optional) This hash defines options for the session.
     #
@@ -177,22 +185,27 @@ module OpenTok
       @archives ||= Archives.new client
     end
 
+    # A Broadcasts object, which lets you work with OpenTok live streaming broadcasts.
     def broadcasts
       @broadcasts ||= Broadcasts.new client
     end
 
+    # A Sip object, which lets you use the OpenTok SIP gateway.
     def sip
       @sip ||= Sip.new client
     end
 
+    # A Streams object, which lets you work with OpenTok live streaming broadcasts.
     def streams
       @streams ||= Streams.new client
     end
 
+    # A Signals object, which lets you send signals to OpenTok sessions.
     def signals
       @signals ||= Signals.new client
     end
 
+    # A Connections object, which lets disconnect clients from an OpenTok session.
     def connections
       @connections ||= Connections.new client
     end

@@ -54,8 +54,8 @@ module OpenTok
     #   * "started" -- The archive started and is in the process of being recorded.
     #   * "stopped" -- The archive stopped recording.
     #   * "uploaded" -- The archive is available for download from the the upload target
-    #     Amazon S3 bucket or Windows Azure container you set at the OpenTok dashboard
-    #     (https://dashboard.tokbox.com).
+    #     Amazon S3 bucket or Windows Azure container you set for your
+    #     {https://tokbox.com/account OpenTok project}.
     #
     # @attr [string] url
     #   The download URL of the available MP4 file. This is only set for an archive with the status set to
@@ -71,14 +71,14 @@ module OpenTok
       @json = json
     end
 
-    # A JSON encoded string representation of the archive
+    # A JSON-encoded string representation of the archive.
     def to_json
       @json.to_json
     end
 
     # Stops an OpenTok archive that is being recorded.
     #
-    # Archives automatically stop recording after 90 minutes or when all clients have disconnected
+    # Archives automatically stop recording after 120 minutes or when all clients have disconnected
     # from the session being archived.
     def stop
       # TODO: validate returned json fits schema
@@ -95,13 +95,42 @@ module OpenTok
       @json = @interface.delete_by_id @json['id']
     end
 
-    # Layouts an OpenTok archive.
+    # Sets the layout type for a composed archive. For a description of layout types, see
+    # {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
+    # the video layout for composed archives}.
     #
-    # You can dynamically change the layout type of a composed archive while it is being recorded.
-    # @param [Hash] opts  A hash with the symbolic key 'type', if type is not a `custom` type. Else
-    # add an additional key 'stylesheet'
-    # Refer the {https://tokbox.com/developer/rest/#change_composed_archive_layout}
-    
+    # @option options [String] :type 
+    #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
+    #   "horizontalPresentation", "focus", or "custom".
+    #
+    # @option options [String] :stylesheet
+    #   The stylesheet for a custom layout. Set this parameter
+    #   if you set <code>type</code> to <code>"custom"</code>. Otherwise, leave it undefined.
+    #
+    # @raise [ArgumentError] The archive_id or options parameter is empty. Or the "custom"
+    #   type was specified without a stylesheet option. Or a stylesheet was passed in for a
+    #   type other than custom. Or an invalid type was passed in.
+    #
+    # @raise [OpenTokAuthenticationError]
+    #   Authentication failed.
+    #
+    # @raise [ArgumentError]
+    #   The archive_id or options parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The "custom" type was specified without a stylesheet option.
+    #
+    # @raise [ArgumentError]
+    #   A stylesheet was passed in for a type other than custom. Or an invalid type was passed in.
+    #
+    # @raise [ArgumentError]
+    #   An invalid layout type was passed in.
+    #
+    # @raise [OpenTokError]
+    #   OpenTok server error.
+    #
+    # @raise [OpenTokArchiveError]
+    #   Setting the layout failed.
     def layout(opts= {})
       # TODO: validate returned json fits schema
       @json = @interface.layout(@json['id'], opts)

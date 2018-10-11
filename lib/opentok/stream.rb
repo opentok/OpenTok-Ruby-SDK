@@ -1,7 +1,8 @@
 require "active_support/inflector"
 
 module OpenTok
-  # Represents stream information of an OpenTok session.
+  # Represents information about a stream in an OpenTok session.
+  #
   # @attr [string] id
   #   The stream ID.
   #
@@ -12,7 +13,7 @@ module OpenTok
   #   The videoType property is either "camera" or "screen".
   #
   # @attr [array] layoutClassList
-  #   array of the layout classes for the stream.
+  #   An array of the layout classes for the stream.
   class Stream
 
     # @private
@@ -21,7 +22,7 @@ module OpenTok
       @json = json
     end
 
-    # A JSON encoded string representation of the archive
+    # A JSON-encoded string representation of the stream.
     def to_json
       @json.to_json
     end
