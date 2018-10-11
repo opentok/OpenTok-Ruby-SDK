@@ -140,6 +140,12 @@ The route for `Toggle Layout` has the following code:
    end
 ```
 
+This calls the `opentok.broadcasts.layout()` method, setting the broadcast layout to
+the layout type defined in the POST request's body. In this app, the layout type is
+set to `horizontalPresentation` or `verticalPresentation`, two of the [predefined layout
+types](https://tokbox.com/developer/guides/broadcast/live-streaming/#predefined-layout-types)
+available to live streaming broadcasts.
+
 ### Creating Broadcast - Participant View
 
 With the host view still open and publishing, open an additional tab and navigate to
@@ -165,8 +171,8 @@ You will now see the participant in the broadcast.
 ### Changing the layout classes for streams
 
 In the host page, if you click on either the host or a participant video, that video gets
-the `focus` layout in the broadcast. The JS pages send the `focus` stream ID and
-the `other` streams layout classes can be `nulled` out, as shown below:
+the `focus` layout in the broadcast. The host page sends the `focus` stream ID and
+the other streams' layout class lists can be cleared, as shown below:
 
 ```ruby
  post '/focus' do
@@ -181,3 +187,15 @@ the `other` streams layout classes can be `nulled` out, as shown below:
     settings.opentok.streams.layout(settings.session.session_id, hash)
  end
 ```
+
+The host client page also uses OpenTok signaling to notify other clients when the layout type and
+focus stream changes, and they then update the local display of streams in the HTML DOM accordingly.
+However, this is not necessary. The layout of the broadcast is unrelated to the layout of
+streams in the web clients.
+
+When you view the broadcast stream, the layout type and focus stream changes, based on calls
+to the `OpenTok.setBroadcastLayout()` and `OpenTok.setStreamClassLists()` methods during
+the broadcast.
+
+For more information, see [Configuring video layout for OpenTok live streaming
+broadcasts](https://tokbox.com/developer/guides/broadcast/live-streaming/#configuring-video-layout-for-opentok-live-streaming-broadcasts).
