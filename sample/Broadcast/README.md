@@ -38,17 +38,16 @@ main application (broadcast_sample.rb).
 
 ### Creating Broadcasts – Host View
 
-The Host view manages the broadcasting process. The participants (view) just join and exit the broadcast 
-sessions independently.
-Start by visiting the host page at <http://localhost:4567/host> and using the application to start
-a broadcast. Your browser will first ask you to approve permission to use the camera and microphone.
+The Host view manages the broadcasting process. Visit the host page at <http://localhost:4567/host>.
+Your browser will first ask you to approve permission to use the camera and microphone.
 Once you've accepted, your image will appear inside the section titled 'Host'. To start broadcasting
-the video stream, press the 'Start Broadcast' button. You can specify the maximum duration , resolution and layout
-of the broadcast. Once broadcasting has begun the button will turn
-green and change to 'Stop Broadcast'.  Stop broadcasting when you are done. 
+the video stream, press the 'Start Broadcast' button. You can specify the maximum duration,
+resolution, and layout of the broadcast. Once broadcasting has begun the button will turn
+green and change to 'Stop Broadcast'. Click this button when you are done broadcasting.
 
-The host page , basically sets up the opentok session with the api key and secret you provided. If a previously started 
- broadcast exists , it defaults to it , along with the layout and the stream which had the 'full' focus.
+The host page basically sets up the OpenTok session with the API key and secret you provided.
+If a previously started broadcast exists, it defaults to it, along with the layout and the stream
+that has the focus:
 
 ```ruby
   get '/host' do
@@ -67,13 +66,14 @@ The host page , basically sets up the opentok session with the api key and secre
    end
 ```
 
-This handler simply
-generates the three strings that the client (JavaScript) needs to connect to the session: `api_key`,
-`session_id` and `token`. The `initialBroadcastId` is the broadcast id , `focusStreamId` is the stream id which has the current
-focus and `initialLayout` is the initial layout for the current broadcast which is being started. After the user 
-has connected to the session, they press the
-'Start Broadcast' button, which sends an XHR (or Ajax) request to the <http://localhost:4567/start>
-URL. The route handler for this URL is shown below:
+This handler generates the three strings that the client (JavaScript) needs to connect
+to the session: `apiKey`, `sessionId`, and `token`. The `initialBroadcastId` is the broadcast ID,
+`focusStreamId` is the stream ID that has the current focus (if there is one), and
+`initialLayout` is the initial layout for the current broadcast in progress (if there is one).
+(We will discuss focus stream and broadcast layout below.)
+
+In the host page, the user presses the 'Start Broadcast' button, which sends an XHR (or Ajax)
+request to the <http://localhost:4567/start> URL. The route handler for this URL is shown below:
 
 ```ruby
   post '/start' do
@@ -91,18 +91,19 @@ URL. The route handler for this URL is shown below:
   end
 ```
 
-In this handler, `opentok.broadcasts.create` is called with the `session_id` for the broadcasting session
-The optional second argument is a hash which defines optional properties
-for the broadcast. It consists of `maxDuration` of the broadcast, `resolution` and broadcast `layout`.
-In this sample app we only care for `hls` broadcasting hence we only specify that. 
-You can add RTMP servers , if you desire. Please refer Ruby [SDK documentation](https://github.com/opentok/OpenTok-Ruby-SDK) for that. 
-In this case, as in the
-HelloWorld sample app, there is only one session created and it is used here and for the participant
-view. This will trigger the broadcasting to begin. The response sent back to the client's XHR request
-will be the JSON representation of the archive, which is returned from the `to_json()` method. 
+In this handler, `opentok.broadcasts.create` is called with the `session_id` for
+the OpenTok session to broadcast. The optional second argument is a hash which defines
+optional properties for the broadcast. It consists of `maxDuration` of the broadcast,
+`resolution`, and broadcast `layout`. This sample app starts an HLS broadcast (not RTMP),
+so it only specifies an `hls` property of the `outputs` property. See the
+[Ruby SDK documentation](https://github.com/opentok/OpenTok-Ruby-SDK) for information
+on adding RTMP broadcast streams. In this case, as in the HelloWorld sample app, there is
+only one session created and it is used here and for the participant view.
+This will trigger the broadcasting to begin. The response sent back to the client’s XHR request
+will be the JSON representation of the broadcast, which is returned from the `to_json()` method. 
 
-You can view the HLS broadcast by going to your Home page in a different tab and clicking on `Broadcast URL` button.
-The code for handling this is as follows:
+You can view the HLS broadcast by opening the root URL (<http://localhost:4567/>) in
+a different tab and clicking the `Broadcast URL` button. The code for handling this is as follows:
 
 ```ruby
   get '/broadcast' do
@@ -111,7 +112,8 @@ The code for handling this is as follows:
     redirect broadcast.broadcastUrls['hls'] if broadcast.status == 'started'
  end
 ```
-The Stop Broadcast code looks like:
+
+The route for Stop Broadcast has the following code:
 
 ```ruby
   get '/stop/:broadcastId' do
@@ -122,10 +124,12 @@ The Stop Broadcast code looks like:
     body broadcast.to_json
   end
 ```
+
 The settings revert backs to the settings when you start the app.
 
-In the host page, you also have a button called `Toggle Layout`, which toggles between `verticalPresentation` and 
-`horizontalPresentation`.
+The host page includes a `Toggle Layout` button, which toggles between
+`verticalPresentation` and `horizontalPresentation`.
+
 The route for `Toggle Layout` has the following code:
 
 ```ruby
@@ -138,10 +142,9 @@ The route for `Toggle Layout` has the following code:
 
 ### Creating Broadcast - Participant View
 
-With the host view still open and publishing, open an additional  tab and navigate to
-<http://localhost:4567/participant> and allow the browser to use your camera and microphone. You will now see
-the participant in your broadcasts.
-
+With the host view still open and publishing, open an additional tab and navigate to
+<http://localhost:4567/participant> and allow the browser to use your camera and microphone.
+You will now see the participant in the broadcast.
 
 ```ruby
   get '/participant' do
@@ -159,10 +162,11 @@ the participant in your broadcasts.
   end
 ```
 
-### Changing streams layout class
-If you click on either the host or the participant video/view, that view gets the `focus`
-in the broadcast. The JS pages send `focus` stream id and the `other` streams layout can be `nulled`
-out, as shown below:
+### Changing the layout classes for streams
+
+In the host page, if you click on either the host or a participant video, that video gets
+the `focus` layout in the broadcast. The JS pages send the `focus` stream ID and
+the `other` streams layout classes can be `nulled` out, as shown below:
 
 ```ruby
  post '/focus' do
@@ -176,6 +180,4 @@ out, as shown below:
     end
     settings.opentok.streams.layout(settings.session.session_id, hash)
  end
-``` 
-
-That completes the walkthrough for this Broadcast sample application. 
+```

@@ -432,11 +432,12 @@ For more information on SIP Interconnect, see the
 
 # Samples
 
-There are two sample applications included in this repository. To get going as fast as possible, clone the whole
-repository and follow the Walkthroughs:
+There are three sample applications included in this repository. To get going as fast as possible, clone the whole
+repository and read the README in each of the sample directories:
 
 *  [HelloWorld](sample/HelloWorld/README.md)
 *  [Archiving](sample/Archiving/README.md)
+*  [Broadcast](sample/Broadcast/README.md)
 
 # Documentation
 
