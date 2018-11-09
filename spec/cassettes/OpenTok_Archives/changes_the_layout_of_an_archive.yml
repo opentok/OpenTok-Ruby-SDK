@@ -10,7 +10,7 @@ http_interactions:
       User-Agent:
       - OpenTok-Ruby-SDK/<%= version %>
       X-Opentok-Auth:
-      - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImlzdCI6InByb2plY3QifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.Oh_JHhtEUKK1pPV4s6neXJj_RXI8EcEpJRRpG_2c9U0
+      - eyJhbGciOiJIUzI1NiIsImlzdCI6InByb2plY3QifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.LlBVnppHqBiUIl7t_ybzDmvDdv7z8udvN_P8_Oulj_4
       Content-Type:
       - application/json
   response:
