@@ -226,8 +226,8 @@ module OpenTok
       else
         raise OpenTokError, "The signal could not be send."
       end
-    rescue StandardError => e
-      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    # rescue StandardError => e
+    #   raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
     def dial(session_id, token, sip_uri, opts)
