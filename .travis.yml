@@ -10,6 +10,8 @@ rvm:
 - 2.2
 - 2.3
 - 2.4
+- 2.5
+- 2.6
 notifications:
   slack:
     secure: agVll2R9PTPvJMcUgbvOh9eGt60zGDc8kPUwEsiQr828rCgXh/ZxD5irYDyKQg3ZsS8+f3MjFCwzU7uQALkia2pDrie9d8g8m1dt4Q5U7Qm6QecshvE0U9JwbB5Ngxaftbqyf0XEFrE7CKs7RI1BzFRpe8m+fdZgfwccX8Gb7pc=
