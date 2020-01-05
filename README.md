@@ -181,6 +181,24 @@ opts = {
 archive = opentok.archives.create session_id, opts
 ```
 
+To customize the output layout of composed streams, you can use the `:layout` option.
+
+For composed archives you can set the layout of the archive. You must set `:type` of `"custom"`, then
+provide a `:stylesheet` String which is CSS. 
+
+```ruby
+opts = {
+    :output_mode => :composed,
+    :resolution => "1280x720",
+    :layout => {
+      :type => "custom",
+      :stylesheet => "stream:last-child{display: block;margin: 0;top: 0;left: 0;width: 1px;height: 1px;}stream:first-child{display: block;margin: 0;top: 0;left: 0;width: 100%;height: 100%;}"
+    }
+}
+
+archive = opentok.archives.create session_id, opts
+```
+
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
 method. You can also do this using the `Archive#stop()` method.
 
