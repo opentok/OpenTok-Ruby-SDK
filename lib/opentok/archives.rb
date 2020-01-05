@@ -66,7 +66,7 @@ module OpenTok
         "Resolution cannot be supplied for individual output mode" if options.key?(:resolution) and options[:output_mode] == :individual
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :name, :has_audio, :has_video, :output_mode, :resolution ]
+      valid_opts = [ :name, :has_audio, :has_video, :output_mode, :resolution, :layout ]
       opts = options.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v
