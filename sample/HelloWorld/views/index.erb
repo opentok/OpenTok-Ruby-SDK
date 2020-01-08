@@ -9,13 +9,18 @@
         var sessionId = '<%= session_id %>';
         var token = '<%= token %>';
     </script>
-    <script src="/js/helloworld.js"></script>
+    <style>
+      #publisher, #subscribers {
+        width: 300px;
+        height: 200px;
+        margin-bottom: 2px;
+      }
+    </style>
 </head>
 <body>
     <h2>Hello, World!</h2>
-
     <div id="publisher"></div>
-
     <div id="subscribers"></div>
+    <script src="/js/helloworld.js"></script>
 </body>
 </html>

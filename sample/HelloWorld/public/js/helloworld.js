@@ -28,14 +28,12 @@ session.on({
 
   // This function runs when another client publishes a stream (eg. session.publish())
   streamCreated: function(event) {
-    // Create a container for a new Subscriber, assign it an id using the streamId, put it inside
-    // the element with id="subscribers"
-    var subContainer = document.createElement('div');
-    subContainer.id = 'stream-' + event.stream.streamId;
-    document.getElementById('subscribers').appendChild(subContainer);
-
-    // Subscribe to the stream that caused this event, put it inside the container we just made
-    session.subscribe(event.stream, subContainer, function(error) {
+    // Subscribe to the stream that caused this event, and place it into the element with id="subscribers" 
+    session.subscribe(event.stream, 'subscribers', {
+        insertMode: 'append',
+        width: '100%',
+        height: '100%'
+    }, function(error) {
       if (error) {
         console.error('Failed to subscribe', error);
       }
