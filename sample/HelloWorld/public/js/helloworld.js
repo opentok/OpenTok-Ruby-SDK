@@ -4,8 +4,6 @@ var session = OT.initSession(apiKey, sessionId);
 // Initialize a Publisher, and place it into the element with id="publisher"
 var publisher = OT.initPublisher('publisher', {
     insertMode: 'append',
-    width: '100%',
-    height: '100%'
 }, function(error) {
   if (error) {
     console.error('Failed to initialise publisher', error);
@@ -31,8 +29,6 @@ session.on({
     // Subscribe to the stream that caused this event, and place it into the element with id="subscribers" 
     session.subscribe(event.stream, 'subscribers', {
         insertMode: 'append',
-        width: '100%',
-        height: '100%'
     }, function(error) {
       if (error) {
         console.error('Failed to subscribe', error);
