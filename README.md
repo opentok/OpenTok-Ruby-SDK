@@ -21,7 +21,7 @@ Bundler helps manage dependencies for Ruby projects. Find more info here: <http:
 Add this gem to your `Gemfile`:
 
 ```ruby
-gem "opentok", "~> 3.1.0"
+gem "opentok", "~> 4.0.0"
 ```
 
 Allow bundler to install the change.
@@ -465,7 +465,7 @@ Reference documentation is available at <http://www.tokbox.com//opentok/librarie
 You need an OpenTok API key and API secret, which you can obtain by logging into your
 [TokBox account](https://tokbox.com/account).
 
-The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
+The OpenTok Ruby SDK requires Ruby 2.1.0 or greater.
 
 # Release Notes
 
@@ -473,6 +473,12 @@ See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page fo
 about each release.
 
 ## Important changes since v2.2.0
+
+**Changes in v4.0.0:**
+
+The SDK adds support for Ruby v2.7 and now requires Ruby v2.1.0 or higher.
+For Ruby v2.0.0 please continue to use the OpenTok Ruby SDK v3.0.0.
+For Ruby v1.9.3 please continue to use the OpenTok Ruby SDK v2.5.0. 
 
 **Changes in v3.0.0:**
 
