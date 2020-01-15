@@ -78,7 +78,7 @@ describe OpenTok::Archives do
 
   it "should delete an archive by id", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     success = archives.delete_by_id deletable_archive_id
-    expect(success).to be_true
+    expect(success).to be_truthy
     # expect(archive.status).to eq ""
   end
 
