@@ -1,6 +1,6 @@
 # OpenTok Broadcasting Sample for Ruby
 
-This is a simple demo app that shows how you can use the OpenTok Java SDK to broadcast 
+This is a simple demo app that shows how you can use the OpenTok Ruby SDK to broadcast 
 sessions and how to stop them, change the layout of the broadcast and/or the streams within.
 
 ## Running the App
@@ -11,7 +11,7 @@ First, download the dependencies using [Bundler](http://bundler.io)
 $ bundle install
 ```
 
-Next, add your own API Key and API Secret to the environment variables. There are a few ways to do
+Next, add your OpenTok API key and API secret to the environment variables. There are a few ways to do
 this but the simplest would be to do it right in your shell.
 
 ```
@@ -25,7 +25,7 @@ Finally, start the server using Bundler to handle dependencies
 $ bundle exec ruby broadcast_sample.rb
 ```
 
-Visit <http://localhost:4567> in your browser. You can now create new broadcast (with  a host and
+Visit <http://localhost:4567> in your browser. You can now create new broadcast (with a host and
 as a participant) and also view those broadcasts.
 
 ## Walkthrough

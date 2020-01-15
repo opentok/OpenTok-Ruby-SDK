@@ -138,6 +138,7 @@ $(document).ready(function () {
       .done(function (response) {
         console.log('start success.');
         broadcastId = response.id;
+        setFocus(publisher.stream.streamId);
       })
       .fail(function (jqXHR) {
         console.error(jqXHR.responseText);
