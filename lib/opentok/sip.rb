@@ -30,8 +30,6 @@ module OpenTok
     #   PSTN phones.
     # @option opts [Hash] :headers This hash defines custom headers to be added
     #   to the SIP ​INVITE​ request initiated from OpenTok to the your SIP platform.
-    #   Each of the custom headers must start with the ​"X-"​ prefix, or the call
-    #   will result in a Bad Request (400) response.
     # @option opts [Hash] :auth This object contains the username and password
     #   to be used in the the SIP INVITE​ request for HTTP digest authentication,
     #   if it is required by your SIP platform.
