@@ -458,9 +458,9 @@ about each release.
 
 **Changes in v4.0.0:**
 
-The SDK now now requires Ruby v2.1.0 or higher. For Ruby v1.9.3 please continue to use the
-OpenTok Ruby SDK v2.5.0. For Ruby v2.0.0 please continue to use the
-OpenTok Ruby SDK v3.0.0.
+The SDK adds support for Ruby v2.7 and now requires Ruby v2.1.0 or higher.
+For Ruby v2.0.0 please continue to use the OpenTok Ruby SDK v3.0.0.
+For Ruby v1.9.3 please continue to use the OpenTok Ruby SDK v2.5.0. 
 
 **Changes in v3.0.0:**
 
