@@ -48,9 +48,17 @@ module OpenTok
     #   default) or "1280x720" (HD). This property only applies to composed archives. If you set
     #   this property and set the outputMode property to "individual", the call the method
     #   results in an error.
-    # @option options [Hash] :layout If you need to use a custom layout 
-    #   (see https://tokbox.com/developer/guides/archiving/layout-control.html#defining-custom-layouts), 
-    #   set the type property to "custom" and pass in the stylesheet as an additional property—stylesheet.
+    # @option options [Hash] :layout Specify this to assign the initial layout type for
+    #   the archive. This applies only to composed archives. This is a hash containing two keys:
+    #   <code>:type</code> and <code>:stylesheet<code>. Valid values for <code>:type</code> are
+    #   "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation),
+    #   "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)).
+    #   If you specify a "custom" layout type, set the <code>:stylesheet</code> key to the
+    #   stylesheet (CSS). (For other layout types, do not set the <code>:stylesheet</code> key.)
+    #   If you do not specify an initial layout type, the archive uses the best fit
+    #   layout type. For more information, see
+    #   {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
+    #   the video layout for composed archives}.
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
