@@ -181,6 +181,30 @@ opts = {
 archive = opentok.archives.create session_id, opts
 ```
 
+To customize the initial layout of composed archives, you can use the `:layout` option.
+Set this to a hash containing two keys: `:type` and `:stylesheet`. Valid values for
+`:type` are "bestFit" (best fit), "custom" (custom), "horizontalPresentation"
+(horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation"
+(vertical presentation)). If you specify a "custom" layout type, set the `:stylesheet`
+key to the stylesheet (CSS). (For other layout types, do not set the `:stylesheet` key.)
+
+```ruby
+opts = {
+    :output_mode => :composed,
+    :resolution => "1280x720",
+    :layout => {
+      :type => "custom",
+      :stylesheet => "stream:last-child{display: block;margin: 0;top: 0;left: 0;width: 1px;height: 1px;}stream:first-child{display: block;margin: 0;top: 0;left: 0;width: 100%;height: 100%;}"
+    }
+}
+
+archive = opentok.archives.create session_id, opts
+```
+
+If you do not specify an initial layout type, the archive uses the best fit
+layout type. For more information, see [Customizing the video layout for composed
+archives](https://tokbox.com/developer/guides/archiving/layout-control.html).
+
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
 method. You can also do this using the `Archive#stop()` method.
 
