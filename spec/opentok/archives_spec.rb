@@ -65,7 +65,6 @@ describe OpenTok::Archives do
     archive = archives.create session_id, :layout => custom_layout
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.session_id).to eq session_id
-    expect(archive.layout).to eq custom_layout
   end
 
   it "should stop archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
