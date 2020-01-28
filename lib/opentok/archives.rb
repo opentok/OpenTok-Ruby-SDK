@@ -48,6 +48,17 @@ module OpenTok
     #   default) or "1280x720" (HD). This property only applies to composed archives. If you set
     #   this property and set the outputMode property to "individual", the call the method
     #   results in an error.
+    # @option options [Hash] :layout Specify this to assign the initial layout type for
+    #   the archive. This applies only to composed archives. This is a hash containing two keys:
+    #   <code>:type</code> and <code>:stylesheet<code>. Valid values for <code>:type</code> are
+    #   "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation),
+    #   "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)).
+    #   If you specify a "custom" layout type, set the <code>:stylesheet</code> key to the
+    #   stylesheet (CSS). (For other layout types, do not set the <code>:stylesheet</code> key.)
+    #   If you do not specify an initial layout type, the archive uses the best fit
+    #   layout type. For more information, see
+    #   {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
+    #   the video layout for composed archives}.
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
@@ -66,7 +77,7 @@ module OpenTok
         "Resolution cannot be supplied for individual output mode" if options.key?(:resolution) and options[:output_mode] == :individual
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :name, :has_audio, :has_video, :output_mode, :resolution ]
+      valid_opts = [ :name, :has_audio, :has_video, :output_mode, :resolution, :layout ]
       opts = options.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v

@@ -21,7 +21,7 @@ Bundler helps manage dependencies for Ruby projects. Find more info here: <http:
 Add this gem to your `Gemfile`:
 
 ```ruby
-gem "opentok", "~> 3.1.0"
+gem "opentok", "~> 4.0.0"
 ```
 
 Allow bundler to install the change.
@@ -180,6 +180,30 @@ opts = {
 
 archive = opentok.archives.create session_id, opts
 ```
+
+To customize the initial layout of composed archives, you can use the `:layout` option.
+Set this to a hash containing two keys: `:type` and `:stylesheet`. Valid values for
+`:type` are "bestFit" (best fit), "custom" (custom), "horizontalPresentation"
+(horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation"
+(vertical presentation)). If you specify a "custom" layout type, set the `:stylesheet`
+key to the stylesheet (CSS). (For other layout types, do not set the `:stylesheet` key.)
+
+```ruby
+opts = {
+    :output_mode => :composed,
+    :resolution => "1280x720",
+    :layout => {
+      :type => "custom",
+      :stylesheet => "stream:last-child{display: block;margin: 0;top: 0;left: 0;width: 1px;height: 1px;}stream:first-child{display: block;margin: 0;top: 0;left: 0;width: 100%;height: 100%;}"
+    }
+}
+
+archive = opentok.archives.create session_id, opts
+```
+
+If you do not specify an initial layout type, the archive uses the best fit
+layout type. For more information, see [Customizing the video layout for composed
+archives](https://tokbox.com/developer/guides/archiving/layout-control.html).
 
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
 method. You can also do this using the `Archive#stop()` method.
@@ -432,11 +456,12 @@ For more information on SIP Interconnect, see the
 
 # Samples
 
-There are two sample applications included in this repository. To get going as fast as possible, clone the whole
-repository and follow the Walkthroughs:
+There are three sample applications included in this repository. To get going as fast as possible, clone the whole
+repository and read the README in each of the sample directories:
 
 *  [HelloWorld](sample/HelloWorld/README.md)
 *  [Archiving](sample/Archiving/README.md)
+*  [Broadcast](sample/Broadcast/README.md)
 
 # Documentation
 
@@ -447,7 +472,7 @@ Reference documentation is available at <http://www.tokbox.com//opentok/librarie
 You need an OpenTok API key and API secret, which you can obtain by logging into your
 [TokBox account](https://tokbox.com/account).
 
-The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
+The OpenTok Ruby SDK requires Ruby 2.1.0 or greater.
 
 # Release Notes
 
@@ -455,6 +480,12 @@ See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page fo
 about each release.
 
 ## Important changes since v2.2.0
+
+**Changes in v4.0.0:**
+
+The SDK adds support for Ruby v2.7 and now requires Ruby v2.1.0 or higher.
+For Ruby v2.0.0 please continue to use the OpenTok Ruby SDK v3.0.0.
+For Ruby v1.9.3 please continue to use the OpenTok Ruby SDK v2.5.0. 
 
 **Changes in v3.0.0:**
 
