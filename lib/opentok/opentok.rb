@@ -69,7 +69,7 @@ module OpenTok
     # @private
     # don't want these to be mutable, may cause bugs related to inconsistency since these values are
     # cached in objects that this can create
-    attr_reader :api_key, :api_secret, :api_url, :ua_addendum
+    attr_reader :api_key, :api_secret, :timeout_length, :api_url, :ua_addendum
 
     ##
     # Create a new OpenTok object.
@@ -79,9 +79,11 @@ module OpenTok
     # @param [String] api_secret Your OpenTok API key.
     # @option opts [Symbol] :api_url Do not set this parameter. It is for internal use by TokBox.
     # @option opts [Symbol] :ua_addendum Do not set this parameter. It is for internal use by TokBox.
+    # @option opts [Symbol] :timeout_length Custom timeout in seconds. If not provided, defaults to 2 seconds.
     def initialize(api_key, api_secret, opts={})
       @api_key = api_key.to_s()
       @api_secret = api_secret
+      @timeout_length = opts[:timeout_length] || 2
       @api_url = opts[:api_url] || API_URL
       @ua_addendum = opts[:ua_addendum]
     end
