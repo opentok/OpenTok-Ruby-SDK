@@ -51,6 +51,20 @@ require "opentok"
 opentok = OpenTok::OpenTok.new api_key, api_secret
 ```
 
+### Initialization Options
+
+You can specify a custom timeout value for HTTP requests when initializing a new `OpenTok::OpenTok`
+object:
+
+```ruby
+require "opentok"
+
+opentok = OpenTok::OpenTok.new api_key, api_secret, :timeout_length => 10
+```
+
+The value for `:timeout_length` is an integer representing the number of seconds to wait for an HTTP
+request to complete. The default is set to 2 seconds.
+
 ## Creating Sessions
 
 To create an OpenTok Session, use the `OpenTok#create_session(properties)` method.
