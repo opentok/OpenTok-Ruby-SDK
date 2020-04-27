@@ -12,18 +12,20 @@ module OpenTok
   class Client
     include HTTParty
 
-    open_timeout 2 # Set HTTParty default timeout (open/read) to 2 seconds
-
     # TODO: expose a setting for http debugging for developers
     # debug_output $stdout
 
-    def initialize(api_key, api_secret, api_url, ua_addendum="")
+    attr_accessor :api_key, :api_secret, :api_url, :ua_addendum, :timeout_length
+
+    def initialize(api_key, api_secret, api_url, ua_addendum='', opts={})
       self.class.base_uri api_url
       self.class.headers({
-        "User-Agent" => "OpenTok-Ruby-SDK/#{VERSION}" + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" + (ua_addendum ? " #{ua_addendum}" : "")        
+        "User-Agent" => "OpenTok-Ruby-SDK/#{VERSION}" + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" + (ua_addendum ? " #{ua_addendum}" : "")
       })
       @api_key = api_key
       @api_secret = api_secret
+      @timeout_length = opts[:timeout_length] || 2
+      self.class.open_timeout @timeout_length
     end
 
     def generate_jwt(api_key, api_secret)
