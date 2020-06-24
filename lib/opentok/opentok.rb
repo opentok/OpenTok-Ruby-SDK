@@ -214,7 +214,7 @@ module OpenTok
 
     protected
     def client
-      @client ||= Client.new api_key, api_secret, api_url, ua_addendum
+      @client ||= Client.new api_key, api_secret, api_url, ua_addendum, timeout_length: @timeout_length
     end
 
   end
