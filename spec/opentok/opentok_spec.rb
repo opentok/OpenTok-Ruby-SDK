@@ -152,6 +152,12 @@ describe OpenTok::OpenTok do
       it "should have an timeout_length property" do
         expect(opentok.timeout_length).to eq timeout_length
       end
+
+      it "should send the custom timeout_length to new instances of OpenTok::Client" do
+        streams = opentok.streams
+
+        expect(streams.instance_variable_get(:@client).timeout_length).to eq timeout_length
+      end
     end
 
     context "with an addendum to the user agent string" do
