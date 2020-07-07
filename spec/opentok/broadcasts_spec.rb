@@ -144,6 +144,23 @@ describe OpenTok::Broadcasts do
     }.to raise_error(ArgumentError)
   end
 
+  it "raise an error for non valid type" do
+    expect {
+      broadcast.layout(started_broadcast_id, {
+          type: "not-valid",
+          stylesheet: "stream {}"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "change the layout to custom type with custom stylesheet" do
+    response  = broadcast.layout(started_broadcast_id, {
+        type: "custom",
+        stylesheet: "stream {float: left; height: 100%; width: 33.33%;}"
+    })
+    expect(response).not_to be_nil
+  end
+
   it "raise an error if invalid layout type" do
     expect {
       broadcast.layout(started_broadcast_id, {
