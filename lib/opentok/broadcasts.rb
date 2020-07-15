@@ -138,7 +138,7 @@ module OpenTok
       type = options[:type]
       raise ArgumentError, "custom type must have a stylesheet" if (type.eql? "custom") && (!options.key? :stylesheet)
       valid_non_custom_type = ["bestFit","horizontalPresentation","pip", "verticalPresentation", ""].include? type
-      raise ArgumentError, "type is not valid" if !valid_non_custom_type
+      raise ArgumentError, "type is not valid" if !valid_non_custom_type && !(type.eql? "custom")
       raise ArgumentError, "stylesheet not needed" if valid_non_custom_type and options.key? :stylesheet
       response = @client.layout_broadcast(broadcast_id, options)
       (200..300).include? response.code

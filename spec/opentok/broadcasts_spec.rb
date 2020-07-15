@@ -144,6 +144,27 @@ describe OpenTok::Broadcasts do
     }.to raise_error(ArgumentError)
   end
 
+  it "raise an error for non valid type" do
+    expect {
+      broadcast.layout(started_broadcast_id, {
+          type: "not-valid",
+          stylesheet: "stream {}"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "change the layout to custom type with custom stylesheet" do
+    stub_request(:put, "https://api.opentok.com/v2/project/#{api_key}/broadcast/#{started_broadcast_id}/layout").
+      with(body: {type: 'custom', stylesheet: 'stream {float: left; height: 100%; width: 33.33%;}'}).
+      to_return(status: 200)
+    
+    response  = broadcast.layout(started_broadcast_id, {
+        type: "custom",
+        stylesheet: "stream {float: left; height: 100%; width: 33.33%;}"
+    })
+    expect(response).not_to be_nil
+  end
+
   it "raise an error if invalid layout type" do
     expect {
       broadcast.layout(started_broadcast_id, {
@@ -162,6 +183,9 @@ describe OpenTok::Broadcasts do
     }.to raise_error(ArgumentError)
   end
   it "changes the layout of a broadcast", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    stub_request(:put, "https://api.opentok.com/v2/project/#{api_key}/broadcast/#{started_broadcast_id}/layout").
+      to_return(status: 200)
+    
     response = broadcast.layout(started_broadcast_id, {
         :type => "verticalPresentation"
     })
