@@ -7,7 +7,7 @@ module OpenTok
     #   The time at which the archive was created, in milliseconds since the UNIX epoch.
     #
     # @attr [string] duration
-    #   The duration of the archive, in milliseconds.
+    #   The duration of the archive, in seconds.
     #
     # @attr [string] id
     #   The archive ID.
