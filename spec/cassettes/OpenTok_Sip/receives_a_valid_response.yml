@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/v2/project/123456/dial
     body:
       encoding: UTF-8
-      string: '{"sessionId":"SESSIONID","token":"TOKENID","sip":{"uri":"sip:+15128675309@acme.pstn.example.com;transport=tls","auth":{"username":"bob","password":"abc123"},"secure":"true"}}'
+      string: '{"sessionId":"SESSIONID","token":"TOKENID","sip":{"uri":"sip:+15128675309@acme.pstn.example.com;transport=tls","auth":{"username":"bob","password":"abc123"},"secure":"true","video":"true"}}'
     headers:
       User-Agent:
       - OpenTok-Ruby-SDK/<%= version %>
@@ -35,6 +35,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"id":"2299ba24-a6de-417c-88f7-28da54a441cf","projectId":"123456","sessionId":"SESSIONID","connectionId":"833a7182-61a5-49d4-baae-c324b09953af","streamId":"b1963d15-537f-459a-be89-e00fc310b82b","createdAt":1492468803946,"updatedAt":1492468803946}'
-    http_version: 
+    http_version:
   recorded_at: Mon, 17 Apr 2017 22:40:01 GMT
 recorded_with: VCR 2.8.0

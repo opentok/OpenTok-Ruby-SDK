@@ -23,7 +23,8 @@ describe OpenTok::Sip do
   it "receives a valid response", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     opts = { "auth" => { "username" => sip_username,
                          "password" => sip_password },
-             "secure" => "true"
+             "secure" => "true",
+             "video" => "true"
     }
     response = sip.dial(session_id, expiring_token, sip_uri, opts)
     expect(response).not_to be_nil
