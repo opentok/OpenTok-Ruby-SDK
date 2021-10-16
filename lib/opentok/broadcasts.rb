@@ -22,13 +22,20 @@ module OpenTok
     # @param [String] session_id The session ID of the OpenTok session to broadcast.
     #
     # @param [Hash] options A hash defining options for the broadcast.
-    # @option options [Hash] :layout Specify this to assign the initial layout  for the broadcast.
-    #   Valid values for the layout (<code>:type</code>) property are "bestFit" (best fit), "custom" (custom),
-    #   "horizontalPresentation" (horizontal presentation), "pip" (picture-in-picture), and
-    #   "verticalPresentation" (vertical presentation)).
-    #   If you specify a (<code>:custom</code>) layout type, set the (<code>:stylesheet</code>) property of the layout object
-    #   to the stylesheet. (For other layout types, do not set a stylesheet property.)
-    #   If you do not specify an initial layout type, the broadcast stream uses the Best Fit layout type.
+    #
+    # @option options [Hash] :layout Specify this to assign the initial layout type for
+    #   the broadcast. This is a hash containing three keys:
+    #   <code>:type</code>, <code>:stylesheet<code> and <code>:screenshare_type</code>. 
+    #   Valid values for <code>:type</code> are "bestFit" (best fit), "custom" (custom), 
+    #    "horizontalPresentation" (horizontal presentation),
+    #   "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)).
+    #   If you specify a "custom" layout type, set the <code>:stylesheet</code> key to the
+    #   stylesheet (CSS). (For other layout types, do not set the <code>:stylesheet</code> key.)
+    #   Valid values for <code>:screenshare_type</code> are "bestFit", "pip",
+    #   "verticalPresentation", "horizontalPresentation". This property is optional.
+    #   If it is specified, then the <code>:type</code> property **must** be set to "bestFit".
+    #   If you do not specify an initial layout type, the broadcast uses the best fit
+    #   layout type.
     #
     # @option options [int] maxDuration
     #   The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when
@@ -112,6 +119,11 @@ module OpenTok
     #   The stylesheet for a custom layout. Set this parameter
     #   if you set <code>type</code> to <code>"custom"</code>. Otherwise, leave it undefined.
     #
+    # @option options [String] :screenshare_type
+    #   The screenshare layout type. Set this to "bestFit", "pip", "verticalPresentation" or
+    #   "horizonalPresentation". If this is defined, then the <code>type</code> parameter
+    #   must be set to <code>"bestFit"</code>.
+    #
     # @raise [OpenTokBroadcastError]
     #   The broadcast layout could not be updated.
     #
@@ -137,9 +149,12 @@ module OpenTok
       raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
       type = options[:type]
       raise ArgumentError, "custom type must have a stylesheet" if (type.eql? "custom") && (!options.key? :stylesheet)
-      valid_non_custom_type = ["bestFit","horizontalPresentation","pip", "verticalPresentation", ""].include? type
-      raise ArgumentError, "type is not valid" if !valid_non_custom_type
+      valid_non_custom_layouts = ["bestFit","horizontalPresentation","pip", "verticalPresentation", ""]
+      valid_non_custom_type = valid_non_custom_layouts.include? type
+      raise ArgumentError, "type is not valid" if !valid_non_custom_type && !(type.eql? "custom")
       raise ArgumentError, "stylesheet not needed" if valid_non_custom_type and options.key? :stylesheet
+      raise ArgumentError, "screenshare_type is not valid" if options[:screenshare_type] && !valid_non_custom_layouts.include?(options[:screenshare_type])
+      raise ArgumentError, "type must be set to 'bestFit' if screenshare_type is defined" if options[:screenshare_type] && type != 'bestFit'
       response = @client.layout_broadcast(broadcast_id, options)
       (200..300).include? response.code
     end

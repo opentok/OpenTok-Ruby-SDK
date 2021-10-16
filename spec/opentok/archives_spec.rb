@@ -67,6 +67,16 @@ describe OpenTok::Archives do
     expect(archive.session_id).to eq session_id
   end
 
+  it "should create layout archives with screenshare layout types", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    screenshare_layout = {
+      :type => "bestFit",
+      :screenshare_type => "verticalPresentation"
+    }
+    archive = archives.create session_id, :layout => screenshare_layout
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.session_id).to eq session_id
+  end
+
   it "should stop archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.stop_by_id started_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive
@@ -159,6 +169,25 @@ describe OpenTok::Archives do
       })
     }.to raise_error(ArgumentError)
   end
+
+  it "raise an error if invalid layout type with screenshare_type" do
+    expect {
+      archives.layout(started_archive_id, {
+          type: "pip",
+          screenshare_type: "bestFit"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
+  it "raise an error if invalid layout screenshare_type" do
+    expect {
+      archives.layout(started_archive_id, {
+          type: "bestFit",
+          screenshare_type: "pip1"
+      })
+    }.to raise_error(ArgumentError)
+  end
+
   it "calls layout on archive object", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.find findable_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive

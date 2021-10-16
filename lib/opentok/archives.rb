@@ -49,12 +49,16 @@ module OpenTok
     #   this property and set the outputMode property to "individual", the call the method
     #   results in an error.
     # @option options [Hash] :layout Specify this to assign the initial layout type for
-    #   the archive. This applies only to composed archives. This is a hash containing two keys:
-    #   <code>:type</code> and <code>:stylesheet<code>. Valid values for <code>:type</code> are
-    #   "bestFit" (best fit), "custom" (custom), "horizontalPresentation" (horizontal presentation),
+    #   the archive. This applies only to composed archives. This is a hash containing three keys:
+    #   <code>:type</code>, <code>:stylesheet<code> and <code>:screenshare_type</code>. 
+    #   Valid values for <code>:type</code> are "bestFit" (best fit), "custom" (custom), 
+    #    "horizontalPresentation" (horizontal presentation),
     #   "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)).
     #   If you specify a "custom" layout type, set the <code>:stylesheet</code> key to the
     #   stylesheet (CSS). (For other layout types, do not set the <code>:stylesheet</code> key.)
+    #   Valid values for <code>:screenshare_type</code> are "bestFit", "pip",
+    #   "verticalPresentation", "horizontalPresentation". This property is optional.
+    #   If it is specified, then the <code>:type</code> property **must** be set to "bestFit".
     #   If you do not specify an initial layout type, the archive uses the best fit
     #   layout type. For more information, see
     #   {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
@@ -178,6 +182,11 @@ module OpenTok
     #   The stylesheet for a custom layout. Set this parameter
     #   if you set <code>type</code> to <code>"custom"</code>. Otherwise, leave it undefined.
     #
+    # @option options [String] :screenshare_type
+    #   The screenshare layout type. Set this to "bestFit", "pip", "verticalPresentation" or
+    #   "horizonalPresentation". If this is defined, then the <code>type</code> parameter
+    #   must be set to <code>"bestFit"</code>.
+    #
     # @raise [ArgumentError]
     #   The archive_id or options parameter is empty. Or the "custom"
     #   type was specified without a stylesheet option. Or a stylesheet was passed in for a
@@ -208,9 +217,12 @@ module OpenTok
       raise ArgumentError, "archive_id not provided" if archive_id.to_s.empty?
       type = options[:type]
       raise ArgumentError, "custom type must have a stylesheet" if (type.eql? "custom") && (!options.key? :stylesheet)
-      valid_non_custom_type = ["bestFit","horizontalPresentation","pip", "verticalPresentation", ""].include? type
-      raise ArgumentError, "type is not valid or stylesheet not needed" if !valid_non_custom_type
+      valid_non_custom_layouts = ["bestFit","horizontalPresentation","pip", "verticalPresentation", ""]
+      valid_non_custom_type = valid_non_custom_layouts.include? type
+      raise ArgumentError, "type is not valid" if !valid_non_custom_type && !(type.eql? "custom")
       raise ArgumentError, "type is not valid or stylesheet not needed" if valid_non_custom_type and options.key? :stylesheet
+      raise ArgumentError, "screenshare_type is not valid" if options[:screenshare_type] && !valid_non_custom_layouts.include?(options[:screenshare_type])
+      raise ArgumentError, "type must be set to 'bestFit' if screenshare_type is defined" if options[:screenshare_type] && type != 'bestFit'
       response = @client.layout_archive(archive_id, options)
       (200..300).include? response.code
     end
