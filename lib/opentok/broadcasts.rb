@@ -40,7 +40,7 @@ module OpenTok
     # @option options [int] maxDuration
     #   The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when
     #   the maximum duration is reached. You can set the maximum duration to a value from 60 (60 seconds) to 36000 (10 hours).
-    #   The default maximum duration is 2 hours (7200 seconds).
+    #   The default maximum duration is 4 hours (14,400 seconds).
     #
     # @option options [Hash] outputs
     #   This object defines the types of broadcast streams you want to start (both HLS and RTMP).
