@@ -12,7 +12,8 @@ module OpenTok
     #        "password" => sip_password },
     #      "headers" => { "X-KEY1" => "value1",
     #        "X-KEY1" => "value2" },
-    #      "secure" => "true"
+    #      "secure" => "true",
+    #      "video" => "true"
     #    }
     #    response = opentok.sip.dial(session_id, token, "sip:+15128675309@acme.pstn.example.com;transport=tls", opts)
     # @param [String] session_id The session ID corresponding to the session to which
@@ -33,8 +34,13 @@ module OpenTok
     # @option opts [Hash] :auth This object contains the username and password
     #   to be used in the the SIP INVITE​ request for HTTP digest authentication,
     #   if it is required by your SIP platform.
-    # @option opts  [true, false] :secure Wether the media must be transmitted
+    # @option opts  [true, false] :secure Whether the media must be transmitted
     #   encrypted (​true​) or not (​false​, the default).
+    # @option opts  [true, false] :video Whether the SIP call will include
+    # video (​true​) or not (​false​, the default). With video included, the SIP
+    # client's video is included in the OpenTok stream that is sent to the
+    # OpenTok session. The SIP client will receive a single composed video of
+    # the published streams in the OpenTok session.
     def dial(session_id, token, sip_uri, opts)
       response = @client.dial(session_id, token, sip_uri, opts)
     end
