@@ -25,6 +25,6 @@ jobs:
     - name: Install dependencies
       run: bundle install
     - name: Run tests
-      run: bundle exec rspec spec
+      run: bundle exec rake spec
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
