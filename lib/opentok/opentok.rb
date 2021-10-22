@@ -1,3 +1,6 @@
+require "resolv"
+require "set"
+
 require "opentok/constants"
 require "opentok/session"
 require "opentok/client"
@@ -8,9 +11,6 @@ require "opentok/sip"
 require "opentok/streams"
 require "opentok/signals"
 require "opentok/broadcasts"
-
-require "resolv"
-require "set"
 
 module OpenTok
   # Contains methods for creating OpenTok sessions and generating tokens. It also includes
