@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/v2/project/123456/dial
     body:
       encoding: UTF-8
-      string: '{"sessionId":"SESSIONID","token":"TOKENID","sip":{"uri":"sip:+15128675309@acme.pstn.example.com;transport=tls","auth":{"username":"bob","password":"abc123"},"secure":"true","video":"true"}}'
+      string: '{"sessionId":"SESSIONID","token":"TOKENID","sip":{"uri":"sip:+15128675309@acme.pstn.example.com;transport=tls","auth":{"username":"bob","password":"abc123"},"secure":"true","video":"true","observeForceMute":"true"}}'
     headers:
       User-Agent:
       - OpenTok-Ruby-SDK/<%= version %>

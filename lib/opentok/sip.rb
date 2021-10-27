@@ -13,7 +13,8 @@ module OpenTok
     #      "headers" => { "X-KEY1" => "value1",
     #        "X-KEY1" => "value2" },
     #      "secure" => "true",
-    #      "video" => "true"
+    #      "video" => "true",
+    #      "observe_force_mute" => "true"
     #    }
     #    response = opentok.sip.dial(session_id, token, "sip:+15128675309@acme.pstn.example.com;transport=tls", opts)
     # @param [String] session_id The session ID corresponding to the session to which
@@ -41,6 +42,8 @@ module OpenTok
     # client's video is included in the OpenTok stream that is sent to the
     # OpenTok session. The SIP client will receive a single composed video of
     # the published streams in the OpenTok session.
+    # @option opts  [true, false] :observe_force_mute Whether the SIP end point
+    # observes force mute moderation (true) or not (false, the default).
     def dial(session_id, token, sip_uri, opts)
       response = @client.dial(session_id, token, sip_uri, opts)
     end
