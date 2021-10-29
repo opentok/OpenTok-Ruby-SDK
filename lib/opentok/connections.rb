@@ -24,5 +24,13 @@ module OpenTok
       (200..300).include? response.code
     end
 
+    def force_mute_stream(session_id, stream_id)
+      response = @client.force_mute_stream(session_id, connection_id)
+    end
+
+    def force_mute_session(session_id, opts)
+      response = @client.force_mute_session(session_id, opts)
+    end
+
   end
 end

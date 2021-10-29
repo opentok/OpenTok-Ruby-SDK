@@ -207,7 +207,7 @@ module OpenTok
       @signals ||= Signals.new client
     end
 
-    # A Connections object, which lets disconnect clients from an OpenTok session.
+    # A Connections object, which lets you manage clients connected to an OpenTok session.
     def connections
       @connections ||= Connections.new client
     end
