@@ -24,9 +24,31 @@ module OpenTok
       (200..300).include? response.code
     end
 
+    # Force a specific client connected to an OpenTok session to mute itself.
+    #
+    # @param [String] session_id The session ID of the OpenTok session.
+    # @param [String] stream_id The stream ID of the client in the session.
+
     def force_mute_stream(session_id, stream_id)
       response = @client.force_mute_stream(session_id, stream_id)
     end
+
+    # Force all clients connected to an OpenTok session to mute themselves.
+    #
+    # @param [String] session_id The session ID of the OpenTok session.
+    # @param [Hash] opts An optional hash defining options for muting action. For example:
+    # @option opts [true, false] :active Whether streams published after this call, in
+    # addition to the current streams in the session, should be muted (true) or not (false).
+    # @option opts [Array] :excluded_streams The stream IDs for streams that should not be muted.
+    # This is an optional property. If you omit this property, all streams in the session will be muted.
+    # @example
+    # {
+    #   "active": true,
+    #   "excluded_streams": [
+    #     "excludedStreamId1",
+    #     "excludedStreamId2"
+    #   ]
+    # }
 
     def force_mute_session(session_id, opts = {})
       response = @client.force_mute_session(session_id, opts)
