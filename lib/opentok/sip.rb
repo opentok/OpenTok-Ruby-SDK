@@ -45,8 +45,24 @@ module OpenTok
       response = @client.dial(session_id, token, sip_uri, opts)
     end
 
+    def play_dtmf_to_connection(session_id, connection_id, dtmf_digits)
+      raise ArgumentError, "invalid DTMF digits" unless dtmf_digits_valid?(dtmf_digits)
+      response = @client.play_dtmf_to_connection(session_id, connection_id, dtmf_digits)
+    end
+
+    def play_dtmf_to_session(session_id, dtmf_digits)
+      raise ArgumentError, "invalid DTMF digits" unless dtmf_digits_valid?(dtmf_digits)
+      response = @client.play_dtmf_to_connection(session_id, dtmf_digits)
+    end
+
     def initialize(client)
       @client = client
+    end
+
+    private
+
+    def dtmf_digits_valid?(dtmf_digits)
+      dtmf_digits.match?(/^[0-9*#p]+$/)
     end
   end
 end

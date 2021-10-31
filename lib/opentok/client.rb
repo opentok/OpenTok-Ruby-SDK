@@ -257,6 +257,52 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def play_dtmf_to_connection(session_id, connection_id, dtmf_digits)
+      body = { "digits" => dtmf_digits }
+
+      response = self.class.post("/v2/project/#{@api_key}/session/#{session_id}/connection/#{connection_id}/play-dtmf", {
+        :body => body.to_json,
+        :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "One of the properties — dtmf_digits #{dtmf_digits} or session_id #{session_id} — is invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. This can occur if you use an invalid OpenTok API key or an invalid JSON web token. API Key: #{@api_key}"
+      when 404
+        raise OpenTokError, "The specified session #{session_id} does not exist or the client specified by the #{connection_id} property is not connected to the session."
+      else
+        raise OpenTokError, "An error occurred when attempting to play DTMF digits to the session"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def play_dtmf_to_session(session_id, dtmf_digits)
+      body = { "digits" => dtmf_digits }
+
+      response = self.class.post("/v2/project/#{@api_key}/session/#{session_id}/play-dtmf", {
+        :body => body.to_json,
+        :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "One of the properties — dtmf_digits #{dtmf_digits} or session_id #{session_id} — is invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. This can occur if you use an invalid OpenTok API key or an invalid JSON web token. API Key: #{@api_key}"
+      when 404
+        raise OpenTokError, "The specified session does not exist. Session ID: #{session_id}"
+      else
+        raise OpenTokError, "An error occurred when attempting to play DTMF digits to the session"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def info_stream(session_id, stream_id)
       streamId = stream_id.to_s.empty? ? '' : "/#{stream_id}"
       url = "/v2/project/#{@api_key}/session/#{session_id}/stream#{streamId}"
