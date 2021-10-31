@@ -43,7 +43,8 @@ module OpenTok
     # OpenTok session. The SIP client will receive a single composed video of
     # the published streams in the OpenTok session.
     # @option opts  [true, false] :observe_force_mute Whether the SIP end point
-    # observes force mute moderation (true) or not (false, the default).
+    # observes {https://tokbox.com/developer/guides/moderation/#force_mute force mute moderation}
+    # (true) or not (false, the default).
     def dial(session_id, token, sip_uri, opts)
       response = @client.dial(session_id, token, sip_uri, opts)
     end
