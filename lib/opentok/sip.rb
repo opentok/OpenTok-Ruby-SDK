@@ -52,7 +52,7 @@ module OpenTok
 
     def play_dtmf_to_session(session_id, dtmf_digits)
       raise ArgumentError, "invalid DTMF digits" unless dtmf_digits_valid?(dtmf_digits)
-      response = @client.play_dtmf_to_connection(session_id, dtmf_digits)
+      response = @client.play_dtmf_to_session(session_id, dtmf_digits)
     end
 
     def initialize(client)
