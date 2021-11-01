@@ -45,10 +45,24 @@ module OpenTok
       response = @client.dial(session_id, token, sip_uri, opts)
     end
 
+    # Sends DTMF digits to a specific client connected to an OpnTok session.
+    #
+    # @param [String] session_id The session ID corresponding to the session that
+    # the DTMF signal is being sent to
+    # @param [String] connection_id The connection ID corresponding to the specific
+    # connection that the DTMF signal is being sent to
+    # @param [String] dtmf_digits The DTMF digits being sent
+
     def play_dtmf_to_connection(session_id, connection_id, dtmf_digits)
       raise ArgumentError, "invalid DTMF digits" unless dtmf_digits_valid?(dtmf_digits)
       response = @client.play_dtmf_to_connection(session_id, connection_id, dtmf_digits)
     end
+
+    # Sends DTMF digits to all clients connected to an OpnTok session.
+    #
+    # @param [String] session_id The session ID corresponding to the session that
+    # the DTMF signal is being sent to
+    # @param [String] dtmf_digits The DTMF digits being sent
 
     def play_dtmf_to_session(session_id, dtmf_digits)
       raise ArgumentError, "invalid DTMF digits" unless dtmf_digits_valid?(dtmf_digits)
