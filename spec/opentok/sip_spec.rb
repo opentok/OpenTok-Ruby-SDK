@@ -24,7 +24,8 @@ describe OpenTok::Sip do
     opts = { "auth" => { "username" => sip_username,
                          "password" => sip_password },
              "secure" => "true",
-             "video" => "true"
+             "video" => "true",
+             "observe_force_mute" => "true"
     }
     response = sip.dial(session_id, expiring_token, sip_uri, opts)
     expect(response).not_to be_nil
