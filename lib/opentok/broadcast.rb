@@ -65,7 +65,7 @@ module OpenTok
     # For more information, see
     # {https://tokbox.com/developer/guides/broadcast/live-streaming/#configuring-video-layout-for-opentok-live-streaming-broadcasts Configuring video layout for OpenTok live streaming broadcasts}.
     #
-    # @option options [String] :type 
+    # @option options [String] :type
     #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
     #   "horizontalPresentation", "focus", or "custom".
     #
@@ -98,6 +98,12 @@ module OpenTok
     def layout(opts = {})
       # TODO: validate returned json fits schema
       @json = @interface.layout(@json['id'], opts)
+    end
+
+    # TODO: add comments for add_stream method
+
+    def add_stream(stream_id, has_audio, has_video)
+      @interface.add_stream(@json['id'], @json['streamMode'], stream_id, has_audio, has_video)
     end
 
     # @private ignore
