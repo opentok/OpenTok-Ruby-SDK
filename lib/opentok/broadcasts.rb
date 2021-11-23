@@ -173,7 +173,7 @@ module OpenTok
       raise ArgumentError, "has_video must be true or false" unless is_boolean?(has_video)
       raise ArgumentError, "at least one of has_audio and has_video must be true" unless audio_and_video_options_valid?(has_audio, has_video)
 
-      @client.add_stream_to_broadcast(broadcast_id, options)
+      @client.select_streams_for_broadcast(broadcast_id, options)
     end
 
     private
