@@ -410,7 +410,7 @@ module OpenTok
       when 404
         raise OpenTokBroadcastError, "No matching broadcast found with the specified ID: #{broadcast_id}"
       when 405
-        raise OpenTokBroadcastError, "The broadcast was started with streamMode set to "auto", which does not support stream manipulation."
+        raise OpenTokBroadcastError, "The broadcast was started with streamMode set to 'auto', which does not support stream manipulation."
       when 500
         raise OpenTokError, "OpenTok server error."
       else
