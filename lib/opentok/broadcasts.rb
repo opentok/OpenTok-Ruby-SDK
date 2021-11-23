@@ -25,8 +25,8 @@ module OpenTok
     #
     # @option options [Hash] :layout Specify this to assign the initial layout type for
     #   the broadcast. This is a hash containing three keys:
-    #   <code>:type</code>, <code>:stylesheet<code> and <code>:screenshare_type</code>. 
-    #   Valid values for <code>:type</code> are "bestFit" (best fit), "custom" (custom), 
+    #   <code>:type</code>, <code>:stylesheet<code> and <code>:screenshare_type</code>.
+    #   Valid values for <code>:type</code> are "bestFit" (best fit), "custom" (custom),
     #    "horizontalPresentation" (horizontal presentation),
     #   "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)).
     #   If you specify a "custom" layout type, set the <code>:stylesheet</code> key to the
@@ -111,7 +111,7 @@ module OpenTok
     # @param [String] broadcast_id
     #   The broadcast ID.
     #
-    # @option options [String] :type 
+    # @option options [String] :type
     #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
     #   "horizontalPresentation", "focus", or "custom".
     #
@@ -159,6 +159,32 @@ module OpenTok
       (200..300).include? response.code
     end
 
+    def add_stream(broadcast_id, stream_mode, options)
+      raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
+      raise ArgumentError, "stream_mode must be manual in order to add a stream" unless stream_mode == 'manual'
+      raise ArgumentError, "option parameter is empty" if options.empty?
+      add_stream = options[:add_stream]
+      raise ArgumentError, "add_stream not provided" if add_stream.to_s.empty?
+      has_audio = options[:has_audio]
+      raise ArgumentError, "has_audio not provided" if has_audio.to_s.empty?
+      raise ArgumentError, "has_audio must be true or false" unless is_boolean?(has_audio)
+      has_video = options[:has_video]
+      raise ArgumentError, "has_video not provided" if has_video.to_s.empty?
+      raise ArgumentError, "has_video must be true or false" unless is_boolean?(has_video)
+      raise ArgumentError, "at least one of has_audio and has_video must be true" unless audio_and_video_options_valid?(has_audio, has_video)
+
+      @client.add_stream_to_broadcast(broadcast_id, options)
+    end
+
+    private
+
+    def is_boolean?(value)
+      [true, false].include? value
+    end
+
+    def audio_and_video_options_valid?(has_video, has_video)
+      has_video == true || has_video == true
+    end
 
   end
 end
