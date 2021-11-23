@@ -106,6 +106,10 @@ module OpenTok
       @interface.add_stream(@json['id'], @json['streamMode'], opts)
     end
 
+    def remove_stream(opts = {})
+      @interface.remove_stream(@json['id'], @json['streamMode'], opts)
+    end
+
     # @private ignore
     def method_missing(method, *args, &block)
       camelized_method = method.to_s.camelize(:lower)
