@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: patch
+    uri: https://api.opentok.com/v2/project/123456/archive/30b3ebf1-ba36-4f5b-8def-6f70d9986fe9/streams
+    body:
+      encoding: UTF-8
+      string: '{"removeStream":"12312312-3811-4726-b508-e41a0f96c68f"}'
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/4.3.0-Ruby-Version-2.6.2-p47
+      X-Opentok-Auth:
+      - eyJpc3QiOiJwcm9qZWN0IiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.BplMVhJWx4ld7KLKXqEmow6MjNPPFw9W8IHCMfeb120
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 23 Nov 2021 20:55:03 GMT
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - AWSALBTG=C8HtbnHIrXFPcTucK+6zVh2r0MMrr/1Jb/WUzPKk5rAEw3LbnvwxrsMlwebeHFPZUj+lcnVMLZU91OiujdiYEUH5eBovMivdAk9Gd/O9f4iPju70zwCPrRaoMZnH3sFK6a8lG3Q966pXth4vEsvTA12tADiC2emPHC51Z75R51aQMKUxFPc=;
+        Expires=Tue, 30 Nov 2021 20:55:03 GMT; Path=/
+      - AWSALBTGCORS=C8HtbnHIrXFPcTucK+6zVh2r0MMrr/1Jb/WUzPKk5rAEw3LbnvwxrsMlwebeHFPZUj+lcnVMLZU91OiujdiYEUH5eBovMivdAk9Gd/O9f4iPju70zwCPrRaoMZnH3sFK6a8lG3Q966pXth4vEsvTA12tADiC2emPHC51Z75R51aQMKUxFPc=;
+        Expires=Tue, 30 Nov 2021 20:55:03 GMT; Path=/; SameSite=None; Secure
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 6.0.0
