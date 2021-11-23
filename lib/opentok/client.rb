@@ -393,5 +393,32 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def select_streams_for_broadcast(broadcast_id, opts)
+      opts.extend(HashExtensions)
+      body = opts.camelize_keys!
+      response = self.class.patch("/v2/project/#{@api_key}/broadcast/#{broadcast_id}/streams", {
+          :body => body.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 204
+        response
+      when 400
+        raise OpenTokBroadcastError, "The request was invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
+      when 404
+        raise OpenTokBroadcastError, "No matching broadcast found with the specified ID: #{broadcast_id}"
+      when 405
+        raise OpenTokBroadcastError, "The broadcast was started with streamMode set to "auto", which does not support stream manipulation."
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokBroadcastError, "The broadcast streams could not be updated."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
   end
 end
