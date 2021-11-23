@@ -102,8 +102,8 @@ module OpenTok
 
     # TODO: add comments for add_stream method
 
-    def add_stream(stream_id, has_audio, has_video)
-      @interface.add_stream(@json['id'], @json['streamMode'], stream_id, has_audio, has_video)
+    def add_stream(opts = {})
+      @interface.add_stream(@json['id'], @json['streamMode'], opts)
     end
 
     # @private ignore
