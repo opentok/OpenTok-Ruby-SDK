@@ -8,7 +8,7 @@ http_interactions:
       string: '{"removeStream":"12312312-3811-4726-b508-e41a0f96c68f"}'
     headers:
       User-Agent:
-      - OpenTok-Ruby-SDK/4.3.0-Ruby-Version-2.6.2-p47
+      - OpenTok-Ruby-SDK/<%= version %>
       X-Opentok-Auth:
       - eyJpc3QiOiJwcm9qZWN0IiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.BplMVhJWx4ld7KLKXqEmow6MjNPPFw9W8IHCMfeb120
       Content-Type:
