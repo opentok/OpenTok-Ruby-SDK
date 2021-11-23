@@ -176,6 +176,16 @@ module OpenTok
       @client.select_streams_for_broadcast(broadcast_id, options)
     end
 
+    def remove_stream(broadcast_id, stream_mode, options)
+      raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
+      raise ArgumentError, "stream_mode must be manual in order to add a stream" unless stream_mode == 'manual'
+      raise ArgumentError, "option parameter is empty" if options.empty?
+      remove_stream = options[:remove_stream]
+      raise ArgumentError, "remove_stream not provided" if add_stream.to_s.empty?
+
+      @client.select_streams_for_broadcast(broadcast_id, options)
+    end
+
     private
 
     def is_boolean?(value)
