@@ -182,8 +182,8 @@ module OpenTok
       [true, false].include? value
     end
 
-    def audio_and_video_options_valid?(has_video, has_video)
-      has_video == true || has_video == true
+    def audio_and_video_options_valid?(has_audio, has_video)
+      has_audio == true || has_video == true
     end
 
   end
