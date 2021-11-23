@@ -241,7 +241,17 @@ module OpenTok
       raise ArgumentError, "has_video must be true or false" unless is_boolean?(has_video)
       raise ArgumentError, "at least one of has_audio and has_video must be true" unless audio_and_video_options_valid?(has_audio, has_video)
 
-      @client.select_streams_for_broadcast(broadcast_id, options)
+      @client.select_streams_for_archive(archive_id, options)
+    end
+
+    def remove_stream(archive_id, stream_mode, options)
+      raise ArgumentError, "archive_id not provided" if archive_id.to_s.empty?
+      raise ArgumentError, "stream_mode must be manual in order to add a stream" unless stream_mode == 'manual'
+      raise ArgumentError, "option parameter is empty" if options.empty?
+      remove_stream = options[:remove_stream]
+      raise ArgumentError, "remove_stream not provided" if add_stream.to_s.empty?
+
+      @client.select_streams_for_archive(archive_id, options)
     end
 
     private
@@ -253,6 +263,6 @@ module OpenTok
     def audio_and_video_options_valid?(has_audio, has_video)
       has_audio == true || has_video == true
     end
-    
+
   end
 end
