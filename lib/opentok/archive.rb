@@ -99,7 +99,7 @@ module OpenTok
     # {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
     # the video layout for composed archives}.
     #
-    # @option options [String] :type 
+    # @option options [String] :type
     #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
     #   "horizontalPresentation", "focus", or "custom".
     #
@@ -134,6 +134,10 @@ module OpenTok
     def layout(opts= {})
       # TODO: validate returned json fits schema
       @json = @interface.layout(@json['id'], opts)
+    end
+
+    def add_stream(opts = {})
+      @interface.add_stream(@json['id'], @json['streamMode'], opts)
     end
 
     # @private ignore
