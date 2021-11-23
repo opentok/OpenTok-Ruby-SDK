@@ -165,13 +165,11 @@ module OpenTok
       raise ArgumentError, "option parameter is empty" if options.empty?
       add_stream = options[:add_stream]
       raise ArgumentError, "add_stream not provided" if add_stream.to_s.empty?
-      has_audio = options[:has_audio]
-      raise ArgumentError, "has_audio not provided" if has_audio.to_s.empty?
-      raise ArgumentError, "has_audio must be true or false" unless is_boolean?(has_audio)
-      has_video = options[:has_video]
-      raise ArgumentError, "has_video not provided" if has_video.to_s.empty?
-      raise ArgumentError, "has_video must be true or false" unless is_boolean?(has_video)
-      raise ArgumentError, "at least one of has_audio and has_video must be true" unless audio_and_video_options_valid?(has_audio, has_video)
+      if options.has_key?(:has_audio) && options.has_key?(:has_video)
+        has_audio = options[:has_audio]
+        has_video = options[:has_video]
+        raise ArgumentError, "has_audio and has_video can't both be false" if audio_and_video_options_both_false?(has_audio, has_video)
+      end
 
       @client.select_streams_for_broadcast(broadcast_id, options)
     end
@@ -188,12 +186,8 @@ module OpenTok
 
     private
 
-    def is_boolean?(value)
-      [true, false].include? value
-    end
-
-    def audio_and_video_options_valid?(has_audio, has_video)
-      has_audio == true || has_video == true
+    def audio_and_video_options_both_false?(has_audio, has_video)
+      has_audio == false && has_video == false
     end
 
   end
