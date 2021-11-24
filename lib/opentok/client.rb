@@ -199,17 +199,17 @@ module OpenTok
       when 204
         response
       when 400
-        raise OpenTokBroadcastError, "The request was invalid."
+        raise OpenTokArchiveError, "The request was invalid."
       when 403
         raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
       when 404
-        raise OpenTokBroadcastError, "No matching archive found with the specified ID: #{archive_id}"
+        raise OpenTokArchiveError, "No matching archive found with the specified ID: #{archive_id}"
       when 405
-        raise OpenTokBroadcastError, "The broadcast was started with streamMode set to 'auto', which does not support stream manipulation."
+        raise OpenTokArchiveError, "The archive was started with streamMode set to 'auto', which does not support stream manipulation."
       when 500
         raise OpenTokError, "OpenTok server error."
       else
-        raise OpenTokBroadcastError, "The broadcast streams could not be updated."
+        raise OpenTokArchiveError, "The archive streams could not be updated."
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
