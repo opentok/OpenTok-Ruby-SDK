@@ -296,7 +296,7 @@ module OpenTok
     #   The ID for the stream to be removed from the archive
     #
     # @raise [ArgumentError]
-    #   The archive_parameter id is empty.
+    #   The archive_id parameter id is empty.
     #
     # @raise [ArgumentError]
     #   The streamMode for the archive is not set to "manual".

@@ -159,6 +159,46 @@ module OpenTok
       (200..300).include? response.code
     end
 
+    # Adds a stream to currently running broadcast that was started with the
+    # streamMode set to "manual". For a description of the feature, see
+    # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
+    #
+    # @param [String] archive_id
+    #   The broadcast ID.
+    #
+    # @param [String] stream_mode
+    #   The stream mode of the broadcast. Must be "manual" in order to add a stream.
+    #
+    # @option opts [String] :add_stream
+    #   The ID for the stream to be added to the broadcast
+    #
+    # @option opts [true, false] :has_audio
+    #   (Boolean, optional) — Whether the broadcast should include the stream's
+    #   audio (true, the default) or not (false).
+    #
+    # @option opts [true, false] :has_video
+    #   (Boolean, optional) — Whether the broadcast should include the stream's
+    #   video (true, the default) or not (false).
+    #
+    # You can call the method repeatedly with add_stream set to the same stream ID, to
+    # toggle the stream's audio or video in the broadcast. If you set both has_audio and
+    # has_video to false, you will get error response.
+    #
+    # @raise [ArgumentError]
+    #   The broadcast_id parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The streamMode for the broadcast is not set to "manual".
+    #
+    # @raise [ArgumentError]
+    #   The options parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The add_stream property of the options parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The has_audio and has_video properties of the options parameter are both set to "false"
+    #
     def add_stream(broadcast_id, stream_mode, options)
       raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
       raise ArgumentError, "stream_mode must be manual in order to add a stream" unless stream_mode == 'manual'
@@ -174,6 +214,31 @@ module OpenTok
       @client.select_streams_for_broadcast(broadcast_id, options)
     end
 
+    # Removes a stream from a currently running broadcast that was started with the
+    # streamMode set to "manual". For a description of the feature, see
+    # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
+    #
+    # @param [String] broadcast_id
+    #   The broadcast ID.
+    #
+    # @param [String] stream_mode
+    #   The stream mode of the broadcast. Must be "manual" in order to remove a stream.
+    #
+    # @option opts [String] :remove_stream
+    #   The ID for the stream to be removed from the broadcast
+    #
+    # @raise [ArgumentError]
+    #   The broadcast_id parameter id is empty.
+    #
+    # @raise [ArgumentError]
+    #   The streamMode for the broadcast is not set to "manual".
+    #
+    # @raise [ArgumentError]
+    #   The options parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The remove_stream property of the options parameter is empty.
+    #
     def remove_stream(broadcast_id, stream_mode, options)
       raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
       raise ArgumentError, "stream_mode must be manual in order to add a stream" unless stream_mode == 'manual'
