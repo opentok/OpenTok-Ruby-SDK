@@ -163,7 +163,7 @@ module OpenTok
     # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
     #
     # @option opts [String] :remove_stream
-    #   The ID for the stream to be added to the archive
+    #   The ID for the stream to be removed from the archive
     def remove_stream(opts = {})
       @interface.remove_stream(@json['id'], @json['streamMode'], opts)
     end
