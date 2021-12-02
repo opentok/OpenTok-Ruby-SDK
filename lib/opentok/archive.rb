@@ -140,7 +140,7 @@ module OpenTok
     # streamMode set to "manual". For a description of the feature, see
     # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
     #
-    # @option opts [String] :add_stream
+    # @param [String] stream_id
     #   The ID for the stream to be added to the archive
     #
     # @option opts [true, false] :has_audio
@@ -151,21 +151,29 @@ module OpenTok
     #   (Boolean, optional) — Whether the composed archive should include the stream's
     #   video (true, the default) or not (false).
     #
+    # @raise [ArgumentError]
+    #   The streamMode for the archive is not set to "manual".
+    #
     # You can call the method repeatedly with add_stream set to the same stream ID, to
     # toggle the stream's audio or video in the archive. If you set both has_audio and
     # has_video to false, you will get error response.
-    def add_stream(opts = {})
-      @interface.add_stream(@json['id'], @json['streamMode'], opts)
+    def add_stream(stream_id, opts = {})
+      raise OpenTokArchiveError, "stream_mode must be manual in order to add a stream" unless @json['streamMode'] == 'manual'
+      @interface.add_stream(@json['id'], stream_id, opts)
     end
 
     # Removes a stream to currently running composed archive that was started with the
     # streamMode set to "manual". For a description of the feature, see
     # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
     #
-    # @option opts [String] :remove_stream
+    # @param [String] stream_id
     #   The ID for the stream to be removed from the archive
-    def remove_stream(opts = {})
-      @interface.remove_stream(@json['id'], @json['streamMode'], opts)
+    #
+    # @raise [ArgumentError]
+    #   The streamMode for the archive is not set to "manual".
+    def remove_stream(stream_id)
+      raise OpenTokArchiveError, "stream_mode must be manual in order to remove a stream" unless @json['streamMode'] == 'manual'
+      @interface.remove_stream(@json['id'], stream_id)
     end
 
     # @private ignore
