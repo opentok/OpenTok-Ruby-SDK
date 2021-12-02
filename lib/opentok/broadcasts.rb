@@ -166,10 +166,7 @@ module OpenTok
     # @param [String] archive_id
     #   The broadcast ID.
     #
-    # @param [String] stream_mode
-    #   The stream mode of the broadcast. Must be "manual" in order to add a stream.
-    #
-    # @option opts [String] :add_stream
+    # @param [String] stream_id
     #   The ID for the stream to be added to the broadcast
     #
     # @option opts [true, false] :has_audio
@@ -188,28 +185,20 @@ module OpenTok
     #   The broadcast_id parameter is empty.
     #
     # @raise [ArgumentError]
-    #   The streamMode for the broadcast is not set to "manual".
-    #
-    # @raise [ArgumentError]
-    #   The options parameter is empty.
-    #
-    # @raise [ArgumentError]
-    #   The add_stream property of the options parameter is empty.
+    #   The stream_id parameter is empty.
     #
     # @raise [ArgumentError]
     #   The has_audio and has_video properties of the options parameter are both set to "false"
     #
-    def add_stream(broadcast_id, stream_mode, options)
+    def add_stream(broadcast_id, stream_id, options)
       raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
-      raise ArgumentError, "stream_mode must be manual in order to add a stream" unless stream_mode == 'manual'
-      raise ArgumentError, "option parameter is empty" if options.empty?
-      add_stream = options[:add_stream]
-      raise ArgumentError, "add_stream not provided" if add_stream.to_s.empty?
+      raise ArgumentError, "stream_id not provided" if stream_id.to_s.empty?
       if options.has_key?(:has_audio) && options.has_key?(:has_video)
         has_audio = options[:has_audio]
         has_video = options[:has_video]
         raise ArgumentError, "has_audio and has_video can't both be false" if audio_and_video_options_both_false?(has_audio, has_video)
       end
+      options['add_stream'] = stream_id
 
       @client.select_streams_for_broadcast(broadcast_id, options)
     end
@@ -221,30 +210,20 @@ module OpenTok
     # @param [String] broadcast_id
     #   The broadcast ID.
     #
-    # @param [String] stream_mode
-    #   The stream mode of the broadcast. Must be "manual" in order to remove a stream.
-    #
-    # @option opts [String] :remove_stream
+    # @param [String] stream_id
     #   The ID for the stream to be removed from the broadcast
     #
     # @raise [ArgumentError]
     #   The broadcast_id parameter id is empty.
     #
     # @raise [ArgumentError]
-    #   The streamMode for the broadcast is not set to "manual".
+    #   The stream_id parameter is empty.
     #
-    # @raise [ArgumentError]
-    #   The options parameter is empty.
-    #
-    # @raise [ArgumentError]
-    #   The remove_stream property of the options parameter is empty.
-    #
-    def remove_stream(broadcast_id, stream_mode, options)
+    def remove_stream(broadcast_id, stream_id)
       raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
-      raise ArgumentError, "stream_mode must be manual in order to add a stream" unless stream_mode == 'manual'
-      raise ArgumentError, "option parameter is empty" if options.empty?
-      remove_stream = options[:remove_stream]
-      raise ArgumentError, "remove_stream not provided" if remove_stream.to_s.empty?
+      raise ArgumentError, "stream_id not provided" if stream_id.to_s.empty?
+      options = {}
+      options['remove_stream'] = stream_id
 
       @client.select_streams_for_broadcast(broadcast_id, options)
     end

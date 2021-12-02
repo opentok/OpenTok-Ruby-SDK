@@ -151,7 +151,7 @@ module OpenTok
     #   (Boolean, optional) — Whether the composed archive should include the stream's
     #   video (true, the default) or not (false).
     #
-    # @raise [ArgumentError]
+    # @raise [OpenTokArchiveError]
     #   The streamMode for the archive is not set to "manual".
     #
     # You can call the method repeatedly with add_stream set to the same stream ID, to
@@ -169,7 +169,7 @@ module OpenTok
     # @param [String] stream_id
     #   The ID for the stream to be removed from the archive
     #
-    # @raise [ArgumentError]
+    # @raise [OpenTokArchiveError]
     #   The streamMode for the archive is not set to "manual".
     def remove_stream(stream_id)
       raise OpenTokArchiveError, "stream_mode must be manual in order to remove a stream" unless @json['streamMode'] == 'manual'
