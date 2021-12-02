@@ -216,7 +216,7 @@ module OpenTok
       when 400
         raise ArgumentError, "Force mute failed. Stream ID #{stream_id} or Session ID #{session_id} is invalid"
       when 403
-        raise OpenTokAuthenticationError, "You are not authorized to force_mute_stream, check your authentication credentials or token type is non-moderator"
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
       when 404
         raise OpenTokConnectionError, "Either Stream ID #{stream_id} or Session ID #{session_id} is invalid"
       end
@@ -237,7 +237,7 @@ module OpenTok
       when 400
         raise ArgumentError, "Force mute failed. The request could not be processed due to a bad request"
       when 403
-        raise OpenTokAuthenticationError, "You are not authorized to force_mute_session, check your authentication credentials or token type is non-moderator"
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
       when 404
         raise OpenTokConnectionError, "Session ID #{session_id} is invalid"
       end
