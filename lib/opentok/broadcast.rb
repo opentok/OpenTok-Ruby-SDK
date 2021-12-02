@@ -22,6 +22,9 @@ module OpenTok
   # @attr [string] resolution
   #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD). This property is optional.
   #
+  # @attr [string] streamMode
+  #   Whether streams included in the broadcast are selected automatically ("auto", the default) or manually ("manual").
+  #
   # @attr [Hash] broadcastUrls is defined as follows:
   #   This object defines the types of broadcast streams you want to start (both HLS and RTMP).
   #   You can include HLS, RTMP, or both as broadcast streams. If you include RTMP streaming,

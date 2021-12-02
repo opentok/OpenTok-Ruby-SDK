@@ -55,11 +55,21 @@ module OpenTok
     # @option options [string] resolution
     #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD).
     #
+    # @option options [String] :streamMode (Optional) Whether streams included in the broadcast are selected
+    #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),
+    #   all streams in the session can be included in the broadcast. When streams are selected manually ("manual"),
+    #   you specify streams to be included based on calls to this REST method
+    #   { https://tokbox.com/developer/rest/#selecting-broadcast-streams }. You can specify whether a
+    #   stream's audio, video, or both are included in the broadcast.
+    #   For both automatic and manual modes, the broadcast composer includes streams based
+    #   on stream prioritization rules { https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules }.
+    #   Important: this feature is currently available in the Standard environment only.
+    #
     # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
     #   including the broadcast ID.
     #
     # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
-    # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
+    # @raise [OpenTokAuthenticationError] Authentication failed while starting an broadcast.
     #   Invalid API key.
     # @raise [OpenTokError] OpenTok server error.
     def create(session_id, options = {})
@@ -161,9 +171,9 @@ module OpenTok
 
     # Adds a stream to currently running broadcast that was started with the
     # streamMode set to "manual". For a description of the feature, see
-    # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
+    # {https://tokbox.com/developer/rest/#selecting-broadcast-streams}.
     #
-    # @param [String] archive_id
+    # @param [String] broadcast_id
     #   The broadcast ID.
     #
     # @param [String] stream_id
@@ -205,7 +215,7 @@ module OpenTok
 
     # Removes a stream from a currently running broadcast that was started with the
     # streamMode set to "manual". For a description of the feature, see
-    # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
+    # {https://tokbox.com/developer/rest/#selecting-broadcast-streams}.
     #
     # @param [String] broadcast_id
     #   The broadcast ID.

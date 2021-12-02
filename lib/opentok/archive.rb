@@ -39,6 +39,9 @@ module OpenTok
     # @attr [float] size
     #   The size of the MP4 file. For archives that have not been generated, this value is set to 0.
     #
+    # @attr [string] streamMode
+    #   Whether streams included in the archive are selected automatically ("auto", the default) or manually ("manual").
+    #
     # @attr [string] status
     #   The status of the archive, which can be one of the following:
     #
