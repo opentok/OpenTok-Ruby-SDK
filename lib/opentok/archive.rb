@@ -26,12 +26,16 @@ module OpenTok
     #   Whether all streams in the archive are recorded to a single file (<code>:composed</code>)
     #   or to individual files (<code>:individual</code>).
     #
-    # @attr [string] partner_id
+    # @attr [string] projectId
     #   The API key associated with the archive.
     #
     # @attr [string] reason
     #   For archives with the status "stopped" or "failed", this string describes the
     #   reason the archive stopped (such as "maximum duration exceeded") or failed.
+    #
+    # @attr [string] resolution
+    #   The resolution of the archive (either "640x480", "1280x720", "480x640", or "720x1280").
+    #   This property is only set for composed archives.
     #
     # @attr [string] session_id
     #   The session ID of the OpenTok session associated with this archive.
