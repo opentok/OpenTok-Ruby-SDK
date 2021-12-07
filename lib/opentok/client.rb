@@ -206,6 +206,45 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def force_mute_stream(session_id, stream_id)
+      response = self.class.post("/v2/project/#{@api_key}/session/#{session_id}/stream/#{stream_id}/mute", {
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "Force mute failed. Stream ID #{stream_id} or Session ID #{session_id} is invalid"
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
+      when 404
+        raise OpenTokConnectionError, "Either Stream ID #{stream_id} or Session ID #{session_id} is invalid"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def force_mute_session(session_id, opts)
+      opts.extend(HashExtensions)
+      body = opts.camelize_keys!
+      response = self.class.post("/v2/project/#{@api_key}/session/#{session_id}/mute", {
+          :body => body.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "Force mute failed. The request could not be processed due to a bad request"
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
+      when 404
+        raise OpenTokConnectionError, "Session ID #{session_id} is invalid"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def signal(session_id, connection_id, opts)
       opts.extend(HashExtensions)
       connectionPath = connection_id.to_s.empty? ? "" : "/connection/#{connection_id}"
