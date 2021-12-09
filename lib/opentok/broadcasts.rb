@@ -25,8 +25,8 @@ module OpenTok
     #
     # @option options [Hash] :layout Specify this to assign the initial layout type for
     #   the broadcast. This is a hash containing three keys:
-    #   <code>:type</code>, <code>:stylesheet<code> and <code>:screenshare_type</code>. 
-    #   Valid values for <code>:type</code> are "bestFit" (best fit), "custom" (custom), 
+    #   <code>:type</code>, <code>:stylesheet<code> and <code>:screenshare_type</code>.
+    #   Valid values for <code>:type</code> are "bestFit" (best fit), "custom" (custom),
     #    "horizontalPresentation" (horizontal presentation),
     #   "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)).
     #   If you specify a "custom" layout type, set the <code>:stylesheet</code> key to the
@@ -55,11 +55,21 @@ module OpenTok
     # @option options [string] resolution
     #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD).
     #
+    # @option options [String] :streamMode (Optional) Whether streams included in the broadcast are selected
+    #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),
+    #   all streams in the session can be included in the broadcast. When streams are selected manually ("manual"),
+    #   you specify streams to be included based on calls to this REST method
+    #   { https://tokbox.com/developer/rest/#selecting-broadcast-streams }. You can specify whether a
+    #   stream's audio, video, or both are included in the broadcast.
+    #   For both automatic and manual modes, the broadcast composer includes streams based
+    #   on stream prioritization rules { https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules }.
+    #   Important: this feature is currently available in the Standard environment only.
+    #
     # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
     #   including the broadcast ID.
     #
     # @raise [OpenTokBroadcastError] The broadcast could not be started. The request was invalid or broadcast already started
-    # @raise [OpenTokAuthenticationError] Authentication failed while starting an archive.
+    # @raise [OpenTokAuthenticationError] Authentication failed while starting an broadcast.
     #   Invalid API key.
     # @raise [OpenTokError] OpenTok server error.
     def create(session_id, options = {})
@@ -111,7 +121,7 @@ module OpenTok
     # @param [String] broadcast_id
     #   The broadcast ID.
     #
-    # @option options [String] :type 
+    # @option options [String] :type
     #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
     #   "horizontalPresentation", "focus", or "custom".
     #
@@ -159,6 +169,80 @@ module OpenTok
       (200..300).include? response.code
     end
 
+    # Adds a stream to currently running broadcast that was started with the
+    # streamMode set to "manual". For a description of the feature, see
+    # {https://tokbox.com/developer/rest/#selecting-broadcast-streams}.
+    #
+    # @param [String] broadcast_id
+    #   The broadcast ID.
+    #
+    # @param [String] stream_id
+    #   The ID for the stream to be added to the broadcast
+    #
+    # @option opts [true, false] :has_audio
+    #   (Boolean, optional) — Whether the broadcast should include the stream's
+    #   audio (true, the default) or not (false).
+    #
+    # @option opts [true, false] :has_video
+    #   (Boolean, optional) — Whether the broadcast should include the stream's
+    #   video (true, the default) or not (false).
+    #
+    # You can call the method repeatedly with add_stream set to the same stream ID, to
+    # toggle the stream's audio or video in the broadcast. If you set both has_audio and
+    # has_video to false, you will get error response.
+    #
+    # @raise [ArgumentError]
+    #   The broadcast_id parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The stream_id parameter is empty.
+    #
+    # @raise [ArgumentError]
+    #   The has_audio and has_video properties of the options parameter are both set to "false"
+    #
+    def add_stream(broadcast_id, stream_id, options)
+      raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
+      raise ArgumentError, "stream_id not provided" if stream_id.to_s.empty?
+      if options.has_key?(:has_audio) && options.has_key?(:has_video)
+        has_audio = options[:has_audio]
+        has_video = options[:has_video]
+        raise ArgumentError, "has_audio and has_video can't both be false" if audio_and_video_options_both_false?(has_audio, has_video)
+      end
+      options['add_stream'] = stream_id
+
+      @client.select_streams_for_broadcast(broadcast_id, options)
+    end
+
+    # Removes a stream from a currently running broadcast that was started with the
+    # streamMode set to "manual". For a description of the feature, see
+    # {https://tokbox.com/developer/rest/#selecting-broadcast-streams}.
+    #
+    # @param [String] broadcast_id
+    #   The broadcast ID.
+    #
+    # @param [String] stream_id
+    #   The ID for the stream to be removed from the broadcast
+    #
+    # @raise [ArgumentError]
+    #   The broadcast_id parameter id is empty.
+    #
+    # @raise [ArgumentError]
+    #   The stream_id parameter is empty.
+    #
+    def remove_stream(broadcast_id, stream_id)
+      raise ArgumentError, "broadcast_id not provided" if broadcast_id.to_s.empty?
+      raise ArgumentError, "stream_id not provided" if stream_id.to_s.empty?
+      options = {}
+      options['remove_stream'] = stream_id
+
+      @client.select_streams_for_broadcast(broadcast_id, options)
+    end
+
+    private
+
+    def audio_and_video_options_both_false?(has_audio, has_video)
+      has_audio == false && has_video == false
+    end
 
   end
 end
