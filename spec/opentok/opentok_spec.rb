@@ -31,6 +31,10 @@ describe OpenTok::OpenTok do
       expect(opentok.api_url).to eq default_api_url
     end
 
+    it "has the default timeout set" do
+      expect(opentok.timeout_length).to eq 2
+    end
+
     include_examples "opentok generates tokens"
 
     describe "#create_session" do
@@ -137,6 +141,23 @@ describe OpenTok::OpenTok do
 
       # TODO: i don't need to run all the tests, just a set that checks for the URL's effect
       # include_examples "generates tokens"
+    end
+
+    context "with a custom timeout_length" do
+      let(:timeout_length) { 10 }
+      let(:opentok) { OpenTok::OpenTok.new api_key, api_secret, :timeout_length => timeout_length }
+
+      it { should be_an_instance_of(OpenTok::OpenTok) }
+
+      it "should have an timeout_length property" do
+        expect(opentok.timeout_length).to eq timeout_length
+      end
+
+      it "should send the custom timeout_length to new instances of OpenTok::Client" do
+        streams = opentok.streams
+
+        expect(streams.instance_variable_get(:@client).timeout_length).to eq timeout_length
+      end
     end
 
     context "with an addendum to the user agent string" do

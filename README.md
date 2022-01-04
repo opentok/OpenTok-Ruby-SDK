@@ -1,6 +1,10 @@
 # OpenTok Ruby SDK
 
-[![Build Status](https://travis-ci.org/opentok/OpenTok-Ruby-SDK.png)](https://travis-ci.org/opentok/OpenTok-Ruby-SDK)
+![Coverage Status](https://github.com/opentok/OpenTok-Ruby-SDK/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/gh/opentok/OpenTok-Ruby-SDK/branch/master/graph/badge.svg)](https://codecov.io/gh/opentok/opentok-ruby-sdk) 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
+
+<img src="https://assets.tokbox.com/img/vonage/Vonage_VideoAPI_black.svg" height="48px" alt="Tokbox is now known as Vonage" />
 
 The OpenTok Ruby SDK lets you generate
 [sessions](https://tokbox.com/developer/guides/create-session/) and
@@ -21,7 +25,7 @@ Bundler helps manage dependencies for Ruby projects. Find more info here: <http:
 Add this gem to your `Gemfile`:
 
 ```ruby
-gem "opentok", "~> 3.1.0"
+gem "opentok", "~> 4.0.0"
 ```
 
 Allow bundler to install the change.
@@ -49,18 +53,32 @@ require "opentok"
 opentok = OpenTok::OpenTok.new api_key, api_secret
 ```
 
+### Initialization Options
+
+You can specify a custom timeout value for HTTP requests when initializing a new `OpenTok::OpenTok`
+object:
+
+```ruby
+require "opentok"
+
+opentok = OpenTok::OpenTok.new api_key, api_secret, :timeout_length => 10
+```
+
+The value for `:timeout_length` is an integer representing the number of seconds to wait for an HTTP
+request to complete. The default is set to 2 seconds.
+
 ## Creating Sessions
 
 To create an OpenTok Session, use the `OpenTok#create_session(properties)` method.
 The `properties` parameter is an optional Hash used to specify the following:
 
-* Whether the session uses the [OpenTok Media
+- Whether the session uses the [OpenTok Media
   Router](https://tokbox.com/developer/guides/create-session/#media-mode),
   which is required for some OpenTok features (such as archiving)
 
-* A location hint for the OpenTok server.
+- A location hint for the OpenTok server.
 
-* Whether the session is automatically archived.
+- Whether the session is automatically archived.
 
 The `session_id` method of the returned `OpenTok::Session` instance is useful to
 get a sessionId that can be saved to a persistent store (such as a database).
@@ -108,11 +126,11 @@ token = session.generate_token({
 });
 ```
 
-## Working with Streams 
+## Working with Streams
 
 Use this method to get information for an OpenTok stream or for all streams in a session.
 For example, you can call this method to get information about layout classes used by an
-OpenTok stream. 
+OpenTok stream.
 
 To get information of a specific stream in a session, call
 `opentok.streams.find(session_id, stream_id)`. The return object is a `Stream` object and
@@ -139,8 +157,7 @@ expect(all_streams[0].layoutClassList[1]).to eq "focus"
 You can only archive sessions that use the OpenTok Media Router
 (sessions with the media mode set to routed).
 
-You can start the recording of an OpenTok Session using the `opentok.archives.create(session_id,
-options)` method. This will return an `OpenTok::Archive` instance. The parameter `options` is an
+You can start the recording of an OpenTok Session using the `opentok.archives.create(session_id, options)` method. This will return an `OpenTok::Archive` instance. The parameter `options` is an
 optional Hash used to set the `has_audio`, `has_video`, and `name` options. Note that you can
 only start an Archive on a Session that has clients connected.
 
@@ -170,7 +187,7 @@ recorded to a single (composed) file.
 
 For composed archives you can set the resolution of the archive, either "640x480" (SD, the default)
 or "1280x720" (HD). The `resolution` parameter is optional and could be included in the options
-hash (second argument) of the `opentok.archives.create()` method. 
+hash (second argument) of the `opentok.archives.create()` method.
 
 ```ruby
 opts = {
@@ -180,6 +197,30 @@ opts = {
 
 archive = opentok.archives.create session_id, opts
 ```
+
+To customize the initial layout of composed archives, you can use the `:layout` option.
+Set this to a hash containing two keys: `:type` and `:stylesheet`. Valid values for
+`:type` are "bestFit" (best fit), "custom" (custom), "horizontalPresentation"
+(horizontal presentation), "pip" (picture-in-picture), and "verticalPresentation"
+(vertical presentation)). If you specify a "custom" layout type, set the `:stylesheet`
+key to the stylesheet (CSS). (For other layout types, do not set the `:stylesheet` key.)
+
+```ruby
+opts = {
+    :output_mode => :composed,
+    :resolution => "1280x720",
+    :layout => {
+      :type => "custom",
+      :stylesheet => "stream:last-child{display: block;margin: 0;top: 0;left: 0;width: 1px;height: 1px;}stream:first-child{display: block;margin: 0;top: 0;left: 0;width: 100%;height: 100%;}"
+    }
+}
+
+archive = opentok.archives.create session_id, opts
+```
+
+If you do not specify an initial layout type, the archive uses the best fit
+layout type. For more information, see [Customizing the video layout for composed
+archives](https://tokbox.com/developer/guides/archiving/layout-control.html).
 
 You can stop the recording of a started Archive using the `opentok.archives.stop_by_id(archive_id)`
 method. You can also do this using the `Archive#stop()` method.
@@ -238,15 +279,15 @@ opentok.archives.layout(archive_id, opts)
 
 The hash `opts` has two entries:
 
-* The `type` is the layout type for the archive.  Valid values are "bestFit" (best fit)
+- The `type` is the layout type for the archive. Valid values are "bestFit" (best fit)
   "custom" (custom), "horizontalPresentation" (horizontal presentation),
   "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation)).
 
-* If you specify a "custom" layout type, set the `stylesheet` property. 
-  (For other layout types, do not set the stylesheet property.) 
+- If you specify a "custom" layout type, set the `stylesheet` property.
+  (For other layout types, do not set the stylesheet property.)
 
 See [Customizing the video layout for composed archives](https://tokbox.com/developer/guides/archiving/layout-control.html)
-for more details. 
+for more details.
 
 You can set the initial layout class for a client's streams by setting the layout option when you
 create the token for the client, using the `opentok.generate_token` method. And you can also change
@@ -272,7 +313,7 @@ For more information on setting stream layout classes, see the
 [Changing the composed archive layout classes for an OpenTok
 stream](https://tokbox.com/developer/rest/#change-stream-layout-classes-composed).
 
-Please keep in mind that the `streams.layout` method applies to archive and broadcast streams only. 
+Please keep in mind that the `streams.layout` method applies to archive and broadcast streams only.
 
 For more information on archiving, see the
 [OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
@@ -281,7 +322,7 @@ For more information on archiving, see the
 
 You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.  
 If `connection_id` is nil or an empty string, then the signal is send to all valid connections in
-the session. 
+the session.
 
 An example of `opts` field can be as follows:
 
@@ -292,11 +333,11 @@ opts = { :type => "chat",
 ```
 
 The maximum length of the `type` string is 128 bytes, and it must contain only letters
-(A-Z and a-z), numbers (0-9), '-', '_', and '~'.
+(A-Z and a-z), numbers (0-9), '-', '\_', and '~'.
 
 The `data` string must not exceed the maximum size (8 kB).
 
-The `connection_id` and `opts` parameter are jointly optional by default. Hence you can also 
+The `connection_id` and `opts` parameter are jointly optional by default. Hence you can also
 use `opentok.signals.send(session_id)`
 
 For more information on signaling, see the
@@ -310,16 +351,17 @@ To successfully start broadcasting a session, at least one publishing client mus
 the session.
 
 You can only have one active live streaming broadcast at a time for a session (however, having more
-than one would not be useful). 
+than one would not be useful).
 
 The live streaming broadcast can target one HLS endpoint and up to five RTMP servers simultaneously
-for a session. 
+for a session.
 
 You can only start live streaming for sessions that use the OpenTok Media Router (with the
 media mode set to routed). You cannot use live streaming with sessions that have the media mode set
 to relayed.
 
 To create a HLS only broadcast:
+
 ```ruby
 opts = {
   :outputs => {
@@ -345,43 +387,45 @@ broadcast = opentok.broadcasts.create(session_id, opts)
 ```
 
 The returned Broadcast object has information about the broadcast, like id, sessionId , projectId,
-createdAt, updatedAt, resolution, status, and a Hash of broadcastUrls. The broadcastUrls 
+createdAt, updatedAt, resolution, status, and a Hash of broadcastUrls. The broadcastUrls
 consists of an HLS URL and an array of RTMP objects. The RTMP objects resembles the `rtmp` value
-in `opts` in the example above. 
+in `opts` in the example above.
 
 For more information on broadcast, see the
 [OpenTok Broadcast guide](https://tokbox.com/developer/rest/#start_broadcast) programming guide.
 
-To get information about a broadcast stream 
+To get information about a broadcast stream
+
 ```ruby
 my_broadcast = opentok.broadcasts.find broadcast_id
 ```
+
 The Broadcast object returned has properties describing the broadcast, like id, sessionId,
-projectId, createdAt, updatedAt, resolution, status, and a Hash of broadcastUrls. The broadcastUrls 
+projectId, createdAt, updatedAt, resolution, status, and a Hash of broadcastUrls. The broadcastUrls
 consists of an HLS URL and an array of RTMP objects. The RTMP objects resembles the `rtmp` value
-in `opts` in the example above. 
+in `opts` in the example above.
 
 To stop a broadcast:
 
 ```ruby
  my_broadcast = opentok.broadcasts.stop broadcast_id
- 
+
  # stop at a broadcast object level too
- # 
+ #
  my_broadcast = opentok.broadcasts.find broadcast_id
  ret_broadcast =  my_broadcast.stop
- 
- # Both the above returned objects has the "broadcastUrls" property as a nil value and the status 
+
+ # Both the above returned objects has the "broadcastUrls" property as a nil value and the status
  # property value is "stopped"
 ```
 
+To change the layout of a broadcast dynamically
 
-To change the layout of a broadcast dynamically 
 ```ruby
 opentok.broadcasts.layout(started_broadcast_id, {
         :type => "verticalPresentation"
     })
-    
+
   # On an object level
    my_broadcast = opentok.broadcasts.find broadcast_id
    my_broadcast.layout(
@@ -393,28 +437,28 @@ opentok.broadcasts.layout(started_broadcast_id, {
 
 The hash above has two entries.
 
-* The `type` is the layout type for the archive. Valid values are "bestFit" (best fit),
+- The `type` is the layout type for the archive. Valid values are "bestFit" (best fit),
   "custom" (custom), "horizontalPresentation" (horizontal presentation),
-  "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation). 
+  "pip" (picture-in-picture), and "verticalPresentation" (vertical presentation).
 
-* If you specify a "custom" layout type, set the `stylesheet` property.  (For other layout types,
-  do not set the stylesheet property.) 
+- If you specify a "custom" layout type, set the `stylesheet` property. (For other layout types,
+  do not set the stylesheet property.)
 
 Refer to [Customizing the video layout for composed
 archives](https://tokbox.com/developer/guides/archiving/layout-control.html)
-for more details. 
+for more details.
 
 You can also change the layout of an individual stream dynamically. Refer to
 [working with Streams](#working-with-streams).
 
-## Force disconnect 
+## Force disconnect
 
 You can cause a client to be forced to disconnect from a session by using the
 `opentok.connections.forceDisconnect(session_id, connection_id)` method.
 
 ## Initiating a SIP call
 
-You can initiate a SIP call using the `opentok.sip.dial(session_id, token, sip_uri, opts)` method. 
+You can initiate a SIP call using the `opentok.sip.dial(session_id, token, sip_uri, opts)` method.
 This requires a SIP URL. You will often need to pass options for authenticating to the SIP provider
 and specifying encrypted session establishment.
 
@@ -429,14 +473,14 @@ response = opentok.sip.dial(session_id, token, "sip:+15128675309@acme.pstn.examp
 For more information on SIP Interconnect, see the
 [OpenTok SIP Interconnect](https://tokbox.com/developer/guides/sip/) developer guide.
 
-
 # Samples
 
-There are two sample applications included in this repository. To get going as fast as possible, clone the whole
-repository and follow the Walkthroughs:
+There are three sample applications included in this repository. To get going as fast as possible, clone the whole
+repository and read the README in each of the sample directories:
 
-*  [HelloWorld](sample/HelloWorld/README.md)
-*  [Archiving](sample/Archiving/README.md)
+- [HelloWorld](sample/HelloWorld/README.md)
+- [Archiving](sample/Archiving/README.md)
+- [Broadcast](sample/Broadcast/README.md)
 
 # Documentation
 
@@ -447,7 +491,7 @@ Reference documentation is available at <http://www.tokbox.com//opentok/librarie
 You need an OpenTok API key and API secret, which you can obtain by logging into your
 [TokBox account](https://tokbox.com/account).
 
-The OpenTok Ruby SDK requires Ruby 1.9.3 or greater.
+The OpenTok Ruby SDK requires Ruby 2.1.0 or greater.
 
 # Release Notes
 
@@ -455,6 +499,12 @@ See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page fo
 about each release.
 
 ## Important changes since v2.2.0
+
+**Changes in v4.0.0:**
+
+The SDK adds support for Ruby v2.7 and now requires Ruby v2.1.0 or higher.
+For Ruby v2.0.0 please continue to use the OpenTok Ruby SDK v3.0.0.
+For Ruby v1.9.3 please continue to use the OpenTok Ruby SDK v2.5.0.
 
 **Changes in v3.0.0:**
 
@@ -480,15 +530,16 @@ See the reference documentation
 <http://www.tokbox.com/opentok/libraries/server/ruby/reference/index.html> and in the
 docs directory of the SDK.
 
-
 # Development and Contributing
 
 Interested in contributing? We :heart: pull requests! See the [Development](DEVELOPING.md) and
 [Contribution](CONTRIBUTING.md) guidelines.
 
-# Support
+## Getting Help
 
-See <https://support.tokbox.com> for all our support options.
+We love to hear from you so if you have questions, comments or find a bug in the project, let us know! You can either:
 
-Find a bug? File it on the [Issues](https://github.com/opentok/opentok-ruby-sdk/issues) page. Hint:
-test cases are really helpful!
+- Open an issue on this repository
+- See <https://support.tokbox.com/> for support options
+- Tweet at us! We're [@VonageDev on Twitter](https://twitter.com/VonageDev)
+- Or [join the Vonage Developer Community Slack](https://developer.nexmo.com/community/slack)
