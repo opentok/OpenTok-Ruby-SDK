@@ -85,6 +85,25 @@ module OpenTok
       Broadcast.new self, broadcast_json
     end
 
+    # Returns a BroadcastList, which is an array of broadcasts that are completed and in-progress,
+    # for your API key.
+    #
+    # @param [Hash] options  A hash with keys defining which range of broadcasts to retrieve.
+    # @option options [integer] :offset Optional. The index offset of the first broadcast. 0 is offset
+    #   of the most recently started broadcast. 1 is the offset of the broadcast that started prior to
+    #   the most recent broadcast. If you do not specify an offset, 0 is used.
+    # @option options [integer] :count Optional. The number of broadcasts to be returned. The maximum
+    #   number of broadcasts returned is 1000.
+    # @option options [String] :session_id Optional. The session ID that broadcasts belong to.
+    # https://tokbox.com/developer/rest/#list_broadcasts
+    #
+    # @return [BroadcastList] An BroadcastList object, which is an array of Broadcast objects.
+    def all(options = {})
+      raise ArgumentError, "Limit is invalid" unless options[:count].nil? || (0..1000).include?(options[:count])
+
+      broadcast_list_json = @client.list_broadcasts(options[:offset], options[:count], options[:sessionId])
+      BroadcastList.new self, broadcast_list_json
+    end
 
     # Stops an OpenTok broadcast
     #
