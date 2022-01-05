@@ -234,4 +234,40 @@ describe OpenTok::Broadcasts do
     expect(response.code).to eq(204)
   end
 
+  context "for many broadcasts" do
+    it "should return all broadcasts", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+      broadcast_list = broadcasts.all
+      expect(broadcast_list).to be_an_instance_of OpenTok::BroadcastList
+      expect(broadcast_list.total).to eq 6
+      expect(broadcast_list.count).to eq 6
+    end
+
+    it "should return broadcasts with an offset", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+      broadcast_list = broadcasts.all :offset => 3
+      expect(broadcast_list).to be_an_instance_of OpenTok::BroadcastList
+      expect(broadcast_list.total).to eq 3
+      expect(broadcast_list.count).to eq 3
+    end
+
+    it "should return count number of broadcasts", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+      broadcast_list = broadcasts.all :count => 2
+      expect(broadcast_list).to be_an_instance_of OpenTok::BroadcastList
+      expect(broadcast_list.count).to eq 2
+      expect(broadcast_list.count).to eq 2
+    end
+
+    it "should return part of the broadcasts when using offset and count", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+      broadcast_list = broadcasts.all :count => 4, :offset => 2
+      expect(broadcast_list).to be_an_instance_of OpenTok::BroadcastList
+      expect(broadcast_list.count).to eq 4
+      expect(broadcast_list.count).to eq 4
+    end
+
+    it "should return session broadcasts", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+      broadcast_list = broadcasts.all :sessionId => session_id
+      expect(broadcast_list).to be_an_instance_of OpenTok::BroadcastList
+      expect(broadcast_list.total).to eq 3
+      expect(broadcast_list.count).to eq 3
+    end
+  end
 end
