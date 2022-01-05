@@ -172,11 +172,9 @@ You will now see the participant in the broadcast.
 
 Start by visiting the list page at <http://localhost:4567/all>. You will see a table that
 displays all the broadcasts created with your API Key. If there are more than five, the next ones
-can be seen by clicking the "Next →" link. If you click on the name of an archive, your browser
-will start downloading the archive file. If you click the "Delete" link in the end of the row
-for any archive, that archive will be deleted and no longer available. Some basic information like
-when the archive was created, how long it is, and its status is also shown. You should see the
-archives you created in the previous sections here.
+can be seen by clicking the "Next →" link. Some basic information like
+when the broadcast was created, how long it is, and its status is also shown. You should see the
+broadcasts you created in the previous sections here.
 
 We begin to see how this page is created by looking at the route handler for this URL:
 
@@ -199,19 +197,18 @@ We begin to see how this page is created by looking at the route handler for thi
 
 This view is paginated so that we don't potentially show hundreds of rows on the table, which would
 be difficult for the user to navigate. So this code starts by figuring out which page needs to be
-shown, where each page is a set of 5 archives. The `page` number is read from the request's query
+shown, where each page is a set of 5 broadcasts. The `page` number is read from the request's query
 string parameters as a string and then converted into an Integer. The `offset`, which represents how
-many archives are being skipped is always calculated as five times as many pages that are less than
+many broadcasts are being skipped is always calculated as five times as many pages that are less than
 the current page, which is `(page - 1) * 5`. Now there is enough information to ask for a list of
-archives from OpenTok, which we do by calling the `archives.all()` method of the `opentok` instance.
+broadcasts from OpenTok, which we do by calling the `broadcasts.all()` method of the `opentok` instance.
 The parameter is an optional Hash that contains the offset, the count (which is always 5 in this
 view). If we are not at the first page, we can pass the view a string that contains the relative URL
 for the previous page. Similarly, we can also include one for the next page. Now the application
-renders the view using that information and the partial list of archives.
+renders the view using that information and the partial list of broadcasts.
 
-At this point the template file `views/history.erb` handles looping over the array of archives and
-outputting the proper information for each column in the table. It also places a link to the
-download and delete routes around the archive's name and its delete button, respectively.
+At this point the template file `views/all.erb` handles looping over the array of broadcasts and
+outputting the proper information for each column in the table.
 
 ### Changing the layout classes for streams
 
