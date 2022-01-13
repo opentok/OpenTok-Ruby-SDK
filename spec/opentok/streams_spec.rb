@@ -78,18 +78,18 @@ describe OpenTok::Streams do
     expect(response.code).to eq(200)
   end
 
-  it "forces all streams in a session to be muted", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+  it "forces all current and future streams in a session to be muted", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     response = streams.force_mute_all(session_id)
     expect(response.code).to eq(200)
   end
 
-  it "forces all current streams in a session and future streams joining the session to be muted", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
-    response = streams.force_mute_all(session_id, { "active" => "true" })
+  it "forces all current and future streams in a session to be muted except for the specified excluded streams", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    response = streams.force_mute_all(session_id, { "excludedStreams" => ["b1963d15-537f-459a-be89-e00fc310b82b"] })
     expect(response.code).to eq(200)
   end
 
-  it "forces all current streams in a session to be muted except for the specified excluded streams", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
-    response = streams.force_mute_all(session_id, { "excludedStreams" => ["b1963d15-537f-459a-be89-e00fc310b82b"] })
+  it "disables the 'mute state' of a session", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    response = streams.disable_force_mute(session_id)
     expect(response.code).to eq(200)
   end
 end
