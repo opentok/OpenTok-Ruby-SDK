@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/v2/project/123456/session/SESSIONID/mute
     body:
       encoding: UTF-8
-      string: '{"excludedStreams":["b1963d15-537f-459a-be89-e00fc310b82b"]}'
+      string: '{"excludedStreams":["b1963d15-537f-459a-be89-e00fc310b82b"],"active":"true"}'
     headers:
       User-Agent:
       - OpenTok-Ruby-SDK/<%= version %>

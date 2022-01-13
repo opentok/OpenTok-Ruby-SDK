@@ -25,13 +25,13 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 29 Oct 2021 11:57:18 GMT
+      - Fri, 29 Oct 2021 11:48:19 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '0'
       Connection:
-      - keep-alive
+      - close
     body:
       encoding: UTF-8
       string: ''

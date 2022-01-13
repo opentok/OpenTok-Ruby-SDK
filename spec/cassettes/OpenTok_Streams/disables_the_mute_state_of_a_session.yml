@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/v2/project/123456/session/SESSIONID/mute
     body:
       encoding: UTF-8
-      string: "{}"
+      string: '{"active":"false"}'
     headers:
       User-Agent:
       - OpenTok-Ruby-SDK/<%= version %>
@@ -25,9 +25,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 29 Oct 2021 11:48:19 GMT
-      Content-Type:
-      - application/json
+      - Thu, 13 Jan 2022 15:37:24 GMT
       Content-Length:
       - '0'
       Connection:
