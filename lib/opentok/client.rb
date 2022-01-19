@@ -188,6 +188,33 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def select_streams_for_archive(archive_id, opts)
+      opts.extend(HashExtensions)
+      body = opts.camelize_keys!
+      response = self.class.patch("/v2/project/#{@api_key}/archive/#{archive_id}/streams", {
+          :body => body.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 204
+        response
+      when 400
+        raise OpenTokArchiveError, "The request was invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
+      when 404
+        raise OpenTokArchiveError, "No matching archive found with the specified ID: #{archive_id}"
+      when 405
+        raise OpenTokArchiveError, "The archive was started with streamMode set to 'auto', which does not support stream manipulation."
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokArchiveError, "The archive streams could not be updated."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def forceDisconnect(session_id, connection_id)
       response = self.class.delete("/v2/project/#{@api_key}/session/#{session_id}/connection/#{connection_id}", {
           :headers => generate_headers("Content-Type" => "application/json")
@@ -201,6 +228,45 @@ module OpenTok
         raise OpenTokAuthenticationError, "You are not authorized to forceDisconnect, check your authentication credentials or token type is non-moderator"
       when 404
         raise OpenTokConnectionError, "The client specified by the connection ID: #{connection_id} is not connected to the session"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def force_mute_stream(session_id, stream_id)
+      response = self.class.post("/v2/project/#{@api_key}/session/#{session_id}/stream/#{stream_id}/mute", {
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "Force mute failed. Stream ID #{stream_id} or Session ID #{session_id} is invalid"
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
+      when 404
+        raise OpenTokConnectionError, "Either Stream ID #{stream_id} or Session ID #{session_id} is invalid"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def force_mute_session(session_id, opts)
+      opts.extend(HashExtensions)
+      body = opts.camelize_keys!
+      response = self.class.post("/v2/project/#{@api_key}/session/#{session_id}/mute", {
+          :body => body.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "Force mute failed. The request could not be processed due to a bad request"
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
+      when 404
+        raise OpenTokConnectionError, "Session ID #{session_id} is invalid"
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -252,6 +318,52 @@ module OpenTok
         raise OpenTokSipError, "The SIP session could not be dialed. The Session ID does not exist: #{session_id}"
       else
         raise OpenTokSipError, "The SIP session could not be dialed"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def play_dtmf_to_connection(session_id, connection_id, dtmf_digits)
+      body = { "digits" => dtmf_digits }
+
+      response = self.class.post("/v2/project/#{@api_key}/session/#{session_id}/connection/#{connection_id}/play-dtmf", {
+        :body => body.to_json,
+        :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "One of the properties — dtmf_digits #{dtmf_digits} or session_id #{session_id} — is invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. This can occur if you use an invalid OpenTok API key or an invalid JSON web token. API Key: #{@api_key}"
+      when 404
+        raise OpenTokError, "The specified session #{session_id} does not exist or the client specified by the #{connection_id} property is not connected to the session."
+      else
+        raise OpenTokError, "An error occurred when attempting to play DTMF digits to the session"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def play_dtmf_to_session(session_id, dtmf_digits)
+      body = { "digits" => dtmf_digits }
+
+      response = self.class.post("/v2/project/#{@api_key}/session/#{session_id}/play-dtmf", {
+        :body => body.to_json,
+        :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "One of the properties — dtmf_digits #{dtmf_digits} or session_id #{session_id} — is invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. This can occur if you use an invalid OpenTok API key or an invalid JSON web token. API Key: #{@api_key}"
+      when 404
+        raise OpenTokError, "The specified session does not exist. Session ID: #{session_id}"
+      else
+        raise OpenTokError, "An error occurred when attempting to play DTMF digits to the session"
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
@@ -410,6 +522,33 @@ module OpenTok
         raise OpenTokError, "OpenTok server error."
       else
         raise OpenTokBroadcastError, "The broadcast layout could not be performed."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def select_streams_for_broadcast(broadcast_id, opts)
+      opts.extend(HashExtensions)
+      body = opts.camelize_keys!
+      response = self.class.patch("/v2/project/#{@api_key}/broadcast/#{broadcast_id}/streams", {
+          :body => body.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 204
+        response
+      when 400
+        raise OpenTokBroadcastError, "The request was invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed. API Key: #{@api_key}"
+      when 404
+        raise OpenTokBroadcastError, "No matching broadcast found with the specified ID: #{broadcast_id}"
+      when 405
+        raise OpenTokBroadcastError, "The broadcast was started with streamMode set to 'auto', which does not support stream manipulation."
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokBroadcastError, "The broadcast streams could not be updated."
       end
     rescue StandardError => e
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"

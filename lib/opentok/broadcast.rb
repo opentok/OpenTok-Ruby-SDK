@@ -22,6 +22,9 @@ module OpenTok
   # @attr [string] resolution
   #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD). This property is optional.
   #
+  # @attr [string] streamMode
+  #   Whether streams included in the broadcast are selected automatically ("auto", the default) or manually ("manual").
+  #
   # @attr [Hash] broadcastUrls is defined as follows:
   #   This object defines the types of broadcast streams you want to start (both HLS and RTMP).
   #   You can include HLS, RTMP, or both as broadcast streams. If you include RTMP streaming,
@@ -65,7 +68,7 @@ module OpenTok
     # For more information, see
     # {https://tokbox.com/developer/guides/broadcast/live-streaming/#configuring-video-layout-for-opentok-live-streaming-broadcasts Configuring video layout for OpenTok live streaming broadcasts}.
     #
-    # @option options [String] :type 
+    # @option options [String] :type
     #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
     #   "horizontalPresentation", "focus", or "custom".
     #
@@ -98,6 +101,46 @@ module OpenTok
     def layout(opts = {})
       # TODO: validate returned json fits schema
       @json = @interface.layout(@json['id'], opts)
+    end
+
+    # Adds a stream to currently running broadcast that was started with the
+    # streamMode set to "manual". For a description of the feature, see
+    # {https://tokbox.com/developer/rest/#selecting-broadcast-streams}.
+    #
+    # @param [String] stream_id
+    #   The ID for the stream to be added to the broadcast
+    #
+    # @option opts [true, false] :has_audio
+    #   (Boolean, optional) — Whether the broadcast should include the stream's
+    #   audio (true, the default) or not (false).
+    #
+    # @option opts [true, false] :has_video
+    #   (Boolean, optional) — Whether the broadcast should include the stream's
+    #   video (true, the default) or not (false).
+    #
+    # @raise [OpenTokBroadcastError]
+    #   The streamMode for the broadcast is not set to "manual".
+    #
+    # You can call the method repeatedly with add_stream set to the same stream ID, to
+    # toggle the stream's audio or video in the broadcast. If you set both has_audio and
+    # has_video to false, you will get error response.
+    def add_stream(stream_id, opts = {})
+      raise OpenTokBroadcastError, "stream_mode must be manual in order to add a stream" unless @json['streamMode'] == 'manual'
+      @interface.add_stream(@json['id'], stream_id, opts)
+    end
+
+    # Removes a stream to currently running broadcast that was started with the
+    # streamMode set to "manual". For a description of the feature, see
+    # {https://tokbox.com/developer/rest/#selecting-broadcast-streams}.
+    #
+    # @param [String] stream_id
+    #   The ID for the stream to be removed from the broadcast
+    #
+    # @raise [OpenTokBroadcastError]
+    #   The streamMode for the broadcast is not set to "manual".
+    def remove_stream(stream_id)
+      raise OpenTokBroadcastError, "stream_mode must be manual in order to add a stream" unless @json['streamMode'] == 'manual'
+      @interface.remove_stream(@json['id'], stream_id)
     end
 
     # @private ignore

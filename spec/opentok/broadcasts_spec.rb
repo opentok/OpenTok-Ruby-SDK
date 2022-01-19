@@ -157,7 +157,7 @@ describe OpenTok::Broadcasts do
     stub_request(:put, "https://api.opentok.com/v2/project/#{api_key}/broadcast/#{started_broadcast_id}/layout").
       with(body: {type: 'custom', stylesheet: 'stream {float: left; height: 100%; width: 33.33%;}'}).
       to_return(status: 200)
-    
+
     response  = broadcast.layout(started_broadcast_id, {
         type: "custom",
         stylesheet: "stream {float: left; height: 100%; width: 33.33%;}"
@@ -205,7 +205,7 @@ describe OpenTok::Broadcasts do
   it "changes the layout of a broadcast", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     stub_request(:put, "https://api.opentok.com/v2/project/#{api_key}/broadcast/#{started_broadcast_id}/layout").
       to_return(status: 200)
-    
+
     response = broadcast.layout(started_broadcast_id, {
         :type => "verticalPresentation"
     })
@@ -215,12 +215,23 @@ describe OpenTok::Broadcasts do
   it "changes the screenshare option in the layout of a broadcast", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     stub_request(:put, "https://api.opentok.com/v2/project/#{api_key}/broadcast/#{started_broadcast_id}/layout").
       to_return(status: 200)
-    
+
     response = broadcast.layout(started_broadcast_id, {
         :type => "bestFit",
         :screenshare_type => "bestFit"
     })
     expect(response).not_to be_nil
+  end
+
+  it "adds a stream to a broadcast", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    opts = {}
+    response = broadcast.add_stream(started_broadcast_id, '12312312-3811-4726-b508-e41a0f96c68f', opts)
+    expect(response.code).to eq(204)
+  end
+
+  it "removes a stream from a broadcast", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    response = broadcast.remove_stream(started_broadcast_id, '12312312-3811-4726-b508-e41a0f96c68f')
+    expect(response.code).to eq(204)
   end
 
   xcontext "for many broadcasts" do
