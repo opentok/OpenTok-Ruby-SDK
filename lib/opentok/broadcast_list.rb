@@ -2,7 +2,7 @@ require "opentok/broadcast"
 
 module OpenTok
   # A class for accessing an array of Broadcast objects.
-  class BroadcastList
+  class BroadcastList < Array
     # The total number of broadcasts.
     attr_reader :total
 
