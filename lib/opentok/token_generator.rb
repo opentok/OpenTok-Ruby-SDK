@@ -4,7 +4,7 @@ require "opentok/session"
 require "base64"
 require "addressable/uri"
 require "openssl"
-require "active_support/isolated_execution_state"
+require "active_support"
 require "active_support/time"
 
 module OpenTok
