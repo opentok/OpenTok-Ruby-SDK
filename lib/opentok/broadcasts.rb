@@ -1,6 +1,6 @@
 require "opentok/client"
 require "opentok/broadcast"
-
+require "opentok/broadcast_list"
 
 module OpenTok
   # A class for working with OpenTok live streaming broadcasts.
