@@ -234,7 +234,7 @@ describe OpenTok::Broadcasts do
     expect(response.code).to eq(204)
   end
 
-  xcontext "for many broadcasts" do
+  context "for many broadcasts" do
     it "should return all broadcasts", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
       broadcast_list = broadcast.all
       expect(broadcast_list).to be_an_instance_of OpenTok::BroadcastList
