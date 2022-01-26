@@ -84,13 +84,18 @@ module OpenTok
       response = @client.force_mute_stream(session_id, stream_id)
     end
 
-    # Force all streams connected to an OpenTok session, and all future streams
-    # connecting to that session, to mute themselves.
+    # Force all streams connected to an OpenTok session (except for an optional list of streams),
+    # to mute published audio.
+    # 
+    # In addition to existing streams, any streams that are published after the call to
+    # this method are published with audio muted. You can remove the mute state of a session
+    # by calling the disable_force_mute() method.
     #
-    # @param [String] session_id The session ID of the OpenTok session.
+    # @param [String] session_id The session ID.
     # @param [Hash] opts An optional hash defining options for muting action. For example:
     # @option opts [Array] :excluded_streams The stream IDs for streams that should not be muted.
     # This is an optional property. If you omit this property, all streams in the session will be muted.
+    #
     # @example
     # {
     #   "excluded_streams" => [
@@ -104,11 +109,15 @@ module OpenTok
       response = @client.force_mute_session(session_id, opts)
     end
 
-    # Disables the 'mute state' of a session. In other words, if a session has been
-    # set to mute future streams (e.g. by calling force_mute_all), calling this method
-    # sets the session to not mute future streams.
+    # Disables the active mute state of the session. After you call this method, new streams
+    # published to the session will no longer have audio muted.
     #
-    # @param [String] session_id The session ID of the OpenTok session.
+    # After you call the force_mute_all() method, any streams published after
+    # the call are published with audio muted. Call the disable_force_mute() method
+    # to remove the mute state of a session, so that new published streams are not
+    # automatically muted.
+    #
+    # @param [String] session_id The session ID.
     #
     def disable_force_mute(session_id)
       opts = {'active' => 'false'}
