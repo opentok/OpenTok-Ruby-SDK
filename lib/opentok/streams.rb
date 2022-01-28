@@ -84,24 +84,43 @@ module OpenTok
       response = @client.force_mute_stream(session_id, stream_id)
     end
 
-    # Force all streams connected to an OpenTok session to mute themselves.
+    # Force all streams connected to an OpenTok session (except for an optional list of streams),
+    # to mute published audio.
+    # 
+    # In addition to existing streams, any streams that are published after the call to
+    # this method are published with audio muted. You can remove the mute state of a session
+    # by calling the disable_force_mute() method.
     #
-    # @param [String] session_id The session ID of the OpenTok session.
+    # @param [String] session_id The session ID.
     # @param [Hash] opts An optional hash defining options for muting action. For example:
-    # @option opts [true, false] :active Whether streams published after this call, in
-    # addition to the current streams in the session, should be muted (true) or not (false).
     # @option opts [Array] :excluded_streams The stream IDs for streams that should not be muted.
     # This is an optional property. If you omit this property, all streams in the session will be muted.
+    #
     # @example
     # {
-    #   "active": true,
-    #   "excluded_streams": [
+    #   "excluded_streams" => [
     #     "excludedStreamId1",
     #     "excludedStreamId2"
     #   ]
     # }
     #
     def force_mute_all(session_id, opts = {})
+      opts['active'] = 'true'
+      response = @client.force_mute_session(session_id, opts)
+    end
+
+    # Disables the active mute state of the session. After you call this method, new streams
+    # published to the session will no longer have audio muted.
+    #
+    # After you call the force_mute_all() method, any streams published after
+    # the call are published with audio muted. Call the disable_force_mute() method
+    # to remove the mute state of a session, so that new published streams are not
+    # automatically muted.
+    #
+    # @param [String] session_id The session ID.
+    #
+    def disable_force_mute(session_id)
+      opts = {'active' => 'false'}
       response = @client.force_mute_session(session_id, opts)
     end
 
