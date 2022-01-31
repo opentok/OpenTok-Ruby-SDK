@@ -483,6 +483,28 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def list_broadcasts(offset, count, session_id)
+      query = Hash.new
+      query[:offset] = offset unless offset.nil?
+      query[:count] = count unless count.nil?
+      query[:sessionId] = session_id unless session_id.nil?
+      response = self.class.get("/v2/project/#{@api_key}/broadcast", {
+        :query => query.empty? ? nil : query,
+        :headers => generate_headers,
+      })
+      case response.code
+      when 200
+        response
+      when 403
+        raise OpenTokAuthenticationError,
+          "Authentication failed while retrieving broadcasts. API Key: #{@api_key}"
+      else
+        raise OpenTokBroadcastError, "The broadcasts could not be retrieved."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def layout_broadcast(broadcast_id, opts)
       opts.extend(HashExtensions)
       response = self.class.put("/v2/project/#{@api_key}/broadcast/#{broadcast_id}/layout", {
