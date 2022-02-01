@@ -26,18 +26,25 @@ module OpenTok
     #   Whether all streams in the archive are recorded to a single file (<code>:composed</code>)
     #   or to individual files (<code>:individual</code>).
     #
-    # @attr [string] partner_id
+    # @attr [string] projectId
     #   The API key associated with the archive.
     #
     # @attr [string] reason
     #   For archives with the status "stopped" or "failed", this string describes the
     #   reason the archive stopped (such as "maximum duration exceeded") or failed.
     #
+    # @attr [string] resolution
+    #   The resolution of the archive (either "640x480", "1280x720", "480x640", or "720x1280").
+    #   This property is only set for composed archives.
+    #
     # @attr [string] session_id
     #   The session ID of the OpenTok session associated with this archive.
     #
     # @attr [float] size
     #   The size of the MP4 file. For archives that have not been generated, this value is set to 0.
+    #
+    # @attr [string] streamMode
+    #   Whether streams included in the archive are selected automatically ("auto", the default) or manually ("manual").
     #
     # @attr [string] status
     #   The status of the archive, which can be one of the following:
@@ -99,7 +106,7 @@ module OpenTok
     # {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
     # the video layout for composed archives}.
     #
-    # @option options [String] :type 
+    # @option options [String] :type
     #   The layout type. Set this to "bestFit", "pip", "verticalPresentation",
     #   "horizontalPresentation", "focus", or "custom".
     #
@@ -134,6 +141,46 @@ module OpenTok
     def layout(opts= {})
       # TODO: validate returned json fits schema
       @json = @interface.layout(@json['id'], opts)
+    end
+
+    # Adds a stream to currently running composed archive that was started with the
+    # streamMode set to "manual". For a description of the feature, see
+    # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
+    #
+    # @param [String] stream_id
+    #   The ID for the stream to be added to the archive
+    #
+    # @option opts [true, false] :has_audio
+    #   (Boolean, optional) — Whether the composed archive should include the stream's
+    #   audio (true, the default) or not (false).
+    #
+    # @option opts [true, false] :has_video
+    #   (Boolean, optional) — Whether the composed archive should include the stream's
+    #   video (true, the default) or not (false).
+    #
+    # @raise [OpenTokArchiveError]
+    #   The streamMode for the archive is not set to "manual".
+    #
+    # You can call the method repeatedly with add_stream set to the same stream ID, to
+    # toggle the stream's audio or video in the archive. If you set both has_audio and
+    # has_video to false, you will get error response.
+    def add_stream(stream_id, opts = {})
+      raise OpenTokArchiveError, "stream_mode must be manual in order to add a stream" unless @json['streamMode'] == 'manual'
+      @interface.add_stream(@json['id'], stream_id, opts)
+    end
+
+    # Removes a stream to currently running composed archive that was started with the
+    # streamMode set to "manual". For a description of the feature, see
+    # {https://tokbox.com/developer/rest/#selecting-archive-streams}.
+    #
+    # @param [String] stream_id
+    #   The ID for the stream to be removed from the archive
+    #
+    # @raise [OpenTokArchiveError]
+    #   The streamMode for the archive is not set to "manual".
+    def remove_stream(stream_id)
+      raise OpenTokArchiveError, "stream_mode must be manual in order to remove a stream" unless @json['streamMode'] == 'manual'
+      @interface.remove_stream(@json['id'], stream_id)
     end
 
     # @private ignore

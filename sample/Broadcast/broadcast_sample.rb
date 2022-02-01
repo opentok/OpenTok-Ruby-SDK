@@ -46,6 +46,21 @@ class BroadcastSample < Sinatra::Base
     }
   end
 
+  get '/all' do
+    page = (params[:page] || "1").to_i
+    offset = (page - 1) * 5
+    broadcasts = settings.opentok.broadcasts.all(:offset => offset, :count => 5)
+
+    show_previous = page > 1 ? '/all?page=' + (page-1).to_s : nil
+    show_next = broadcasts.total > (offset + 5) ? '/all?page=' + (page+1).to_s : nil
+
+    erb :all, :locals => {
+      :broadcasts => broadcasts,
+      :show_previous => show_previous,
+      :show_next => show_next
+    }
+  end
+
   post '/start' do
     opts = {
         :maxDuration => params.key?("maxDuration") ? params[:maxDuration] : 7200,

@@ -1,0 +1,46 @@
+  <div class="container bump-me">
+
+    <div class="body-content">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Broadcasts List</h3>
+        </div>
+        <div class="panel-body">
+          <% if broadcasts.count > 0 %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Created</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for item in broadcasts %>
+
+              <tr data-item-id="<%= item.id %>">
+                <td><%= Time.at(item.created_at/1000).strftime("%B %e, %Y at %I:%M %p") %></td>
+                <td><%= item.status %></td>
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
+          <% else %>
+          <p>
+            There are no broadcasts currently. Try making one in the <a href="/host">host view</a>.
+          </p>
+          <% end %>
+        </div>
+        <div class="panel-footer">
+          <% if show_previous %>
+            <a href="<%= show_previous %>" class="pull-left">&larr; Previous</a>
+          <% end %>
+          &nbsp;
+          <% if show_next %>
+            <a href="<%= show_next %>" class="pull-right">Next &rarr;</a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>

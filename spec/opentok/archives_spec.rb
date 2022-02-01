@@ -259,4 +259,15 @@ describe OpenTok::Archives do
     it { should raise_error(OpenTok::OpenTokError) }
   end
 
+  it "adds a stream to an archive", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    opts = {}
+    response = archives.add_stream(started_archive_id, '12312312-3811-4726-b508-e41a0f96c68f', opts)
+    expect(response.code).to eq(204)
+  end
+
+  it "removes a stream from an archive", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    response = archives.remove_stream(started_archive_id, '12312312-3811-4726-b508-e41a0f96c68f')
+    expect(response.code).to eq(204)
+  end
+
 end
