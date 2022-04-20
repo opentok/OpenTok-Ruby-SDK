@@ -42,15 +42,35 @@ module OpenTok
     #   the maximum duration is reached. You can set the maximum duration to a value from 60 (60 seconds) to 36000 (10 hours).
     #   The default maximum duration is 4 hours (14,400 seconds).
     #
-    # @option options [Hash] outputs
+    # @option options [Hash] outputs (Required)
     #   This object defines the types of broadcast streams you want to start (both HLS and RTMP).
     #   You can include HLS, RTMP, or both as broadcast streams. If you include RTMP streaming,
     #   you can specify up to five target RTMP streams (or just one).
-    #   The (<code>:hls</code>) property is set  to an empty [Hash] object. The HLS URL is returned in the response.
-    #   The (<code>:rtmp</code>)  property is set  to an [Array] of Rtmp [Hash] properties.
-    #   For each RTMP , specify (<code>:serverUrl</code>) for the RTMP server URL,
+    #
+    #   For multiple RTMP streams, the (<code>:rtmp</code>) property is set to an [Array] of Rtmp [Hash] objects.
+    #   For each RTMP hash, specify (<code>:serverUrl</code>) for the RTMP server URL,
     #   (<code>:streamName</code>) such as the YouTube Live stream name or the Facebook stream key),
-    #   and (optionally) (<code>:id</code>), a unique ID for the stream.
+    #   and (optionally) (<code>:id</code>), a unique ID for the stream. If you specify an ID, it will be
+    #   included in the (<code>broadcast_json</code>) response from the Client#start_broadcast method call,
+    #   and is also available in the (<code>broadcast_json</code>) response from the Broadcasts#find method.
+    #   TokBox streams the session to each RTMP URL you specify. Note that OpenTok live streaming
+    #   supports RTMP and RTMPS.
+    #   If you need to support only one RTMP URL, you can set a Rtmp [Hash] object (instead of an array of
+    #   objects) for the (<code>:rtmp</code>) property value in the (<code>:outputs</code>) [Hash].
+    #
+    #   For HLS, the (<code>:hls</code>) property in the (<code>:outputs</code>) [Hash] is set to a HLS [Hash]
+    #   object. This object includes the following optional properties:
+    #   - (<code>:dvr</code>) (Boolean).  Whether to enable DVR functionality
+    #     { https://tokbox.com/developer/guides/broadcast/live-streaming/#dvr } (rewinding, pausing, and resuming)
+    #     in players that support it (true), or not (false, the default). With DVR enabled, the HLS URL will
+    #     include a ?DVR query string appended to the end.
+    #   - (<code>:lowLatency</code>) (Boolean). Whether to enable low-latency mode for the HLSstream.
+    #     { https://tokbox.com/developer/guides/broadcast/live-streaming/#low-latency }
+    #     Some HLS players do not support low-latency mode. This feature is incompatible with DVR mode HLS
+    #     broadcasts (both can't be set to true). This is a beta feature.
+    #   The HLS URL is included in the (<code>broadcast_json</code>) response from the Client#start_broadcast
+    #   method call, and is also available in the (<code>broadcast_json</code>) response from the
+    #  Broadcasts#find method.
     #
     # @option options [string] resolution
     #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD).
