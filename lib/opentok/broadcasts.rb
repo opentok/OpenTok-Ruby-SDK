@@ -64,7 +64,7 @@ module OpenTok
     #     { https://tokbox.com/developer/guides/broadcast/live-streaming/#dvr } (rewinding, pausing, and resuming)
     #     in players that support it (true), or not (false, the default). With DVR enabled, the HLS URL will
     #     include a ?DVR query string appended to the end.
-    #   - (<code>:lowLatency</code>) (Boolean). Whether to enable low-latency mode for the HLSstream.
+    #   - (<code>:low_latency</code>) (Boolean). Whether to enable low-latency mode for the HLSstream.
     #     { https://tokbox.com/developer/guides/broadcast/live-streaming/#low-latency }
     #     Some HLS players do not support low-latency mode. This feature is incompatible with DVR mode HLS
     #     broadcasts (both can't be set to true). This is a beta feature.
@@ -95,6 +95,13 @@ module OpenTok
     def create(session_id, options = {})
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
       raise ArgumentError, "options cannot be empty" if options.empty?
+      raise ArgumentError, "outputs property is required in options" unless options.has_key?(:outputs)
+      raise ArgumentError, "outputs must be a Hash" unless options[:outputs].is_a? Hash
+      if options[:outputs].has_key?(:hls)
+        dvr = options[:outputs][:hls][:dvr]
+        low_latency = options[:outputs][:hls][:low_latency]
+        raise ArgumentError, "dvr and low_latency can't both be true for HLS" if hls_dvr_and_low_latency_options_both_true?(dvr, low_latency)
+      end
       broadcast_json = @client.start_broadcast(session_id, options)
       Broadcast.new self, broadcast_json
     end
@@ -281,6 +288,10 @@ module OpenTok
 
     def audio_and_video_options_both_false?(has_audio, has_video)
       has_audio == false && has_video == false
+    end
+
+    def hls_dvr_and_low_latency_options_both_true?(dvr, low_latency)
+      dvr == true && low_latency == true
     end
 
   end
