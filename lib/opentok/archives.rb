@@ -51,11 +51,10 @@ module OpenTok
     # @option options [String] :streamMode (Optional) Whether streams included in the archive are selected
     #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),
     #   all streams in the session can be included in the archive. When streams are selected manually ("manual"),
-    #   you specify streams to be included based on calls to this REST method
-    #   { https://tokbox.com/developer/rest/#selecting-archive-streams }. You can specify whether a
+    #   you specify streams to be included based on calls to the {Archives#add_stream} method. You can specify whether a
     #   stream's audio, video, or both are included in the archive. 
     #   In composed archives, in both automatic and manual modes, the archive composer includes streams based
-    #   on stream prioritization rules { https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules }.
+    #   on {https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules stream prioritization rules}.
     #   Important: this feature is currently available in the Standard environment only.
     # @option options [Hash] :layout Specify this to assign the initial layout type for
     #   the archive. This applies only to composed archives. This is a hash containing three keys:

@@ -53,19 +53,21 @@ module OpenTok
     #   and (optionally) (<code>:id</code>), a unique ID for the stream. If you specify an ID, it will be
     #   included in the (<code>broadcast_json</code>) response from the Client#start_broadcast method call,
     #   and is also available in the (<code>broadcast_json</code>) response from the Broadcasts#find method.
-    #   TokBox streams the session to each RTMP URL you specify. Note that OpenTok live streaming
+    #   Vonage streams the session to each RTMP URL you specify. Note that OpenTok live streaming
     #   supports RTMP and RTMPS.
     #   If you need to support only one RTMP URL, you can set a Rtmp [Hash] object (instead of an array of
     #   objects) for the (<code>:rtmp</code>) property value in the (<code>:outputs</code>) [Hash].
     #
     #   For HLS, the (<code>:hls</code>) property in the (<code>:outputs</code>) [Hash] is set to a HLS [Hash]
     #   object. This object includes the following optional properties:
-    #   - (<code>:dvr</code>) (Boolean).  Whether to enable DVR functionality
-    #     { https://tokbox.com/developer/guides/broadcast/live-streaming/#dvr } (rewinding, pausing, and resuming)
+    #   - (<code>:dvr</code>) (Boolean).  Whether to enable
+    #     {https://tokbox.com/developer/guides/broadcast/live-streaming/#dvr DVR functionality}
+    #     (rewinding, pausing, and resuming)
     #     in players that support it (true), or not (false, the default). With DVR enabled, the HLS URL will
     #     include a ?DVR query string appended to the end.
-    #   - (<code>:low_latency</code>) (Boolean). Whether to enable low-latency mode for the HLSstream.
-    #     { https://tokbox.com/developer/guides/broadcast/live-streaming/#low-latency }
+    #   - (<code>:low_latency</code>) (Boolean). Whether to enable
+    #     {https://tokbox.com/developer/guides/broadcast/live-streaming/#low-latency low-latency mode}
+    #     for the HLSstream.
     #     Some HLS players do not support low-latency mode. This feature is incompatible with DVR mode HLS
     #     broadcasts (both can't be set to true). This is a beta feature.
     #   The HLS URL is included in the (<code>broadcast_json</code>) response from the Client#start_broadcast
@@ -78,11 +80,11 @@ module OpenTok
     # @option options [String] :streamMode (Optional) Whether streams included in the broadcast are selected
     #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),
     #   all streams in the session can be included in the broadcast. When streams are selected manually ("manual"),
-    #   you specify streams to be included based on calls to this REST method
-    #   { https://tokbox.com/developer/rest/#selecting-broadcast-streams }. You can specify whether a
+    #   you specify streams to be included based on calls to the
+    #   {Broadcasts#add_stream} method. You can specify whether a
     #   stream's audio, video, or both are included in the broadcast.
     #   For both automatic and manual modes, the broadcast composer includes streams based
-    #   on stream prioritization rules { https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules }.
+    #   on {https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules stream prioritization rules}.
     #   Important: this feature is currently available in the Standard environment only.
     #
     # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
