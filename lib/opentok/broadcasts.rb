@@ -42,15 +42,37 @@ module OpenTok
     #   the maximum duration is reached. You can set the maximum duration to a value from 60 (60 seconds) to 36000 (10 hours).
     #   The default maximum duration is 4 hours (14,400 seconds).
     #
-    # @option options [Hash] outputs
+    # @option options [Hash] outputs (Required)
     #   This object defines the types of broadcast streams you want to start (both HLS and RTMP).
     #   You can include HLS, RTMP, or both as broadcast streams. If you include RTMP streaming,
     #   you can specify up to five target RTMP streams (or just one).
-    #   The (<code>:hls</code>) property is set  to an empty [Hash] object. The HLS URL is returned in the response.
-    #   The (<code>:rtmp</code>)  property is set  to an [Array] of Rtmp [Hash] properties.
-    #   For each RTMP , specify (<code>:serverUrl</code>) for the RTMP server URL,
+    #
+    #   For multiple RTMP streams, the (<code>:rtmp</code>) property is set to an [Array] of Rtmp [Hash] objects.
+    #   For each RTMP hash, specify (<code>:serverUrl</code>) for the RTMP server URL,
     #   (<code>:streamName</code>) such as the YouTube Live stream name or the Facebook stream key),
-    #   and (optionally) (<code>:id</code>), a unique ID for the stream.
+    #   and (optionally) (<code>:id</code>), a unique ID for the stream. If you specify an ID, it will be
+    #   included in the (<code>broadcast_json</code>) response from the Client#start_broadcast method call,
+    #   and is also available in the (<code>broadcast_json</code>) response from the Broadcasts#find method.
+    #   Vonage streams the session to each RTMP URL you specify. Note that OpenTok live streaming
+    #   supports RTMP and RTMPS.
+    #   If you need to support only one RTMP URL, you can set a Rtmp [Hash] object (instead of an array of
+    #   objects) for the (<code>:rtmp</code>) property value in the (<code>:outputs</code>) [Hash].
+    #
+    #   For HLS, the (<code>:hls</code>) property in the (<code>:outputs</code>) [Hash] is set to a HLS [Hash]
+    #   object. This object includes the following optional properties:
+    #   - (<code>:dvr</code>) (Boolean).  Whether to enable
+    #     {https://tokbox.com/developer/guides/broadcast/live-streaming/#dvr DVR functionality}
+    #     (rewinding, pausing, and resuming)
+    #     in players that support it (true), or not (false, the default). With DVR enabled, the HLS URL will
+    #     include a ?DVR query string appended to the end.
+    #   - (<code>:low_latency</code>) (Boolean). Whether to enable
+    #     {https://tokbox.com/developer/guides/broadcast/live-streaming/#low-latency low-latency mode}
+    #     for the HLSstream.
+    #     Some HLS players do not support low-latency mode. This feature is incompatible with DVR mode HLS
+    #     broadcasts (both can't be set to true). This is a beta feature.
+    #   The HLS URL is included in the (<code>broadcast_json</code>) response from the Client#start_broadcast
+    #   method call, and is also available in the (<code>broadcast_json</code>) response from the
+    #  Broadcasts#find method.
     #
     # @option options [string] resolution
     #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD).
@@ -58,11 +80,11 @@ module OpenTok
     # @option options [String] :streamMode (Optional) Whether streams included in the broadcast are selected
     #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),
     #   all streams in the session can be included in the broadcast. When streams are selected manually ("manual"),
-    #   you specify streams to be included based on calls to this REST method
-    #   { https://tokbox.com/developer/rest/#selecting-broadcast-streams }. You can specify whether a
+    #   you specify streams to be included based on calls to the
+    #   {Broadcasts#add_stream} method. You can specify whether a
     #   stream's audio, video, or both are included in the broadcast.
     #   For both automatic and manual modes, the broadcast composer includes streams based
-    #   on stream prioritization rules { https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules }.
+    #   on {https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules stream prioritization rules}.
     #   Important: this feature is currently available in the Standard environment only.
     #
     # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
@@ -75,6 +97,13 @@ module OpenTok
     def create(session_id, options = {})
       raise ArgumentError, "session_id not provided" if session_id.to_s.empty?
       raise ArgumentError, "options cannot be empty" if options.empty?
+      raise ArgumentError, "outputs property is required in options" unless options.has_key?(:outputs)
+      raise ArgumentError, "outputs must be a Hash" unless options[:outputs].is_a? Hash
+      if options[:outputs].has_key?(:hls)
+        dvr = options[:outputs][:hls][:dvr]
+        low_latency = options[:outputs][:hls][:low_latency]
+        raise ArgumentError, "dvr and low_latency can't both be true for HLS" if hls_dvr_and_low_latency_options_both_true?(dvr, low_latency)
+      end
       broadcast_json = @client.start_broadcast(session_id, options)
       Broadcast.new self, broadcast_json
     end
@@ -261,6 +290,10 @@ module OpenTok
 
     def audio_and_video_options_both_false?(has_audio, has_video)
       has_audio == false && has_video == false
+    end
+
+    def hls_dvr_and_low_latency_options_both_true?(dvr, low_latency)
+      dvr == true && low_latency == true
     end
 
   end

@@ -45,6 +45,22 @@ describe OpenTok::Broadcasts do
       broadcast.create(nil, {})
     }.to raise_error(ArgumentError)
   end
+  it 'raises an error if outputs is not set in options' do
+    opts = { maxDuration: 5400 }
+    expect { broadcast.create(nil, opts) }.to raise_error(ArgumentError)
+  end
+  it 'raises an error if outputs is set in options but is not a Hash' do
+    opts = { outputs: [] }
+    expect { broadcast.create(nil, opts) }.to raise_error(ArgumentError)
+  end
+  it 'raises an error if an HLS Broadcast object has both dvr and low_latency options set to true' do
+    opts = {
+      outputs: {
+        hls: { dvr: true, low_latency: true}
+      }
+    }
+    expect { broadcast.create(nil, opts) }.to raise_error(ArgumentError)
+  end
   it 'fetches a hls broadcast url', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     opts = {
         :outputs => {
