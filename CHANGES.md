@@ -1,3 +1,7 @@
+# 4.4.0
+
+* Implements DVR Pause/Resume and HLS Low-Latency options for Broadcasts [#243](https://github.com/opentok/OpenTok-Ruby-SDK/pull/243)
+
 # 4.3.0
 
 * Fixes an issue with `activesupport` [#238](https://github.com/opentok/OpenTok-Ruby-SDK/pull/238)
