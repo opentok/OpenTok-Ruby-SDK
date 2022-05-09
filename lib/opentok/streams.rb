@@ -92,17 +92,15 @@ module OpenTok
     # by calling the disable_force_mute() method.
     #
     # @param [String] session_id The session ID.
-    # @param [Hash] opts An optional hash defining options for muting action. For example:
+    # @param [Hash] opts An optional hash defining options for the muting action. For example:
+    #   {
+    #     "excluded_streams" => [
+    #       "excludedStreamId1",
+    #       "excludedStreamId2"
+    #     ]
+    #   }
     # @option opts [Array] :excluded_streams The stream IDs for streams that should not be muted.
     # This is an optional property. If you omit this property, all streams in the session will be muted.
-    #
-    # @example
-    # {
-    #   "excluded_streams" => [
-    #     "excludedStreamId1",
-    #     "excludedStreamId2"
-    #   ]
-    # }
     #
     def force_mute_all(session_id, opts = {})
       opts['active'] = 'true'

@@ -42,9 +42,9 @@ module OpenTok
   #       streams, and signal. (This is the default value if you do not specify a role.)
   #
   #     * <code>:moderator</code> -- In addition to the privileges granted to a
-  #      publisher, a moderator can perform moderation functions, such as forcing clients
-  #      to disconnect, to stop publishing streams, or to mute audio in published streams. See the
-  #      {https://tokbox.com/developer/guides/moderation/ Moderation developer guide}.
+  #       publisher, a moderator can perform moderation functions, such as forcing clients
+  #       to disconnect, to stop publishing streams, or to mute audio in published streams. See the
+  #       {https://tokbox.com/developer/guides/moderation/ Moderation developer guide}.
   #   @option options [integer] :expire_time The expiration time, in seconds since the UNIX epoch.
   #     Pass in 0 to use the default expiration time of 24 hours after the token creation time.
   #     The maximum expiration time is 30 days after the creation time.
@@ -77,8 +77,8 @@ module OpenTok
     # @param [String] api_key The OpenTok API key for your
     #   {https://tokbox.com/account OpenTok project}.
     # @param [String] api_secret Your OpenTok API key.
-    # @option opts [Symbol] :api_url Do not set this parameter. It is for internal use by TokBox.
-    # @option opts [Symbol] :ua_addendum Do not set this parameter. It is for internal use by TokBox.
+    # @option opts [Symbol] :api_url Do not set this parameter. It is for internal use by Vonage.
+    # @option opts [Symbol] :ua_addendum Do not set this parameter. It is for internal use by Vonage.
     # @option opts [Symbol] :timeout_length Custom timeout in seconds. If not provided, defaults to 2 seconds.
     def initialize(api_key, api_secret, opts={})
       @api_key = api_key.to_s()

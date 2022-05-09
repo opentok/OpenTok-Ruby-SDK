@@ -489,7 +489,7 @@ Reference documentation is available at <http://www.tokbox.com//opentok/librarie
 # Requirements
 
 You need an OpenTok API key and API secret, which you can obtain by logging into your
-[TokBox account](https://tokbox.com/account).
+[Vonage Video API account](https://tokbox.com/account).
 
 The OpenTok Ruby SDK requires Ruby 2.1.0 or greater.
 
