@@ -44,15 +44,16 @@ module OpenTok
     #     (<code>:individual</code>). For more information on archiving and the archive file
     #     formats, see the {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving}
     #     programming guide.
-    # @option options [String] :resolution The resolution of the archive, either "640x480" (SD, the
-    #   default) or "1280x720" (HD). This property only applies to composed archives. If you set
-    #   this property and set the outputMode property to "individual", the call the method
-    #   results in an error.
+    # @option options [String] :resolution The resolution of the archive, either "640x480" (SD landscape,
+    #  the default), "1280x720" (HD landscape), "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280"
+    #  (HD portrait), or "1080x1920" (FHD portrait). This property only applies to composed archives. If you set
+    #  this property and set the outputMode property to "individual", a call to the method
+    #  results in an error.
     # @option options [String] :streamMode (Optional) Whether streams included in the archive are selected
     #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),
     #   all streams in the session can be included in the archive. When streams are selected manually ("manual"),
     #   you specify streams to be included based on calls to the {Archives#add_stream} method. You can specify whether a
-    #   stream's audio, video, or both are included in the archive. 
+    #   stream's audio, video, or both are included in the archive.
     #   In composed archives, in both automatic and manual modes, the archive composer includes streams based
     #   on {https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules stream prioritization rules}.
     #   Important: this feature is currently available in the Standard environment only.
