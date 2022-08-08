@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/v2/project/123456/connect
+    body:
+      encoding: UTF-8
+      string: '{"sessionId":"SESSIONID","token":"TOKENID","websocket":{"uri":"ws://service.com/wsendpoint"}}'
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      X-Opentok-Auth:
+      - eyJpc3QiOiJwcm9qZWN0IiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.BplMVhJWx4ld7KLKXqEmow6MjNPPFw9W8IHCMfeb120
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 06 Aug 2022 18:10:28 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '73'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":"2299ba24-a6de-417c-88f7-28da54a441cf","connectionId":"833a7182-61a5-49d4-baae-c324b09953af"}'
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 6.0.0
