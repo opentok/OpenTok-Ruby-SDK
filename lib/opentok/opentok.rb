@@ -212,6 +212,11 @@ module OpenTok
       @connections ||= Connections.new client
     end
 
+    # A WebSocket object, which lets you connect OpenTok streams to a WebSocket URI.
+    def websocket
+      @websocket ||= WebSocket.new client
+    end
+
     protected
     def client
       @client ||= Client.new api_key, api_secret, api_url, ua_addendum, timeout_length: @timeout_length
