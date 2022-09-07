@@ -38,7 +38,7 @@ module OpenTok
     #   layout type.
     #
     # @option options [String] :multiBroadcastTag (Optional) Set this to support multiple broadcasts for the same session simultaneously. 
-    #   Set this to a unique string for each simultaneous broadcast of an ongoing session. Note that the multiBroadcastTag value is not included 
+    #   Set this to a unique string for each simultaneous broadcast of an ongoing session. Note that the `multiBroadcastTag` value is *not* included 
     #   in the response for the methods to {https://tokbox.com/developer/rest/#list_broadcasts list live streaming broadcasts} and 
     #   {https://tokbox.com/developer/rest/#get_info_broadcast get information about a live streaming broadcast}. 
     #   {https://tokbox.com/developer/guides/broadcast/live-streaming#simultaneous-broadcasts See Simultaneous broadcasts}.
