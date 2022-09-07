@@ -39,6 +39,13 @@ module OpenTok
     #   (a video track is included). If you set both  <code>has_audio</code> and
     #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
     #   method results in an error.
+    # @option options [String] :multiArchiveTag (Optional) Set this to support recording multiple archives for the same session simultaneously. 
+    #    Set this to a unique string for each simultaneous archive of an ongoing session. You must also set this option when manually starting an archive 
+    #    that is {https://tokbox.com/developer/guides/archiving/#automatic automatically archived}. Note that the `multiArchiveTag` value is not included
+    #    in the response for the methods to {https://tokbox.com/developer/rest/#listing_archives list archives} and 
+    #    {https://tokbox.com/developer/rest/#retrieve_archive_info retrieve archive information}. If you do not specify a unique `multiArchiveTag`, 
+    #    you can only record one archive at a time for a given session. 
+    #    {https://tokbox.com/developer/guides/archiving/#simultaneous-archives See Simultaneous archives}.
     # @option options [String] :output_mode Whether all streams in the archive are recorded
     #     to a single file (<code>:composed</code>, the default) or to individual files
     #     (<code>:individual</code>). For more information on archiving and the archive file
