@@ -42,6 +42,14 @@ describe OpenTok::Archives do
     expect(archive.name).to eq archive_name
   end
 
+  it "should create an archives with a specified multiArchiveTag", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    archive_tag = 'archive-1'
+    archive = archives.create session_id, :multiArchiveTag => archive_tag
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.session_id).to eq session_id
+    expect(archive.multiArchiveTag).to eq archive_tag
+  end
+
   it "should create audio only archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.create session_id, :has_video => false
     expect(archive).to be_an_instance_of OpenTok::Archive
