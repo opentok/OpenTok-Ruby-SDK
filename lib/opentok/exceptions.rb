@@ -14,5 +14,7 @@ module OpenTok
   class OpenTokStreamLayoutError < OpenTokError; end
   # Defines errors raised when you perform Broadcast operations.
   class OpenTokBroadcastError < OpenTokError; end
-
+  # Defines errors raised when you perform Experience Composer render operations.
+  class OpenTokRenderError < OpenTokError; end
+  
 end
