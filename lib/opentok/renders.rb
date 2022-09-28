@@ -49,7 +49,7 @@ module OpenTok
       Render.new self, render_json
     end
 
-    # Stops an OpenTok Experience Composer render
+    # Stops an OpenTok Experience Composer render.
     #
     # @param [String] render_id (Required) The render ID.
     #
