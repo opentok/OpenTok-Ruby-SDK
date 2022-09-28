@@ -1,10 +1,10 @@
 require "opentok/client"
 
-# An object that lets you use the OpenTok SIP gateway.
+# An object that lets you work with Audio Streamer WebSocket connections.
 module OpenTok
   class WebSocket
-    # Dials a SIP gateway to input an audio-only stream into your OpenTok session.
-    # See the {https://tokbox.com/developer/guides/sip/ OpenTok SIP developer guide}.
+    # Starts an Audio Streamer WebSocket connection to send audio from a Vonage Video API session to a WebSocket URI.
+    # See the {https://tokbox.com/developer/guides/audio-streamer/ OpenTok Audio Streamer developer guide}.
     #
     # @example
     #    opts = {
@@ -16,16 +16,16 @@ module OpenTok
     #    }
     #    response = opentok.websocket.connect(SESSIONID, TOKEN, "ws://service.com/wsendpoint", opts)
     #
-    # @param [String] session_id The session ID corresponding to the session to which
-    #   the SIP gateway will connect.
-    # @param [String] token The token for the session ID with which the SIP user
-    #   will use to connect.
-    # @param [String] websocket_uri The SIP URI the OpenTok SIP gateway will dial.
-    # @param [Hash] opts A hash defining options for the SIP call. For example:
-    # @option opts [Array] :streams The stream IDs of the participants' whose audio is going to be connected.
-    #   If not provided, all streams in session will be selected.
-    # @option opts [Hash] :headers A hash of key/val pairs with additional properties to send to your
-    #   Websocket server, with a maximum length of 512 bytes.
+    # @param [String] session_id (required) The OpenTok session ID that includes the OpenTok streams you want to include in 
+    #       the WebSocket stream.
+    # @param [String] token (required) The OpenTok token to be used for the Audio Streamer connection to the. OpenTok session.
+    # @param [String] websocket_uri (required) A publicly reachable WebSocket URI to be used for the destination of the audio 
+    #       stream (such as "wss://service.com/ws-endpoint").
+    # @param [Hash] opts (optional) A hash defining options for the Audio Streamer WebSocket connection. For example:
+    # @option opts [Array] :streams (optional) An array of stream IDs for the OpenTok streams you want to include in the WebSocket stream. 
+    #       If you omit this property, all streams in the session will be included.
+    # @option opts [Hash] :headers (optional) A hash of key-value pairs of headers to be sent to your WebSocket server with each message,
+    #        with a maximum length of 512 bytes.
     def connect(session_id, token, websocket_uri, opts  = {})
       response = @client.connect_websocket(session_id, token, websocket_uri, opts)
     end
