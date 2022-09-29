@@ -17,7 +17,7 @@ module OpenTok
   #   The time the Experience Composer started, expressed in milliseconds since the Unix epoch.
   #
   # @attr [int] updated_at
-  #   This is the UNIX timestamp when the Experience Composer status was last updated.
+  #   The UNIX timestamp when the Experience Composer status was last updated.
   #
   # @attr [string] url
   #   A publicly reachable URL controlled by the customer and capable of generating the content to be rendered without user intervention.
