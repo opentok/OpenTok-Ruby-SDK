@@ -107,6 +107,30 @@ describe OpenTok::Broadcasts do
     expect(broadcast_1.multiBroadcastTag).to eq broadcast_tag
   end
 
+  it 'starts a broadcast with a matching multi_broadcast_tag value when multiBroadcastTag is specified', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    broadcast_tag = 'broadcast-1'
+    opts = {
+        :outputs => {
+            :hls => {}
+        },
+        :multiBroadcastTag => broadcast_tag
+    }
+    broadcast_1 = broadcast.create(session_id, opts)
+    expect(broadcast_1).to be_an_instance_of OpenTok::Broadcast
+    expect(broadcast_1.multi_broadcast_tag).to eq broadcast_tag
+  end
+
+  it 'starts a broadcast with a multi_broadcast_tag tag value of nil when multiBroadcastTag is not specified', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    opts = {
+        :outputs => {
+            :hls => {}
+        }
+    }
+    broadcast_1 = broadcast.create(session_id, opts)
+    expect(broadcast_1).to be_an_instance_of OpenTok::Broadcast
+    expect(broadcast_1.multi_broadcast_tag).to be_nil
+  end
+
   it 'finds a broadcast', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     b = broadcast.find started_broadcast_id
     expect(b).to be_an_instance_of OpenTok::Broadcast
