@@ -75,7 +75,9 @@ module OpenTok
     #  Broadcasts#find method.
     #
     # @option options [string] resolution
-    #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD).
+    #   The resolution of the broadcast: either "640x480" (SD landscape, the default), "1280x720" (HD landscape),
+    #   "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920"
+    #   (FHD portrait).
     #
     # @option options [String] :streamMode (Optional) Whether streams included in the broadcast are selected
     #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),

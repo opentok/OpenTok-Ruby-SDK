@@ -1,7 +1,7 @@
 # OpenTok Ruby SDK
 
 ![Coverage Status](https://github.com/opentok/OpenTok-Ruby-SDK/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/opentok/OpenTok-Ruby-SDK/branch/master/graph/badge.svg)](https://codecov.io/gh/opentok/opentok-ruby-sdk) 
+[![codecov](https://codecov.io/gh/opentok/OpenTok-Ruby-SDK/branch/master/graph/badge.svg)](https://codecov.io/gh/opentok/opentok-ruby-sdk)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 <img src="https://assets.tokbox.com/img/vonage/Vonage_VideoAPI_black.svg" height="48px" alt="Tokbox is now known as Vonage" />
@@ -185,8 +185,7 @@ archive = opentok.archives.create session_id :output_mode => :individual
 The `:output_mode => :composed` setting (the default) causes all streams in the archive to be
 recorded to a single (composed) file.
 
-For composed archives you can set the resolution of the archive, either "640x480" (SD, the default)
-or "1280x720" (HD). The `resolution` parameter is optional and could be included in the options
+For composed archives you can set the resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD landscape), "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD portrait).. The `resolution` parameter is optional and could be included in the options
 hash (second argument) of the `opentok.archives.create()` method.
 
 ```ruby
