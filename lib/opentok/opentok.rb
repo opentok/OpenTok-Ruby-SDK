@@ -192,6 +192,11 @@ module OpenTok
       @broadcasts ||= Broadcasts.new client
     end
 
+    # A Renders object, which lets you work with OpenTok Experience Composer renders.
+    def renders
+      @renders ||= Renders.new client
+    end
+
     # A Sip object, which lets you use the OpenTok SIP gateway.
     def sip
       @sip ||= Sip.new client

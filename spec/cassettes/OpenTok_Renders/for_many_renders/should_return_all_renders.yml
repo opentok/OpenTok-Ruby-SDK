@@ -1,0 +1,108 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.opentok.com/v2/project/123456/render
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      X-Opentok-Auth:
+      - eyJpc3QiOiJwcm9qZWN0IiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.BplMVhJWx4ld7KLKXqEmow6MjNPPFw9W8IHCMfeb120
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Thu, 15 Sep 2022 11:09:53 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "count":6,
+          "items":[
+            {
+              "id":"80abaf0d-25a3-4efc-968f-6268d620668d",
+              "sessionId":"1_MX4yNzA4NjYxMn5-MTU0NzA4MDUyMTEzNn5sOXU5ZnlWYXplRnZGblV4RUo3dXJpZk1-fg",
+              "projectId":"27086612",
+              "createdAt":1547080532099,
+              "updatedAt":1547080532099,
+              "url": "https://example.com/my-render",
+              "resolution": "1280x720",
+              "status": "started",
+              "streamId": "d2334b35690a92f78945"
+            },
+            {
+              "id":"d95f6496-df6e-4f49-86d6-832e00303602",
+              "sessionId":"2_MX4yNzA4NjYxMn5-MTU0NzA4MDUwMDc2MH5STWRiSE1jZjVoV3lBQU9nN2JuNElUV3V-fg",
+              "projectId":"27086612",
+              "createdAt":1547080511760,
+              "updatedAt":1547080518965,
+              "url": "https://example.com/my-render",
+              "resolution": "1280x720",
+              "status":"stopped",
+              "streamId": "d2334b35690a92f78945",
+              "reason":"Max duration exceeded"
+            },
+            {
+              "id":"96abaf0d-25a3-4efc-968f-6268d620668d",
+              "sessionId":"3_MX4yNzA4NjYxMn5-MTU0NzA4MDUyMTEzNn5sOXU5ZnlWYXplRnZGblV4RUo3dXJpZk1-fg",
+              "projectId":"27086612",
+              "createdAt":1547080532099,
+              "updatedAt":1547080532099,
+              "url": "https://example.com/my-render",
+              "resolution": "1280x720",
+              "status": "started",
+              "streamId": "d2334b35690a92f78946"
+            },
+            {
+              "id":"c34f6496-df6e-4f49-86d6-832e00303602",
+              "sessionId":"4_MX4yNzA4NjYxMn5-MTU0NzA4MDUwMDc2MH5STWRiSE1jZjVoV3lBQU9nN2JuNElUV3V-fg",
+              "projectId":"27086612",
+              "createdAt":1547080511760,
+              "updatedAt":1547080518965,
+              "url": "https://example.com/my-render",
+              "resolution": "1280x720",
+              "status":"stopped",
+              "streamId": "d2334b35690a92f78912",
+              "reason":"Stop Requested"
+            },
+            {
+              "id":"52abaf0d-25a3-4efc-968f-6268d620668d",
+              "sessionId":"1_MX4yNzA4NjYxMn5-MTU0NzA4MDUyMTEzNn5sOXU5ZnlWYXplRnZGblV4RUo3dXJpZk1-fg",
+              "projectId":"27086612",
+              "createdAt":1547080532099,
+              "updatedAt":1547080532099,
+              "url": "https://example.com/my-render",
+              "resolution": "1280x720",
+              "status": "started",
+              "streamId": "d2334b35690a92f78948"
+            },
+            {
+              "id":"a87f6496-df6e-4f49-86d6-832e00303602",
+              "sessionId":"2_MX4yNzA4NjYxMn5-MTU0NzA4MDUwMDc2MH5STWRiSE1jZjVoV3lBQU9nN2JuNElUV3V-fg",
+              "projectId":"27086612",
+              "createdAt":1547080511760,
+              "updatedAt":1547080518965,
+              "url": "https://example.com/my-render",
+              "resolution": "1280x720",
+              "status":"starting",
+              "streamId": "d2334b35690a92f78947"
+            }
+          ]
+        }
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 6.0.0
