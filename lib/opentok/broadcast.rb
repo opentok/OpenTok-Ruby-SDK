@@ -46,12 +46,13 @@ module OpenTok
   #     * "offline" --     The OpenTok platform could not connect to the remote RTMP server. This is due to an unreachable server or an error in the RTMP handshake. Causes include rejected RTMP connections, non-existing RTMP applications, rejected stream names, authentication errors, etc. Check that the server is online, and that you have provided the correct server URL and stream name.
   #     * "error" --       There is an error in the OpenTok platform.
   class Broadcast
-
+    attr_reader :multi_broadcast_tag
     # @private
     def initialize(interface, json)
       @interface = interface
       # TODO: validate json fits schema
       @json = json
+      @multi_broadcast_tag = @json['multiBroadcastTag']
     end
 
     # A JSON-encoded string representation of the broadcast.
