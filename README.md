@@ -6,19 +6,22 @@
 
 <img src="https://assets.tokbox.com/img/vonage/Vonage_VideoAPI_black.svg" height="48px" alt="Tokbox is now known as Vonage" />
 
-The OpenTok Ruby SDK lets you generate
-[sessions](https://tokbox.com/developer/guides/create-session/) and
-[tokens](https://tokbox.com/developer/guides/create-token/) for
-[OpenTok](http://www.tokbox.com/) applications. It also includes methods for
-working with OpenTok [archives](https://tokbox.com/developer/guides/archiving),
-working with OpenTok [live streaming
-broadcasts](https://tokbox.com/developer/guides/broadcast/live-streaming/),
-working with OpenTok [SIP interconnect](https://tokbox.com/developer/guides/sip),
-and [disconnecting clients from sessions](https://tokbox.com/developer/guides/moderation/rest/).
+The OpenTok Ruby SDK provides methods for:
 
-# Installation
+* Generating [sessions](https://tokbox.com/developer/guides/create-session/) and
+  [tokens](https://tokbox.com/developer/guides/create-token/) for
+  [OpenTok](https://www.vonage.com/communications-apis/video/) applications
+* Working with OpenTok [archives](https://tokbox.com/developer/guides/archiving)
+* Working with OpenTok [live streaming broadcasts](https://tokbox.com/developer/guides/broadcast/live-streaming/)
+* Working with OpenTok [SIP interconnect](https://tokbox.com/developer/guides/sip)
+* [Sending signals to clients connected to a session](https://tokbox.com/developer/guides/signaling/)
+* [Disconnecting clients from sessions](https://tokbox.com/developer/guides/moderation/rest/)
+* [Forcing clients in a session to disconnect or mute published audio](https://tokbox.com/developer/guides/moderation/)
+* Working with OpenTok [Experience Composers](https://tokbox.com/developer/guides/experience-composer)
 
-## Bundler (recommended):
+## Installation
+
+### Bundler (recommended):
 
 Bundler helps manage dependencies for Ruby projects. Find more info here: <http://bundler.io>
 
@@ -34,15 +37,15 @@ Allow bundler to install the change.
 $ bundle install
 ```
 
-## RubyGems:
+### RubyGems:
 
 ```
 $ gem install opentok
 ```
 
-# Usage
+## Usage
 
-## Initializing
+### Initializing
 
 Load the gem at the top of any file where it will be used. Then initialize an `OpenTok::OpenTok`
 object with your OpenTok API key and API secret.
@@ -53,7 +56,7 @@ require "opentok"
 opentok = OpenTok::OpenTok.new api_key, api_secret
 ```
 
-### Initialization Options
+#### Initialization Options
 
 You can specify a custom timeout value for HTTP requests when initializing a new `OpenTok::OpenTok`
 object:
@@ -67,7 +70,7 @@ opentok = OpenTok::OpenTok.new api_key, api_secret, :timeout_length => 10
 The value for `:timeout_length` is an integer representing the number of seconds to wait for an HTTP
 request to complete. The default is set to 2 seconds.
 
-## Creating Sessions
+### Creating Sessions
 
 To create an OpenTok Session, use the `OpenTok#create_session(properties)` method.
 The `properties` parameter is an optional Hash used to specify the following:
@@ -101,7 +104,7 @@ session = opentok.create_session :archive_mode => :always, :media_mode => :route
 session_id = session.session_id
 ```
 
-## Generating Tokens
+### Generating Tokens
 
 Once a Session is created, you can start generating Tokens for clients to use when connecting to it.
 You can generate a token either by calling the `opentok.generate_token(session_id, options)` method,
@@ -111,7 +114,7 @@ the Token. For layout control in archives and broadcasts, the initial layout cla
 published from connections using this token can be set as well.
 
 ```ruby
-# Generate a Token from just a session_id (fetched from a database)
+## Generate a Token from just a session_id (fetched from a database)
 token = opentok.generate_token session_id
 
 # Generate a Token by calling the method on the Session (returned from createSession)
@@ -126,7 +129,7 @@ token = session.generate_token({
 });
 ```
 
-## Working with Streams
+### Working with Streams
 
 Use this method to get information for an OpenTok stream or for all streams in a session.
 For example, you can call this method to get information about layout classes used by an
@@ -152,7 +155,7 @@ expect(all_streams.total).to eq 2
 expect(all_streams[0].layoutClassList[1]).to eq "focus"
 ```
 
-## Working with Archives
+### Working with Archives
 
 You can only archive sessions that use the OpenTok Media Router
 (sessions with the media mode set to routed).
@@ -315,9 +318,9 @@ stream](https://tokbox.com/developer/rest/#change-stream-layout-classes-composed
 Please keep in mind that the `streams.layout` method applies to archive and broadcast streams only.
 
 For more information on archiving, see the
-[OpenTok archiving](https://tokbox.com/opentok/tutorials/archiving/) programming guide.
+[OpenTok archiving](/developer/guides/archiving/) developer guide.
 
-## Signaling
+### Signaling
 
 You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.  
 If `connection_id` is nil or an empty string, then the signal is send to all valid connections in
@@ -342,15 +345,12 @@ use `opentok.signals.send(session_id)`
 For more information on signaling, see the
 [OpenTok Signaling](https://tokbox.com/developer/guides/signaling/js/) programming guide.
 
-## Broadcasting
+### Broadcasting
 
 You can broadcast your streams to a HLS or RTMP servers.
 
 To successfully start broadcasting a session, at least one publishing client must be connected to
 the session.
-
-You can only have one active live streaming broadcast at a time for a session (however, having more
-than one would not be useful).
 
 The live streaming broadcast can target one HLS endpoint and up to five RTMP servers simultaneously
 for a session.
@@ -450,12 +450,25 @@ for more details.
 You can also change the layout of an individual stream dynamically. Refer to
 [working with Streams](#working-with-streams).
 
-## Force disconnect
+### Force disconnect
 
 You can cause a client to be forced to disconnect from a session by using the
 `opentok.connections.forceDisconnect(session_id, connection_id)` method.
 
-## Initiating a SIP call
+### Forcing clients in a session to mute published audio
+
+You can force the publisher of a specific stream to stop publishing audio using the 
+`opentok.streams.force_mute(session_id, stream_id)` method.
+
+You can force the publisher of all streams in a session (except for an optional list of streams)
+to stop publishing audio using the `opentok.streams.force_mute_all(session_id, opts)`
+method. You can then disable the mute state of the session by calling the
+`opentok.streams.disable_force_mute(session_id)` method.
+
+For more information, see
+[Muting the audio of streams in a session](https://tokbox.com/developer/guides/moderation/#force_mute).
+
+### Initiating a SIP call
 
 You can initiate a SIP call using the `opentok.sip.dial(session_id, token, sip_uri, opts)` method.
 This requires a SIP URL. You will often need to pass options for authenticating to the SIP provider
@@ -472,7 +485,17 @@ response = opentok.sip.dial(session_id, token, "sip:+15128675309@acme.pstn.examp
 For more information on SIP Interconnect, see the
 [OpenTok SIP Interconnect](https://tokbox.com/developer/guides/sip/) developer guide.
 
-# Samples
+### Working with Experience Composers
+
+You can start an [Experience Composer](https://tokbox.com/developer/guides/experience-composer)
+by calling the `opentok.renders.start(session_id, options)` method.
+
+You can stop an Experience Composer by calling the `opentok.renders.stop(render_id, options)` method.
+
+You can get information about Experience Composers by calling the `opentok.renders.find(render_id)`
+and `opentok.renders.list(options)` methods.
+
+## Samples
 
 There are three sample applications included in this repository. To get going as fast as possible, clone the whole
 repository and read the README in each of the sample directories:
@@ -481,23 +504,23 @@ repository and read the README in each of the sample directories:
 - [Archiving](sample/Archiving/README.md)
 - [Broadcast](sample/Broadcast/README.md)
 
-# Documentation
+## Documentation
 
 Reference documentation is available at <http://www.tokbox.com//opentok/libraries/server/ruby/reference/index.html>.
 
-# Requirements
+## Requirements
 
 You need an OpenTok API key and API secret, which you can obtain by logging into your
 [Vonage Video API account](https://tokbox.com/account).
 
 The OpenTok Ruby SDK requires Ruby 2.1.0 or greater.
 
-# Release Notes
+## Release Notes
 
 See the [Releases](https://github.com/opentok/opentok-ruby-sdk/releases) page for details
 about each release.
 
-## Important changes since v2.2.0
+### Important changes since v2.2.0
 
 **Changes in v4.0.0:**
 
@@ -529,7 +552,7 @@ See the reference documentation
 <http://www.tokbox.com/opentok/libraries/server/ruby/reference/index.html> and in the
 docs directory of the SDK.
 
-# Development and Contributing
+## Development and Contributing
 
 Interested in contributing? We :heart: pull requests! See the [Development](DEVELOPING.md) and
 [Contribution](CONTRIBUTING.md) guidelines.
