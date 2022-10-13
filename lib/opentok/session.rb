@@ -31,10 +31,10 @@ module OpenTok
   #     * <code>:publisher</code> -- A publisher can publish streams, subscribe to
   #       streams, and signal. (This is the default value if you do not specify a role.)
   #
-  #     * <code>:moderator</code> -- In addition to the privileges granted to a
-  #       publisher, in clients using the OpenTok.js library, a moderator can call the
-  #       <code>forceUnpublish()</code> and <code>forceDisconnect()</code> method of the
-  #       Session object.
+  #     * <code>:moderator</code> -- n addition to the privileges granted to a
+  #       publisher, a moderator can perform moderation functions, such as forcing clients
+  #       to disconnect, to stop publishing streams, or to mute audio in published streams. See the
+  #       {https://tokbox.com/developer/guides/moderation/ Moderation developer guide}.
   #   @option options [integer] :expire_time The expiration time, in seconds since the UNIX epoch.
   #     Pass in 0 to use the default expiration time of 24 hours after the token creation time.
   #     The maximum expiration time is 30 days after the creation time.

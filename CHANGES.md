@@ -1,3 +1,10 @@
+# 4.5.0
+
+* Adds support for multiple archives and records feature [#248](https://github.com/opentok/OpenTok-Ruby-SDK/pull/248)
+* Adds Experience Composer functionality [#249](https://github.com/opentok/OpenTok-Ruby-SDK/pull/249)
+* Updates code comments to make explicit support for 1080p resolution for Archive and Broadcast [#246](https://github.com/opentok/OpenTok-Ruby-SDK/pull/246)
+* Updates various other documentation/code comments [#250](https://github.com/opentok/OpenTok-Ruby-SDK/pull/250)
+
 # 4.4.0
 
 * Implements DVR Pause/Resume and HLS Low-Latency options for Broadcasts [#243](https://github.com/opentok/OpenTok-Ruby-SDK/pull/243)

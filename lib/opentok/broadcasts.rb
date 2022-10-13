@@ -37,6 +37,12 @@ module OpenTok
     #   If you do not specify an initial layout type, the broadcast uses the best fit
     #   layout type.
     #
+    # @option options [String] :multiBroadcastTag (Optional) Set this to support multiple broadcasts for the same session simultaneously. 
+    #   Set this to a unique string for each simultaneous broadcast of an ongoing session. Note that the `multiBroadcastTag` value is *not* included 
+    #   in the response for the methods to {https://tokbox.com/developer/rest/#list_broadcasts list live streaming broadcasts} and 
+    #   {https://tokbox.com/developer/rest/#get_info_broadcast get information about a live streaming broadcast}. 
+    #   {https://tokbox.com/developer/guides/broadcast/live-streaming#simultaneous-broadcasts See Simultaneous broadcasts}.
+    #
     # @option options [int] maxDuration
     #   The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when
     #   the maximum duration is reached. You can set the maximum duration to a value from 60 (60 seconds) to 36000 (10 hours).
@@ -75,7 +81,9 @@ module OpenTok
     #  Broadcasts#find method.
     #
     # @option options [string] resolution
-    #   The resolution of the broadcast: either "640x480" (SD, the default) or "1280x720" (HD).
+    #   The resolution of the broadcast: either "640x480" (SD landscape, the default), "1280x720" (HD landscape),
+    #   "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920"
+    #   (FHD portrait).
     #
     # @option options [String] :streamMode (Optional) Whether streams included in the broadcast are selected
     #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),

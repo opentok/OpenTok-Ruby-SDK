@@ -4,7 +4,7 @@ require 'opentok/stream_list'
 
 module OpenTok
   # A class for working with OpenTok streams. It includes methods for getting info
-  # about OpenTok streams and for setting layout classes for streams.
+  # about OpenTok streams, for setting layout classes for streams, and for muting streams.
   class Streams
     # @private
     def initialize(client)

@@ -39,20 +39,28 @@ module OpenTok
     #   (a video track is included). If you set both  <code>has_audio</code> and
     #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
     #   method results in an error.
+    # @option options [String] :multiArchiveTag (Optional) Set this to support recording multiple archives for the same session simultaneously. 
+    #    Set this to a unique string for each simultaneous archive of an ongoing session. You must also set this option when manually starting an archive 
+    #    that is {https://tokbox.com/developer/guides/archiving/#automatic automatically archived}. Note that the `multiArchiveTag` value is not included
+    #    in the response for the methods to {https://tokbox.com/developer/rest/#listing_archives list archives} and 
+    #    {https://tokbox.com/developer/rest/#retrieve_archive_info retrieve archive information}. If you do not specify a unique `multiArchiveTag`, 
+    #    you can only record one archive at a time for a given session. 
+    #    {https://tokbox.com/developer/guides/archiving/#simultaneous-archives See Simultaneous archives}.
     # @option options [String] :output_mode Whether all streams in the archive are recorded
     #     to a single file (<code>:composed</code>, the default) or to individual files
     #     (<code>:individual</code>). For more information on archiving and the archive file
     #     formats, see the {https://tokbox.com/opentok/tutorials/archiving OpenTok archiving}
     #     programming guide.
-    # @option options [String] :resolution The resolution of the archive, either "640x480" (SD, the
-    #   default) or "1280x720" (HD). This property only applies to composed archives. If you set
-    #   this property and set the outputMode property to "individual", the call the method
-    #   results in an error.
+    # @option options [String] :resolution The resolution of the archive, either "640x480" (SD landscape,
+    #  the default), "1280x720" (HD landscape), "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280"
+    #  (HD portrait), or "1080x1920" (FHD portrait). This property only applies to composed archives. If you set
+    #  this property and set the outputMode property to "individual", a call to the method
+    #  results in an error.
     # @option options [String] :streamMode (Optional) Whether streams included in the archive are selected
     #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),
     #   all streams in the session can be included in the archive. When streams are selected manually ("manual"),
     #   you specify streams to be included based on calls to the {Archives#add_stream} method. You can specify whether a
-    #   stream's audio, video, or both are included in the archive. 
+    #   stream's audio, video, or both are included in the archive.
     #   In composed archives, in both automatic and manual modes, the archive composer includes streams based
     #   on {https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules stream prioritization rules}.
     #   Important: this feature is currently available in the Standard environment only.
