@@ -50,14 +50,14 @@ describe OpenTok::Archives do
     expect(archive.multiArchiveTag).to eq archive_tag
   end
 
-  it "should create an archives with a matching multi_archive_tag tag value when multiArchiveTag is specified", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+  it "should create an archive with matching multi_archive_tag when multiArchiveTag is specified", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     archive_tag = 'archive-1'
     archive = archives.create session_id, :multiArchiveTag => archive_tag
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.multi_archive_tag).to eq archive_tag
   end
 
-  it "should create an archives with a multi_archive_tag tag value of nil when multiArchiveTag is not specified", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+  it "should create an archive with multi_archive_tag value of nil when multiArchiveTag not specified", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     archive = archives.create session_id
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.multi_archive_tag).to be_nil
