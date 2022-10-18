@@ -120,7 +120,7 @@ describe OpenTok::Broadcasts do
     expect(broadcast_1.multi_broadcast_tag).to eq broadcast_tag
   end
 
-  it 'starts a broadcast with a multi_broadcast_tag tag value of nil when multiBroadcastTag is not specified', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+  it 'starts a broadcast with a multi_broadcast_tag value of nil when multiBroadcastTag not specified', :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     opts = {
         :outputs => {
             :hls => {}
