@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
   spec.description = %q{OpenTok is an API from TokBox that enables websites to weave live group video communication into their online experience. With OpenTok you have the freedom and flexibility to create the most engaging web experience for your users. This gem lets you generate sessions and tokens for OpenTok applications. It also includes support for working with OpenTok 2.0 archives. See <http://tokbox.com/opentok/platform> for more details.}
   # TODO: this homepage isn't set up just yet
   spec.homepage    = "https://opentok.github.io/opentok-ruby-sdk"
+  spec.metadata    = { "source_code_uri" => "https://github.com/opentok/OpenTok-Ruby-SDK" }
   spec.license     = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
