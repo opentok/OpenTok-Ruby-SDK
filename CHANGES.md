@@ -1,3 +1,10 @@
+# 4.5.1
+
+* Fixes issue with uninitialized constant by adding missing `require` statement [#256](https://github.com/opentok/OpenTok-Ruby-SDK/pull/256)
+* Fixes RubyGems info by adding repo link to gemspec [#255](https://github.com/opentok/OpenTok-Ruby-SDK/pull/255)
+
+Thanks to [`@sailor`](https://github.com/sailor) for the contributions! :raised_hands:
+
 # 4.5.0
 
 * Adds support for multiple archives and records feature [#248](https://github.com/opentok/OpenTok-Ruby-SDK/pull/248)
