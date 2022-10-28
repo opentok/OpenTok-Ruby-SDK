@@ -11,6 +11,7 @@ require "opentok/sip"
 require "opentok/streams"
 require "opentok/signals"
 require "opentok/broadcasts"
+require "opentok/renders"
 
 module OpenTok
   # Contains methods for creating OpenTok sessions and generating tokens. It also includes
