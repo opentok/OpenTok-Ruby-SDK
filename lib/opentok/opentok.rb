@@ -148,7 +148,7 @@ module OpenTok
     def create_session(opts={})
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :media_mode, :location, :archive_mode ]
+      valid_opts = [ :media_mode, :location, :archive_mode, :e2ee ]
       opts = opts.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v

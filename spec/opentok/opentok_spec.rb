@@ -97,11 +97,20 @@ describe OpenTok::OpenTok do
         expect(session.media_mode).to eq :relayed
         expect(session.location).to eq nil
       end
+
       it "creates always archived sessions", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :media_mode => :routed, :archive_mode => :always
         expect(session).to be_an_instance_of OpenTok::Session
         expect(session.session_id).to be_an_instance_of String
         expect(session.archive_mode).to eq :always
+        expect(session.location).to eq nil
+      end
+
+      it "creates e2ee sessions", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+        session = opentok.create_session :media_mode => :routed, :e2ee => :true
+        expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.e2ee).to eq :true
         expect(session.location).to eq nil
       end
 
