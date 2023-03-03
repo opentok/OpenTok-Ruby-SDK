@@ -100,6 +100,9 @@ session = opentok.create_session :location => '12.34.56.78'
 # A session with automatic archiving (must use the routed media mode):
 session = opentok.create_session :archive_mode => :always, :media_mode => :routed
 
+# A session with end-to-end encryption (must use the routed media mode):
+session = opentok.create_session :e2ee => true, :media_mode => :routed
+
 # Store this sessionId in the database for later use:
 session_id = session.session_id
 ```
@@ -322,7 +325,7 @@ For more information on archiving, see the
 
 ### Signaling
 
-You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.  
+You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.
 If `connection_id` is nil or an empty string, then the signal is send to all valid connections in
 the session.
 
@@ -457,7 +460,7 @@ You can cause a client to be forced to disconnect from a session by using the
 
 ### Forcing clients in a session to mute published audio
 
-You can force the publisher of a specific stream to stop publishing audio using the 
+You can force the publisher of a specific stream to stop publishing audio using the
 `opentok.streams.force_mute(session_id, stream_id)` method.
 
 You can force the publisher of all streams in a session (except for an optional list of streams)
