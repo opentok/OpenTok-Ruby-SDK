@@ -114,9 +114,33 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq nil
       end
 
+      # context "with relayed media mode and always archive mode" do
+      #   subject { -> { session = opentok.create_session :archive_mode => :always, :media_mode => :relayed }}
+      #   it { should raise_error }
+      # end
+
       context "with relayed media mode and always archive mode" do
-        subject { -> { session = opentok.create_session :archive_mode => :always, :media_mode => :relayed }}
-        it { should raise_error }
+        it "raises an error" do
+          expect {
+            opentok.create_session :archive_mode => :always, :media_mode => :relayed
+          }.to raise_error ArgumentError
+        end
+      end
+
+      context "with relayed media mode and e2ee set to true" do
+        it "raises an error" do
+          expect {
+            opentok.create_session :media_mode => :relayed, :e2ee => true
+          }.to raise_error ArgumentError
+        end
+      end
+
+      context "with always archive mode and e2ee set to true" do
+        it "raises an error" do
+          expect {
+            opentok.create_session :archive_mode => :always, :e2ee => true
+          }.to raise_error ArgumentError
+        end
       end
 
     end

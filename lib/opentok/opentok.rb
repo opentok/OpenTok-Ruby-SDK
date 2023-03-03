@@ -159,6 +159,13 @@ module OpenTok
       # keep opts around for Session constructor, build REST params
       params = opts.clone
 
+      # validate input combinations
+      raise ArgumentError, "A session with always archive mode must also have the routed media mode." if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
+
+      raise ArgumentError, "A session with relayed media mode should not have e2ee set to true." if (params[:media_mode] == :relayed && params[:e2ee] == true)
+
+      raise ArgumentError, "A session with always archive mode must not have e2ee set to true." if (params[:archive_mode] == :always && params[:e2ee] == true)
+
       # anything other than :relayed sets the REST param to "disabled", in which case we force
       # opts to be :routed. if we were more strict we could raise an error when the value isn't
       # either :relayed or :routed
@@ -176,8 +183,6 @@ module OpenTok
       unless params[:archive_mode].nil?
         raise "archive mode must be either always or manual" unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
       end
-
-      raise "A session with always archive mode must also have the routed media mode." if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
 
       response = client.create_session(params)
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts
