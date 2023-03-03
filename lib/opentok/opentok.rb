@@ -144,6 +144,11 @@ module OpenTok
     #     automatically (<code>:always</code>) or not (<code>:manual</code>). When using automatic
     #     archiving, the session must use the <code>:routed</code> media mode.
     #
+    # @option opts [true, false] :e2ee
+    #     (Boolean, optional) — whether the session is end-to-end encrypted from client to client (default: false).
+    #     Should not be set to `true` if `:media_mode` is `:relayed` or if `:archive_mode` is `:always`.
+    #     See the {https://tokbox.com/developer/guides/end-to-end-encryption/ documentation} for more information.
+    #
     # @return [Session] The Session object. The session_id property of the object is the session ID.
     def create_session(opts={})
 
