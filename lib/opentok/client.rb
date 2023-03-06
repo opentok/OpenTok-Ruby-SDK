@@ -583,5 +583,95 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def start_render(session_id, opts)
+      opts.extend(HashExtensions)
+      body = { :sessionId => session_id }.merge(opts.camelize_keys!)
+      response = self.class.post("/v2/project/#{@api_key}/render", {
+          :body => body.to_json,
+          :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 202
+        response
+      when 400
+        raise OpenTokRenderError, "The render could not be started. The request was invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while starting a render. API Key: #{@api_key}"
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokRenderError, "The render could not be started"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def get_render(render_id)
+      response = self.class.get("/v2/project/#{@api_key}/render/#{render_id}", {
+          :headers => generate_headers
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise OpenTokRenderError, "The request was invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while getting a render. API Key: #{@api_key}"
+      when 404
+        raise OpenTokRenderError, "No matching render found (with the specified ID)"
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokRenderError, "Could not fetch render information."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def stop_render(render_id)
+      response = self.class.delete("/v2/project/#{@api_key}/render/#{render_id}", {
+          :headers => generate_headers
+      })
+      case response.code
+      when 204
+        response
+      when 400
+        raise OpenTokRenderError, "The request was invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while stopping a render. API Key: #{@api_key}"
+      when 404
+        raise OpenTokRenderError, "No matching render found (with the specified ID) or it is already stopped"
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokRenderError, "The render could not be stopped."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
+    def list_renders(offset, count)
+      query = Hash.new
+      query[:offset] = offset unless offset.nil?
+      query[:count] = count unless count.nil?
+      response = self.class.get("/v2/project/#{@api_key}/render", {
+        :query => query.empty? ? nil : query,
+        :headers => generate_headers,
+      })
+      case response.code
+      when 200
+        response
+      when 403
+        raise OpenTokAuthenticationError,
+          "Authentication failed while retrieving renders. API Key: #{@api_key}"
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokRenderError, "The renders could not be retrieved."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
   end
 end

@@ -34,7 +34,9 @@ module OpenTok
     #   reason the archive stopped (such as "maximum duration exceeded") or failed.
     #
     # @attr [string] resolution
-    #   The resolution of the archive (either "640x480", "1280x720", "480x640", or "720x1280").
+    #   The resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD landscape),
+    #  "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD portrait).
+    #   You may want to use a portrait aspect ratio for archives that include video streams from mobile devices (which often use the portrait aspect ratio).
     #   This property is only set for composed archives.
     #
     # @attr [string] session_id
@@ -70,12 +72,13 @@ module OpenTok
     #   set to null. The download URL is obfuscated, and the file is only available from the URL for
     #   10 minutes. To generate a new URL, call the Archive.listArchives() or OpenTok.getArchive() method.
   class Archive
-
+    attr_reader :multi_archive_tag
     # @private
     def initialize(interface, json)
       @interface = interface
       # TODO: validate json fits schema
       @json = json
+      @multi_archive_tag = @json['multiArchiveTag']
     end
 
     # A JSON-encoded string representation of the archive.

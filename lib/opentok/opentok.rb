@@ -11,6 +11,7 @@ require "opentok/sip"
 require "opentok/streams"
 require "opentok/signals"
 require "opentok/broadcasts"
+require "opentok/renders"
 
 module OpenTok
   # Contains methods for creating OpenTok sessions and generating tokens. It also includes
@@ -190,6 +191,11 @@ module OpenTok
     # A Broadcasts object, which lets you work with OpenTok live streaming broadcasts.
     def broadcasts
       @broadcasts ||= Broadcasts.new client
+    end
+
+    # A Renders object, which lets you work with OpenTok Experience Composer renders.
+    def renders
+      @renders ||= Renders.new client
     end
 
     # A Sip object, which lets you use the OpenTok SIP gateway.
