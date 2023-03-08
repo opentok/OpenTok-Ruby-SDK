@@ -18,6 +18,7 @@ The OpenTok Ruby SDK provides methods for:
 * [Disconnecting clients from sessions](https://tokbox.com/developer/guides/moderation/rest/)
 * [Forcing clients in a session to disconnect or mute published audio](https://tokbox.com/developer/guides/moderation/)
 * Working with OpenTok [Experience Composers](https://tokbox.com/developer/guides/experience-composer)
+* Working with OpenTok [Audio Connector](https://tokbox.com/developer/guides/audio-connector)
 
 ## Installation
 
@@ -188,7 +189,10 @@ archive = opentok.archives.create session_id :output_mode => :individual
 The `:output_mode => :composed` setting (the default) causes all streams in the archive to be
 recorded to a single (composed) file.
 
-For composed archives you can set the resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD landscape), "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD portrait).. The `resolution` parameter is optional and could be included in the options
+For composed archives you can set the resolution of the archive, either "640x480"
+(SD landscape, the default), "1280x720" (HD landscape), "1920x1080" (FHD landscape),
+"480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD portrait).
+The `resolution` parameter is optional and could be included in the options
 hash (second argument) of the `opentok.archives.create()` method.
 
 ```ruby
@@ -494,6 +498,11 @@ You can stop an Experience Composer by calling the `opentok.renders.stop(render_
 
 You can get information about Experience Composers by calling the `opentok.renders.find(render_id)`
 and `opentok.renders.list(options)` methods.
+
+### Working with Audio Connector
+
+You can start an [Audio Connector](https://tokbox.com/developer/guides/audio-connect) WebSocket
+by calling the `opentok.websocket.connect()` method.
 
 ## Samples
 
