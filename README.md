@@ -326,7 +326,7 @@ For more information on archiving, see the
 
 ### Signaling
 
-You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.  
+You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.
 If `connection_id` is nil or an empty string, then the signal is send to all valid connections in
 the session.
 
@@ -461,7 +461,7 @@ You can cause a client to be forced to disconnect from a session by using the
 
 ### Forcing clients in a session to mute published audio
 
-You can force the publisher of a specific stream to stop publishing audio using the 
+You can force the publisher of a specific stream to stop publishing audio using the
 `opentok.streams.force_mute(session_id, stream_id)` method.
 
 You can force the publisher of all streams in a session (except for an optional list of streams)
@@ -501,7 +501,7 @@ and `opentok.renders.list(options)` methods.
 
 ### Working with Audio Connector
 
-You can start an [Audio Connector](https://tokbox.com/developer/guides/audio-connect) WebSocket
+You can start an [Audio Connector](https://tokbox.com/developer/guides/audio-connector) WebSocket
 by calling the `opentok.websocket.connect()` method.
 
 ## Samples
