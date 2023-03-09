@@ -18,6 +18,7 @@ The OpenTok Ruby SDK provides methods for:
 * [Disconnecting clients from sessions](https://tokbox.com/developer/guides/moderation/rest/)
 * [Forcing clients in a session to disconnect or mute published audio](https://tokbox.com/developer/guides/moderation/)
 * Working with OpenTok [Experience Composers](https://tokbox.com/developer/guides/experience-composer)
+* Working with OpenTok [Audio Connector](https://tokbox.com/developer/guides/audio-connector)
 
 ## Installation
 
@@ -188,7 +189,10 @@ archive = opentok.archives.create session_id :output_mode => :individual
 The `:output_mode => :composed` setting (the default) causes all streams in the archive to be
 recorded to a single (composed) file.
 
-For composed archives you can set the resolution of the archive, either "640x480" (SD landscape, the default), "1280x720" (HD landscape), "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD portrait).. The `resolution` parameter is optional and could be included in the options
+For composed archives you can set the resolution of the archive, either "640x480"
+(SD landscape, the default), "1280x720" (HD landscape), "1920x1080" (FHD landscape),
+"480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD portrait).
+The `resolution` parameter is optional and could be included in the options
 hash (second argument) of the `opentok.archives.create()` method.
 
 ```ruby
@@ -322,7 +326,7 @@ For more information on archiving, see the
 
 ### Signaling
 
-You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.  
+You can send a signal using the `opentok.signals.send(session_id, connection_id, opts)` method.
 If `connection_id` is nil or an empty string, then the signal is send to all valid connections in
 the session.
 
@@ -457,7 +461,7 @@ You can cause a client to be forced to disconnect from a session by using the
 
 ### Forcing clients in a session to mute published audio
 
-You can force the publisher of a specific stream to stop publishing audio using the 
+You can force the publisher of a specific stream to stop publishing audio using the
 `opentok.streams.force_mute(session_id, stream_id)` method.
 
 You can force the publisher of all streams in a session (except for an optional list of streams)
@@ -494,6 +498,11 @@ You can stop an Experience Composer by calling the `opentok.renders.stop(render_
 
 You can get information about Experience Composers by calling the `opentok.renders.find(render_id)`
 and `opentok.renders.list(options)` methods.
+
+### Working with Audio Connector
+
+You can start an [Audio Connector](https://tokbox.com/developer/guides/audio-connector) WebSocket
+by calling the `opentok.websocket.connect()` method.
 
 ## Samples
 

@@ -298,6 +298,35 @@ module OpenTok
       raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
     end
 
+    def connect_websocket(session_id, token, websocket_uri, opts)
+      opts.extend(HashExtensions)
+      body = { "sessionId" => session_id,
+               "token" => token,
+               "websocket" => { "uri" => websocket_uri }.merge(opts.camelize_keys!)
+      }
+
+      response = self.class.post("/v2/project/#{@api_key}/connect", {
+        :body => body.to_json,
+        :headers => generate_headers("Content-Type" => "application/json")
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "One of the properties is invalid."
+      when 403
+        raise OpenTokAuthenticationError, "You are not authorized to start the call, check your authentication information."
+      when 409
+        raise OpenTokWebSocketError, "Conflict. Only routed sessions are allowed to initiate Connect Calls."
+      when 500
+        raise OpenTokError, "OpenTok server error."
+      else
+        raise OpenTokWebSocketError, "The WebSocket could not be connected"
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def dial(session_id, token, sip_uri, opts)
       opts.extend(HashExtensions)
       body = { "sessionId" => session_id,
