@@ -1,3 +1,7 @@
+# 4.6.0
+
+* Adds functionality for working with the Audio Connector feature [#247](https://github.com/opentok/OpenTok-Ruby-SDK/pull/247)
+
 # 4.5.1
 
 * Fixes issue with uninitialized constant by adding missing `require` statement [#256](https://github.com/opentok/OpenTok-Ruby-SDK/pull/256)
