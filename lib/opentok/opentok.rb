@@ -145,8 +145,8 @@ module OpenTok
     #     archiving, the session must use the <code>:routed</code> media mode.
     #
     # @option opts [true, false] :e2ee
-    #     (Boolean, optional) — whether the session is end-to-end encrypted from client to client (default: false).
-    #     Should not be set to `true` if `:media_mode` is `:relayed` or if `:archive_mode` is `:always`.
+    #     (Boolean, optional) — Whether the session uses end-to-end encryption from client to client (default: false).
+    #     This should not be set to `true` if `:media_mode` is `:relayed`.
     #     See the {https://tokbox.com/developer/guides/end-to-end-encryption/ documentation} for more information.
     #
     # @return [Session] The Session object. The session_id property of the object is the session ID.
