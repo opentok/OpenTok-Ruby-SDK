@@ -101,6 +101,9 @@ session = opentok.create_session :location => '12.34.56.78'
 # A session with automatic archiving (must use the routed media mode):
 session = opentok.create_session :archive_mode => :always, :media_mode => :routed
 
+# A session with end-to-end encryption (must use the routed media mode):
+session = opentok.create_session :e2ee => true, :media_mode => :routed
+
 # Store this sessionId in the database for later use:
 session_id = session.session_id
 ```
