@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/session/create
+    body:
+      encoding: UTF-8
+      string: archiveMode=always&p2p.preference=disabled&archiveResolution=720x1280
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/4.6.0-Ruby-Version-3.0.0-p0
+      X-Opentok-Auth:
+      - eyJpc3QiOiJwcm9qZWN0IiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.BplMVhJWx4ld7KLKXqEmow6MjNPPFw9W8IHCMfeb120
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 12 Jun 2023 16:17:36 GMT
+      Content-Type:
+      - text/xml
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - '*'
+      X-Tb-Host:
+      - fms503-nyc.tokbox.com
+      Content-Length:
+      - '282'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><sessions><Session><session_id>1_MX4xMjM0NTZ-fk1vbiBNYXIgMTcgMDA6NDE6MzEgUERUIDIwMTR-MC42ODM3ODk1MzQ0OTQyODA4fg</session_id><partner_id>123456</partner_id><create_dt>Mon
+        Jun 12 16:17:36 GMT 2023</create_dt></Session></sessions>
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 6.0.0
