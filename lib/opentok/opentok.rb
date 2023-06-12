@@ -163,7 +163,7 @@ module OpenTok
     def create_session(opts={})
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :media_mode, :location, :archive_mode, :e2ee ]
+      valid_opts = [ :media_mode, :location, :archive_mode, :archive_name, :archive_resolution, :e2ee ]
       opts = opts.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v
@@ -197,6 +197,7 @@ module OpenTok
       # archive mode is optional, but it has to be one of the valid values if present
       unless params[:archive_mode].nil?
         raise "archive mode must be either always or manual" unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
+        raise ArgumentError, "archive name and/or archive resolution must not be set if archive mode is manual" if params[:archive_mode] == :manual && (params[:archive_name] || params[:archive_resolution])
       end
 
       response = client.create_session(params)
