@@ -144,6 +144,16 @@ module OpenTok
     #     automatically (<code>:always</code>) or not (<code>:manual</code>). When using automatic
     #     archiving, the session must use the <code>:routed</code> media mode.
     #
+    # @option opts [Symbol] :archive_name The name to use for archives in auto-archived sessions.
+    #     When setting this option, the :archive_mode option must be set to :always or an error will result.
+    #     The length of the archive name can be up to 80 chars.
+    #     Due to encoding limitations the following special characters are translated to a colon (:) character: ~, -, _.
+    #     If you do not set a name and the archiveMode option is set to always, the archive name will be empty.
+    #
+    # @option opts [Symbol] :archive_resolution The resolution of archives in an auto-archived session.
+    #     Valid values are "480x640", "640x480" (the default), "720x1280", "1280x720", "1080x1920", and "1920x1080".
+    #     When setting this option, the :archive_mode option must be set to :always or an error will result.
+    #
     # @option opts [true, false] :e2ee
     #     (Boolean, optional) — Whether the session uses end-to-end encryption from client to client (default: false).
     #     This should not be set to `true` if `:media_mode` is `:relayed`.
