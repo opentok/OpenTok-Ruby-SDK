@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/session/create
     body:
       encoding: UTF-8
-      string: archiveMode=always&p2p.preference=disabled&archiveName=foo&archiveResolution=720x1280
+      string: archiveMode=always&archiveName=foo&archiveResolution=720x1280&p2p.preference=disabled
     headers:
       User-Agent:
       - OpenTok-Ruby-SDK/4.6.0-Ruby-Version-3.0.0-p0
