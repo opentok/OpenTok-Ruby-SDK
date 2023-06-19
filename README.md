@@ -59,6 +59,8 @@ opentok = OpenTok::OpenTok.new api_key, api_secret
 
 #### Initialization Options
 
+**Custom Timeout**
+
 You can specify a custom timeout value for HTTP requests when initializing a new `OpenTok::OpenTok`
 object:
 
@@ -70,6 +72,23 @@ opentok = OpenTok::OpenTok.new api_key, api_secret, :timeout_length => 10
 
 The value for `:timeout_length` is an integer representing the number of seconds to wait for an HTTP
 request to complete. The default is set to 2 seconds.
+
+**UA Addendum**
+
+You can also append a custom string to the `User-Agent` header value for HTTP requests when initializing a new `OpenTok::OpenTok`
+object:
+
+```ruby
+require "opentok"
+
+opentok = OpenTok::OpenTok.new api_key, api_secret, :ua_addendum => 'FOO'
+```
+
+The above would generate a `User-Agent` header something like this:
+
+```
+User-Agent: OpenTok-Ruby-SDK/4.6.0-Ruby-Version-3.1.2-p20 FOO
+```
 
 ### Creating Sessions
 
