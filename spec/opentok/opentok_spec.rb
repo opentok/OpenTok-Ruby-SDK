@@ -97,6 +97,7 @@ describe OpenTok::OpenTok do
         expect(session.media_mode).to eq :relayed
         expect(session.location).to eq nil
       end
+
       it "creates always archived sessions", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
         session = opentok.create_session :media_mode => :routed, :archive_mode => :always
         expect(session).to be_an_instance_of OpenTok::Session
@@ -105,9 +106,80 @@ describe OpenTok::OpenTok do
         expect(session.location).to eq nil
       end
 
+      it "creates always archived sessions with a set archive name", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+        session = opentok.create_session :media_mode => :routed, :archive_mode => :always, :archive_name => 'foo'
+        expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.archive_mode).to eq :always
+        expect(session.archive_name).to eq 'foo'
+        expect(session.location).to eq nil
+      end
+
+      it "creates always archived sessions with a set archive resolution", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+        session = opentok.create_session :media_mode => :routed, :archive_mode => :always, :archive_resolution => "720x1280"
+        expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.archive_mode).to eq :always
+        expect(session.archive_resolution).to eq "720x1280"
+        expect(session.location).to eq nil
+      end
+
+      it "creates always archived sessions with a set archive name and resolution", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+        session = opentok.create_session :media_mode => :routed, :archive_mode => :always, :archive_name => 'foo', :archive_resolution => "720x1280"
+        expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.archive_mode).to eq :always
+        expect(session.archive_name).to eq 'foo'
+        expect(session.archive_resolution).to eq "720x1280"
+        expect(session.location).to eq nil
+      end
+
+      it "creates e2ee sessions", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+        session = opentok.create_session :media_mode => :routed, :e2ee => :true
+        expect(session).to be_an_instance_of OpenTok::Session
+        expect(session.session_id).to be_an_instance_of String
+        expect(session.e2ee).to eq :true
+        expect(session.location).to eq nil
+      end
+
       context "with relayed media mode and always archive mode" do
-        subject { -> { session = opentok.create_session :archive_mode => :always, :media_mode => :relayed }}
-        it { should raise_error }
+        it "raises an error" do
+          expect {
+            opentok.create_session :archive_mode => :always, :media_mode => :relayed
+          }.to raise_error ArgumentError
+        end
+      end
+
+      context "with archive name set and manual archive mode" do
+        it "raises an error" do
+          expect {
+            opentok.create_session :archive_mode => :manual, :archive_name => 'foo'
+          }.to raise_error ArgumentError
+        end
+      end
+
+      context "with archive resolution set and manual archive mode" do
+        it "raises an error" do
+          expect {
+            opentok.create_session :archive_mode => :manual, :archive_resolution => "720x1280"
+          }.to raise_error ArgumentError
+        end
+      end
+
+      context "with relayed media mode and e2ee set to true" do
+        it "raises an error" do
+          expect {
+            opentok.create_session :media_mode => :relayed, :e2ee => true
+          }.to raise_error ArgumentError
+        end
+      end
+
+      context "with always archive mode and e2ee set to true" do
+        it "raises an error" do
+          expect {
+            opentok.create_session :archive_mode => :always, :e2ee => true
+          }.to raise_error ArgumentError
+        end
       end
 
     end

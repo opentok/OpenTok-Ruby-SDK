@@ -144,11 +144,26 @@ module OpenTok
     #     automatically (<code>:always</code>) or not (<code>:manual</code>). When using automatic
     #     archiving, the session must use the <code>:routed</code> media mode.
     #
+    # @option opts [Symbol] :archive_name The name to use for archives in auto-archived sessions.
+    #     When setting this option, the :archive_mode option must be set to :always or an error will result.
+    #     The length of the archive name can be up to 80 chars.
+    #     Due to encoding limitations the following special characters are translated to a colon (:) character: ~, -, _.
+    #     If you do not set a name and the archiveMode option is set to always, the archive name will be empty.
+    #
+    # @option opts [Symbol] :archive_resolution The resolution of archives in an auto-archived session.
+    #     Valid values are "480x640", "640x480" (the default), "720x1280", "1280x720", "1080x1920", and "1920x1080".
+    #     When setting this option, the :archive_mode option must be set to :always or an error will result.
+    #
+    # @option opts [true, false] :e2ee
+    #     (Boolean, optional) — Whether the session uses end-to-end encryption from client to client (default: false).
+    #     This should not be set to `true` if `:media_mode` is `:relayed`.
+    #     See the {https://tokbox.com/developer/guides/end-to-end-encryption/ documentation} for more information.
+    #
     # @return [Session] The Session object. The session_id property of the object is the session ID.
     def create_session(opts={})
 
       # normalize opts so all keys are symbols and only include valid_opts
-      valid_opts = [ :media_mode, :location, :archive_mode ]
+      valid_opts = [ :media_mode, :location, :archive_mode, :archive_name, :archive_resolution, :e2ee ]
       opts = opts.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
           m[k.to_sym] = v
@@ -158,6 +173,13 @@ module OpenTok
 
       # keep opts around for Session constructor, build REST params
       params = opts.clone
+
+      # validate input combinations
+      raise ArgumentError, "A session with always archive mode must also have the routed media mode." if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
+
+      raise ArgumentError, "A session with relayed media mode should not have e2ee set to true." if (params[:media_mode] == :relayed && params[:e2ee] == true)
+
+      raise ArgumentError, "A session with always archive mode must not have e2ee set to true." if (params[:archive_mode] == :always && params[:e2ee] == true)
 
       # anything other than :relayed sets the REST param to "disabled", in which case we force
       # opts to be :routed. if we were more strict we could raise an error when the value isn't
@@ -175,9 +197,8 @@ module OpenTok
       # archive mode is optional, but it has to be one of the valid values if present
       unless params[:archive_mode].nil?
         raise "archive mode must be either always or manual" unless ARCHIVE_MODES.include? params[:archive_mode].to_sym
+        raise ArgumentError, "archive name and/or archive resolution must not be set if archive mode is manual" if params[:archive_mode] == :manual && (params[:archive_name] || params[:archive_resolution])
       end
-
-      raise "A session with always archive mode must also have the routed media mode." if (params[:archive_mode] == :always && params[:media_mode] == :relayed)
 
       response = client.create_session(params)
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts

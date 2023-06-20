@@ -20,6 +20,10 @@ module OpenTok
   # @attr_reader [String] archive_mode Whether the session will be archived automatically
   #  (<code>:always</code>) or not (<code>:manual</code>).
   #
+  # @attr_reader [String] archive_name The name to use for archives in auto-archived sessions.
+  #
+  # @attr_reader [String] :archive_resolution The resolution of archives in an auto-archived session.
+  #
   # @!method generate_token(options)
   #   Generates a token.
   #
@@ -57,7 +61,7 @@ module OpenTok
       :session_id => ->(instance) { instance.session_id }
     })
 
-    attr_reader :session_id, :media_mode, :location, :archive_mode, :api_key, :api_secret
+    attr_reader :session_id, :media_mode, :location, :archive_mode, :archive_name, :archive_resolution, :e2ee, :api_key, :api_secret
 
     # @private
     # this implementation doesn't completely understand the format of a Session ID
@@ -73,7 +77,12 @@ module OpenTok
     # @private
     def initialize(api_key, api_secret, session_id, opts={})
       @api_key, @api_secret, @session_id = api_key, api_secret, session_id
-      @media_mode, @location, @archive_mode = opts.fetch(:media_mode, :relayed), opts[:location], opts.fetch(:archive_mode, :manual)
+      @media_mode = opts.fetch(:media_mode, :relayed)
+      @location = opts[:location]
+      @archive_mode = opts.fetch(:archive_mode, :manual)
+      @archive_name = opts.fetch(:archive_name, '') if archive_mode == :always
+      @archive_resolution = opts.fetch(:archive_resolution, "640x480") if archive_mode == :always
+      @e2ee = opts.fetch(:e2ee, :false)
     end
 
     # @private
