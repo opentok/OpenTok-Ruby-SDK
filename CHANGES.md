@@ -1,3 +1,9 @@
+# 4.7.0
+
+* Adds support for the End-to-end encryption (E2EE) feature [#259](https://github.com/opentok/OpenTok-Ruby-SDK/pull/259)
+* Implements Auto-archive improvements [#262](https://github.com/opentok/OpenTok-Ruby-SDK/pull/262)
+* Updates the README to explain appending a custom value to the `UserAgent` header [#263](https://github.com/opentok/OpenTok-Ruby-SDK/pull/263)
+
 # 4.6.0
 
 * Adds functionality for working with the Audio Connector feature [#247](https://github.com/opentok/OpenTok-Ruby-SDK/pull/247)
