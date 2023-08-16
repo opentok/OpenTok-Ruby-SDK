@@ -43,6 +43,10 @@ module OpenTok
     #   {https://tokbox.com/developer/rest/#get_info_broadcast get information about a live streaming broadcast}.
     #   {https://tokbox.com/developer/guides/broadcast/live-streaming#simultaneous-broadcasts See Simultaneous broadcasts}.
     #
+    # @option options [int] maxBitRate
+    #   The maximum bitrate for the broadcast stream(s), in bits per second.
+    #   The minimum value is 100,000 and the maximum is 6,000,000.
+    #
     # @option options [int] maxDuration
     #   The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when
     #   the maximum duration is reached. You can set the maximum duration to a value from 60 (60 seconds) to 36000 (10 hours).

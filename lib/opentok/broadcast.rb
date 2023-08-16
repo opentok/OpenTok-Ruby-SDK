@@ -19,6 +19,9 @@ module OpenTok
   # @attr [int] updated_at
   #   For this start method, this timestamp matches the createdAt timestamp.
   #
+  # @attr [int] maxBitRate
+  #   The maximum bitrate for the broadcast stream(s), in bits per second.
+  #
   # @attr [boolean] hasAudio
   #   The broadcast has audio enabled
   #
