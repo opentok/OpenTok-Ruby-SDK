@@ -19,6 +19,12 @@ module OpenTok
   # @attr [int] updated_at
   #   For this start method, this timestamp matches the createdAt timestamp.
   #
+  # @attr [boolean] hasAudio
+  #   The broadcast has audio enabled
+  #
+  # @attr [boolean] hasVideo
+  #   The broadcast has video enabled
+  #
   # @attr [string] resolution
   #   The resolution of the broadcast: either "640x480" (SD landscape, the default), "1280x720" (HD landscape),
   #   "1920x1080" (FHD landscape), "480x640" (SD portrait), "720x1280" (HD portrait), or "1080x1920" (FHD portrait).
