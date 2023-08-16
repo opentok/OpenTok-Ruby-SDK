@@ -42,6 +42,12 @@ module OpenTok
   #   You can include HLS, RTMP, or both as broadcast streams. If you include RTMP streaming,
   #   you can specify up to five target RTMP streams (or just one).
   #   The (<code>:hls</code>)  property is set  to an empty [Hash] object. The HLS URL is returned in the response.
+  #   The `hlsStatus` property is set to one of the following:
+  #     - "connecting" — The OpenTok server is in the process of starting transcoders. This is the initial state.
+  #     - "ready" — The OpenTok server has succesfully initialized but the CDN is not consuming media.
+  #     - "live" — The OpenTok server has succesfully initialized and the CDN is consuming media.
+  #     - "ended" — The source stream has ended. If DVR is enabled and pre-recorded media is requested, then the status will transition to "live".
+  #     - "error" — There is an error in the OpenTok platform.
   #   The (<code>:rtmp</code>)  property is set  to an [Array] of Rtmp [Hash] properties.
   #   For each RTMP stream, specify (<code>:serverUrl</code>) for the RTMP server URL,
   #   (<code>:streamName</code>) such as the YouTube Live stream name or the Facebook stream key),
