@@ -1,3 +1,7 @@
+# 4.7.1
+
+* Updates docs comments for `Broadcasts` and `Sip` [#266](https://github.com/opentok/OpenTok-Ruby-SDK/pull/266)
+
 # 4.7.0
 
 * Adds support for the End-to-end encryption (E2EE) feature [#259](https://github.com/opentok/OpenTok-Ruby-SDK/pull/259)

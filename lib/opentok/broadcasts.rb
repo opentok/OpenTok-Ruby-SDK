@@ -37,11 +37,15 @@ module OpenTok
     #   If you do not specify an initial layout type, the broadcast uses the best fit
     #   layout type.
     #
-    # @option options [String] :multiBroadcastTag (Optional) Set this to support multiple broadcasts for the same session simultaneously. 
-    #   Set this to a unique string for each simultaneous broadcast of an ongoing session. Note that the `multiBroadcastTag` value is *not* included 
-    #   in the response for the methods to {https://tokbox.com/developer/rest/#list_broadcasts list live streaming broadcasts} and 
-    #   {https://tokbox.com/developer/rest/#get_info_broadcast get information about a live streaming broadcast}. 
+    # @option options [String] :multiBroadcastTag (Optional) Set this to support multiple broadcasts for the same session simultaneously.
+    #   Set this to a unique string for each simultaneous broadcast of an ongoing session. Note that the `multiBroadcastTag` value is *not* included
+    #   in the response for the methods to {https://tokbox.com/developer/rest/#list_broadcasts list live streaming broadcasts} and
+    #   {https://tokbox.com/developer/rest/#get_info_broadcast get information about a live streaming broadcast}.
     #   {https://tokbox.com/developer/guides/broadcast/live-streaming#simultaneous-broadcasts See Simultaneous broadcasts}.
+    #
+    # @option options [int] maxBitRate
+    #   The maximum bitrate for the broadcast stream(s), in bits per second.
+    #   The minimum value is 100,000 and the maximum is 6,000,000.
     #
     # @option options [int] maxDuration
     #   The maximum duration for the broadcast, in seconds. The broadcast will automatically stop when
@@ -94,6 +98,10 @@ module OpenTok
     #   For both automatic and manual modes, the broadcast composer includes streams based
     #   on {https://tokbox.com/developer/guides/archive-broadcast-layout/#stream-prioritization-rules stream prioritization rules}.
     #   Important: this feature is currently available in the Standard environment only.
+    #
+    # @option options [Boolean] :hasAudio Whether the broadcast has audio (default `true`)
+    #
+    # @option options [Boolean] :hasVideo Whether the broadcast has video (default `true`)
     #
     # @return [Broadcast] The broadcast object, which includes properties defining the broadcast,
     #   including the broadcast ID.

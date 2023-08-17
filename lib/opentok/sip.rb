@@ -38,13 +38,15 @@ module OpenTok
     # @option opts  [true, false] :secure Whether the media must be transmitted
     #   encrypted (​true​) or not (​false​, the default).
     # @option opts  [true, false] :video Whether the SIP call will include
-    # video (​true​) or not (​false​, the default). With video included, the SIP
-    # client's video is included in the OpenTok stream that is sent to the
-    # OpenTok session. The SIP client will receive a single composed video of
-    # the published streams in the OpenTok session.
+    #  video (​true​) or not (​false​, the default). With video included, the SIP
+    #  client's video is included in the OpenTok stream that is sent to the
+    #  OpenTok session. The SIP client will receive a single composed video of
+    #  the published streams in the OpenTok session.
     # @option opts  [true, false] :observe_force_mute Whether the SIP end point
-    # observes {https://tokbox.com/developer/guides/moderation/#force_mute force mute moderation}
-    # (true) or not (false, the default).
+    #  observes {https://tokbox.com/developer/guides/moderation/#force_mute force mute moderation}
+    #  (true) or not (false, the default).
+    # @option opts [Array] :streams An array of stream IDs for streams to include in the SIP call.
+    #   If you do not set this property, all streams in the session are included in the call.
     def dial(session_id, token, sip_uri, opts)
       response = @client.dial(session_id, token, sip_uri, opts)
     end
