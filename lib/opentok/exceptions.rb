@@ -18,4 +18,6 @@ module OpenTok
   class OpenTokWebSocketError < OpenTokError; end
   # Defines errors raised when you perform Experience Composer render operations.
   class OpenTokRenderError < OpenTokError; end
+  # Defines errors raised when you perform Captions operations.
+  class OpenTokCaptionsError < OpenTokError; end
 end

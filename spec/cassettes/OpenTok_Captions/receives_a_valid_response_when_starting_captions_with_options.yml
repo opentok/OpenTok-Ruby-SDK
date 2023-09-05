@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/v2/project/123456/captions
+    body:
+      encoding: UTF-8
+      string: '{"sessionId":"SESSIONID","token":"TOKENID","languageCode":"en-GB","maxDuration":5000,"partialCaptions":false,"statusCallbackUrl":"https://example.com/captions/status"}'
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      X-Opentok-Auth:
+      - eyJpc3QiOiJwcm9qZWN0IiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.BplMVhJWx4ld7KLKXqEmow6MjNPPFw9W8IHCMfeb120
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 202
+      message: Accepted
+    headers:
+      Date:
+      - Tue, 05 Sep 2023 12:05:23 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - AWSALBTG=Qam0XgGzqhEaBC7TB9UprWCTZ6omkQZDorQLpkU8Kb3+iSIJsINH6Rh13nWnaLryAUc08wZEEc0VAi6ZXVa5gVLE/5YeIvMT9WP8VzJLFyvQ/bMe7TIDvp/QronHO4tohNGpvrFQxCC5LElWX5JnN3sCr5WpUHqEPQr0jz9TtUmKJYIh0So=;
+        Expires=Tue, 12 Sep 2023 12:05:23 GMT; Path=/
+      - AWSALBTGCORS=Qam0XgGzqhEaBC7TB9UprWCTZ6omkQZDorQLpkU8Kb3+iSIJsINH6Rh13nWnaLryAUc08wZEEc0VAi6ZXVa5gVLE/5YeIvMT9WP8VzJLFyvQ/bMe7TIDvp/QronHO4tohNGpvrFQxCC5LElWX5JnN3sCr5WpUHqEPQr0jz9TtUmKJYIh0So=;
+        Expires=Tue, 12 Sep 2023 12:05:23 GMT; Path=/; SameSite=None; Secure
+      X-Opentok-Trace:
+      - f=unknown&s=cerberus&u=5DB017B0-6FC7-444F-BDE9-20D3CBA7B2EA
+    body:
+      encoding: UTF-8
+      string: '{ "captionsId": "7c0680fc-6274-4de5-a66f-d0648e8d3ac2" }'
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 6.0.0
