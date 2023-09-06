@@ -1,3 +1,7 @@
+# 4.8.0
+
+* Add support for Captions API [#267](https://github.com/opentok/OpenTok-Ruby-SDK/pull/267)
+
 # 4.7.1
 
 * Updates docs comments for `Broadcasts` and `Sip` [#266](https://github.com/opentok/OpenTok-Ruby-SDK/pull/266)

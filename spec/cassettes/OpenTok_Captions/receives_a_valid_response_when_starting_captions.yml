@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.opentok.com/v2/project/123456/captions
+    body:
+      encoding: UTF-8
+      string: '{"sessionId":"SESSIONID","token":"TOKENID"}'
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      X-Opentok-Auth:
+      - eyJpc3QiOiJwcm9qZWN0IiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.BplMVhJWx4ld7KLKXqEmow6MjNPPFw9W8IHCMfeb120
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 202
+      message: Accepted
+    headers:
+      Date:
+      - Tue, 05 Sep 2023 11:32:49 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - AWSALBTG=V0iIksb77idvUqENJbP7kHbxorCidH5rXzTdrmAq244qBgmkoAZJ+QZE0gPn/fKjmIEtO29S43zhxzH3X5Ao8Nf/8KMvioOduANad0cg6/rMMbSKhWdxNJkcePyrYLO/6voP37Lk8LamlXqv3QK6lj9SCvA+/wyUB6CV+i1JY8XSc1ba/+s=;
+        Expires=Tue, 12 Sep 2023 11:32:49 GMT; Path=/
+      - AWSALBTGCORS=V0iIksb77idvUqENJbP7kHbxorCidH5rXzTdrmAq244qBgmkoAZJ+QZE0gPn/fKjmIEtO29S43zhxzH3X5Ao8Nf/8KMvioOduANad0cg6/rMMbSKhWdxNJkcePyrYLO/6voP37Lk8LamlXqv3QK6lj9SCvA+/wyUB6CV+i1JY8XSc1ba/+s=;
+        Expires=Tue, 12 Sep 2023 11:32:49 GMT; Path=/; SameSite=None; Secure
+      X-Opentok-Trace:
+      - f=unknown&s=cerberus&u=B8FAC1E2-3DCE-40A9-9CC3-866750E7C7A5
+    body:
+      encoding: UTF-8
+      string: '{ "captionsId": "7c0680fc-6274-4de5-a66f-d0648e8d3ac2" }'
+  recorded_at: Tue, 18 Apr 2017 10:17:40 GMT
+recorded_with: VCR 6.0.0

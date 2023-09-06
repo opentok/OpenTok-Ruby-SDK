@@ -12,6 +12,7 @@ require "opentok/streams"
 require "opentok/signals"
 require "opentok/broadcasts"
 require "opentok/renders"
+require "opentok/captions"
 
 module OpenTok
   # Contains methods for creating OpenTok sessions and generating tokens. It also includes
@@ -214,6 +215,16 @@ module OpenTok
       @broadcasts ||= Broadcasts.new client
     end
 
+    # A Captions object, which lets you start and stop live captions for an OpenTok session.
+    def captions
+      @captions ||= Captions.new client
+    end
+
+    # A Connections object, which lets you disconnect clients from an OpenTok session.
+    def connections
+      @connections ||= Connections.new client
+    end
+
     # A Renders object, which lets you work with OpenTok Experience Composer renders.
     def renders
       @renders ||= Renders.new client
@@ -232,11 +243,6 @@ module OpenTok
     # A Signals object, which lets you send signals to OpenTok sessions.
     def signals
       @signals ||= Signals.new client
-    end
-
-    # A Connections object, which lets you disconnect clients from an OpenTok session.
-    def connections
-      @connections ||= Connections.new client
     end
 
     # A WebSocket object, which lets you connect OpenTok streams to a WebSocket URI.
