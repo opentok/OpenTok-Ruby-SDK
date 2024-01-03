@@ -44,7 +44,7 @@ describe OpenTok::Archives do
 
   it "should create an archives with a specified multiArchiveTag", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     archive_tag = 'archive-1'
-    archive = archives.create session_id, :multiArchiveTag => archive_tag
+    archive = archives.create session_id, :multi_archive_tag => archive_tag
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.session_id).to eq session_id
     expect(archive.multiArchiveTag).to eq archive_tag
@@ -52,7 +52,7 @@ describe OpenTok::Archives do
 
   it "should create an archive with matching multi_archive_tag when multiArchiveTag is specified", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
     archive_tag = 'archive-1'
-    archive = archives.create session_id, :multiArchiveTag => archive_tag
+    archive = archives.create session_id, :multi_archive_tag => archive_tag
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.multi_archive_tag).to eq archive_tag
   end
@@ -61,6 +61,13 @@ describe OpenTok::Archives do
     archive = archives.create session_id
     expect(archive).to be_an_instance_of OpenTok::Archive
     expect(archive.multi_archive_tag).to be_nil
+  end
+
+  it "should create an archive with streamMode set to specified stream_mode value", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    stream_mode = 'manual'
+    archive = archives.create session_id, :stream_mode => stream_mode
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.stream_mode).to eq stream_mode
   end
 
   it "should create audio only archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
