@@ -39,11 +39,11 @@ module OpenTok
     #   (a video track is included). If you set both  <code>has_audio</code> and
     #   <code>has_video</code> to <code>false</code>, the call to the <code>create()</code>
     #   method results in an error.
-    # @option options [String] :multiArchiveTag (Optional) Set this to support recording multiple archives for the same session simultaneously. 
+    # @option options [String] :multi_archive_tag (Optional) Set this to support recording multiple archives for the same session simultaneously. 
     #    Set this to a unique string for each simultaneous archive of an ongoing session. You must also set this option when manually starting an archive 
     #    that is {https://tokbox.com/developer/guides/archiving/#automatic automatically archived}. Note that the `multiArchiveTag` value is not included
     #    in the response for the methods to {https://tokbox.com/developer/rest/#listing_archives list archives} and 
-    #    {https://tokbox.com/developer/rest/#retrieve_archive_info retrieve archive information}. If you do not specify a unique `multiArchiveTag`, 
+    #    {https://tokbox.com/developer/rest/#retrieve_archive_info retrieve archive information}. If you do not specify a unique `multi_archive_tag`, 
     #    you can only record one archive at a time for a given session. 
     #    {https://tokbox.com/developer/guides/archiving/#simultaneous-archives See Simultaneous archives}.
     # @option options [String] :output_mode Whether all streams in the archive are recorded
@@ -56,7 +56,7 @@ module OpenTok
     #  (HD portrait), or "1080x1920" (FHD portrait). This property only applies to composed archives. If you set
     #  this property and set the outputMode property to "individual", a call to the method
     #  results in an error.
-    # @option options [String] :streamMode (Optional) Whether streams included in the archive are selected
+    # @option options [String] :stream_mode (Optional) Whether streams included in the archive are selected
     #   automatically ("auto", the default) or manually ("manual"). When streams are selected automatically ("auto"),
     #   all streams in the session can be included in the archive. When streams are selected manually ("manual"),
     #   you specify streams to be included based on calls to the {Archives#add_stream} method. You can specify whether a
@@ -104,8 +104,8 @@ module OpenTok
         :output_mode,
         :resolution,
         :layout,
-        :multiArchiveTag,
-        :streamMode
+        :multi_archive_tag,
+        :stream_mode
       ]
       opts = options.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
