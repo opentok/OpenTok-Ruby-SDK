@@ -1,3 +1,7 @@
+# 4.8.1
+
+* Fixes a bug with the `Archives#create` method. See [#269](https://github.com/opentok/OpenTok-Ruby-SDK/pull/269) and [#270](https://github.com/opentok/OpenTok-Ruby-SDK/pull/270)
+
 # 4.8.0
 
 * Add support for Captions API [#267](https://github.com/opentok/OpenTok-Ruby-SDK/pull/267)
