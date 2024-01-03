@@ -72,13 +72,14 @@ module OpenTok
     #   set to null. The download URL is obfuscated, and the file is only available from the URL for
     #   10 minutes. To generate a new URL, call the Archive.listArchives() or OpenTok.getArchive() method.
   class Archive
-    attr_reader :multi_archive_tag
+    attr_reader :multi_archive_tag, :stream_mode
     # @private
     def initialize(interface, json)
       @interface = interface
       # TODO: validate json fits schema
       @json = json
       @multi_archive_tag = @json['multiArchiveTag']
+      @stream_mode = @json['streamMode']
     end
 
     # A JSON-encoded string representation of the archive.
