@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/v2/project/123456/archive
     body:
       encoding: UTF-8
-      string: '{"sessionId":"SESSIONID"}'
+      string: '{"sessionId":"SESSIONID","multiArchiveTag":"archive-1"}'
     headers:
       User-Agent:
       - OpenTok-Ruby-SDK/<%= version %>
