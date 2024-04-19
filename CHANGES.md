@@ -1,3 +1,7 @@
+# 4.9.0
+
+* Adds the `publisheronly` role for client token creation. See [#272](https://github.com/opentok/OpenTok-Ruby-SDK/pull/272)
+
 # 4.8.1
 
 * Fixes a bug with the `Archives#create` method. See [#269](https://github.com/opentok/OpenTok-Ruby-SDK/pull/269) and [#270](https://github.com/opentok/OpenTok-Ruby-SDK/pull/270)
