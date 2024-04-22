@@ -50,8 +50,41 @@ shared_examples "opentok generates tokens" do
       expect(expiring_token).to carry_valid_token_signature api_secret
     end
 
-    it "generates tokens with a role" do
+    it "generates tokens with a publisher role" do
+      role = :publisher
+      role_token = opentok.generate_token session_id, :role => role
+      expect(role_token).to be_an_instance_of String
+      expect(role_token).to carry_token_data :session_id => session_id
+      expect(role_token).to carry_token_data :api_key => api_key
+      expect(role_token).to carry_token_data :role => role
+      expect(role_token).to carry_token_data [:nonce, :create_time]
+      expect(role_token).to carry_valid_token_signature api_secret
+    end
+
+    it "generates tokens with a subscriber role" do
+      role = :subscriber
+      role_token = opentok.generate_token session_id, :role => role
+      expect(role_token).to be_an_instance_of String
+      expect(role_token).to carry_token_data :session_id => session_id
+      expect(role_token).to carry_token_data :api_key => api_key
+      expect(role_token).to carry_token_data :role => role
+      expect(role_token).to carry_token_data [:nonce, :create_time]
+      expect(role_token).to carry_valid_token_signature api_secret
+    end
+
+    it "generates tokens with a moderator role" do
       role = :moderator
+      role_token = opentok.generate_token session_id, :role => role
+      expect(role_token).to be_an_instance_of String
+      expect(role_token).to carry_token_data :session_id => session_id
+      expect(role_token).to carry_token_data :api_key => api_key
+      expect(role_token).to carry_token_data :role => role
+      expect(role_token).to carry_token_data [:nonce, :create_time]
+      expect(role_token).to carry_valid_token_signature api_secret
+    end
+
+    it "generates tokens with a publisheronly role" do
+      role = :publisheronly
       role_token = opentok.generate_token session_id, :role => role
       expect(role_token).to be_an_instance_of String
       expect(role_token).to carry_token_data :session_id => session_id
@@ -97,6 +130,11 @@ shared_examples "opentok generates tokens" do
       expect(layout_class_bearing_token).to carry_valid_token_signature api_secret
     end
 
+    context "when the role is invalid" do
+      it "raises an error" do
+        expect {  opentok.generate_token session_id, :role => :invalid_role }.to raise_error
+      end
+    end
 
     # TODO a context about using a bad session_id
   end
