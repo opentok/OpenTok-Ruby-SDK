@@ -126,7 +126,7 @@ module OpenTok
         :iss => api_key,
         :ist => "project",
         :iat => Time.now.to_i,
-        :exp => Time.now.to_i + 900,
+        :exp => Time.now.to_i + 86400,
         :nonce => Random.rand,
         :role => role,
         :scope => "session.connect",
