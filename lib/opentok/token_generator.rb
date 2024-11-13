@@ -54,7 +54,7 @@ module OpenTok
 
       # Generates a token
       def generate_token(token_type)
-        token_type == 'T1' ? TokenGenerator::GENERATE_T1_TOKEN_LAMBDA : GENERATE_JWT_LAMBDA
+        token_type == 'T1' ? TokenGenerator::GENERATE_T1_TOKEN_LAMBDA : TokenGenerator::GENERATE_JWT_LAMBDA
       end
 
     end
