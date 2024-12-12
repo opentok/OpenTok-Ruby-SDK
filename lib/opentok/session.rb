@@ -28,6 +28,7 @@ module OpenTok
   #   Generates a token.
   #
   #   @param [Hash] options
+  #   @option options [String] :token_type The type of token to generate. Must be one of 'T1' or 'JWT'. 'JWT' is the default.
   #   @option options [Symbol] :role The role for the token. Set this to one of the following
   #     values:
   #     * <code>:subscriber</code> -- A subscriber can only subscribe to streams.
