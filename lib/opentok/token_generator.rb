@@ -6,13 +6,10 @@ require "addressable/uri"
 require "openssl"
 require "active_support"
 require "active_support/time"
-require "jwt"
 
 module OpenTok
   # @private
   module TokenGenerator
-    VALID_TOKEN_TYPES = ['T1', 'JWT'].freeze
-
     # this works when using include TokenGenerator
     def self.included(base)
       base.extend(ClassMethods)
@@ -36,14 +33,7 @@ module OpenTok
           end
           dynamic_args.compact!
           args = args.first(4-dynamic_args.length)
-          token_type = if args.any? && args.last.is_a?(Hash) && args.last.has_key?(:token_type)
-            args.last[:token_type].upcase
-          else
-            "JWT"
-          end
-          raise "'#{token_type}' is not a valid token type. Must be one of: #{VALID_TOKEN_TYPES.join(', ')}" unless VALID_TOKEN_TYPES.include? token_type
-
-          self.class.generate_token(token_type).call(*dynamic_args, *args)
+          self.class.generate_token.call(*dynamic_args, *args)
         end
       end
 
@@ -53,14 +43,14 @@ module OpenTok
       end
 
       # Generates a token
-      def generate_token(token_type)
-        token_type == 'T1' ? TokenGenerator::GENERATE_T1_TOKEN_LAMBDA : TokenGenerator::GENERATE_JWT_LAMBDA
+      def generate_token
+        TokenGenerator::GENERATE_TOKEN_LAMBDA
       end
 
     end
 
     # @private TODO: this probably doesn't need to be a constant anyone can read
-    GENERATE_T1_TOKEN_LAMBDA = ->(api_key, api_secret, session_id, opts = {}) do
+    GENERATE_TOKEN_LAMBDA = ->(api_key, api_secret, session_id, opts = {}) do
       # normalize required data params
       role = opts.fetch(:role, :publisher)
       unless ROLES.has_key? role
@@ -111,53 +101,6 @@ module OpenTok
       TOKEN_SENTINEL + Base64.strict_encode64(meta_string + ":" + data_string)
     end
 
-    GENERATE_JWT_LAMBDA = ->(api_key, api_secret, session_id, opts = {}) do
-      # normalize required data params
-      role = opts.fetch(:role, :publisher)
-      unless ROLES.has_key? role
-        raise "'#{role}' is not a recognized role"
-      end
-      unless Session.belongs_to_api_key? session_id.to_s, api_key
-        raise "Cannot generate token for a session_id that doesn't belong to api_key: #{api_key}"
-      end
-
-      # minimum data params
-      data_params = {
-        :iss => api_key,
-        :ist => "project",
-        :iat => Time.now.to_i,
-        :exp => Time.now.to_i + 86400,
-        :nonce => Random.rand,
-        :role => role,
-        :scope => "session.connect",
-        :session_id => session_id,
-      }
-
-      # normalize and add additional data params
-      unless (expire_time = opts[:expire_time].to_i) == 0
-        unless expire_time.between?(Time.now.to_i, (Time.now + 30.days).to_i)
-          raise "Expire time must be within the next 30 days"
-        end
-        data_params[:exp] = expire_time.to_i
-      end
-
-      unless opts[:data].nil?
-        unless (data = opts[:data].to_s).length < 1000
-          raise "Connection data must be less than 1000 characters"
-        end
-        data_params[:connection_data] = data
-      end
-
-      if opts[:initial_layout_class_list]
-        if opts[:initial_layout_class_list].is_a?(Array)
-          data_params[:initial_layout_class_list] = opts[:initial_layout_class_list].join(' ')
-        else
-          data_params[:initial_layout_class_list] = opts[:initial_layout_class_list].to_s
-        end
-      end
-
-      JWT.encode(data_params, api_secret, 'HS256', header_fields={typ: 'JWT'})
-    end
 
     # this works when using extend TokenGenerator
     # def generates_tokens(method_opts)
