@@ -1,3 +1,7 @@
+# 4.10.1
+
+* Updating expire time logic in JWT client token generator. See [#285](https://github.com/opentok/OpenTok-Ruby-SDK/pull/285)
+
 # 4.10.0
 
 * Updating client token creation to use JWTs by default. See [#274](https://github.com/opentok/OpenTok-Ruby-SDK/pull/274)
