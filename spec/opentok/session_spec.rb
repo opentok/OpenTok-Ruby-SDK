@@ -72,4 +72,5 @@ describe OpenTok::Session do
     end
     include_examples "session generates tokens"
   end
+
 end
