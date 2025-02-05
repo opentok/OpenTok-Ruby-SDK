@@ -1,3 +1,7 @@
+# 4.11.0
+
+* Updating client token creation to use JWTs by default. See [#287](https://github.com/opentok/OpenTok-Ruby-SDK/pull/274)
+
 # 4.9.0
 
 * Adds the `publisheronly` role for client token creation. See [#272](https://github.com/opentok/OpenTok-Ruby-SDK/pull/272)

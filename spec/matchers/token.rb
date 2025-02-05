@@ -3,8 +3,9 @@ require "rspec/matchers"
 require "base64"
 require "openssl"
 require "addressable/uri"
+require "jwt"
 
-RSpec::Matchers.define :carry_token_data do |input_data|
+RSpec::Matchers.define :carry_t1_token_data do |input_data|
   option_to_token_key = {
     :api_key => :partner_id,
     :data => :connection_data,
@@ -37,7 +38,7 @@ RSpec::Matchers.define :carry_token_data do |input_data|
   end
 end
 
-RSpec::Matchers.define :carry_valid_token_signature do |api_secret|
+RSpec::Matchers.define :carry_valid_t1_token_signature do |api_secret|
   match do |token|
     decoded_token = Base64.decode64(token[4..token.length])
     metadata, data_string = decoded_token.split(':')
@@ -46,5 +47,36 @@ RSpec::Matchers.define :carry_valid_token_signature do |api_secret|
     # expected format: [["partner_id", "..."], ["sig", "..."]]
     signature = Addressable::URI.form_unencode(metadata)[1][1]
     signature == OpenSSL::HMAC.hexdigest(digest, api_secret, data_string)
+  end
+end
+
+RSpec::Matchers.define :carry_jwt_token_data do |input_data|
+  match do |token|
+    decoded_token = JWT.decode(token, nil, false)
+    token_data = decoded_token.first.transform_keys {|k| k.to_sym}.transform_values {|v| v.to_s}
+    check_token_data = lambda { |key, value|
+      if token_data.has_key? key
+        unless value.nil?
+          return token_data[key] == value.to_s
+        end
+        return true
+      end
+      false
+    }
+    unless input_data.respond_to? :all?
+      return check_token_data.call(input_data, nil)
+    end
+    input_data.all? { |k, v| check_token_data.call(k, v) }
+  end
+end
+
+RSpec::Matchers.define :carry_valid_jwt_token_signature do |api_secret|
+  match do |token|
+    begin
+      JWT.decode(token, api_secret, true)
+    rescue
+      return false
+    end
+    true
   end
 end
