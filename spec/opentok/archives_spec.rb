@@ -70,6 +70,13 @@ describe OpenTok::Archives do
     expect(archive.stream_mode).to eq stream_mode
   end
 
+  it "should create an archive with maxBitrate set to specified max_bitrate value", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    max_bitrate = 200000
+    archive = archives.create session_id, :max_bitrate => max_bitrate
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.max_bitrate).to eq max_bitrate
+  end
+
   it "should create audio only archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.create session_id, :has_video => false
     expect(archive).to be_an_instance_of OpenTok::Archive
