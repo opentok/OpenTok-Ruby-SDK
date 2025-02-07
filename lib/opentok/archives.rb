@@ -79,6 +79,10 @@ module OpenTok
     #   layout type. For more information, see
     #   {https://tokbox.com/developer/guides/archiving/layout-control.html Customizing
     #   the video layout for composed archives}.
+    # @option options [Integer] :max_bitrate (Optional) The maximum video bitrate for the archive, in bits per second. The minimum 
+    #   value is 100,000 and the maximum is 6,000,000. This option is only valid for composed archives. Set the maximum video bitrate
+    #   to control the size of the composed archive. This maximum bitrate applies to the video bitrate only. If the output archive has
+    #   audio, those bits will be excluded from the limit.
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
@@ -105,7 +109,8 @@ module OpenTok
         :resolution,
         :layout,
         :multi_archive_tag,
-        :stream_mode
+        :stream_mode,
+        :max_bitrate
       ]
       opts = options.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
