@@ -1,3 +1,7 @@
+# 4.12.0
+
+* Updating the `Archives#create` method to allow `max_bitrate` as an option. See [#288](https://github.com/opentok/OpenTok-Ruby-SDK/pull/288)
+
 # 4.11.0
 
 * Updating client token creation to use JWTs by default. See [#287](https://github.com/opentok/OpenTok-Ruby-SDK/pull/274)
