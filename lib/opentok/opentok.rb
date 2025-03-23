@@ -36,7 +36,6 @@ module OpenTok
   #     the token.
   #
   #   @param [Hash] options A hash defining options for the token.
-  #   @option options [String] :token_type The type of token to generate. Must be one of 'T1' or 'JWT'. 'JWT' is the default.
   #   @option options [Symbol] :role The role for the token. Set this to one of the following
   #     values:
   #     * <code>:subscriber</code> -- A subscriber can only subscribe to streams.
@@ -60,6 +59,7 @@ module OpenTok
   #     published by the client. Layout classes are used in customizing the layout of videos in
   #     {https://tokbox.com/developer/guides/broadcast/live-streaming/ live streaming broadcasts}
   #     and {https://tokbox.com/developer/guides/archiving/layout-control.html composed archives}.
+  #   @option options [String] :token_type The type of token to generate. Must be one of 'T1' or 'JWT'. 'JWT' is the default.
   #   @return [String] The token string.
   class OpenTok
 
