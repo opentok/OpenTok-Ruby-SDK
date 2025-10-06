@@ -23,4 +23,15 @@ describe OpenTok::WebSocket do
     response = websocket.connect(session_id, expiring_token, websocket_uri)
     expect(response).not_to be_nil
   end
+
+  it "receives a valid response with opts", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    opts = {
+      "streams" => ["123456"],
+      "headers" => {"foo" => "bar"},
+      "bidirectional" => true
+    }
+
+    response = websocket.connect(session_id, expiring_token, websocket_uri, opts)
+    expect(response).not_to be_nil
+  end
 end

@@ -26,6 +26,7 @@ module OpenTok
     #       If you omit this property, all streams in the session will be included.
     # @option opts [Hash] :headers (optional) A hash of key-value pairs of headers to be sent to your WebSocket server with each message,
     #        with a maximum length of 512 bytes.
+    # @option opts [Boolean] :bidirectional (optional) Whether the WebSocket connection should be bidirectional.
     def connect(session_id, token, websocket_uri, opts  = {})
       response = @client.connect_websocket(session_id, token, websocket_uri, opts)
     end
