@@ -36,6 +36,9 @@ module OpenTok
   #     * <code>:publisher</code> -- A publisher can publish streams, subscribe to
   #       streams, and signal. (This is the default value if you do not specify a role.)
   #
+  #     * <code>:publisheronly</code> -- A client connected with a publisheronly token
+  #       can publish streams but cannot subscribe to streams.
+  #
   #     * <code>:moderator</code> -- n addition to the privileges granted to a
   #       publisher, a moderator can perform moderation functions, such as forcing clients
   #       to disconnect, to stop publishing streams, or to mute audio in published streams. See the
