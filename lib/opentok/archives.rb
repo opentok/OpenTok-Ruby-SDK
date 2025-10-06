@@ -84,6 +84,11 @@ module OpenTok
     #   to control the size of the composed archive. This maximum bitrate applies to the video bitrate only. If the output archive has
     #   audio, those bits will be excluded from the limit.
     #
+    # @option options [Integer] :quantization_parameter (Optional) The quantization parameter (QP) is an optional video encoding value allowed for composed archiving,
+    #   smaller values generate higher quality and larger archives, larger values generate lower quality and smaller archives, QP uses variable bitrate (VBR). The minimum
+    #   value is 15 and the maximum is 40.
+    #   This parameter is mutually exclusive with the max_bitrate parameter.
+    #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
     #
@@ -110,7 +115,8 @@ module OpenTok
         :layout,
         :multi_archive_tag,
         :stream_mode,
-        :max_bitrate
+        :max_bitrate,
+        :quantization_parameter
       ]
       opts = options.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym

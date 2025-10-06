@@ -1,3 +1,7 @@
+# 4.13.0
+
+* Updating the `Archives#create` method to allow `quantization_parameter` as an option, and the `WebSocket#connect`  method to allow `bidirectional` as an option. See [#290](https://github.com/opentok/OpenTok-Ruby-SDK/pull/290)
+
 # 4.12.0
 
 * Updating the `Archives#create` method to allow `max_bitrate` as an option. See [#288](https://github.com/opentok/OpenTok-Ruby-SDK/pull/288)
