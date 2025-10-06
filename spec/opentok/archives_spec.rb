@@ -77,6 +77,13 @@ describe OpenTok::Archives do
     expect(archive.max_bitrate).to eq max_bitrate
   end
 
+  it "should create an archive with quantizationParameter set to specified quantization_parameter value", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}"} } do
+    quantization_parameter = 40
+    archive = archives.create session_id, :quantization_parameter => quantization_parameter
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.quantization_parameter).to eq quantization_parameter
+  end
+
   it "should create audio only archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.create session_id, :has_video => false
     expect(archive).to be_an_instance_of OpenTok::Archive
