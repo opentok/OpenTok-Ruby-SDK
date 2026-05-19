@@ -411,6 +411,28 @@ module OpenTok
 
     # Connections methods
 
+    def list_connections(session_id, offset, count)
+      query = Hash.new
+      query[:offset] = offset unless offset.nil?
+      query[:count] = count unless count.nil?
+      response = self.class.get("/v2/project/#{@api_key}/session/#{session_id}/connection", {
+        :query => query.empty? ? nil : query,
+        :headers => generate_headers
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "List connections failed. Session ID #{session_id} is invalid"
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while retrieving connections. API Key: #{@api_key}"
+      else
+        raise OpenTokConnectionError, "The connections could not be retrieved."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
+
     def forceDisconnect(session_id, connection_id)
       response = self.class.delete("/v2/project/#{@api_key}/session/#{session_id}/connection/#{connection_id}", {
           :headers => generate_headers("Content-Type" => "application/json")
