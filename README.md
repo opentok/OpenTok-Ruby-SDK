@@ -486,10 +486,42 @@ for more details.
 You can also change the layout of an individual stream dynamically. Refer to
 [working with Streams](#working-with-streams).
 
-### Force disconnect
+### Working with Connections
+
+#### Listing Connections
+
+You can retrieve a list of clients connected to a session using the `OpenTok::Connetions#list` method, passing in the Session ID of the session, for example:
+
+```ruby
+connection_list = opentok.connections.list('abcdefg12345')
+```
+
+This will return an iterable `ConnectionList` object with `total` and `session_id` getter methods:
+
+```ruby
+connection_list.total # => 5
+connection_list.session_id # => 'abcdefg12345'
+```
+
+The items in the connection list are `Connection` objects, each representing a client connection to the session. You can access data on individual connection objects:
+
+```ruby
+connection_1 = connection_list.first
+connection_1.connection_id # => "249b7640-1bcf-4f49-8fc7-3d7998ff218b"
+connection_1.connection_state # => "Connected"
+connection_1.created_at # =>  1779287104931
+```
+
+#### Force disconnect
 
 You can cause a client to be forced to disconnect from a session by using the
-`opentok.connections.forceDisconnect(session_id, connection_id)` method.
+`opentok.connections.forceDisconnect(session_id, connection_id)` method and passing in the Session ID and Connection ID.
+
+You can also call the `Connection#force_disconnect` method on a `Connection` object returned when listing connections:
+
+```ruby
+connection_1.force_disconnect
+```
 
 ### Forcing clients in a session to mute published audio
 
