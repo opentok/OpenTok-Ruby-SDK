@@ -423,9 +423,11 @@ module OpenTok
       when 200
         response
       when 400
-        raise ArgumentError, "List connections failed. Session ID #{session_id} is invalid"
+        raise ArgumentError, "Invalid request. This response may indicate that some parameter of your query is invalid."
       when 403
         raise OpenTokAuthenticationError, "Authentication failed while retrieving connections. API Key: #{@api_key}"
+      when 404
+        raise OpenTokConnectionError, "Either the OpenTok session could not be found, or no clients are actively connected to the session."
       else
         raise OpenTokConnectionError, "The connections could not be retrieved."
       end
