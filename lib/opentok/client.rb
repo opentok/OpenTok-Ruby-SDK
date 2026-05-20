@@ -48,7 +48,7 @@ module OpenTok
       opts.extend(HashExtensions)
       response = self.class.post("/session/create", {
         :body => opts.camelize_keys!,
-        :headers => generate_headers
+        :headers => generate_headers("Content-Type" => "application/x-www-form-urlencoded")
       })
       case response.code
       when (200..300)
