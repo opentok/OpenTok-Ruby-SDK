@@ -204,6 +204,7 @@ module OpenTok
       end
 
       response = client.create_session(params)
+      opts[:use_vonage_endpoints] = @use_vonage_endpoints
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts
     end
 
