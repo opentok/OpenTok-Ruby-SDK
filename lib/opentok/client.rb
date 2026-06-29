@@ -5,7 +5,7 @@ require "opentok/version"
 
 require "active_support/inflector"
 require "httparty"
-require "jwt"
+require "vonage-jwt"
 
 module OpenTok
   # @private For internal use by the SDK.
