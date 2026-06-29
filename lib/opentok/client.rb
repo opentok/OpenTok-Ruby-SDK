@@ -16,6 +16,7 @@ module OpenTok
     # debug_output $stdout
 
     attr_accessor :api_key, :api_secret, :api_url, :ua_addendum, :timeout_length
+    attr_reader :use_vonage_endpoints
 
     def initialize(api_key, api_secret, api_url, ua_addendum='', opts={})
       self.class.base_uri api_url
@@ -26,6 +27,7 @@ module OpenTok
       @api_secret = api_secret
       @timeout_length = opts[:timeout_length] || 2
       self.class.open_timeout @timeout_length
+      @use_vonage_endpoints = opts[:use_vonage_endpoints] == true ? true : false
     end
 
     def generate_jwt(api_key, api_secret)
@@ -39,8 +41,16 @@ module OpenTok
       token
     end
 
+    def generate_vonage_jwt(api_key, api_secret)
+      Vonage::JWTBuilder.new(application_id: api_key, private_key: api_secret).jwt.generate
+    end
+
     def generate_headers(extra_headers = {})
-      defaults = { "X-OPENTOK-AUTH" => generate_jwt(@api_key, @api_secret) }
+      if use_vonage_endpoints == true
+        defaults = { "Authorization" => "Bearer #{generate_vonage_jwt(@api_key, @api_secret)}" }
+      else
+        defaults = { "X-OPENTOK-AUTH" => generate_jwt(@api_key, @api_secret) }
+      end
       defaults.merge extra_headers
     end
 
