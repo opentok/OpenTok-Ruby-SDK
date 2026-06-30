@@ -19,6 +19,7 @@ The OpenTok Ruby SDK provides methods for:
 * [Forcing clients in a session to disconnect or mute published audio](https://tokbox.com/developer/guides/moderation/)
 * Working with OpenTok [Experience Composers](https://tokbox.com/developer/guides/experience-composer)
 * Working with OpenTok [Audio Connector](https://tokbox.com/developer/guides/audio-connector)
+* Using [Vonage Endpoints and Credentials](#using-vonage-endpoints-and-credentials)
 
 ## Note!
 
@@ -567,6 +568,27 @@ and `opentok.renders.list(options)` methods.
 
 You can start an [Audio Connector](https://tokbox.com/developer/guides/audio-connector) WebSocket
 by calling the `opentok.websocket.connect()` method.
+
+### Using Vonage Endpoints and Credentials
+
+You can use this library with the [Vonage Video API endpoints](https://developer.vonage.com/en/api/video) and Vonage credentials, instead of the TokBox endpoints and credentials.
+
+I order to do so, you will need to create a Vonage Application in order to generate an Application ID and Private Key. You can create a Vonage Application in the following ways:
+
+- Via the [Vonage Developer Dashboard](https://dashboard.nexmo.com/applications)
+- Using the [Vonage CLI](https://github.com/vonage/vonage-cli)
+- Using the [Vonage Application API](https://developer.vonage.com/application/code-snippets/application/create-application)
+
+Once you have the Application ID and Private Key, you can instantiate am `OpenTok` object as you normally would, using the Application ID in place of the API Key and the Private Key instead of the API Secret.
+Additionally, you need to specify in the options that the Vonage endpoints should be used:
+
+```ruby
+require "opentok"
+
+opentok = OpenTok::OpenTok.new application_id, private_key, :use_vonage_endpoints => true
+```
+
+You can then use the `OpenTok` object as you normally would to create sessions, generate client tokens, and perform other interactions with the API.
 
 ## Samples
 
