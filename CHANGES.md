@@ -1,3 +1,11 @@
+# 4.14.0
+
+* Implements functionality to allow the use of Vonage Video endpoints and credentials.
+* Adds a `Connections#list` method to allow the listing of connections to a session. 
+* Adds support for the 24KHz `audio_rate` for `WebSocket` connections
+
+See [#295](https://github.com/opentok/OpenTok-Ruby-SDK/pull/295)
+
 # 4.13.0
 
 * Updating the `Archives#create` method to allow `quantization_parameter` as an option, and the `WebSocket#connect`  method to allow `bidirectional` as an option. See [#290](https://github.com/opentok/OpenTok-Ruby-SDK/pull/290)
