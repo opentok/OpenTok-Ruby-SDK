@@ -87,8 +87,9 @@ module OpenTok
       @api_key = api_key.to_s()
       @api_secret = api_secret
       @timeout_length = opts[:timeout_length] || 2
-      @api_url = opts[:api_url] || API_URL
+      @api_url = set_api_url(opts)
       @ua_addendum = opts[:ua_addendum]
+      @use_vonage_endpoints = opts[:use_vonage_endpoints] == true ? true : false
     end
 
     # Creates a new OpenTok session and returns the session ID, which uniquely identifies
@@ -203,6 +204,7 @@ module OpenTok
       end
 
       response = client.create_session(params)
+      opts[:use_vonage_endpoints] = @use_vonage_endpoints
       Session.new api_key, api_secret, response['sessions']['Session']['session_id'], opts
     end
 
@@ -253,8 +255,18 @@ module OpenTok
 
     protected
     def client
-      @client ||= Client.new api_key, api_secret, api_url, ua_addendum, timeout_length: @timeout_length
+      @client ||= Client.new api_key, api_secret, api_url, ua_addendum, timeout_length: @timeout_length, use_vonage_endpoints: @use_vonage_endpoints
     end
 
+    private
+    def set_api_url(opts)
+      if opts[:api_url]
+        opts[:api_url]
+      elsif opts[:use_vonage_endpoints] == true
+        VONAGE_API_URL
+      else
+        API_URL
+      end
+    end
   end
 end

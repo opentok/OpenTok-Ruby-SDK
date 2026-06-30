@@ -6,12 +6,12 @@ require "addressable/uri"
 require "openssl"
 require "active_support"
 require "active_support/time"
-require "jwt"
+require "vonage-jwt"
 
 module OpenTok
   # @private
   module TokenGenerator
-    VALID_TOKEN_TYPES = ['T1', 'JWT'].freeze
+    VALID_TOKEN_TYPES = ['T1', 'JWT', 'VONAGE'].freeze
 
     # this works when using include TokenGenerator
     def self.included(base)
@@ -30,7 +30,6 @@ module OpenTok
       def generates_tokens(arg_lambdas={})
         @arg_lambdas = arg_lambdas
         define_method(:generate_token) do |*args|
-          # puts "generate_something is being called on #{self}. set up with #{method_opts.inspect}"
           dynamic_args = [ :api_key, :api_secret, :session_id, :token_opts ].map do |arg|
             self.class.arg_lambdas[arg].call(self) if self.class.arg_lambdas[arg]
           end
@@ -38,6 +37,8 @@ module OpenTok
           args = args.first(4-dynamic_args.length)
           token_type = if args.any? && args.last.is_a?(Hash) && args.last.has_key?(:token_type)
             args.last[:token_type].upcase
+          elsif @use_vonage_endpoints == true
+            "VONAGE"
           else
             "JWT"
           end
@@ -54,9 +55,15 @@ module OpenTok
 
       # Generates a token
       def generate_token(token_type)
-        token_type == 'T1' ? TokenGenerator::GENERATE_T1_TOKEN_LAMBDA : TokenGenerator::GENERATE_JWT_LAMBDA
+        case token_type
+        when 'T1'
+          TokenGenerator::GENERATE_T1_TOKEN_LAMBDA
+        when 'JWT'
+          TokenGenerator::GENERATE_JWT_LAMBDA
+        when 'VONAGE'
+          TokenGenerator::GENERATE_VONAGE_TOKEN_LAMBDA
+        end
       end
-
     end
 
     # @private TODO: this probably doesn't need to be a constant anyone can read
@@ -156,6 +163,36 @@ module OpenTok
       end
 
       JWT.encode(data_params, api_secret, 'HS256', header_fields={typ: 'JWT'})
+    end
+
+    GENERATE_VONAGE_TOKEN_LAMBDA = ->(api_key, api_secret, session_id, opts = {}) do
+      # normalize required data params
+      role = opts.fetch(:role, :publisher)
+      unless ROLES.has_key? role
+        raise "'#{role}' is not a recognized role"
+      end
+      unless Session.belongs_to_api_key? session_id.to_s, api_key
+        raise "Cannot generate token for a session_id that doesn't belong to api_key: #{api_key}"
+      end
+
+      claims = {
+        application_id: api_key,
+        scope: 'session.connect',
+        session_id: session_id,
+        role: role,
+        initial_layout_class_list: '',
+        sub: 'video',
+        acl: {
+          paths: {'/session/**' => {}}
+        }
+      }
+
+      claims[:data] = opts[:data] if opts[:data]
+      claims[:initial_layout_class_list] = opts[:initial_layout_class_list].join(' ') if opts[:initial_layout_class_list]
+      claims[:exp] = opts[:expire_time].to_i if opts[:expire_time]
+
+      claims[:private_key] = api_secret
+      Vonage::JWTBuilder.new(claims).jwt.generate
     end
 
     # this works when using extend TokenGenerator
