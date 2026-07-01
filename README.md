@@ -491,7 +491,7 @@ You can also change the layout of an individual stream dynamically. Refer to
 
 #### Listing Connections
 
-You can retrieve a list of clients connected to a session using the `OpenTok::Connetions#list` method, passing in the Session ID of the session, for example:
+You can retrieve a list of clients connected to a session using the `OpenTok::Connections#list` method, passing in the Session ID of the session, for example:
 
 ```ruby
 connection_list = opentok.connections.list('abcdefg12345')
