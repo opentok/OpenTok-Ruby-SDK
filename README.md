@@ -573,7 +573,7 @@ by calling the `opentok.websocket.connect()` method.
 
 You can use this library with the [Vonage Video API endpoints](https://developer.vonage.com/en/api/video) and Vonage credentials, instead of the TokBox endpoints and credentials.
 
-I order to do so, you will need to create a Vonage Application in order to generate an Application ID and Private Key. You can create a Vonage Application in the following ways:
+In order to do so, you will need to create a Vonage Application in order to generate an Application ID and Private Key. You can create a Vonage Application in the following ways:
 
 - Via the [Vonage Developer Dashboard](https://dashboard.nexmo.com/applications)
 - Using the [Vonage CLI](https://github.com/vonage/vonage-cli)
