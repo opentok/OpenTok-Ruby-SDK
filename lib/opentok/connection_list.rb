@@ -4,7 +4,8 @@ module OpenTok
   # A class for accessing an array of Connection objects.
   class ConnectionList < Array
 
-    # The total number of connections.
+    # `total`: The total number of connections.
+    # `session_id`: The session ID of the session these connections belong to.
     attr_reader :total, :session_id
 
     # @private

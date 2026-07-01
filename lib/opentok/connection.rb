@@ -30,8 +30,7 @@ module OpenTok
     #
     # A client must be actively connected to the OpenTok session for you to disconnect it.
     def force_disconnect
-      # TODO: validate returned json fits schema
-      @json = @interface.forceDisconnect(@session_id, @json['connectionId'])
+      @interface.forceDisconnect(@session_id, @json['connectionId'])
     end
 
     # @private ignore
