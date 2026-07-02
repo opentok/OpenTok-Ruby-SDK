@@ -19,6 +19,7 @@ The OpenTok Ruby SDK provides methods for:
 * [Forcing clients in a session to disconnect or mute published audio](https://tokbox.com/developer/guides/moderation/)
 * Working with OpenTok [Experience Composers](https://tokbox.com/developer/guides/experience-composer)
 * Working with OpenTok [Audio Connector](https://tokbox.com/developer/guides/audio-connector)
+* Using [Vonage Endpoints and Credentials](#using-vonage-endpoints-and-credentials)
 
 ## Note!
 
@@ -486,10 +487,42 @@ for more details.
 You can also change the layout of an individual stream dynamically. Refer to
 [working with Streams](#working-with-streams).
 
-### Force disconnect
+### Working with Connections
+
+#### Listing Connections
+
+You can retrieve a list of clients connected to a session using the `OpenTok::Connections#list` method, passing in the Session ID of the session, for example:
+
+```ruby
+connection_list = opentok.connections.list('abcdefg12345')
+```
+
+This will return an iterable `ConnectionList` object with `total` and `session_id` getter methods:
+
+```ruby
+connection_list.total # => 5
+connection_list.session_id # => 'abcdefg12345'
+```
+
+The items in the connection list are `Connection` objects, each representing a client connection to the session. You can access data on individual connection objects:
+
+```ruby
+connection_1 = connection_list.first
+connection_1.connection_id # => "249b7640-1bcf-4f49-8fc7-3d7998ff218b"
+connection_1.connection_state # => "Connected"
+connection_1.created_at # =>  1779287104931
+```
+
+#### Force disconnect
 
 You can cause a client to be forced to disconnect from a session by using the
-`opentok.connections.forceDisconnect(session_id, connection_id)` method.
+`opentok.connections.forceDisconnect(session_id, connection_id)` method and passing in the Session ID and Connection ID.
+
+You can also call the `Connection#force_disconnect` method on a `Connection` object returned when listing connections:
+
+```ruby
+connection_1.force_disconnect
+```
 
 ### Forcing clients in a session to mute published audio
 
@@ -535,6 +568,27 @@ and `opentok.renders.list(options)` methods.
 
 You can start an [Audio Connector](https://tokbox.com/developer/guides/audio-connector) WebSocket
 by calling the `opentok.websocket.connect()` method.
+
+### Using Vonage Endpoints and Credentials
+
+You can use this library with the [Vonage Video API endpoints](https://developer.vonage.com/en/api/video) and Vonage credentials, instead of the TokBox endpoints and credentials.
+
+In order to do so, you will need to create a Vonage Application in order to generate an Application ID and Private Key. You can create a Vonage Application in the following ways:
+
+- Via the [Vonage Developer Dashboard](https://dashboard.nexmo.com/applications)
+- Using the [Vonage CLI](https://github.com/vonage/vonage-cli)
+- Using the [Vonage Application API](https://developer.vonage.com/application/code-snippets/application/create-application)
+
+Once you have the Application ID and Private Key, you can instantiate am `OpenTok` object as you normally would, using the Application ID in place of the API Key and the Private Key instead of the API Secret.
+Additionally, you need to specify in the options that the Vonage endpoints should be used:
+
+```ruby
+require "opentok"
+
+opentok = OpenTok::OpenTok.new application_id, private_key, :use_vonage_endpoints => true
+```
+
+You can then use the `OpenTok` object as you normally would to create sessions, generate client tokens, and perform other interactions with the API.
 
 ## Samples
 

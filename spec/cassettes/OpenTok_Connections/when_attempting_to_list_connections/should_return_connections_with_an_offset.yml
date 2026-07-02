@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.opentok.com/v2/project/123456/session/SESSIONID/connection?offset=2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenTok-Ruby-SDK/<%= version %>
+      X-Opentok-Auth:
+      - eyJpc3QiOiJwcm9qZWN0IiwiYWxnIjoiSFMyNTYifQ.eyJpc3MiOiIxMjM0NTYiLCJpYXQiOjE0OTI1MTA2NjAsImV4cCI6MTQ5MjUxMDk2MH0.BplMVhJWx4ld7KLKXqEmow6MjNPPFw9W8IHCMfeb120
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 19 May 2026 14:06:41 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "count" : 3,
+          "projectId" : "123456",
+          "sessionId" : "2_MX40NzIwMzJ-flR1ZSBPY3QgMjkgMTI6MTM6MjMgUERUIDIwMTN-MC45NDQ2MzE2NH4",
+          "items" : [{
+            "connectionId": "d95f6496-df6e-4f49-86d6-832e00303602",
+            "createdAt": 1747655658258,
+            "connectionState": "Connected"
+          },{
+            "connectionId": "15d73844-d503-4656-afdd-3eb10c96f4dc",
+            "createdAt": 1747655658300,
+            "connectionState": "Connected"
+          },{
+            "connectionId": "6f2a13b1-8d59-40ba-9719-891498aba89e",
+            "createdAt": 1747655658400,
+            "connectionState": "Connected"
+          }]
+        }
+  recorded_at: Tue, 19 May 2026 14:06:41 GMT
+recorded_with: VCR 6.3.1

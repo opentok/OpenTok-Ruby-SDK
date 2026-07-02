@@ -87,6 +87,7 @@ module OpenTok
       @archive_name = opts.fetch(:archive_name, '') if archive_mode == :always
       @archive_resolution = opts.fetch(:archive_resolution, "640x480") if archive_mode == :always
       @e2ee = opts.fetch(:e2ee, :false)
+      @use_vonage_endpoints = opts[:use_vonage_endpoints] == true ? true : false
     end
 
     # @private

@@ -5,7 +5,7 @@ require "opentok/version"
 
 require "active_support/inflector"
 require "httparty"
-require "jwt"
+require "vonage-jwt"
 
 module OpenTok
   # @private For internal use by the SDK.
@@ -16,6 +16,7 @@ module OpenTok
     # debug_output $stdout
 
     attr_accessor :api_key, :api_secret, :api_url, :ua_addendum, :timeout_length
+    attr_reader :use_vonage_endpoints
 
     def initialize(api_key, api_secret, api_url, ua_addendum='', opts={})
       self.class.base_uri api_url
@@ -26,6 +27,7 @@ module OpenTok
       @api_secret = api_secret
       @timeout_length = opts[:timeout_length] || 2
       self.class.open_timeout @timeout_length
+      @use_vonage_endpoints = opts[:use_vonage_endpoints] == true ? true : false
     end
 
     def generate_jwt(api_key, api_secret)
@@ -39,8 +41,16 @@ module OpenTok
       token
     end
 
+    def generate_vonage_jwt(api_key, api_secret)
+      Vonage::JWTBuilder.new(application_id: api_key, private_key: api_secret).jwt.generate
+    end
+
     def generate_headers(extra_headers = {})
-      defaults = { "X-OPENTOK-AUTH" => generate_jwt(@api_key, @api_secret) }
+      if use_vonage_endpoints == true
+        defaults = { "Authorization" => "Bearer #{generate_vonage_jwt(@api_key, @api_secret)}" }
+      else
+        defaults = { "X-OPENTOK-AUTH" => generate_jwt(@api_key, @api_secret) }
+      end
       defaults.merge extra_headers
     end
 
@@ -48,7 +58,7 @@ module OpenTok
       opts.extend(HashExtensions)
       response = self.class.post("/session/create", {
         :body => opts.camelize_keys!,
-        :headers => generate_headers
+        :headers => generate_headers("Content-Type" => "application/x-www-form-urlencoded")
       })
       case response.code
       when (200..300)
@@ -410,6 +420,30 @@ module OpenTok
     end
 
     # Connections methods
+
+    def list_connections(session_id, offset, count)
+      query = Hash.new
+      query[:offset] = offset unless offset.nil?
+      query[:count] = count unless count.nil?
+      response = self.class.get("/v2/project/#{@api_key}/session/#{session_id}/connection", {
+        :query => query.empty? ? nil : query,
+        :headers => generate_headers
+      })
+      case response.code
+      when 200
+        response
+      when 400
+        raise ArgumentError, "Invalid request. This response may indicate that some parameter of your query is invalid."
+      when 403
+        raise OpenTokAuthenticationError, "Authentication failed while retrieving connections. API Key: #{@api_key}"
+      when 404
+        raise OpenTokConnectionError, "Either the OpenTok session could not be found, or no clients are actively connected to the session."
+      else
+        raise OpenTokConnectionError, "The connections could not be retrieved."
+      end
+    rescue StandardError => e
+      raise OpenTokError, "Failed to connect to OpenTok. Response code: #{e.message}"
+    end
 
     def forceDisconnect(session_id, connection_id)
       response = self.class.delete("/v2/project/#{@api_key}/session/#{session_id}/connection/#{connection_id}", {

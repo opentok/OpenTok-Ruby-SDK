@@ -27,6 +27,8 @@ module OpenTok
     # @option opts [Hash] :headers (optional) A hash of key-value pairs of headers to be sent to your WebSocket server with each message,
     #        with a maximum length of 512 bytes.
     # @option opts [Boolean] :bidirectional (optional) Whether the WebSocket connection should be bidirectional.
+    # @option opts [Integer] :audio_rate (optional) A number representing the audio sampling rate in Hz for the WebSocket stream.
+    #   - Must be one of: 8000, 16000, 24000
     def connect(session_id, token, websocket_uri, opts  = {})
       response = @client.connect_websocket(session_id, token, websocket_uri, opts)
     end
