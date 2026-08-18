@@ -29,7 +29,7 @@ describe OpenTok::WebSocket do
       "streams" => ["123456"],
       "headers" => {"foo" => "bar"},
       "bidirectional" => true,
-      "audioTransport" => {
+      "audio_transport" => {
         "transport" => "json",
         "encoding" => "base64",
         "audio_field" => "audio",
