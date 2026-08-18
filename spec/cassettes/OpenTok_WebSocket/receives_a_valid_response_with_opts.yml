@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.opentok.com/v2/project/123456/connect
     body:
       encoding: UTF-8
-      string: '{"sessionId":"SESSIONID","token":"TOKENID","websocket":{"uri":"ws://service.com/wsendpoint","streams":["123456"],"headers":{"foo":"bar"},"bidirectional":true}}'
+      string: '{"sessionId":"SESSIONID","token":"TOKENID","websocket":{"uri":"ws://service.com/wsendpoint","streams":["123456"],"headers":{"foo":"bar"},"bidirectional":true,"audioTransport":{"transport":"json","encoding":"base64","audio_field":"audio","receive_audio_field":"audio","static_fields":{"foo":"bar"}}}}'
     headers:
       User-Agent:
       - OpenTok-Ruby-SDK/<%= version %>

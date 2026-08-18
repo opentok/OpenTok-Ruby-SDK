@@ -28,7 +28,16 @@ describe OpenTok::WebSocket do
     opts = {
       "streams" => ["123456"],
       "headers" => {"foo" => "bar"},
-      "bidirectional" => true
+      "bidirectional" => true,
+      "audioTransport" => {
+        "transport" => "json",
+        "encoding" => "base64",
+        "audio_field" => "audio",
+        "receive_audio_field" => "audio",
+        "static_fields" => {
+          "foo" => "bar"
+        }
+      }
     }
 
     response = websocket.connect(session_id, expiring_token, websocket_uri, opts)
