@@ -29,11 +29,11 @@ module OpenTok
     # @option opts [Boolean] :bidirectional (optional) Whether the WebSocket connection should be bidirectional.
     # @option opts [Integer] :audio_rate (optional) A number representing the audio sampling rate in Hz for the WebSocket stream.
     #   - Must be one of: 8000, 16000, 24000
-    # @option opts [Hash] :audio_transport (optional) A hash that configures how audio is serialized on the WebSocket wire. By default, audio is sent as raw binary PCM 16-bit frames. For example:
+    # @option opts [Hash] :audio_transport (optional) A hash that configures how audio is serialized on the WebSocket wire. By default, audio is sent as raw binary PCM 16-bit frames.
     # @option opts[:audio_transport] [String] :transport (optional) The transport type for the audio data. Must be one of: "json", "binary".
     # @option opts[:audio_transport] [String] :encoding (optional) The encoding type for the audio data. Required when transport is "json". Must be one of: "base64".
-    # @option opts[:audio_transport] [String] :audio_field (optional)  The JSON key for the outbound audio data. The default value is "audio".
-    # @option opts[:audio_transport] [String] :receive_audio_field (optional) The JSON key for inbound audio data (when bidirectional is enabled). Defaults to the same value as `audio_field`
+    # @option opts[:audio_transport] [String] :audio_field (optional) The JSON key for the outbound audio data. The default value is "audio".
+    # @option opts[:audio_transport] [String] :receive_audio_field (optional) The JSON key for inbound audio data (when bidirectional is enabled). Defaults to the same value as `audio_field`.
     # @option opts[:audio_transport] [Hash] :static_fields (optional) An optional hash of extra key-value pairs included in every outbound JSON audio message.
     def connect(session_id, token, websocket_uri, opts  = {})
       response = @client.connect_websocket(session_id, token, websocket_uri, opts)
