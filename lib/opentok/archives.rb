@@ -116,7 +116,9 @@ module OpenTok
         :multi_archive_tag,
         :stream_mode,
         :max_bitrate,
-        :quantization_parameter
+        :quantization_parameter,
+        :has_transcription,
+        :transcription_properties
       ]
       opts = options.inject({}) do |m,(k,v)|
         if valid_opts.include? k.to_sym
