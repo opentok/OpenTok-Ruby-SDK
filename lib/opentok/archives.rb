@@ -83,11 +83,15 @@ module OpenTok
     #   value is 100,000 and the maximum is 6,000,000. This option is only valid for composed archives. Set the maximum video bitrate
     #   to control the size of the composed archive. This maximum bitrate applies to the video bitrate only. If the output archive has
     #   audio, those bits will be excluded from the limit.
-    #
     # @option options [Integer] :quantization_parameter (Optional) The quantization parameter (QP) is an optional video encoding value allowed for composed archiving,
     #   smaller values generate higher quality and larger archives, larger values generate lower quality and smaller archives, QP uses variable bitrate (VBR). The minimum
     #   value is 15 and the maximum is 40.
     #   This parameter is mutually exclusive with the max_bitrate parameter.
+    # @option options [Boolean] :has_transcription (Optional) Whether the archive will have a transcription of the audio of the session (true) or not (false, the default).
+    # @option options [Hash] :transcription_properties (Optional) A hash of specific transcription settings.
+    # @option options[:transcription_properties] [String] 'primaryLanguageCode' (Optional) The primary language spoken in the archive to be transcribed, in BCP-47 format, e.g. en-US, es-ES or pt-BR.
+    #   @see https://developer.vonage.com/en/api/video#post-v2-project-application_id-archive for a full list of supported languages.
+    # @option options[:transcription_properties] [Boolean] 'hasSummary' (Optional) Whether the transcription should include a summary of the session (true) or not (false, the default).
     #
     # @return [Archive] The Archive object, which includes properties defining the archive,
     #   including the archive ID.
