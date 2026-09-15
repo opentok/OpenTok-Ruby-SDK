@@ -119,6 +119,16 @@ describe OpenTok::Archives do
     expect(archive.session_id).to eq session_id
   end
 
+  it "should create an archive with transcription enabled and transcription settings specified", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
+    transcription_properties = {
+      'primaryLanguageCode' => 'en-US',
+      'hasSummary' => true
+    }
+    archive = archives.create session_id, :has_transcription => true, :transcription_properties => transcription_properties
+    expect(archive).to be_an_instance_of OpenTok::Archive
+    expect(archive.session_id).to eq session_id
+  end
+
   it "should stop archives", :vcr => { :erb => { :version => OpenTok::VERSION + "-Ruby-Version-#{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}" } } do
     archive = archives.stop_by_id started_archive_id
     expect(archive).to be_an_instance_of OpenTok::Archive
