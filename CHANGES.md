@@ -1,3 +1,8 @@
+# 4.15.0
+
+* Adds support for transcription settings when starting an archive recording. See [#298](https://github.com/opentok/OpenTok-Ruby-SDK/pull/298)
+* Ensures support for setting `audio_transport` configuration in a `WebSocket` connection. See [#297](https://github.com/opentok/OpenTok-Ruby-SDK/pull/297)
+
 # 4.14.0
 
 * Implements functionality to allow the use of Vonage Video endpoints and credentials.

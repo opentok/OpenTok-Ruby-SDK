@@ -1,4 +1,4 @@
 module OpenTok
   # @private
-  VERSION = '4.14.0'
+  VERSION = '4.15.0'
 end
